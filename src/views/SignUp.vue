@@ -10,9 +10,8 @@
                             @focus="focusHandler"
                             @input="resetError"
                             placeholder="Full Name"
-                            :state="validateState('fullName')"
                     ></b-form-input>
-                    <small class="text-danger d-flex mt-2" v-if="$v.form.fullName.$dirty && !$v.form.fullName.required">This is a required field.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.fullName.$dirty && !$v.form.fullName.required">This is a required field.</small>
                 </b-form-group>
                 <b-form-group>
                     <b-form-input
@@ -21,10 +20,9 @@
                             @focus="focusHandler"
                             @input="resetError"
                             placeholder="Email Address"
-                            :state="validateState('email')"
                     ></b-form-input>
-                    <small class="text-danger d-flex mt-2" v-if="!$v.form.email.email">Please enter valid email address.</small>
-                    <small class="text-danger d-flex mt-2" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
                 </b-form-group>
                 <b-form-group>
                     <b-form-input
@@ -33,10 +31,9 @@
                             @focus="focusHandler"
                             @input="resetError"
                             placeholder="Password"
-                            :state="validateState('password')"
                     ></b-form-input>
-                    <small class="text-danger d-flex mt-2" v-if="$v.form.password.$dirty && !$v.form.password.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2" v-if="!$v.form.password.minLength">This field must be at least {{pwdMinLength}} characters.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.password.$dirty && !$v.form.password.required">This is a required field.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.password.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
                 </b-form-group>
                 <b-form-group>
                     <b-form-input
@@ -45,14 +42,16 @@
                             @focus="focusHandler"
                             @input="resetError"
                             placeholder="Password Confirmation"
-                            :state="validateState('passwordConfirm')"
                     ></b-form-input>
-                    <small class="text-danger d-flex mt-2" v-if="$v.form.passwordConfirm.$dirty && !$v.form.passwordConfirm.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2" v-if="!$v.form.passwordConfirm.minLength">This field must be at least {{pwdMinLength}} characters.</small>
-                    <small class="text-danger d-flex mt-2" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.passwordConfirm.$dirty && !$v.form.passwordConfirm.required">This is a required field.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
                 </b-form-group>
                 <b-button type="submit" :disabled="$v.$invalid || submitted" class="mt-4 btn-sign-up">Continue</b-button>
-                <small v-if="submitted && errorMsg" class="text-danger d-flex mt-2">{{errorMsg}}</small>
+                <small v-if="submitted && errorMsg" class="text-danger d-flex mt-2 text-left">{{errorMsg}}</small>
+                <small v-if="submitted && isSignUpSuccess" class="text-success d-flex mt-2 text-left">
+                    You've been registered successfully. Please use your email and password to login
+                </small>
             </b-form>
             <div class="bottom-info-container text-muted small mt-4 d-flex flex-column align-items-baseline">
                 <p>
@@ -73,12 +72,12 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 import api from '../api';
-const PWD_MIN_LENGTH = 8;
+import config from '../config';
 export default {
     name: "SignUp",
     mixins: [validationMixin],
     data: () => ({
-        pwdMinLength: PWD_MIN_LENGTH,
+        pwdMinLength: config.PWD_MIN_LENGTH,
         submitted: false,
         form: {
             fullName: '',
@@ -86,7 +85,8 @@ export default {
             password: '',
             passwordConfirm: ''
         },
-        errorMsg: ''
+        errorMsg: '',
+        isSignUpSuccess: false
     }),
     validations: {
         form: {
@@ -99,19 +99,25 @@ export default {
             },
             password: {
                 required,
-                minLength: minLength(PWD_MIN_LENGTH)
+                minLength: minLength(config.PWD_MIN_LENGTH),
+                isValidPwd(value) {
+                    return this.isValidPassword(value);
+                }
             },
             passwordConfirm: {
                 required,
-                minLength: minLength(PWD_MIN_LENGTH),
+                minLength: minLength(config.PWD_MIN_LENGTH),
+                isValidPwd(value) {
+                    return this.isValidPassword(value);
+                },
                 sameAsPassword: sameAs('password')
             }
         }
     },
     methods: {
-        validateState(name) {
-            const { $dirty, $error } = this.$v.form[name];
-            return $dirty ? !$error : null;
+        isValidPassword (value) {
+            if (value === '') return true;
+            return new RegExp(`^(?=.*\\d)(?=.*[A-Z]).{${config.PWD_MIN_LENGTH},}$`, 'g').test(value);
         },
         capitalizeFirstLetter(string) {
             return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
@@ -133,7 +139,7 @@ export default {
                 return;
             }
             this.submitted = true;
-            const fullName = this.$v.form.$model.fullName;
+            const fullName = this.$v.form.$model.fullName.trim();
             const firstName = fullName.split(' ')[0];
             const lastName = fullName.replace(`${firstName} `, '');
             const userData = {
@@ -142,12 +148,12 @@ export default {
                 firstName,
                 lastName: lastName || ' '
             };
-            console.log('\n >> userData > ', userData);
             api.auth.signUp(userData)
-                .then((response) => {
-                    // TODO: check response
-                    this.submitted = false;
-                    this.$router.push({ name: 'Login' });
+                .then(() => {
+                    this.isSignUpSuccess = true; // to show success message -> temp solution
+                    setTimeout(() => {
+                        this.$router.push({ name: 'Login' });
+                    }, 3000);
                 })
                 .catch(err => {
                     // error message will disappear on focus or on change value
