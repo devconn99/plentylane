@@ -1,7 +1,7 @@
 <template>
     <div class="sign-up-page w-100">
         <div class="col-md-6">
-            <p>Register for Plenty Lane</p>
+            <p class="text-left">Register for Plenty Lane</p>
             <b-form @submit.stop.prevent="onSubmit">
                 <b-form-group>
                     <b-form-input

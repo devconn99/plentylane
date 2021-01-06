@@ -3,8 +3,25 @@
 </template>
 
 <script>
+import api from '../api';
 export default {
-    name: "Dashboard"
+    name: "Dashboard",
+    data: () => ({
+
+    }),
+    created () {
+        this.getUserInfo();
+    },
+    methods: {
+        getUserInfo () {
+            api.dashboard.userInfo()
+                .then((data) => {
+                    this.$store.commit('userInfo', { ...data });
+                    // TODO
+                })
+                .catch((err) => {});
+        }
+    }
 }
 </script>
 
