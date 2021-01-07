@@ -115,7 +115,7 @@ router.beforeEach((to, from, next) => {
             next('/dashboard')
         }
     } else if (!_token) {
-        if (to.path === '/dashboard') {
+        if (to.path.includes('dashboard')) {
             next('/login');
         }
     }

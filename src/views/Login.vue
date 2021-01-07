@@ -134,11 +134,10 @@ export default {
             };
             api.auth.login(userData)
                 .then((response) => {
-                    console.log('\n >> response > ', response);
                     if (response.accessToken) {
                         localStorage.setItem('plAccessToken', response.accessToken);
                     }
-                    this.$router.push({ name: 'Dashboard' });
+                    this.$router.push({ path: '/dashboard' });
                 })
                 .catch(err => {
                     console.log('\n >> err > ', err);

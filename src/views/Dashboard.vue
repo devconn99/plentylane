@@ -26,6 +26,10 @@
                         <span v-else>Profile</span>
                     </router-link>
                 </li>
+                <!-- temp logout -->
+                <li class="nav-item logout-nav-item">
+                    <b-btn class="logout-btn" @click="logout()">Logout</b-btn>
+                </li>
             </ul>
         </div>
         <div class="main-content">
@@ -58,6 +62,17 @@ export default {
                     // TODO
                 })
                 .catch((err) => {});
+        },
+        logout () {
+            this.$bvModal.msgBoxConfirm('Are you sure you want to logout?')
+                .then(value => {
+                    if (value) {
+                        localStorage.removeItem('plAccessToken');
+                        this.$store.commit('reset');
+                        this.$router.push({path: '/login'});
+                    }
+                })
+                .catch(err => {})
         }
     }
 }
@@ -81,5 +96,10 @@ export default {
 }
 .profile-nav-item {
     border-top: 1px solid $greenColor;
+}
+.logout-nav-item {
+    .logout-btn {
+        margin-left: 15px;
+    }
 }
 </style>

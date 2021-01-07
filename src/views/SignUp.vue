@@ -193,7 +193,7 @@ export default {
                 .then(() => {
                     this.showSuccessAlert = true;
                     setTimeout(() => {
-                        this.$router.push({ name: 'Login' });
+                        this.$router.push({ path: '/login' });
                     }, 3000);
                 })
                 .catch(err => {

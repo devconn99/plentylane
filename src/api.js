@@ -26,7 +26,7 @@ const checkErr = (errResponse) => {
         localStorage.removeItem('plAccessToken');
         localStorage.removeItem('plUserId');
         // than redirect to /login
-        router.push({ name: 'Login', query: {expired: true} });
+        router.push({ path: '/login', query: {expired: true} });
         return Promise.reject(errResponse);
     } else {
         return Promise.reject(errResponse);
