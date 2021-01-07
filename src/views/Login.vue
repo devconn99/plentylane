@@ -1,58 +1,88 @@
 <template>
-    <div class="login-page w-100">
-        <div class="col-md-6">
-            <p class="text-left">Login</p>
-            <b-form @submit.stop.prevent="onSubmit">
-                <b-form-group>
-                    <b-form-input
-                            v-model="$v.form.email.$model"
-                            type="email"
-                            @focus="focusHandler"
-                            @input="resetError"
-                            placeholder="Email Address"
-                    ></b-form-input>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
-                </b-form-group>
-                <b-form-group>
-                    <b-form-input
-                            v-model="$v.form.password.$model"
-                            type="password"
-                            @focus="focusHandler"
-                            @input="resetError"
-                            placeholder="Password"
-                    ></b-form-input>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.password.$dirty && !$v.form.password.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2" v-if="!$v.form.password.minLength">This field must be at least {{pwdMinLength}} characters long.</small>
-                </b-form-group>
-                <b-button type="submit" :disabled="$v.$invalid || submitted" class="mt-4 btn-login">Login</b-button>
-                <small v-if="submitted && errorMsg" class="text-danger d-flex mt-2 text-left">{{errorMsg}}</small>
-            </b-form>
-            <div class="bottom-info-container text-muted small mt-4 d-flex flex-column align-items-baseline">
-                <p>
-                    Don't have an account?
-                    <router-link to="/sign-up" class="font-weight-bold">Register</router-link>
-                </p>
-                <p>
-                    Forgot your password?
-                    <!-- TODO: add route for Reset password page -->
-                    <router-link to="/" class="font-weight-bold">Reset it here</router-link>
-                </p>
+    <div id="authorization-page">
+        <header class="header">
+            <div class="container">
+                <div class="header-box">
+                    <div class="logo-block">
+                        <a href="/">
+                            <img src="../assets/images/logo/logo_green.svg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </header>
+
+        <main>
+            <section class="authorization">
+                <div class="authorization-box">
+                    <div class="authorization-box-position">
+                        <h1 class="title-size3 titleGreenNavyColor">Register for Plenty Lane</h1>
+                        <b-alert
+                                :show="submitted && showErrorAlert"
+                                dismissible
+                                variant="danger"
+                        >
+                            <p>{{errorMsg}}</p>
+                        </b-alert>
+
+                        <b-form class="form" @submit.stop.prevent="onSubmit">
+                            <b-form-group>
+                                <b-form-input
+                                        v-model="$v.form.email.$model"
+                                        type="email"
+                                        @focus="focusHandler"
+                                        @input="resetError"
+                                        placeholder="Email Address"
+                                ></b-form-input>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input
+                                        v-model="$v.form.password.$model"
+                                        type="password"
+                                        @focus="focusHandler"
+                                        @input="resetError"
+                                        placeholder="Password"
+                                ></b-form-input>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.password.$dirty && !$v.form.password.required">This is a required field.</small>
+                                <small class="text-danger d-flex mt-2" v-if="!$v.form.password.minLength">This field must be at least {{pwdMinLength}} characters long.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.password.maxLength">This field must be shorter than or equal to {{pwdMaxLength}} characters.</small>
+                            </b-form-group>
+                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green btn-login">Login</b-button>
+                        </b-form>
+
+                        <div class="authorization-box-info">
+                            <p>
+                                Don't have an account?
+                                <router-link to="/sign-up">Register</router-link>
+                            </p>
+                            <p>
+                                Forgot your password?
+                                <!-- TODO: add route for Reset password page -->
+                                <router-link to="/">Reset it here</router-link>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="authorization-background green-bg"></div>
+            </section>
+        </main>
     </div>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, email } from "vuelidate/lib/validators";
+import { required, minLength, maxLength, email } from "vuelidate/lib/validators";
 import api from '../api';
 import config from '../config';
 export default {
     name: "Login",
     mixins: [validationMixin],
     data: () => ({
+        showErrorAlert: false,
         pwdMinLength: config.PWD_MIN_LENGTH,
+        pwdMaxLength: config.PWD_MAX_LENGTH,
         submitted: false,
         form: {
             email: '',
@@ -68,7 +98,8 @@ export default {
             },
             password: {
                 required,
-                minLength: minLength(config.PWD_MIN_LENGTH)
+                minLength: minLength(config.PWD_MIN_LENGTH),
+                maxLength: maxLength(config.PWD_MAX_LENGTH)
             }
         }
     },
@@ -80,6 +111,9 @@ export default {
         resetError () {
             if (this.submitted) {
                 this.submitted = false;
+            }
+            if (this.showErrorAlert) {
+                this.showErrorAlert = false;
             }
             if (this.errorMsg.length) {
                 this.errorMsg = false;
@@ -109,6 +143,7 @@ export default {
                 .catch(err => {
                     console.log('\n >> err > ', err);
                     this.errorMsg = err.message;
+                    this.showErrorAlert = true;
                 })
         }
     }
@@ -117,19 +152,15 @@ export default {
 
 <style scoped lang="scss">
 @import "../variables.scss";
-.login-page {
-    margin-top: 50px; // temp
-}
 .btn-login {
-    border-radius: 0;
-    background-color: $greenColor;
-    border-color: $greenColor;
-    font-weight: bold;
-    display: block;
+    padding-left: 60px;
+    padding-right: 60px;
 }
-.bottom-info-container {
-    a {
-        color: $greenColor;
-    }
+.alert {
+    padding-left: 25px;
+    margin-bottom: 35px;
+}
+.alert-dismissible .close {
+    padding-right: 25px;
 }
 </style>
