@@ -121,8 +121,7 @@ export default {
             password: '',
             passwordConfirm: ''
         },
-        errorMsg: '',
-        isSignUpSuccess: false
+        errorMsg: ''
     }),
     validations: {
         form: {

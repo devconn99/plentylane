@@ -66,6 +66,16 @@ export default {
                 .catch((err) => {
                     return Promise.reject(err.response);
                 })
+        },
+        updateProfile (data) {
+            const endpoint = `${config.API_ORIGIN}/api/me`;
+            return axios.patch(endpoint, data)
+                .then((res) => {
+                    return Promise.resolve(res.data || {});
+                })
+                .catch((err) => {
+                    return Promise.reject(err.response);
+                })
         }
     }
 }

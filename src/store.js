@@ -21,7 +21,7 @@ export default {
             })
         },
         userInfo (state, value) {
-          state.userInfo = { ...value };
+          state.userInfo = { ...state.userInfo, ...value };
         }
     },
     getters: {

@@ -47,7 +47,7 @@ export default {
     }),
     created () {
         const user = { ...this.$store.getters.userInfo };
-        if (!user || !user.id) {
+        if (!user || !user.email || !user.id) {
             this.loadUserInfo();
         } else {
             this.user = { ...user };
@@ -81,11 +81,12 @@ export default {
 <style scoped lang="scss">
 @import '../variables';
 .dashboard-page {
+    height: 100%;
     .navigation-sidebar {
         // temp
-        height: 100vh;
+        min-height: 100vh;
+        height: 100%;
         width: 200px;
-        border-right: 1px solid $greenColor;
         padding: 20px 0;
 
     }
@@ -95,9 +96,10 @@ export default {
     }
 }
 .profile-nav-item {
-    border-top: 1px solid $greenColor;
+    margin-top: 20px;
 }
 .logout-nav-item {
+    margin-top: 30px;
     .logout-btn {
         margin-left: 15px;
     }
