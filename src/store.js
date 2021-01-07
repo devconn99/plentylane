@@ -25,6 +25,7 @@ export default {
         }
     },
     getters: {
+        userInfo: (state) => (state.userInfo),
         email: (state) => (state.userInfo.email),
         uuid: (state) => (state.userInfo.uuid),
         userId: (state) => (state.userInfo.id),
