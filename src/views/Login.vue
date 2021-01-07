@@ -122,14 +122,14 @@ export default {
 }
 .btn-login {
     border-radius: 0;
-    background-color: $navbar-bg;
-    border-color: $navbar-bg;
+    background-color: $greenColor;
+    border-color: $greenColor;
     font-weight: bold;
     display: block;
 }
 .bottom-info-container {
     a {
-        color: $navbar-bg;
+        color: $greenColor;
     }
 }
 </style>

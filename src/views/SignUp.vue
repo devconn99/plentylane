@@ -1,83 +1,119 @@
 <template>
-    <div class="sign-up-page w-100">
-        <div class="col-md-6">
-            <p class="text-left">Register for Plenty Lane</p>
-            <b-form @submit.stop.prevent="onSubmit">
-                <b-form-group>
-                    <b-form-input
-                            name="fullName"
-                            v-model="$v.form.fullName.$model"
-                            @focus="focusHandler"
-                            @input="resetError"
-                            placeholder="Full Name"
-                    ></b-form-input>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.fullName.$dirty && !$v.form.fullName.required">This is a required field.</small>
-                </b-form-group>
-                <b-form-group>
-                    <b-form-input
-                            v-model="$v.form.email.$model"
-                            type="email"
-                            @focus="focusHandler"
-                            @input="resetError"
-                            placeholder="Email Address"
-                    ></b-form-input>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
-                </b-form-group>
-                <b-form-group>
-                    <b-form-input
-                            v-model="$v.form.password.$model"
-                            type="password"
-                            @focus="focusHandler"
-                            @input="resetError"
-                            placeholder="Password"
-                    ></b-form-input>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.password.$dirty && !$v.form.password.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.password.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
-                </b-form-group>
-                <b-form-group>
-                    <b-form-input
-                            v-model="$v.form.passwordConfirm.$model"
-                            type="password"
-                            @focus="focusHandler"
-                            @input="resetError"
-                            placeholder="Password Confirmation"
-                    ></b-form-input>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.passwordConfirm.$dirty && !$v.form.passwordConfirm.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
-                </b-form-group>
-                <b-button type="submit" :disabled="$v.$invalid || submitted" class="mt-4 btn-sign-up">Continue</b-button>
-                <small v-if="submitted && errorMsg" class="text-danger d-flex mt-2 text-left">{{errorMsg}}</small>
-                <small v-if="submitted && isSignUpSuccess" class="text-success d-flex mt-2 text-left">
-                    You've been registered successfully. Please use your email and password to login
-                </small>
-            </b-form>
-            <div class="bottom-info-container text-muted small mt-4 d-flex flex-column align-items-baseline">
-                <p>
-                    By signing up you agree to our
-                    <a href="https://www.plentylane.com/" class="font-weight-bold" target="_blank">Privacy</a> and
-                    <a href="https://www.plentylane.com/" class="font-weight-bold" target="_blank">Terms policies</a>.
-                </p>
-                <p>
-                    Already have an account?
-                    <router-link to="/login" class="font-weight-bold">Login here</router-link>
-                </p>
+    <div id="authorization-page">
+        <header class="header">
+            <div class="container">
+                <div class="header-box">
+                    <div class="logo-block">
+                        <a href="/">
+                            <img src="../assets/images/logo/logo_green.svg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </header>
+
+        <main>
+            <section class="authorization">
+                <div class="authorization-box">
+                    <div class="authorization-box-position">
+                        <h1 class="title-size3 titleGreenNavyColor">Register for Plenty Lane</h1>
+                        <b-alert
+                                :show="submitted && showSuccessAlert"
+                                dismissible
+                                variant="success"
+                        >
+                            <p>You've been registered successfully. Please use your email and password to login.</p>
+                        </b-alert>
+                        <b-alert
+                                :show="submitted && showErrorAlert"
+                                dismissible
+                                variant="danger"
+                        >
+                            <p>{{errorMsg}}</p>
+                        </b-alert>
+
+                        <b-form class="form" @submit.stop.prevent="onSubmit">
+                            <b-form-group>
+                                <b-form-input
+                                        name="fullName"
+                                        v-model="$v.form.fullName.$model"
+                                        @focus="focusHandler"
+                                        @input="resetError"
+                                        placeholder="Full Name"
+                                        autocomplete="off"
+                                ></b-form-input>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.fullName.$dirty && !$v.form.fullName.required">This is a required field.</small>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input
+                                        v-model="$v.form.email.$model"
+                                        type="email"
+                                        @focus="focusHandler"
+                                        @input="resetError"
+                                        placeholder="Email Address"
+                                ></b-form-input>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input
+                                        v-model="$v.form.password.$model"
+                                        type="password"
+                                        @focus="focusHandler"
+                                        @input="resetError"
+                                        placeholder="Password"
+                                ></b-form-input>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.password.$dirty && !$v.form.password.required">This is a required field.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.password.maxLength">This field must be shorter than or equal to {{pwdMaxLength}} characters.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-else-if="!$v.form.password.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one uppercase letter, one lowercase letter, and one number.</small>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input
+                                        v-model="$v.form.passwordConfirm.$model"
+                                        type="password"
+                                        @focus="focusHandler"
+                                        @input="resetError"
+                                        placeholder="Password Confirmation"
+                                ></b-form-input>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.passwordConfirm.$dirty && !$v.form.passwordConfirm.required">This is a required field.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.passwordConfirm.maxLength">This field must be shorter than or equal to {{pwdMaxLength}} characters.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-else-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm && $v.form.passwordConfirm.isValidPwd && $v.form.passwordConfirm.maxLength) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
+                            </b-form-group>
+                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green btn-sign-up">Continue</b-button>
+                        </b-form>
+
+                        <div class="authorization-box-info">
+                            <p>
+                                By signing up you agree to our
+                                <a href="https://www.plentylane.com/" target="_blank">Privacy</a> and
+                                <a href="https://www.plentylane.com/" target="_blank">Terms policies</a>.
+                            <p>
+                                Already have an account?
+                                <router-link to="/login">Login here</router-link>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="authorization-background green-bg"></div>
+            </section>
+        </main>
     </div>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
+import { required, minLength, maxLength, sameAs, email } from "vuelidate/lib/validators";
 import api from '../api';
 import config from '../config';
 export default {
     name: "SignUp",
     mixins: [validationMixin],
     data: () => ({
+        showSuccessAlert: false,
+        showErrorAlert: false,
         pwdMinLength: config.PWD_MIN_LENGTH,
+        pwdMaxLength: config.PWD_MAX_LENGTH,
         submitted: false,
         form: {
             fullName: '',
@@ -100,6 +136,7 @@ export default {
             password: {
                 required,
                 minLength: minLength(config.PWD_MIN_LENGTH),
+                maxLength: maxLength(config.PWD_MAX_LENGTH),
                 isValidPwd(value) {
                     return this.isValidPassword(value);
                 }
@@ -107,6 +144,7 @@ export default {
             passwordConfirm: {
                 required,
                 minLength: minLength(config.PWD_MIN_LENGTH),
+                maxLength: maxLength(config.PWD_MAX_LENGTH),
                 isValidPwd(value) {
                     return this.isValidPassword(value);
                 },
@@ -117,7 +155,7 @@ export default {
     methods: {
         isValidPassword (value) {
             if (value === '') return true;
-            return new RegExp(`^(?=.*\\d)(?=.*[A-Z]).{${config.PWD_MIN_LENGTH},}$`, 'g').test(value);
+            return new RegExp(`^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{${config.PWD_MIN_LENGTH},}$`, 'g').test(value);
         },
         capitalizeFirstLetter(string) {
             return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
@@ -125,6 +163,9 @@ export default {
         resetError () {
             if (this.submitted) {
                 this.submitted = false;
+            }
+            if (this.showErrorAlert) {
+                this.showErrorAlert = false;
             }
             if (this.errorMsg.length) {
                 this.errorMsg = false;
@@ -150,7 +191,7 @@ export default {
             };
             api.auth.signUp(userData)
                 .then(() => {
-                    this.isSignUpSuccess = true; // to show success message -> temp solution
+                    this.showSuccessAlert = true;
                     setTimeout(() => {
                         this.$router.push({ name: 'Login' });
                     }, 3000);
@@ -167,40 +208,23 @@ export default {
                             return `${result}. ${this.capitalizeFirstLetter(current)}`;
                         }, '');
                     }
+                    this.showErrorAlert = true;
                 })
-        },
-        // save it for later
-        resetForm() {
-            this.form = {
-                fullName: null,
-                email: null,
-                password: null,
-                passwordConfirm: null
-            };
-
-            this.$nextTick(() => {
-                this.$v.$reset();
-            });
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
-@import "../variables.scss";
-.sign-up-page {
-    margin-top: 50px; // temp
-}
 .btn-sign-up {
-    border-radius: 0;
-    background-color: $navbar-bg;
-    border-color: $navbar-bg;
-    font-weight: bold;
-    display: block;
+    padding-left: 60px;
+    padding-right: 60px;
 }
-.bottom-info-container {
-    a {
-        color: $navbar-bg;
-    }
+.alert {
+    padding-left: 25px;
+    margin-bottom: 35px;
+}
+.alert-dismissible .close {
+    padding-right: 25px;
 }
 </style>

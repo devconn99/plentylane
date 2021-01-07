@@ -19,7 +19,7 @@ export default {
 .navbar-wrapper {
     min-height: 322px;
     width: 100%;
-    background-color: $navbar-bg;
+    background-color: $greenColor;
     position: relative;
     padding-top: 25px;
     &:after {
