@@ -81,7 +81,7 @@ textarea:focus, textarea.form-control:focus, input.form-control:focus, input[typ
 		-o-transition: .3s all ease;
 		transition: .3s all ease;
 }
-input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, input[type=url]:focus {
+input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, input[type=url]:focus, input[type=number]:focus {
 	border: 1px solid $greenColor!important;
 	-webkit-transition: .3s all ease!important;
 		-o-transition: .3s all ease!important;
@@ -479,7 +479,7 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: $mainLineHeight;
 	text-decoration: underline;
 }
-.form input[type=text], .form input[type=email], .form input[type=password], .form input[type=url] {
+.form input[type=text], .form input[type=email], .form input[type=password], .form input[type=url], .form input[type=number] {
   	width: 100%;
 	display: block;
 	height: 65px;
@@ -915,6 +915,84 @@ h1, h2, h3, h4, h5, h6 {
 		@media screen and (max-width: $tableWidth) {
 			text-align: center;
 			margin-top: 30px;
+		}
+	}
+}
+
+/********************
+*   WIZARD STYLES   *
+********************/
+.vue-form-wizard {
+	// temp
+	min-width: 500px;
+	.wizard-navigation {
+		.wizard-nav, .wizard-progress-with-circle {
+			display: none;
+		}
+	}
+	.wizard-card-footer {
+		min-height: 96px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		&.clearfix:after {
+			content: none;
+		}
+
+		.wizard-btn {
+			width: 96px;
+			height: 96px;
+			border-radius: 96px;
+			padding: 0;
+			display: flex;
+			min-width: 96px;
+			justify-content: center;
+			align-items: center;
+			border: none;
+
+			.wizard-btn-text {
+				font-family: $LacaProSemiBold;
+			}
+			.wizard-btn-icon {
+				font-size: 16px !important;
+			}
+
+			&.wizard-btn-next {
+				background-color: $greenColor;
+				flex-direction: column;
+
+				.wizard-btn-text, .wizard-btn-icon {
+					color: $mainBackgroundColor;
+				}
+				.wizard-btn-text {
+					font-size: 24px;
+					letter-spacing: 0.8px;
+					line-height: 28px;
+					margin-bottom: 2px;
+				}
+			}
+			&.wizard-btn-prev {
+				background-color: transparent !important;
+
+				.wizard-btn-text, .wizard-btn-icon {
+					color: $greenColor;
+				}
+				.wizard-btn-text {
+					padding-left: 9px;
+					font-size: 18px;
+					letter-spacing: 0.6px;
+					line-height: 24px;
+				}
+			}
+		}
+
+		.wizard-footer-step-info {
+			color: #8A877D;
+			font-family: $FilsonProBold;
+			font-size: 18px;
+			letter-spacing: 0.6px;
+			line-height: 18px;
 		}
 	}
 }

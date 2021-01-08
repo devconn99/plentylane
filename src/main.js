@@ -8,11 +8,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import JQuery from 'jquery'
+//global registration
+import VueFormWizard from 'vue-form-wizard'
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
 window.$ = JQuery;
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
+Vue.use(VueFormWizard);
 
 Vue.use(Vuex);
 
