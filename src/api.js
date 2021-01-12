@@ -21,12 +21,12 @@ axios.interceptors.request.use(
 
 // TODO
 const checkErr = (errResponse) => {
-    if (errResponse.data && errResponse.data.hasOwnProperty('unauthorized') && errResponse.data.unauthorized === true) {
+    if (errResponse.data && (errResponse.data.statusCode === 401 || errResponse.data.unauthorized === true)) {
         // clear localStorage
         localStorage.removeItem('plAccessToken');
         localStorage.removeItem('plUserId');
         // than redirect to /login
-        router.push({ path: '/login', query: {expired: true} });
+        router.push({ path: '/login' });
         return Promise.reject(errResponse);
     } else {
         return Promise.reject(errResponse);
@@ -64,7 +64,7 @@ export default {
                     return Promise.resolve(res.data || {});
                 })
                 .catch((err) => {
-                    return Promise.reject(err.response);
+                    return checkErr(err.response);
                 })
         },
         updateProfile (data) {
@@ -74,8 +74,92 @@ export default {
                     return Promise.resolve(res.data || {});
                 })
                 .catch((err) => {
-                    return Promise.reject(err.response);
+                    return checkErr(err.response);
                 })
+        },
+        meals: {
+            addMeal (data) {
+                const endpoint = `${config.API_ORIGIN}/api/me/meals`;
+                return axios.post(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            updateMeal (mealId, data) {
+                const endpoint = `${config.API_ORIGIN}/api/me/meals/${mealId}`;
+                return axios.patch(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            }
+        },
+        places: {
+            getMyPlaces () {
+                const endpoint = `${config.API_ORIGIN}/api/me/places`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getPlaceInfo (placeId) {
+                const endpoint = `${config.API_ORIGIN}/api/me/places/${placeId}`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            addPlace (data) {
+                const endpoint = `${config.API_ORIGIN}/api/me/places`;
+                return axios.post(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            }
+        },
+        offers: {
+            getOfferInfo (offerId) {
+                const endpoint = `${config.API_ORIGIN}/api/me/offers/${offerId}`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            addOffer (data) {
+                /* data example:
+                data = {
+                    quantity: 0,
+                    pickupTime: "2021-01-11T12:38:06.861Z",
+                    placeId: 0,
+                    mealId: 0
+                }
+                 */
+                const endpoint = `${config.API_ORIGIN}/api/me/offers`;
+                return axios.post(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            }
         }
     }
 }

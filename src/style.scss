@@ -926,6 +926,8 @@ h1, h2, h3, h4, h5, h6 {
 	// temp
 	min-width: 500px;
 	.wizard-navigation {
+		margin-bottom: 20px;
+
 		.wizard-nav, .wizard-progress-with-circle {
 			display: none;
 		}
@@ -995,4 +997,27 @@ h1, h2, h3, h4, h5, h6 {
 			line-height: 18px;
 		}
 	}
+}
+
+/********************
+*   DROPZONE STYLES   *
+********************/
+.vue-dropzone {
+	position: relative;
+	border: 3px dashed #8A877D !important;
+	height: 303px !important;
+}
+.dropzone {
+	background: transparent !important;
+
+	.dz-message {
+		color: #8A877D !important;
+	}
+}
+
+/********************
+*   GOOGLE PLACES STYLES   *
+********************/
+.pac-container {
+	z-index: 10000 !important;
 }

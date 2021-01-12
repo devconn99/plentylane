@@ -67,11 +67,14 @@ export default {
         }
     },
     methods: {
-        validate() {
+        validate () {
             this.$v.form.$touch();
             const isValid = !this.$v.form.$invalid;
             this.$emit('on-validate', this.$data.form, isValid);
             return isValid;
+        },
+        isFormValid () {
+            return !this.$v.form.$invalid;
         }
     }
 }
