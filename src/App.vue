@@ -5,7 +5,8 @@
 </template>
 
 <style lang="scss">
-@import './style';
+/*@import 'style_old';*/
+@import "./scss/style";
 </style>
 <script>
 import Navbar from "./components/Navbar";
