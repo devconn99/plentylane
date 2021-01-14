@@ -97,9 +97,49 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response);
                     })
+            },
+            getMealByUuid (uuid) {
+                const endpoint = `${config.API_ORIGIN}/api/meals/${uuid}?join=place&join=user`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getMealById (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}?join=place`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getMyMeals () {
+                const endpoint = `${config.API_ORIGIN}/api/me/meals`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
             }
         },
         places: {
+            getPlaces () {
+                const endpoint = `${config.API_ORIGIN}/api/places`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
             getMyPlaces () {
                 const endpoint = `${config.API_ORIGIN}/api/me/places`;
                 return axios.get(endpoint)
@@ -132,8 +172,65 @@ export default {
             }
         },
         offers: {
-            getOfferInfo (offerId) {
-                const endpoint = `${config.API_ORIGIN}/api/me/offers/${offerId}`;
+            getOffers (filters) {
+                // example filters data:
+                filters = [
+                    // {
+                    //     field: "quantity",
+                    //     condition: '$in',
+                    //     value: '3,7'
+                    // },
+                    {
+                        field: 'pickupTime',
+                        condition: '$between',
+                        value: '2021-01-13,2021-01-20'
+                    },
+                    // {
+                    //     field: 'meal.name',
+                    //     condition: '$contL',
+                    //     value: 'Test'
+                    // }
+                ];
+                let filtersStr = '';
+                if (filters && filters.length) {
+                    filters.forEach(item => {
+                        filtersStr += `&filter=${item.field}||${item.condition}||${item.value}`;
+                    });
+                }
+                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
+                if (filtersStr && filtersStr.length) {
+                    endpoint += filtersStr;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getMyOffers () {
+                const endpoint = `${config.API_ORIGIN}/api/me/offers`; // TODO: join?
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getOfferByUuid (uuid) {
+                const endpoint = `${config.API_ORIGIN}/api/offers/${uuid}?join=meal&join=place`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getOfferById (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -143,14 +240,6 @@ export default {
                     })
             },
             addOffer (data) {
-                /* data example:
-                data = {
-                    quantity: 0,
-                    pickupTime: "2021-01-11T12:38:06.861Z",
-                    placeId: 0,
-                    mealId: 0
-                }
-                 */
                 const endpoint = `${config.API_ORIGIN}/api/me/offers`;
                 return axios.post(endpoint, data)
                     .then((res) => {

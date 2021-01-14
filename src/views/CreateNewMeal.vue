@@ -153,7 +153,8 @@ export default {
             placeId: '',
             mealId: ''
         },
-        isWizardCompleted: false
+        isWizardCompleted: false,
+        newOfferUuid: ''
     }),
     computed: {
         formattedPickupTime: function () {
@@ -264,6 +265,7 @@ export default {
                     this.newOffer.mealId = result.id;
                     return api.dashboard.offers.addOffer(this.newOffer)
                         .then(offer => {
+                            this.newOfferUuid = offer.uuid;
                             return true;
                         })
                         .catch(err => {
@@ -279,7 +281,7 @@ export default {
                 });
         },
         redirectToMeal () {
-            this.$router.push({ path: `/dashboard/meals/${this.newMealId}` });
+            this.$router.push({ path: `/dashboard/offers/${this.newOfferUuid}` });
         }
     }
 }
