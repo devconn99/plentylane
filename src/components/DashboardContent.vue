@@ -168,7 +168,7 @@
                         </div>
                         <div class="reserved-btn">
                             <!-- TODO: use correct path to the page -->
-                            <router-link :to="{ path: '/dashboard' }" tag="btn" class="btn btn-green hover-slide-left transparent">
+                            <router-link :to="{ path: '/dashboard' }" tag="button" class="btn btn-green hover-slide-left transparent">
                                 LET’S GET RESERVING!
                             </router-link>
                         </div>
@@ -186,7 +186,7 @@
                                  class="img-fluid">
                         </div>
                         <div class="reserved-btn">
-                            <router-link :to="{ path: '/dashboard/cook' }" tag="btn" class="btn btn-green hover-slide-left transparent">
+                            <router-link :to="{ path: '/dashboard/cook' }" tag="button" class="btn btn-green hover-slide-left transparent">
                                 <span>LET’S GET COOKING!</span>
                             </router-link>
                         </div>

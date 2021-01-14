@@ -1,3 +1,6 @@
+* {
+	box-sizing: border-box;
+}
 html {
 	line-height: $mainLineHeight;
 	font-size: $mainFontSize;
@@ -215,7 +218,7 @@ input[type="submit"][disabled]:hover
 
 .padl-25 {
 	padding-left: 25px;
-	@media screen and (max-width: $desktopBigWidth) {
+	@media screen and (max-width: $desktopWidth) {
 		padding-left: 2.5px;
 	}
 	@media screen and (max-width: $tableWidth) {
@@ -224,7 +227,7 @@ input[type="submit"][disabled]:hover
 }
 .padr-25 {
 	padding-right: 25px;
-	@media screen and (max-width: $desktopBigWidth) {
+	@media screen and (max-width: $desktopWidth) {
 		padding-right: 2.5px;
 	}
 	@media screen and (max-width: $tableWidth) {
@@ -384,11 +387,6 @@ input[type="submit"][disabled]:hover
 		left: 0;
 		width: 100%;
 		transition: 0.3s;
-
-		i.svg-icon-wrapper {
-			display: flex;
-		}
-
 		svg {
 			margin-right: 12px;
 		}
@@ -478,10 +476,6 @@ input[type="submit"][disabled]:hover
 		left: 0;
 		width: 100%;
 		transition: 0.3s;
-
-		i.svg-icon-wrapper {
-			display: flex;
-		}
 		svg {
 			margin-right: 12px;
 		}

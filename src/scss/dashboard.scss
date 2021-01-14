@@ -63,11 +63,11 @@
 		background-size: cover;
 		position: relative;
 		width: 100%;
-		@media screen and (max-width: $desktopBigWidth) {
+		@media screen and (max-width: $desktopWidth) {
 			padding: 104px 0 80px;
 		}
 		@media screen and (max-width: $tableMinWidth) {
-			padding: 40px 0;
+			padding: 80px 0 60px;
 		}
 		&:after {
 		}
@@ -84,13 +84,16 @@
 }
 .header_search_container_mobile {
 	display: none;
+	.form-group {
+		margin-bottom: 0;
+	}
 	@media screen and (max-width: $tableMinWidth) {
 		display: block;
 		height: 66px;
 		width: 100%;
 		position: fixed;
 		top: 0;
-		z-index: 1;
+		z-index: 4;
 		transition: 0.4s;
 	}
 	&.active {
@@ -330,6 +333,9 @@ ul.nav-menu-dashboard-small {
 				svg path {
 					stroke: $greenLightColor;
 				}
+			}
+			&:active, &:focus {
+				color: $greenColor;
 			}
 			span {
 				padding-top: 4px;

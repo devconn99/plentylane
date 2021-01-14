@@ -4,9 +4,9 @@
             <div class="container">
                 <div class="header-box">
                     <div class="logo-block">
-                        <a href="/">
+                        <router-link to="/">
                             <img src="../assets/images/logo/logo_green.svg" alt="" class="img-fluid">
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -17,6 +17,7 @@
                 <div class="authorization-box">
                     <div class="authorization-box-position">
                         <h1 class="title-size3 titleGreenNavyColor">Register for Plenty Lane</h1>
+
                         <b-alert
                                 :show="submitted && showSuccessAlert"
                                 dismissible
@@ -80,7 +81,9 @@
                                 <small class="text-danger d-flex mt-2 text-left" v-else-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
                                 <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm && $v.form.passwordConfirm.isValidPwd && $v.form.passwordConfirm.maxLength) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
                             </b-form-group>
-                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green btn-sign-up">Continue</b-button>
+                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green hover-slide-left">
+                                <span>Continue</span>
+                            </b-button>
                         </b-form>
 
                         <div class="authorization-box-info">

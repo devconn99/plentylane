@@ -110,6 +110,7 @@ ul.nav-menu-landing {
 		line-height: 0;
 		direction: ltr;
 		bottom: -1px;
+		z-index: 1000;
 	}
 	.hero-shape svg {
 		height: 160px;
@@ -514,6 +515,10 @@ ul.nav-menu-landing {
 	.copyright {
 		opacity: 0.5;
 		color: $whiteColor;
+		a {
+			color: $whiteColor;
+			font-family: $FilsonProRegular;
+		}
 		@media screen and (max-width: $tableWidth) {
 			text-align: center;
 			margin-top: 30px;

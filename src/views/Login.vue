@@ -4,9 +4,9 @@
             <div class="container">
                 <div class="header-box">
                     <div class="logo-block">
-                        <a href="/">
+                        <router-link to="/">
                             <img src="../assets/images/logo/logo_green.svg" alt="" class="img-fluid">
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -16,7 +16,8 @@
             <section class="authorization">
                 <div class="authorization-box">
                     <div class="authorization-box-position">
-                        <h1 class="title-size3 titleGreenNavyColor">Register for Plenty Lane</h1>
+                        <h1 class="title-size3 titleGreenNavyColor">Login</h1>
+
                         <b-alert
                                 :show="submitted && showErrorAlert"
                                 dismissible
@@ -49,7 +50,9 @@
                                 <small class="text-danger d-flex mt-2" v-if="!$v.form.password.minLength">This field must be at least {{pwdMinLength}} characters long.</small>
                                 <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.password.maxLength">This field must be shorter than or equal to {{pwdMaxLength}} characters.</small>
                             </b-form-group>
-                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green btn-login">Login</b-button>
+                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green hover-slide-left">
+                                <span>Login</span>
+                            </b-button>
                         </b-form>
 
                         <div class="authorization-box-info">
@@ -59,7 +62,7 @@
                             </p>
                             <p>
                                 Forgot your password?
-                                <!-- TODO: add route for Reset password page -->
+                                <!-- TODO: add router and view for "Reset password page" -->
                                 <router-link to="/">Reset it here</router-link>
                             </p>
                         </div>
