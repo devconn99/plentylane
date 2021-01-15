@@ -93,9 +93,10 @@ export default {
                     </svg>
                 `
             },
-            search: function () {
+            search: function (params) {
                 return `
-                    <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="${params && params.class ? params.class : ''}">
                         <g fill="none" fill-rule="evenodd">
                             <g stroke="#009C90" stroke-width="1.5">
                                 <path d="M13.209 17.472A8.056 8.056 0 106.907 2.644a8.056 8.056 0 006.302 14.828zM15.754 15.754l6.248 6.249" />
@@ -119,9 +120,10 @@ export default {
                     </svg>
                 `
             },
-            close: function () {
+            close: function (params) {
                 return `
-                    <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        class="${params && params.class ? params.class : ''}">
                         <g fill="none" fill-rule="evenodd">
                             <g stroke="#009C90" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                                 <path d="M4.015 4.015l16.97 16.97M4.015 20.985l16.97-16.97" />

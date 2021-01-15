@@ -11,9 +11,9 @@
 
                     <div class="header-links">
                         <div class="header-link-search">
-                            <div class="header-link-search-btn" @click="toggleMobileSearch">
-                                <SvgIcon icon="search" v-if="!isMobileSearchOpened"></SvgIcon>
-                                <SvgIcon icon="close" v-else></SvgIcon>
+                            <div class="header-link-search-btn">
+                                <SvgIcon icon="search" :params="{ class: 'loop-icon' }"></SvgIcon>
+                                <SvgIcon icon="close" :params="{ class: 'close-icon' }"></SvgIcon>
                             </div>
                         </div>
                         <div class="header-link-notify">
@@ -42,6 +42,7 @@
                     </div>
                     <!-- type="search" is fine here -->
                     <b-form-input
+                            id="gsearch"
                             type="search"
                             name="search"
                             placeholder="E.g. Fish Tacos"
@@ -69,6 +70,7 @@
                             <b-form-group>
                                 <!-- type="search" is fine here -->
                                 <b-form-input
+                                        id="gsearch"
                                         type="search"
                                         name="search"
                                         placeholder="Search"
@@ -254,6 +256,7 @@ export default {
         toggleMobileSearch () {
             const $headerSearchContainerMobile = $('.header_search_container_mobile');
             if ($headerSearchContainerMobile && $headerSearchContainerMobile.length) {
+                console.log('here?');
                 this.isMobileSearchOpened = !this.isMobileSearchOpened;
                 $headerSearchContainerMobile.toggleClass('active');
                 $('body').toggleClass('mobile-menu-box-active');
@@ -263,6 +266,35 @@ export default {
         handleSearch () {
             // TODO: handle search (use this.searchStr as a value), redirect to search page
         }
+    },
+    mounted () {
+        // TODO: get back to it later
+        $('.header-link-search-btn').on('click', function (e) {
+            if ($('.header_search_container_mobile').length) {
+
+                if ($('#mobile-menu-box-toggle span').hasClass('hamburger-checked')) {
+                    $('#mobile-body-overly').addClass('static');
+                    $('#mobile-menu-box-toggle').trigger('click');
+                }
+
+                $('.header_search_container_mobile').toggleClass('active');
+                $('body').toggleClass('mobile-menu-box-active');
+                if ($('.header-link-search-btn .loop-icon').is(':visible')) {
+                    $('.header-link-search-btn .loop-icon').hide();
+                    $('.header-link-search-btn .close-icon').show();
+                    if (!$('#mobile-body-overly').is(':visible')) {
+                        $('#mobile-body-overly').fadeIn();
+                    }
+                } else {
+                    $('.header-link-search-btn .loop-icon').show();
+                    $('.header-link-search-btn .close-icon').hide();
+                    if (!$('#mobile-body-overly').hasClass('static')) {
+                        $('#mobile-body-overly').fadeOut();
+                    }
+                }
+                $('#mobile-body-overly').removeClass('static');
+            }
+        });
     }
 }
 </script>

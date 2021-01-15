@@ -168,8 +168,8 @@
                         </div>
                         <div class="reserved-btn">
                             <!-- TODO: use correct path to the page -->
-                            <router-link :to="{ path: '/dashboard' }" tag="button" class="btn btn-green hover-slide-left transparent">
-                                LET’S GET RESERVING!
+                            <router-link :to="{ path: '/' }" tag="button" class="btn btn-green hover-slide-left transparent">
+                                <span>LET’S GET RESERVING!</span>
                             </router-link>
                         </div>
                     </div>

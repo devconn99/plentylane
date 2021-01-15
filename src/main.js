@@ -29,6 +29,8 @@ Popper.Defaults.modifiers.computeStyle.gpuAcceleration = false;
 
 const _store = new Vuex.Store(store);
 
+Vue.prototype.$eventHub = new Vue(); // Global event bus
+
 new Vue({
   router,
   store: _store,

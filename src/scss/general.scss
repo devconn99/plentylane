@@ -387,6 +387,9 @@ input[type="submit"][disabled]:hover
 		left: 0;
 		width: 100%;
 		transition: 0.3s;
+		.svg-icon-wrapper {
+			display: flex;
+		}
 		svg {
 			margin-right: 12px;
 		}
@@ -476,6 +479,9 @@ input[type="submit"][disabled]:hover
 		left: 0;
 		width: 100%;
 		transition: 0.3s;
+		.svg-icon-wrapper {
+			display: flex;
+		}
 		svg {
 			margin-right: 12px;
 		}
@@ -795,6 +801,12 @@ input[type=search]::-webkit-input-placeholder {
 			}
 			.header-link-search-btn {
 				cursor: pointer;
+				display: flex;
+				flex-direction: row;
+
+				.close-icon {
+					display: none;
+				}
 			}
 
 		}
