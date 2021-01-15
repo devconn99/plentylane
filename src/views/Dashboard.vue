@@ -142,11 +142,7 @@
             </aside>
 
             <section class="dashboard-section">
-                <div class="dashboard-content">
-                    <div class="container-fluid">
-                        <router-view></router-view>
-                    </div>
-                </div>
+                <router-view></router-view>
             </section>
         </main>
 

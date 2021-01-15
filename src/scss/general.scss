@@ -54,7 +54,7 @@ a:hover, a:focus, a:active {
 	color: $greenLightColor;
 	text-decoration: none;
 }
-a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus, button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus, .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus, button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus, .main-btn.active.focus, .main-btn.active:focus, .main-btn.focus, .main-btn:active.focus, .main-btn:active:focus, .main-btn:focus {
     outline: none!important;
     outline-color: transparent!important;
     outline-width: 0!important;
@@ -74,7 +74,11 @@ a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus
 		-o-transition: .3s all ease;
 		transition: .3s all ease;
 }
-textarea:focus, textarea.form-control:focus, input.form-control:focus, input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus, [type=text].form-control:focus, [type=password].form-control:focus, [type=email].form-control:focus, [type=tel].form-control:focus, [contenteditable].form-control:focus, .form-control:active, form-control:focus, textarea {
+textarea:focus, textarea.form-control:focus, input.form-control:focus, input[type=text]:focus,
+input[type=number]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus,
+[type=text].form-control:focus, [type=password].form-control:focus, select:focus,
+[type=email].form-control:focus, [type=tel].form-control:focus, [contenteditable].form-control:focus,
+.form-control:active, form-control:focus, textarea {
     box-shadow: none;
     outline: none;
 	border: 0px solid;
@@ -85,7 +89,8 @@ textarea:focus, textarea.form-control:focus, input.form-control:focus, input[typ
 		-o-transition: .3s all ease;
 		transition: .3s all ease;
 }
-input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, input[type=url]:focus, input[type=search]:focus {
+input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, input[type=url]:focus,
+input[type=search]:focus, input[type=number]:focus, select:focus {
 	border: 1px solid $greenColor!important;
 	-webkit-transition: .3s all ease!important;
 		-o-transition: .3s all ease!important;
@@ -294,7 +299,7 @@ input[type="submit"][disabled]:hover
 *   BUTTONS STYLE   *
 ********************/
 
-.btn {
+.main-btn {
 	text-decoration: none;
 	display: inline-block;
 	font-size: $mainFontSize;
@@ -614,7 +619,8 @@ h1, h2, h3, h4, h5, h6 {
 		text-decoration: underline;
 	}
 }
-.form input[type=text], .form input[type=email], .form input[type=password], .form input[type=url] {
+.form input[type=text], .form input[type=email], .form input[type=password],
+.form input[type=url], .form input[type=number], .form select {
   	width: 100%;
 	display: block;
 	height: 65px;
@@ -691,7 +697,9 @@ input[type=search]:focus::-webkit-search-cancel-button {
 			transition: .3s all ease!important;
 	}
 }
-.form input::-webkit-input-placeholder, .form textarea::-webkit-input-placeholder, input[type=text]::-webkit-input-placeholder {
+.form input::-webkit-input-placeholder, .form textarea::-webkit-input-placeholder,
+input[type=text]::-webkit-input-placeholder, form input[type=number]::-webkit-input-placeholder,
+input[type=number]::-webkit-input-placeholder, select::-webkit-input-placeholder{
 	font-size: 18px;
 	line-height: 18px;
 	letter-spacing: 0.6px;
@@ -1063,18 +1071,93 @@ body.mobile-menu-box-active .header {
 }
 
 /******************************************************************************************/
+/********************
+*   BOOTSTRAP CHECKBOXES   *
+********************/
+
+.custom-control-input:checked~.custom-control-label::before {
+	background-color: $greenColor;
+	border-color: $greenColor;
+}
+.custom-control-input:not(:disabled):active~.custom-control-label::before {
+	background-color: #a7f7f1;
+	border-color: #a7f7f1;
+}
+.custom-control-input:focus~.custom-control-label::before {
+	box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+}
 
 /********************
 *   WIZARD STYLES   *
 ********************/
 .vue-form-wizard {
-	// temp
-	min-width: 500px;
+	width: 100%;
+
+	&.wizard-new-meal {
+		.wizard-header {
+			background-color: $orangeColor;
+			height: 256px;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.wizard-title {
+				@extend .title-size1;
+			}
+		}
+	}
+
+	.wizard-navigation, .wizard-card-footer {
+		width: 560px;
+		margin-left: auto;
+		margin-right: auto;
+		@media screen and (max-width: $tableMinWidth) {
+			width: 100%;
+		}
+	}
+
 	.wizard-navigation {
 		margin-bottom: 20px;
 
 		.wizard-nav, .wizard-progress-with-circle {
 			display: none;
+		}
+
+		.wizard-tab-content {
+			padding-top: 80px;
+			.form-group {
+				margin-bottom: 48px;
+			}
+			.form-group legend, .form-label-text {
+				color: $textBlackColor;
+				font-family: $FilsonProBold;
+				font-size: 18px;
+				letter-spacing: 0.6px;
+				line-height: 18px;
+				margin-bottom: 10px;
+			}
+			textarea {
+				min-height: 255px;
+			}
+			.meal-time-container-controls {
+				.b-form-btn-label-control.form-control {
+					min-height: 65px !important;
+					border-radius: 0 !important;
+
+					> .form-control {
+						padding: 20px 45px 0 25px;
+					}
+					> .btn {
+						position: absolute;
+						right: 0;
+						top: 14px;
+					}
+				}
+				.form-group {
+					width: 50%;
+				}
+			}
 		}
 	}
 	.wizard-card-footer {
@@ -1135,7 +1218,7 @@ body.mobile-menu-box-active .header {
 		}
 
 		.wizard-footer-step-info {
-			color: #8A877D;
+			color: $grayColor;
 			font-family: $FilsonProBold;
 			font-size: 18px;
 			letter-spacing: 0.6px;

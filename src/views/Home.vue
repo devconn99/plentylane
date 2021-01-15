@@ -19,7 +19,7 @@
               <div class="description titleLightColor mb-4">
                 Plenty Lane is launching a meal swapping network to lighten your load. It’s simple!
               </div>
-              <router-link to="/sign-up" class="btn btn-red hover-slide-left">
+              <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
                 <span>Sign Up Today!</span>
               </router-link>
             </div>

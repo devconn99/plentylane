@@ -2,7 +2,7 @@
     <div class="new-meal-step-3">
         <b-form class="form">
             <b-form-group label="Critical dietary notes" class="dietary-notes">
-                <p class="mb-2 text-muted">Select as many apply</p>
+                <p class="mb-3 mt-0">Select as many apply</p>
                 <b-form-checkbox-group
                         class="dietary-notes-group"
                         id="checkbox-group-1"
@@ -12,27 +12,43 @@
                 ></b-form-checkbox-group>
             </b-form-group>
             <div class="meal-time-container">
-                <p class="mb-2">Meal availability</p>
+                <p class="mb-2 form-label-text">Meal availability</p>
                 <div class="d-flex meal-time-container-controls">
-                    <b-form-group label="Pickup Time">
-                        <b-form-timepicker v-model="$v.form.pickupTime.$model" name="pickupTime" locale="en"></b-form-timepicker>
+                    <b-form-group>
+                        <p class="mb-2">Pickup Time</p>
+                        <b-form-timepicker
+                                v-model="$v.form.pickupTime.$model"
+                                placeholder=""
+                                name="pickupTime"
+                                locale="en"
+                        ></b-form-timepicker>
                     </b-form-group>
-                    <b-form-group label="Date">
-                        <b-form-datepicker v-model="$v.form.pickupDate.$model" :min="minDate" name="pickupDate" locale="en"></b-form-datepicker>
+                    <b-form-group>
+                        <p class="mb-2">Date</p>
+                        <b-form-datepicker
+                                v-model="$v.form.pickupDate.$model"
+                                placeholder=""
+                                :min="minDate"
+                                name="pickupDate"
+                                :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
+                                locale="en"
+                        ></b-form-datepicker>
                     </b-form-group>
                 </div>
             </div>
             <div class="meal-location-container">
-                <p class="mb-2">Pickup Location</p>
+                <p class="mb-2 form-label-text">Pickup Location</p>
                 <div class="d-flex meal-location-controls">
                     <b-form-select
                             class="location-select"
                             v-model="$v.form.placeId.$model"
                             :options="locationOptions"
                     ></b-form-select>
-                    <b-btn class="btn add-location-button" v-b-modal.location-modal>
-                        <i class="fa fa-plus add-location-icon"></i>
-                        <span class="add-location-text">New Location</span>
+                    <b-btn class="main-btn add-location-button btn-green-bright hover-slide-left transparent" v-b-modal.location-modal>
+                        <span>
+                            <i class="fas fa-plus"></i>
+                            New Location
+                        </span>
                     </b-btn>
                 </div>
             </div>
@@ -129,7 +145,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../variables";
+@import "../../scss/utils/vars";
 .new-meal-step-3 {
 
 }
@@ -141,6 +157,8 @@ export default {
         max-height: 170px;
         align-items: start;
         width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
 
         /* TODO: get back to styles later */
         .custom-control {
@@ -150,11 +168,6 @@ export default {
                 font-size: 18px;
                 letter-spacing: 0.6px;
                 line-height: 18px;
-            }
-            .custom-control-input:checked~.custom-control-label::before {
-                color: #fff;
-                border-color: $greenColor;
-                background-color: $greenColor;
             }
         }
     }
@@ -186,18 +199,15 @@ export default {
             margin-right: 10px;
         }
         .add-location-button {
-            flex-grow: 1;
-            min-width: 180px;
             margin-left: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 65px;
+            min-width: 200px;
 
-            .add-location-icon {
-
-            }
-            .add-location-text {
-                padding-left: 10px;
+            span {
+                font-size: 18px;
+                letter-spacing: 0.6px;
+                line-height: 18px;
+                text-transform: none;
             }
         }
     }

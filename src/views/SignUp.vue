@@ -81,7 +81,7 @@
                                 <small class="text-danger d-flex mt-2 text-left" v-else-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
                                 <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm && $v.form.passwordConfirm.isValidPwd && $v.form.passwordConfirm.maxLength) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
                             </b-form-group>
-                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green hover-slide-left">
+                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="w-100 main-btn btn-green hover-slide-left">
                                 <span>Continue</span>
                             </b-button>
                         </b-form>

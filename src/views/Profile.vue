@@ -70,7 +70,7 @@
                         autocomplete="off"
                 ></b-form-textarea>
             </b-form-group>
-            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btn-green btn-sign-up">Save Changes</b-button>
+            <b-button type="submit" :disabled="$v.$invalid || submitted" class="main-btn btn-green btn-sign-up">Save Changes</b-button>
         </b-form>
     </div>
 </template>

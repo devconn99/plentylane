@@ -65,7 +65,7 @@
                                             </ul>
                                         </div>
                                         <div class="price-btn">
-                                            <router-link to="/sign-up" class="btn btn-red hover-slide-left">
+                                            <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
                                                 <span>Sign up with Starter</span>
                                             </router-link>
                                         </div>
@@ -89,7 +89,7 @@
                                             </ul>
                                         </div>
                                         <div class="price-btn">
-                                            <router-link to="/sign-up" class="btn btn-red hover-slide-left">
+                                            <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
                                                 <span>Sign up with Casual</span>
                                             </router-link>
                                         </div>
@@ -116,7 +116,7 @@
                                             </ul>
                                         </div>
                                         <div class="price-btn">
-                                            <router-link to="/sign-up" class="btn btn-red hover-slide-left">
+                                            <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
                                                 <span>Sign up with Unlimited</span>
                                             </router-link>
                                         </div>

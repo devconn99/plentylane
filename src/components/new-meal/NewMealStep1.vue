@@ -1,5 +1,5 @@
 <template>
-    <b-form class="form">
+    <b-form class="form new-meal-wizard-form">
         <b-form-group label="Meal Name">
             <b-form-input
                     name="name"
@@ -20,7 +20,7 @@
             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.description.maxLength">This field must be shorter than or equal to {{descMaxLength}} characters.</small>
         </b-form-group>
         <b-form-group label="Number of Meals">
-            <p class="mb-2 text-muted">1 meal = 1 container</p>
+            <p class="sub-label-text">1 meal = 1 container</p>
             <b-form-input
                     name="quantity"
                     type="number"
@@ -80,6 +80,17 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+@import "../../scss/utils/vars";
+.new-meal-wizard-form {
+    .form-group {
+        .sub-label-text {
+            color: $textBlackColor;
+            font-family: $FilsonProRegular;
+            font-size: 16px;
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+    }
+}
 </style>

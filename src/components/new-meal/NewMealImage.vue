@@ -5,7 +5,7 @@
             <vue-dropzone v-if="dropzoneOptions" ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :useCustomSlot=true>
                 <div class="dropzone-custom-content">
                     <!-- TODO: add correct icon -->
-                    <i class="fa fa-cloud-download-alt fa-2x"></i>
+                    <img width="92px" height="90px" src="../../assets/icons/upload-to-cloud.svg" alt="">
                     <h3 class="dropzone-custom-title">Drag & drop an image</h3>
                 </div>
             </vue-dropzone>
@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../variables";
+@import "../../scss/utils/vars";
 .dropzone-custom-content {
     width: 100%;
     position: absolute;

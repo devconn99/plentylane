@@ -47,7 +47,7 @@ ul.nav-menu-landing {
 				display: block;
 				outline: none;
 				padding: 12px 29px;
-				&.btn {
+				&.main-btn {
 					padding: 0;
 				}
 				&:hover, &:focus, &:active {
@@ -491,7 +491,7 @@ ul.nav-menu-landing {
 			margin-bottom: 18px;
 		}
 		.footer-login-btn {
-			.btn {
+			.main-btn {
 				display: block;
 			}
 		}

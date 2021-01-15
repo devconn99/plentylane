@@ -36,7 +36,7 @@
                 <div class="col-lg-3 d-none d-lg-block ml-auto">
                     <div class="footer-login">
                         <div class="footer-login-btn">
-                            <router-link to="/sign-up" class="btn btn-red hover-slide-left">
+                            <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
                                 <span>Sign Up Today!</span>
                             </router-link>
                         </div>

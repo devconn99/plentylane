@@ -51,7 +51,7 @@ a:hover, a:focus, a:active {
 		transition: .4s all ease;
 	text-decoration: none;
 }
-a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus, button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus, .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus, button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus, .main-btn.active.focus, .main-btn.active:focus, .main-btn.focus, .main-btn:active.focus, .main-btn:active:focus, .main-btn:focus {
     outline: 0!important;
     outline-color: transparent!important;
     outline-width: 0!important;
@@ -168,7 +168,7 @@ svg:hover path {
 		transition: .3s all ease;
 }
 button[disabled]:active, button[disabled],
-button.btn[disabled]:active, button.btn[disabled],
+button.main-btn[disabled]:active, button.main-btn[disabled],
 input[type="button"][disabled]:active,
 input[type="button"][disabled],
 input[type="submit"][disabled]:active,
@@ -377,7 +377,7 @@ input[type="submit"][disabled]:hover
 *   BUTTONS STYLE   *
 ********************/
 
-.btn {
+.main-btn {
 	text-decoration: none;
 	display: inline-block;
 	font-size: $mainFontSize;
@@ -388,7 +388,7 @@ input[type="submit"][disabled]:hover
 	border-radius: 0;
 	letter-spacing: 1.15px;
 }
-.btn:hover, .btn:focus, .btn:active {
+.main-btn:hover, .main-btn:focus, .main-btn:active {
 	font-size: $mainFontSize;
 	line-height: $mainLineHeight;
 }
@@ -878,7 +878,7 @@ h1, h2, h3, h4, h5, h6 {
 			margin-bottom: 18px;
 		}
 		.footer-login-btn {
-			.btn {
+			.main-btn {
 				display: block;
 			}
 		}

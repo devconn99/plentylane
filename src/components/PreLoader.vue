@@ -19,7 +19,6 @@
 <!--</script>-->
 
 <!--<style scoped lang="scss">-->
-<!--@import '../variables';-->
 
 <!--.preloader {-->
     <!--background-image: url('../assets/images/authorization/authorization.svg'); // path is fine-->

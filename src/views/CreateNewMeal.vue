@@ -1,5 +1,6 @@
 <template>
     <div class="new-meal-page">
+        <!-- class is required to override header styles -->
         <form-wizard
                 v-if="!isWizardCompleted"
                 @on-complete="onComplete"
@@ -8,6 +9,8 @@
                 subtitle=""
                 shape="tab"
                 ref="newMealWizard"
+                class="wizard-new-meal"
+                :start-index="2"
                 color="#009C90">
             <tab-content title="" :before-change="()=>validateStep('step1')">
                 <NewMealStep1 ref="step1" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
@@ -119,11 +122,11 @@
         <div v-if="isWizardCompleted" class="meal-posted-container">
             <!-- TODO: temp -->
             <p>Meal posted, woohoo!</p>
-            <b-button class="btn btn-green" @click="redirectToMeal">
+            <b-button class="main-btn btn-green" @click="redirectToMeal">
                 <i class="fa fa-eye"></i>
                 <span class="pl-2">View Your Meal</span>
             </b-button>
-            <router-link to="cook/new-meal" tag="button" class="btn btn-green mt-3">
+            <router-link to="cook/new-meal" tag="button" class="main-btn btn-green mt-3">
                 <i class="fa fa-plus"></i>
                 <span class="pl-2">Create Another Meal</span>
             </router-link>
@@ -288,7 +291,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../variables";
+@import "../scss/utils/vars";
 .new-meal-page {
 
 }

@@ -31,8 +31,8 @@
             </b-form>
         </div>
         <div slot="modal-footer">
-            <b-btn class="btn btn-cancel" variant="" @click="cancel">Cancel</b-btn>
-            <b-btn class="btn btn-save" variant="primary" @click="saveLocation">Save</b-btn>
+            <b-btn class="main-btn btn-cancel" variant="" @click="cancel">Cancel</b-btn>
+            <b-btn class="main-btn btn-save" variant="primary" @click="saveLocation">Save</b-btn>
         </div>
     </b-modal>
 </template>
