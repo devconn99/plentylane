@@ -16,22 +16,26 @@ const routes = [
     {
         path: "/how-it-works",
         name: "HowItWorks",
-        component: () => import("../views/HowItWorks.vue")
+        component: () => import("../views/HowItWorks.vue"),
+        meta: { title: `${TITLE} - How it works` }
     },
     {
         path: "/pricing",
         name: "Pricing",
-        component: () => import("../views/Pricing.vue")
+        component: () => import("../views/Pricing.vue"),
+        meta: { title: `${TITLE} - Pricing` }
     },
     {
         path: "/faqs",
         name: "FAQs",
-        component: () => import("../views/FAQs.vue")
+        component: () => import("../views/FAQs.vue"),
+        meta: { title: `${TITLE} - FAQs` }
     },
     {
         path: "/food-safety",
         name: "FoodSafety",
-        component: () => import("../views/FoodSafety.vue")
+        component: () => import("../views/FoodSafety.vue"),
+        meta: { title: `${TITLE} - Food safety` }
     },
     {
         path: "/login",
@@ -130,29 +134,31 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes
+    routes
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
-  const _token = localStorage.getItem("plAccessToken");
-  if (to.path === "/" && _token) {
-    next("/dashboard");
-  }
-  if (to.meta.authHelper) {
-    // check if token exists
-    if (_token) {
-      // than redirect to home page
-      next("/dashboard");
+    if (to.meta && to.meta.title) {
+        document.title = to.meta.title;
     }
-  } else if (!_token) {
-    if (to.path.includes("dashboard")) {
-      next("/login");
+    const _token = localStorage.getItem("plAccessToken");
+    if (to.path === "/" && _token) {
+        next("/dashboard");
     }
-  }
+    if (to.meta.authHelper) {
+        // check if token exists
+        if (_token) {
+        // than redirect to home page
+        next("/dashboard");
+        }
+    } else if (!_token) {
+        if (to.path.includes("dashboard")) {
+            next("/login");
+        }
+    }
 
-  // Add tiny timeout to finish page transition
-  setTimeout(() => next(), 10);
+    // Add tiny timeout to finish page transition
+    setTimeout(() => next(), 10);
 });
 
 export default router;
