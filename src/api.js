@@ -209,8 +209,18 @@ export default {
                         return checkErr(err.response);
                     })
             },
+            getAvailableOffers () {
+                const endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=quantity||$gt||1`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
             getMyOffers () {
-                const endpoint = `${config.API_ORIGIN}/api/me/offers`; // TODO: join?
+                const endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`; // TODO: join?
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});

@@ -10,7 +10,6 @@
                 shape="tab"
                 ref="newMealWizard"
                 class="wizard-new-meal"
-                :start-index="2"
                 color="#009C90">
             <tab-content title="" :before-change="()=>validateStep('step1')">
                 <NewMealStep1 ref="step1" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
@@ -165,6 +164,7 @@ export default {
             if (!this.mealInfo || !this.mealInfo.pickupTime) {
                 return '';
             }
+            // TODO: use helpers.parseDate instead
             // format: 5-6pm Tues, Feb. 1
             const date = new Date(this.mealInfo.pickupTime);
             const weekdayName = date.toLocaleDateString('en', { weekday: 'short' });
