@@ -5,7 +5,7 @@
             hide-footer
             size="lg"
             modal-class="reserve-meal-modal"
-            @shown="onModalShown"
+            @hidden="onHidden"
     >
         <div slot="default">
             <div class="title-size3 titleGreenNavyColor mb-4 text-center">
@@ -125,14 +125,13 @@ export default {
     },
     methods: {
         closeModal () {
+            this.$bvModal.hide('reserve-meal-modal');
+        },
+        onHidden () {
             this.isReserved = false;
             this.$v.$reset();
             this.form.notes = null;
             this.form.servings = null;
-            this.$bvModal.hide('reserve-meal-modal');
-        },
-        onModalShown () {
-            // TODO: something here
         },
         onSubmit () {
             this.$v.form.$touch();

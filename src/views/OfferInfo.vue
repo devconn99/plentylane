@@ -42,14 +42,12 @@
                 <div class="row">
                     <div class="col-lg-4 order-lg-2">
                         <div class="reserved-btn">
-                            <!-- TODO: open modal to reserve the meal -->
-                            <b-btn class="btn main-btn w-100 btn-green hover-slide-left transparent mb-2" @click="showReserveMealModal">
+                            <b-btn class="main-btn w-100 btn-green hover-slide-left transparent mb-2" @click="showReserveMealModal">
                                 <span>Reserve Meal</span>
                             </b-btn>
-                            <!-- TODO: open modal to contact the cook -->
-                            <a href="" class="btn main-btn w-100 btn-green hover-slide-left transparent">
+                            <b-btn class="main-btn w-100 btn-green hover-slide-left transparent" @click="showContactCookModal">
                                 <span>Contact cook</span>
-                            </a>
+                            </b-btn>
                         </div>
 
                         <div class="cook-box">
@@ -380,6 +378,7 @@
 
         <!-- Modals -->
         <ReserveMealModal :offer-info="{ ...this.offerInfo }"></ReserveMealModal>
+        <ContactCookModal></ContactCookModal>
     </div>
 </template>
 
@@ -388,9 +387,10 @@ import api from '../api';
 import SvgIcon from '../components/SvgIcon';
 import helpers from '../helpers';
 import ReserveMealModal from '../components/modals/ReserveMealModal';
+import ContactCookModal from '../components/modals/ContactCookModal';
 export default {
     name: "OfferInfo",
-    components: {SvgIcon, ReserveMealModal},
+    components: {SvgIcon, ReserveMealModal, ContactCookModal},
     data: () => ({
         offerUuid: '',
         offerInfo: {},
@@ -428,6 +428,9 @@ export default {
         },
         showReserveMealModal () {
             this.$bvModal.show('reserve-meal-modal');
+        },
+        showContactCookModal () {
+            this.$bvModal.show('contact-cook-modal');
         }
     },
     computed: {

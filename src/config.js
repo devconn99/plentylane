@@ -7,5 +7,6 @@ export default {
         QUANTITY_MIN: 1,
         QUANTITY_MAX: 1000
     },
-    DINE_NOTES_MAX_LENGTH: 4000
+    DINE_NOTES_MAX_LENGTH: 4000,
+    TEXT_AREA_MAX_LENGTH: 4000
 }

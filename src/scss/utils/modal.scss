@@ -15,7 +15,8 @@
 .modal {
 	&.notifications-modal,
 	&.invite-friends-modal,
-	&.reserve-meal-modal {
+	&.reserve-meal-modal,
+	&.contact-cook-modal {
 		.modal-header {
 			border-bottom: none;
 
@@ -36,6 +37,21 @@
 			pointer-events: auto;
 			width: 100%;
 			padding: 0 40px 40px;
+		}
+	}
+	&.reserve-meal-modal,
+	&.contact-cook-modal {
+		.modal-body {
+			.form-group {
+				legend {
+					font-weight: bold;
+				}
+			}
+		}
+	}
+	&.notifications-modal,
+	&.invite-friends-modal {
+		.modal-body {
 			@media screen and (max-width: $tableWidth) {
 				padding: 0 15px 15px;
 			}
