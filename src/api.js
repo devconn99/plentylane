@@ -210,6 +210,7 @@ export default {
                     })
             },
             getAvailableOffers () {
+                // TODO: use filter by field "availableServings" instead of "quantity" later
                 const endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=quantity||$gt||1`;
                 return axios.get(endpoint)
                     .then((res) => {
@@ -230,7 +231,7 @@ export default {
                     })
             },
             getOfferByUuid (uuid) {
-                const endpoint = `${config.API_ORIGIN}/api/offers/${uuid}?join=meal&join=place`;
+                const endpoint = `${config.API_ORIGIN}/api/offers/${uuid}?join=meal&join=place&join=user`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -251,6 +252,18 @@ export default {
             },
             addOffer (data) {
                 const endpoint = `${config.API_ORIGIN}/api/me/offers`;
+                return axios.post(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            }
+        },
+        orders: {
+            postDine (data) {
+                const endpoint = `${config.API_ORIGIN}/api/me/orders/dine`;
                 return axios.post(endpoint, data)
                     .then((res) => {
                         return Promise.resolve(res.data || {});

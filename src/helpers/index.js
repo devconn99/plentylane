@@ -29,5 +29,27 @@ export default {
             return `${timeStr} today`;
         }
         return `${timeStr} ${weekdayName}, ${monthName}. ${date.getUTCDate()}`;
+    },
+    userNameWithShortLastName: function (userInfo) {
+        if (!userInfo || !userInfo.firstName) return ``;
+        const lastName = userInfo.lastName && userInfo.lastName.length ? userInfo.lastName : userInfo.fullName.split(' ')[1];
+        return `${userInfo.firstName} ${lastName.slice(0, 1)}.`;
+    },
+    retrieveDietaryNotes: function (data) {
+        const NOTES = {
+            DAIRY: 'Contains dairy',
+            TREE_NUTS: 'Contains tree nuts',
+            SHELLFISH: 'Contains shellfish',
+            VEGETARIAN: 'Vegetarian',
+            GLUTEN_FREE: 'Gluten free',
+            EGGS: 'Contains eggs',
+            PEANUTS: 'Contains peanuts',
+            FISH: 'Contains fish',
+            VEGAN: 'Vegan'
+        };
+        return data.map(item => {
+            const textLabel = NOTES[item.label];
+            return { label: item.label, text: textLabel, value: item.label };
+        });
     }
 }

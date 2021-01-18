@@ -67,8 +67,7 @@ export default {
             return helpers.parseDate(this.offerInfo.pickupTime, true);
         },
         userName: function () {
-            if (!this.offerInfo || !this.offerInfo.user) return ``;
-            return `${this.offerInfo.user.firstName} ${this.offerInfo.user.lastName.slice(0, 1)}.`;
+            return helpers.userNameWithShortLastName(this.offerInfo.user);
         }
     }
 }

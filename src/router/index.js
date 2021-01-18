@@ -108,7 +108,7 @@ const routes = [
             {
                 path: "offers/:uuid",
                 name: "Offer Info",
-                component: () => import("../views/MealInfo.vue"),
+                component: () => import("../views/OfferInfo.vue"),
                 meta: { title: `${TITLE} - Offer info` }
             },
             {
