@@ -55,6 +55,9 @@
                         <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
                         <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
                     </b-form-group>
+
+                    <!-- TODO: get back to this field later -->
+                    <!--
                     <b-form-group label="Phone">
                         <b-form-input
                                 name="phone"
@@ -65,6 +68,8 @@
                                 autocomplete="off"
                         ></b-form-input>
                     </b-form-group>
+                    -->
+
                     <b-form-group label="Bio">
                         <b-form-textarea
                                 name="bio"
@@ -110,7 +115,7 @@ export default {
             firstName: '',
             lastName: '',
             email: '',
-            phone: '',
+            // phone: '', // TODO: get back to this field later
             bio: ''
         }
     }),
@@ -123,8 +128,10 @@ export default {
             firstName: {
                 required
             },
-            lastName: {},
-            phone: {},
+            lastName: {
+                required
+            },
+            // phone: {}, // TODO: get back to this field later
             bio: {}
         }
     },
@@ -148,7 +155,7 @@ export default {
             this.$v.form.$model.firstName = data.firstName;
             this.$v.form.$model.lastName = data.lastName;
             this.$v.form.$model.email = data.email;
-            this.$v.form.$model.phone = data.phone;
+            // this.$v.form.$model.phone = data.phone;  // TODO: get back to this field later
             this.$v.form.$model.bio = data.bio;
         },
         loadUserInfo () {

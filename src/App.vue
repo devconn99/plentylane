@@ -59,6 +59,15 @@ export default {
             $('.header').not('#authorization-page .header').addClass('header-scrolled');
         }
 
+        $(window).on('scroll', function () {
+            var scroll = $(window).scrollTop();
+            if (scroll < 400) {
+                $('#back-top').fadeOut(500);
+            } else {
+                $('#back-top').fadeIn(500);
+            }
+        });
+
 
         // TODO: get back to it later (mobile nav + search toggling, click outside to hide them)
         /*
