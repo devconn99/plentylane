@@ -10,12 +10,12 @@
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.name.$dirty && !$v.form.name.required">This is a required field.</small>
         </b-form-group>
         <b-form-group label="Meal Description">
-            <b-form-textarea
+            <textarea
                     name="description"
                     v-model="$v.form.description.$model"
                     placeholder="a little something about your meal..."
                     autocomplete="off"
-            ></b-form-textarea>
+            ></textarea>
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.description.$dirty && !$v.form.description.required">This is a required field.</small>
             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.description.maxLength">This field must be shorter than or equal to {{descMaxLength}} characters.</small>
         </b-form-group>

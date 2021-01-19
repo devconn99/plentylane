@@ -71,14 +71,14 @@
                     -->
 
                     <b-form-group label="Bio">
-                        <b-form-textarea
+                        <textarea
                                 name="bio"
                                 v-model="$v.form.bio.$model"
                                 placeholder="Bio"
                                 @focus="focusHandler"
                                 @input="hideAlerts"
                                 autocomplete="off"
-                        ></b-form-textarea>
+                        ></textarea>
                     </b-form-group>
                     <b-button
                             type="submit"

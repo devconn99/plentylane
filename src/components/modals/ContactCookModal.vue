@@ -25,12 +25,12 @@
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.subject.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>
                 </b-form-group>
                 <b-form-group label="Notes for cook">
-                    <b-form-textarea
+                    <textarea
                             name="message"
                             v-model="$v.form.message.$model"
                             placeholder=""
                             autocomplete="off"
-                    ></b-form-textarea>
+                    ></textarea>
                     <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.message.$dirty && !$v.form.message.required">This is a required field.</small>
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.message.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>
                 </b-form-group>

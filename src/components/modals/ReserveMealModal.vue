@@ -26,12 +26,12 @@
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.minValue">Minimum number of servings is 1.</small>
                 </b-form-group>
                 <b-form-group label="Notes for cook">
-                    <b-form-textarea
+                    <textarea
                             name="notes"
                             v-model="$v.form.notes.$model"
                             placeholder="e.g. no hot sauce please ;)"
                             autocomplete="off"
-                    ></b-form-textarea>
+                    ></textarea>
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.notes.maxLength">This field must be shorter than or equal to {{notesMaxLength}} characters.</small>
                 </b-form-group>
                 <b-button type="submit" :disabled="$v.$invalid" class="w-100 main-btn btn-green hover-slide-left">
