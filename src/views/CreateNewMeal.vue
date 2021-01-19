@@ -134,12 +134,12 @@
                         View Your Meal
                     </span>
                 </b-button>
-                <router-link to="cook/new-meal" tag="button" class=" main-btn btn-green-bright hover-slide-left">
+                <b-button class="main-btn btn-green-bright hover-slide-left" @click="createAnotherMeal">
                     <span>
                         <i class="fa fa-plus"></i>
                         Create Another Meal
                     </span>
-                </router-link>
+                </b-button>
             </div>
         </div>
     </div>
@@ -237,6 +237,7 @@ export default {
             if (nextIndex >= 0) {
                 this.currentStep = nextIndex;
             }
+            window.scrollTo(0, 0);
         },
         backBtnClick (props) {
           if (this.currentStep !== 0) {
@@ -295,6 +296,23 @@ export default {
         },
         redirectToMeal () {
             this.$router.push({ path: `/dashboard/offers/${this.newOfferId}` });
+        },
+        createAnotherMeal () {
+            // clear all steps of the wizard
+            this.newOfferId = '';
+            this.postMeal = {};
+            this.newMealId = '';
+            this.mealInfo = {};
+            this.newOffer = {
+                quantity: '',
+                pickupTime: '',
+                placeId: '',
+                mealId: ''
+            };
+            this.isWizardCompleted = false;
+            setTimeout(() => {
+                this.goToStep(0);
+            }, 0);
         }
     }
 }
