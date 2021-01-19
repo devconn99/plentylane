@@ -15,12 +15,26 @@ import '@fortawesome/fontawesome-free/js/all.js'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
+import PreLoader from './components/PreLoader';
 
 window.$ = JQuery;
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueFormWizard);
+
+Vue.component('pre-loader', PreLoader);
+
+Vue.use(Loading, {
+    isFullPage: true,
+    opacity: 1,
+    zIndex: 999
+}, {
+    default: (new Vue()).$createElement('pre-loader')
+});
 
 Vue.use(Vuex);
 

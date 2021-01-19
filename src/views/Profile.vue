@@ -135,9 +135,15 @@ export default {
         } else {
             this.userInfo = { ...user };
             this.setFormValues(user);
+            this.hideGlobalLoader();
         }
     },
     methods: {
+        hideGlobalLoader () {
+            if (this.$loader && this.$loader.hide) {
+                this.$loader.hide();
+            }
+        },
         setFormValues (data) {
             this.$v.form.$model.firstName = data.firstName;
             this.$v.form.$model.lastName = data.lastName;
@@ -151,8 +157,11 @@ export default {
                     this.userInfo = { ...data };
                     this.$store.commit('userInfo', { ...data });
                     this.setFormValues(data);
+                    this.hideGlobalLoader();
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    this.hideGlobalLoader();
+                });
         },
         hideAlerts () {
             if (this.showSuccessAlert) {

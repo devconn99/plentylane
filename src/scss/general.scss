@@ -1214,6 +1214,13 @@ body.mobile-menu-box-active .header {
 				@extend .title-size1;
 			}
 		}
+		&.is-last-step {
+			.wizard-navigation, .wizard-card-footer {
+				width: 100%;
+				padding-left: 40px;
+				padding-right: 40px;
+			}
+		}
 	}
 
 	.wizard-navigation, .wizard-card-footer {

@@ -41,7 +41,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-4 order-lg-2">
-                        <div class="reserved-btn">
+                        <!-- TODO: I'm hiding this block if current user owns this order. I'll check it later -->
+                        <div class="reserved-btn" v-if="offerInfo.user.id !== currentUserId">
                             <b-btn
                                     class="main-btn w-100 btn-green hover-slide-left transparent mb-2"
                                     v-if="offerInfo.availableQuantity > 0 && !wasReserved"
@@ -109,7 +110,7 @@
                     <!-- TODO: temp hidden -->
                     <div class="col-12 d-none">
                         <div class="carousel-reserved owl-carousel">
-                            <a class="item" href="dashboard-meal.html">
+                            <a class="item" href="">
                                 <div class="recept-box">
                                     <div class="recept-box-img recept-box-img-overlay">
                                         <img src="../assets/images/data/images/dashboard/recepts/lasania.jpg" alt=""
@@ -199,7 +200,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a class="item" href="dashboard-meal.html">
+                            <a class="item" href="">
                                 <div class="recept-box">
                                     <div class="recept-box-img">
                                         <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg"
@@ -289,7 +290,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a class="item" href="dashboard-meal.html">
+                            <a class="item" href="">
                                 <div class="recept-box">
                                     <div class="recept-box-img">
                                         <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder-2.svg"
@@ -411,18 +412,22 @@ export default {
         errLoadingOffer: false,
         wasReserved: false,
         reservationId: '',
-        numberOfServingsReserved: 0
+        numberOfServingsReserved: 0,
+        currentUserId: ''
     }),
-    beforeRouteEnter (to, from, next) {
-        next(vm => {
-            vm.isLoaded = false;
-            vm.offerInfo = {};
-            const { id = '' } = vm.$route.params;
-            vm.offerId = id;
-            vm.getOfferInfo();
-        });
+    mounted () {
+        this.isLoaded = false;
+        this.offerInfo = {};
+        const { id = '' } = this.$route.params;
+        this.offerId = id;
+        this.getOfferInfo();
     },
     methods: {
+        hideGlobalLoader () {
+            if (this.$loader && this.$loader.hide) {
+                this.$loader.hide();
+            }
+        },
         getOfferInfo () {
             if (!this.offerId) {
                 this.errLoadingOffer = true;
@@ -433,13 +438,16 @@ export default {
                     if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
                         offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
                     }
+                    this.currentUserId = this.$store.getters.userId;
                     this.offerInfo = { ...offer };
                     this.isLoaded = true;
+                    this.hideGlobalLoader();
                 })
                 .catch(err => {
                     console.log('\n >> err > ', err);
                     this.errLoadingOffer = true;
                     this.isLoaded = true;
+                    this.hideGlobalLoader();
                 })
         },
         showReserveMealModal () {

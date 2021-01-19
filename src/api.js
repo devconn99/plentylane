@@ -224,7 +224,7 @@ export default {
                     })
             },
             getMyOffers () {
-                const endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`; // TODO: join?
+                const endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -273,6 +273,26 @@ export default {
                     })
                     .catch((err) => {
                         return checkErr(err.response)
+                    })
+            },
+            getMyDines () {
+                const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getMyCooks () {
+                const endpoint = `${config.API_ORIGIN}/api/me/bookings/cook`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
                     })
             }
         }

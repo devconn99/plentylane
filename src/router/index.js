@@ -6,36 +6,48 @@ Vue.use(VueRouter);
 
 const TITLE = "Plenty Lane";
 
+/*
+    available meta properties:
+
+    title - to set page title
+    hideLoaderWithDelay - it will allow to hide global loading overlay with 1-2 seconds delay
+        (now it's added for home pages for non-logged in user)
+    authHelper - to redirect logged user from home pages (e.g. /faqs, /pricing, /login, etc.) to dashboard page
+    skipHidingLoader - requires to manually hide global loader from the component if true
+        (e.g. hide loader when page's data already loaded)
+    noLoader - global loader won't be shown if true
+ */
+
 const routes = [
     {
         path: "/",
         name: "Home",
         component: Home,
-        meta: { title: TITLE }
+        meta: { title: TITLE, hideLoaderWithDelay: true }
     },
     {
         path: "/how-it-works",
         name: "HowItWorks",
         component: () => import("../views/HowItWorks.vue"),
-        meta: { title: `${TITLE} - How it works` }
+        meta: { title: `${TITLE} - How it works`, hideLoaderWithDelay: true }
     },
     {
         path: "/pricing",
         name: "Pricing",
         component: () => import("../views/Pricing.vue"),
-        meta: { title: `${TITLE} - Pricing` }
+        meta: { title: `${TITLE} - Pricing`, hideLoaderWithDelay: true }
     },
     {
         path: "/faqs",
         name: "FAQs",
         component: () => import("../views/FAQs.vue"),
-        meta: { title: `${TITLE} - FAQs` }
+        meta: { title: `${TITLE} - FAQs`, hideLoaderWithDelay: true }
     },
     {
         path: "/food-safety",
         name: "FoodSafety",
         component: () => import("../views/FoodSafety.vue"),
-        meta: { title: `${TITLE} - Food safety` }
+        meta: { title: `${TITLE} - Food safety`, hideLoaderWithDelay: true }
     },
     {
         path: "/login",
@@ -43,7 +55,8 @@ const routes = [
         component: () => import("../views/Login.vue"),
         meta: {
             title: `${TITLE} - Login`,
-            authHelper: true
+            authHelper: true,
+            hideLoaderWithDelay: true
         }
     },
     {
@@ -52,7 +65,8 @@ const routes = [
         component: () => import("../views/SignUp.vue"),
         meta: {
             title: `${TITLE} - Sign Up`,
-            authHelper: true
+            authHelper: true,
+            hideLoaderWithDelay: true
         }
     },
     {
@@ -65,14 +79,16 @@ const routes = [
             {
                 path: "",
                 name: "Dashboard",
-                component: () => import("../components/DashboardContent.vue")
+                component: () => import("../components/DashboardContent.vue"),
+                meta: { skipHidingLoader: true }
             },
             {
                 path: "profile",
                 name: "Profile",
                 component: () => import("../views/Profile.vue"),
                 meta: {
-                    title: `${TITLE} - Profile`
+                    title: `${TITLE} - Profile`,
+                    skipHidingLoader: true
                 }
             },
             {
@@ -80,7 +96,8 @@ const routes = [
                 name: "Eat",
                 component: () => import("../views/Eat.vue"),
                 meta: {
-                    title: `${TITLE} - Eat`
+                    title: `${TITLE} - Eat`,
+                    noLoader: true // possibly temp
                 }
             },
             {
@@ -88,7 +105,8 @@ const routes = [
                 name: "Shop",
                 component: () => import("../views/Shop.vue"),
                 meta: {
-                      title: `${TITLE} - Shop`
+                    title: `${TITLE} - Shop`,
+                    noLoader: true // possibly temp
                 }
             },
             {
@@ -96,33 +114,44 @@ const routes = [
                 name: "Cook",
                 component: () => import("../views/Cook.vue"),
                 meta: {
-                    title: `${TITLE} - Cook`
+                    title: `${TITLE} - Cook`,
+                    noLoader: true // possibly temp
                 }
             },
             {
                 path: "cook/new-meal",
                 name: "New Meal",
                 component: () => import("../views/CreateNewMeal.vue"),
-                meta: { title: `${TITLE} - Create new meal` }
+                meta: {
+                    title: `${TITLE} - Create new meal`,
+                    noLoader: true // possibly temp
+                }
             },
             {
                 path: "offers/:id",
                 name: "Offer Info",
                 component: () => import("../views/OfferInfo.vue"),
-                meta: { title: `${TITLE} - Offer info` }
+                meta: {
+                    title: `${TITLE} - Offer info`,
+                    skipHidingLoader: true
+                }
             },
             {
                 path: "notifications",
                 name: "Notifications",
                 component: () => import("../views/Notifications.vue"),
-                meta: { title: `${TITLE} - Notifications` }
+                meta: {
+                    title: `${TITLE} - Notifications`,
+                    noLoader: true // possibly temp
+                }
             },
             {
                 path: "help",
                 name: "Help",
                 component: () => import("../views/Help.vue"),
                 meta: {
-                    title: `${TITLE} - Help`
+                    title: `${TITLE} - Help`,
+                    noLoader: true // possibly temp
                 }
             },
             {
@@ -135,6 +164,37 @@ const routes = [
 
 const router = new VueRouter({
     routes
+});
+
+function hideLoader () {
+    if (Vue.prototype.$loader && Vue.prototype.$loader.hide) {
+        Vue.prototype.$loader.hide();
+        Vue.prototype.$loader = null;
+    }
+}
+
+function showLoader() {
+    hideLoader();
+    Vue.prototype.$loader = Vue.$loading.show()
+}
+router.beforeResolve((to, from, next) => {
+    if (to.name && (!to.meta || !to.meta.noLoader)) {
+        showLoader();
+    }
+    next()
+});
+
+router.afterEach((to, from) => {
+    let _timeout = 0;
+    if (to.meta && !!to.meta.hideLoaderWithDelay) {
+        _timeout = 1000;
+    }
+    if (!to.meta.skipHidingLoader) {
+        setTimeout(() => {
+            hideLoader();
+        }, _timeout);
+    }
+    window.scrollTo(0, 0);
 });
 
 router.beforeEach((to, from, next) => {

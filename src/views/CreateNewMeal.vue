@@ -10,6 +10,7 @@
                 shape="tab"
                 ref="newMealWizard"
                 class="wizard-new-meal"
+                v-bind:class="{ 'is-last-step': currentStep === totalSteps - 1 }"
                 color="#009C90">
             <tab-content title="" :before-change="()=>validateStep('step1')">
                 <NewMealStep1 ref="step1" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
@@ -31,7 +32,10 @@
                                     <span class="edit-btn-text">Edit</span>
                                 </b-btn>
                             </div>
-                            <div class="meal-preview-field-item-image-holder"></div>
+                            <div class="meal-preview-field-item-image-holder">
+                                <!-- TODO: use real image when it's ready -->
+                                <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="">
+                            </div>
                         </div>
                         <div class="meal-preview-field-item">
                             <div class="meal-preview-field-item-header d-flex">
@@ -84,11 +88,11 @@
                                     <span class="edit-btn-text">Edit</span>
                                 </b-btn>
                             </div>
-                            <div class="meal-preview-field-item-bg-block">
+                            <div class="meal-preview-field-item-bg-block" v-if="mealInfo.dietaryNotes && mealInfo.dietaryNotes.length">
                                 <ul v-if="mealInfo.dietaryNotesText && mealInfo.dietaryNotesText.length">
                                     <li v-for="note in mealInfo.dietaryNotesText">{{note}}</li>
                                 </ul>
-                                <ul v-else="mealInfo.dietaryNotes && mealInfo.dietaryNotes.length">
+                                <ul v-else>
                                     <li v-for="item in mealInfo.dietaryNotes">{{item.label}}</li>
                                 </ul>
                             </div>
@@ -119,16 +123,24 @@
             </template>
         </form-wizard>
         <div v-if="isWizardCompleted" class="meal-posted-container">
-            <!-- TODO: temp -->
-            <p>Meal posted, woohoo!</p>
-            <b-button class="main-btn btn-green" @click="redirectToMeal">
-                <i class="fa fa-eye"></i>
-                <span class="pl-2">View Your Meal</span>
-            </b-button>
-            <router-link to="cook/new-meal" tag="button" class="main-btn btn-green mt-3">
-                <i class="fa fa-plus"></i>
-                <span class="pl-2">Create Another Meal</span>
-            </router-link>
+            <div class="meal-posted-header">
+                <p class="title-size1">Meal posted, woohoo!</p>
+            </div>
+
+            <div class="meal-posted-buttons-wrapper">
+                <b-button class="main-btn btn-green-bright hover-slide-left transparent mb-3" @click="redirectToMeal">
+                    <span>
+                        <i class="fa fa-eye"></i>
+                        View Your Meal
+                    </span>
+                </b-button>
+                <router-link to="cook/new-meal" tag="button" class=" main-btn btn-green-bright hover-slide-left">
+                    <span>
+                        <i class="fa fa-plus"></i>
+                        Create Another Meal
+                    </span>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -290,9 +302,6 @@ export default {
 
 <style scoped lang="scss">
 @import "../scss/utils/vars";
-.new-meal-page {
-
-}
 .meal-preview-container {
     .meal-preview-fields-group {
         justify-content: space-between;
@@ -370,7 +379,11 @@ export default {
                 // temp
                 width: 204px;
                 height: 180px;
-                background-color: $greenColor;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
             }
 
             ul, li {
@@ -378,6 +391,34 @@ export default {
             }
             ul {
                 padding-left: 16px;
+            }
+        }
+    }
+}
+.meal-posted-container {
+    width: 100%;
+    position: relative;
+
+    .meal-posted-header {
+        background-color: $orangeColor;
+        height: 256px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .meal-posted-buttons-wrapper {
+        margin-top: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .main-btn {
+            max-width: 400px;
+            @media screen and (max-width: $phoneBigWidth) {
+                max-width: 100%;
             }
         }
     }
