@@ -219,17 +219,6 @@ export default {
                 })
                 .catch((err) => {});
         },
-        logout () {
-            this.$bvModal.msgBoxConfirm('Are you sure you want to logout?')
-                .then(value => {
-                    if (value) {
-                        localStorage.removeItem('plAccessToken');
-                        this.$store.commit('reset');
-                        this.$router.push({path: '/login'});
-                    }
-                })
-                .catch(err => {})
-        },
         toggleMobileMenu () {
             $('body').toggleClass('mobile-menu-box-active');
             $('#mobile-menu-box-toggle span').toggleClass('hamburger-checked hamburger');
