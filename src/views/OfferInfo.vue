@@ -1,13 +1,13 @@
 <template>
-    <div v-if="isLoaded && offerInfo && offerInfo.uuid">
+    <div v-if="isLoaded && offerInfo && offerInfo.id">
         <div class="dashboard-hero hero-img-overlay"
              style="background-image: url('../assets/images/data/images/dashboard/reserved/meal.jpg');">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 text-center">
                         <div class="title-size1 titleLightColor mb-2">{{offerInfo.meal.name}}</div>
-                        <!-- TODO: redirect to user's profile -->
-                        <router-link to="/" class="cook-box">
+                        <!-- TODO: use router-link to redirect to user's profile later -->
+                        <div class="cook-box">
                             <div class="cook-info justify-content-center">
                                 <div class="cook-info-img mr-3">
                                     <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
@@ -31,7 +31,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,18 +42,31 @@
                 <div class="row">
                     <div class="col-lg-4 order-lg-2">
                         <div class="reserved-btn">
-                            <b-btn class="main-btn w-100 btn-green hover-slide-left transparent mb-2" @click="showReserveMealModal">
+                            <b-btn
+                                    class="main-btn w-100 btn-green hover-slide-left transparent mb-2"
+                                    v-if="offerInfo.availableQuantity > 0 && !wasReserved"
+                                    @click="showReserveMealModal"
+                            >
                                 <span>Reserve Meal</span>
                             </b-btn>
-                            <b-btn class="main-btn w-100 btn-green hover-slide-left transparent" @click="showContactCookModal">
+                            <div class="meal-reserved-info w-100 mb-2" v-if="wasReserved">Meal Reserved!</div>
+                            <b-btn class="main-btn w-100 btn-green smaller-btn hover-slide-left transparent mb-2" @click="showContactCookModal">
                                 <span>Contact cook</span>
+                            </b-btn>
+                            <b-btn
+                                    class="main-btn w-100 btn-red-dark smaller-btn hover-slide-left transparent"
+                                    v-if="wasReserved"
+                                    @click="cancelReservation"
+                            >
+                                <span>Cancel reservation</span>
                             </b-btn>
                         </div>
 
                         <div class="cook-box">
                             <div class="cook-info-additional">
-                                <!-- TODO: how to get number "2" in this case??? -->
-                                <div class="serving-number mt-1"><span>2</span> of {{offerInfo.quantity}} servings available</div>
+                                <div class="serving-number mt-1">
+                                    <span>{{offerInfo.availableQuantity}}</span> of {{offerInfo.quantity}} servings available
+                                </div>
                                 <div class="cook-time mt-2">
                                     <SvgIcon icon="clock"></SvgIcon>
                                     <span class="ml-2">{{readyTimeStr}}</span>
@@ -70,7 +83,7 @@
                         <template v-if="offerInfo.meal.description && offerInfo.meal.description.length">{{offerInfo.meal.description}}</template>
 
                         <template v-if="offerInfo.meal.dietaryNotes && offerInfo.meal.dietaryNotes.length">
-                            <div class="title-size3 titleGreenNavyColor">Dietary Notes</div>
+                            <div class="title-size3 titleGreenNavyColor mt-4">Dietary Notes</div>
                             <ul class="dietary-notes">
                                 <li v-for="note in offerInfo.meal.dietaryNotes">{{note.text}}</li>
                             </ul>
@@ -79,14 +92,14 @@
                 </div>
 
                 <!-- TODO: questions section -->
-                <div class="row">
+                <div class="row mt-4">
                     <div class="col-md-12">
                         <div class="title-size3 titleGreenNavyColor">2 Questions</div>
                     </div>
                 </div>
 
                 <!-- TODO: load more offers from the same user -->
-                <div class="row">
+                <div class="row mt-4">
                     <div class="col-12">
                         <div class="reserved">
                             <div class="title-size3 titleGreenNavyColor mb-3">More from {{userName}}</div>
@@ -377,8 +390,8 @@
         </div>
 
         <!-- Modals -->
-        <ReserveMealModal :offer-info="{ ...this.offerInfo }"></ReserveMealModal>
-        <ContactCookModal></ContactCookModal>
+        <ReserveMealModal :offer-info="{ ...this.offerInfo }" @onReserved="onReserved"></ReserveMealModal>
+        <ContactCookModal :cook-id="this.offerInfo.user.id" :offer-id="this.offerInfo.id"></ContactCookModal>
     </div>
 </template>
 
@@ -392,27 +405,30 @@ export default {
     name: "OfferInfo",
     components: {SvgIcon, ReserveMealModal, ContactCookModal},
     data: () => ({
-        offerUuid: '',
+        offerId: '',
         offerInfo: {},
         isLoaded: false,
-        errLoadingOffer: false
+        errLoadingOffer: false,
+        wasReserved: false,
+        reservationId: '',
+        numberOfServingsReserved: 0
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
             vm.isLoaded = false;
             vm.offerInfo = {};
-            const { uuid = '' } = vm.$route.params;
-            vm.offerUuid = uuid;
+            const { id = '' } = vm.$route.params;
+            vm.offerId = id;
             vm.getOfferInfo();
         });
     },
     methods: {
         getOfferInfo () {
-            if (!this.offerUuid) {
+            if (!this.offerId) {
                 this.errLoadingOffer = true;
                 return;
             }
-            api.dashboard.offers.getOfferByUuid(this.offerUuid)
+            api.dashboard.offers.getOfferById(this.offerId)
                 .then(offer => {
                     if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
                         offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
@@ -431,6 +447,32 @@ export default {
         },
         showContactCookModal () {
             this.$bvModal.show('contact-cook-modal');
+        },
+        onReserved (id, numOfServings) {
+            this.wasReserved = true;
+            this.reservationId = id;
+            this.numberOfServingsReserved = numOfServings;
+            if (this.offerInfo.availableQuantity) {
+                this.offerInfo.availableQuantity -= this.numberOfServingsReserved;
+            }
+        },
+        cancelReservation () {
+            this.$bvModal.msgBoxConfirm('Are you sure you want to cancel reservation?')
+                .then(value => {
+                    if (value) {
+                        api.dashboard.bookings.deleteDine(this.reservationId)
+                            .then(() => {
+                                this.offerInfo.availableQuantity += this.numberOfServingsReserved;
+                                this.wasReserved = false;
+                                this.reservationId = '';
+                                this.numberOfServingsReserved = 0;
+                            })
+                            .catch(err => {
+                                console.log('\n >> err > ', err);
+                            })
+                    }
+                })
+                .catch(err => {})
         }
     },
     computed: {
@@ -445,5 +487,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+@import "../scss/utils/vars";
+.meal-reserved-info {
+    height: 64px;
+    background-color: $yellowColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $textBlackColor;
+    font-family: $LacaProSemiBold;
+    font-size: 22px;
+    letter-spacing: 1.15px;
+    line-height: 26px;
+    text-transform: uppercase;
+}
 </style>

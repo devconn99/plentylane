@@ -1,7 +1,7 @@
 <template>
     <router-link
-            :to="{ path: '/dashboard/offers/' + offerInfo.uuid }"
-            v-if="offerInfo && offerInfo.uuid"
+            :to="{ path: '/dashboard/offers/' + offerInfo.id }"
+            v-if="offerInfo && offerInfo.id"
             class="offer-link"
     >
         <div class="recept-box">
@@ -11,8 +11,8 @@
                 <div class="recept-box-title">
                     <div class="title-size3 titleLightColor">{{offerInfo.meal.name}}</div>
                     <div class="serving-number mt-1 titleLightColor">
-                        <span class="titleLightColor">{{offerInfo.quantity}}</span>
-                        {{offerInfo.quantity !== 1 ? 'servings' : 'serving'}}
+                        <span class="titleLightColor">{{offerInfo.availableQuantity}}</span>
+                        {{offerInfo.availableQuantity !== 1 ? 'servings' : 'serving'}}
                     </div>
                 </div>
             </div>

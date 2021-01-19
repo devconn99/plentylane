@@ -146,7 +146,6 @@ export default {
         currentStep: 0,
         totalSteps: 4,
         newMealId: '',
-        newMealUuid: '',
         mealInfo: {},
         postMeal: {},
         newOffer: {
@@ -156,7 +155,7 @@ export default {
             mealId: ''
         },
         isWizardCompleted: false,
-        newOfferUuid: ''
+        newOfferId: ''
     }),
     computed: {
         formattedPickupTime: function () {
@@ -264,11 +263,10 @@ export default {
             return api.dashboard.meals.addMeal(this.postMeal)
                 .then(result => {
                     this.newMealId = result.id;
-                    this.newMealUuid = result.uuid;
                     this.newOffer.mealId = result.id;
                     return api.dashboard.offers.addOffer(this.newOffer)
                         .then(offer => {
-                            this.newOfferUuid = offer.uuid;
+                            this.newOfferId = offer.id;
                             return true;
                         })
                         .catch(err => {
@@ -284,7 +282,7 @@ export default {
                 });
         },
         redirectToMeal () {
-            this.$router.push({ path: `/dashboard/offers/${this.newOfferUuid}` });
+            this.$router.push({ path: `/dashboard/offers/${this.newOfferId}` });
         }
     }
 }

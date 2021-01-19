@@ -140,25 +140,26 @@ export default {
             }
             const dataToPost = {
                 servings: Number(this.$v.form.$model.servings),
-                offerId: this.offerInfo.uuid, // TODO: should be id instead
+                offerId: this.offerInfo.id,
                 notes: this.$v.form.$model.notes && this.$v.form.$model.notes.length ? this.$v.form.$model.notes.trim() : ' '
             };
-            api.dashboard.orders.postDine(dataToPost)
+            api.dashboard.bookings.postDine(dataToPost)
                 .then(result => {
-                    console.log('\n >> result > ', result);
                     this.isReserved = true;
+                    this.$emit('onReserved', result.id, dataToPost.servings);
                 })
                 .catch(err => {
                     console.log('\n >> err > ', err);
                 })
         },
         contactTheCook () {
-            this.closeModal();
-            // TODO: open another modal to contact the cook
+            this.$bvModal.show('contact-cook-modal');
         },
         browseMoreMeals () {
             this.closeModal();
             // TODO: redirect to the homepage or search page
+            // temp
+            this.$router.push({ path: '/dashboard' });
         }
     },
     computed: {

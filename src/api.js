@@ -210,11 +210,14 @@ export default {
                     })
             },
             getAvailableOffers () {
-                // TODO: use filter by field "availableServings" instead of "quantity" later
                 const endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=quantity||$gt||1`;
                 return axios.get(endpoint)
                     .then((res) => {
-                        return Promise.resolve(res.data || {});
+                        const _data = res.data || {};
+                        if (_data && _data.data && _data.data.length) {
+                            _data.data = _data.data.filter(item => item.availableQuantity > 1);
+                        }
+                        return Promise.resolve(_data);
                     })
                     .catch((err) => {
                         return checkErr(err.response);
@@ -230,18 +233,8 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getOfferByUuid (uuid) {
-                const endpoint = `${config.API_ORIGIN}/api/offers/${uuid}?join=meal&join=place&join=user`;
-                return axios.get(endpoint)
-                    .then((res) => {
-                        return Promise.resolve(res.data || {});
-                    })
-                    .catch((err) => {
-                        return checkErr(err.response);
-                    })
-            },
             getOfferById (id) {
-                const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}`;
+                const endpoint = `${config.API_ORIGIN}/api/offers/${id}?join=meal&join=place&join=user`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -261,9 +254,9 @@ export default {
                     });
             }
         },
-        orders: {
+        bookings: {
             postDine (data) {
-                const endpoint = `${config.API_ORIGIN}/api/me/orders/dine`;
+                const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine`;
                 return axios.post(endpoint, data)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -271,6 +264,16 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response);
                     });
+            },
+            deleteDine (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine/${id}`;
+                return axios.delete(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {})
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response)
+                    })
             }
         }
     }

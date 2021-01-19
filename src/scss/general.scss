@@ -449,6 +449,14 @@ input[type="submit"][disabled]:hover
 			}
 		}
 	}
+
+	&.smaller-btn {
+		span {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			font-size: 18px;
+		}
+	}
 	@media screen and (min-width: $tableWidth) {
 		&::before {
 			background-color: $greenLightColor;
@@ -583,6 +591,106 @@ input[type="submit"][disabled]:hover
 	@media screen and (min-width: $tableWidth) {
 		&::before {
 			background-color: $yellowColor;
+			transition: 0.3s ease-out;
+		}
+	}
+}
+.btn-red-dark {
+	display: inline-block;
+	background-color: $redDarkColor;
+	border: none;
+	position: relative;
+	overflow: hidden;
+	outline: none;
+	min-width: 50%;
+	@media screen and (max-width: $phoneBigWidth) {
+		width: 100%;
+		display: block;
+	}
+	span {
+		position: relative;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		letter-spacing: 1.15px;
+		font-size: 22px;
+		line-height: 26px;
+		color: $mainBackgroundColor;
+		padding: 20px;
+		font-family: $LacaProSemiBold;
+		text-transform: uppercase;
+		top: 0;
+		left: 0;
+		width: 100%;
+		transition: 0.3s;
+		.svg-icon-wrapper {
+			display: flex;
+		}
+		svg {
+			margin-right: 12px;
+		}
+		@media screen and (max-width: $phoneBigWidth) {
+			font-size: 16px;
+			line-height: 20px;
+			padding: 15px;
+		}
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				transition: 0.2s 0.1s;
+			}
+		}
+		&:hover, &:focus, &:active {
+			@media screen and (max-width: $tableWidth) {
+				background-color: $redDarkColor;
+				letter-spacing: 1.15px;
+				font-size: 22px;
+				line-height: 26px;
+				padding: 20px;
+				color: $mainBackgroundColor;
+				font-family: $LacaProSemiBold;
+			}
+			@media screen and (max-width: $phoneBigWidth) {
+				font-size: 16px;
+				line-height: 20px;
+				padding: 15px;
+			}
+		}
+	}
+	&.transparent {
+		span {
+			color: $redDarkColor;
+			border: 2px solid $redDarkColor;
+			padding-right: 0;
+			padding-left: 0;
+			@media screen and (min-width: $tableWidth) {
+				&:hover {
+					color: $mainBackgroundColor;
+					transition: 0.2s 0.1s;
+					border: 2px solid $redDarkColor;
+				}
+			}
+			@media screen and (max-width: $tableWidth) {
+				&:hover, &:focus, &:active {
+					background-color: $redDarkColor;
+					border: 2px solid $redDarkColor;
+					color: $mainBackgroundColor;
+					font-family: $LacaProSemiBold;
+				}
+			}
+		}
+	}
+
+	&.smaller-btn {
+		span {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			font-size: 18px;
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $redDarkColor;
 			transition: 0.3s ease-out;
 		}
 	}

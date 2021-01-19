@@ -73,7 +73,7 @@ import config from '../../config';
 export default {
     name: "ContactCookModal",
     mixins: [validationMixin],
-    // TODO: add props
+    props: ['cookId', 'offerId'],
     data: () => ({
         isContacted: false,
         messageMaxLength: config.TEXT_AREA_MAX_LENGTH,

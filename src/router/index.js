@@ -106,7 +106,7 @@ const routes = [
                 meta: { title: `${TITLE} - Create new meal` }
             },
             {
-                path: "offers/:uuid",
+                path: "offers/:id",
                 name: "Offer Info",
                 component: () => import("../views/OfferInfo.vue"),
                 meta: { title: `${TITLE} - Offer info` }
