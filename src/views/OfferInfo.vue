@@ -465,7 +465,10 @@ export default {
             }
         },
         cancelReservation () {
-            this.$bvModal.msgBoxConfirm('Are you sure you want to cancel reservation?')
+            this.$bvModal.msgBoxConfirm('Are you sure you want to cancel reservation?', {
+                okTitle: 'Yes',
+                cancelTitle: 'No'
+            })
                 .then(value => {
                     if (value) {
                         api.dashboard.bookings.deleteDine(this.reservationId)
