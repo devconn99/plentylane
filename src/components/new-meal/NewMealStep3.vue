@@ -21,6 +21,11 @@
                                 placeholder=""
                                 name="pickupTime"
                                 locale="en"
+                                hide-header
+                                no-close-button
+                                dropleft
+                                menu-class="offer-pickup-time"
+                                offset="100"
                         ></b-form-timepicker>
                     </b-form-group>
                     <b-form-group>
@@ -32,6 +37,9 @@
                                 name="pickupDate"
                                 :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
                                 locale="en"
+                                hide-header
+                                dropleft
+                                menu-class="offer-pickup-date"
                         ></b-form-datepicker>
                     </b-form-group>
                 </div>
@@ -186,6 +194,12 @@ export default {
             }
             &:last-of-type {
                 margin-left: 10px;
+            }
+        }
+        .b-form-btn-label-control.form-control {
+            &.focus {
+                border-color: $greenColor;
+                box-shadow: none;
             }
         }
     }

@@ -1364,3 +1364,51 @@ body.mobile-menu-box-active .header {
 .pac-container {
 	z-index: 10000 !important;
 }
+
+/********************
+*   BOOTSTRAP-VUE TIME/DATE PICKER  *
+*********************/
+.dropdown-menu {
+	&.offer-pickup-time {
+		.form-control {
+			&.focus {
+				border-color: rgba(0, 156, 144, 0.25);
+				box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
+			}
+		}
+	}
+	&.offer-pickup-date {
+		.form-control {
+			&:focus {
+				border-color: $greenColor;
+			}
+		}
+		.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active,
+		.show > .btn-primary.dropdown-toggle {
+			background-color: $greenColor;
+			border-color: $greenColor;
+		}
+		.btn-outline-primary {
+			color: $greenColor;
+
+			&.focus, &:focus {
+				box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
+			}
+
+			&:hover {
+				color: #fff;
+				background-color: $greenColor;
+				border-color: $greenColor;
+			}
+		}
+		.btn-primary.focus, .btn-primary:focus {
+			background-color: $greenColor;
+			border-color: $greenColor;
+			box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
+		}
+		.btn-primary:hover {
+			background-color: $greenColor;
+			border-color: $greenColor;
+		}
+	}
+}
