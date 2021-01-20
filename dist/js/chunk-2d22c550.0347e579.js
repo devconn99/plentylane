@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d22c550"],{f37d:function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("p",[e._v("Food safety page goes here...")])},o=[],c={name:"FoodSafety"},s=c,d=t("2877"),r=Object(d["a"])(s,a,o,!1,null,"1910da5d",null);n["default"]=r.exports}}]);
-//# sourceMappingURL=chunk-2d22c550.0347e579.js.map
