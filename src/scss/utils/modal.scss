@@ -16,7 +16,8 @@
 	&.notifications-modal,
 	&.invite-friends-modal,
 	&.reserve-meal-modal,
-	&.contact-cook-modal {
+	&.contact-cook-modal,
+	&.location-modal {
 		.modal-header {
 			border-bottom: none;
 
@@ -40,7 +41,8 @@
 		}
 	}
 	&.reserve-meal-modal,
-	&.contact-cook-modal {
+	&.contact-cook-modal,
+	&.location-modal {
 		.modal-body {
 			.form-group {
 				legend {
@@ -54,6 +56,29 @@
 		.modal-body {
 			@media screen and (max-width: $tableWidth) {
 				padding: 0 15px 15px;
+			}
+		}
+	}
+	&.location-modal {
+		.modal-footer {
+			padding-top: 0;
+			border-top: none;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+
+			.btn {
+				min-width: 200px;
+
+				&:first-of-type {
+					margin-right: 10px;
+				}
+
+				&:last-of-type {
+					border: 1px solid $greenColor;
+					margin-left: 10px;
+				}
 			}
 		}
 	}

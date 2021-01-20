@@ -45,6 +45,11 @@ export default {
         justify-content: center;
         align-items: center;
 
+        @media screen and (max-width: $phoneBigWidth) {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
         .main-btn {
             max-width: 400px;
             @media screen and (max-width: $phoneBigWidth) {

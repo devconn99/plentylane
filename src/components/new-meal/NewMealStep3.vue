@@ -61,7 +61,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-import ModalNewLocation from '../ModalNewLocation';
+import ModalNewLocation from '../modals/ModalNewLocation';
 import api from "../../api";
 export default {
     name: "NewMealStep3",
