@@ -4,32 +4,25 @@
 
     <main>
       <section class="hero hero-main green-bg">
-        <!--
-        <div class="hero-shape">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="hero-shape-fill"
-                    d="M500,97C126.7,96.3,0.8,19.8,0,0v100l1000,0V1C1000,19.4,873.3,97.8,500,97z"></path>
-            </svg>
-        </div>
-        -->
         <div class="container">
           <div class="row align-items-center">
-            <div class="col-md-5 col-sm-7 mr-auto mb-5 mb-sm-0 text-center text-sm-left order-sm-2">
+            <div class="col-md-6 col-sm-7 mr-auto mb-5 mb-sm-0 text-center text-sm-left order-sm-2">
               <h1 class="title-size1 titleLightColor mb-4">Tired of cooking dinner?</h1>
               <div class="description titleLightColor mb-4">
                 Plenty Lane is launching a meal swapping network to lighten your load. It’s simple!
               </div>
-              <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
+              <router-link to="/sign-up" class="btnLightRed btnNormalSize btn50 hover-slide-left">
                 <span>Sign Up Today!</span>
               </router-link>
             </div>
-            <div class="col-md-5 col-sm-5 ml-auto order-sm-1">
+            <div class="col-lg-4 col-md-5 col-sm-5 ml-auto order-sm-1">
               <div class="hero-img">
                 <img src="../assets/images/landing/hero2.png" alt="" class="img-fluid">
               </div>
             </div>
           </div>
         </div>
+        <HeroWave></HeroWave>
       </section>
 
       <section class="welcome pad-70">
@@ -120,9 +113,10 @@
 import Footer from "../components/homepage/Footer";
 import Header from '../components/homepage/Header';
 import BackToTop from '../components/BackToTop';
+import HeroWave from '../components/HeroWave';
 export default {
     name: 'Home',
-    components: {Footer, Header, BackToTop},
+    components: {Footer, Header, BackToTop, HeroWave},
     mounted () {
         window.scrollTo(0, 0); // temp
     }

@@ -80,12 +80,14 @@
                                 autocomplete="off"
                         ></textarea>
                     </b-form-group>
-                    <b-button
-                            type="submit"
-                            :disabled="$v.$invalid || submitted"
-                            class="main-btn btn-green btn-sign-up hover-slide-left float-right">
-                        <span>Save Changes</span>
-                    </b-button>
+                    <div class="box-btn">
+                        <b-button
+                                type="submit"
+                                :disabled="$v.$invalid || submitted"
+                                class="btnGreen btnBigSize btn100 text-uppercase hover-slide-left">
+                            <span>Save Changes</span>
+                        </b-button>
+                    </div>
                 </b-form>
             </b-tab>
             <template #tabs-start>

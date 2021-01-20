@@ -5,12 +5,15 @@
             <div class="row pad-70b">
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <div class="order padr-25">
-                        <div class="title-size3 titleGreenNavyColor mb-3">I want to:</div>
-                        <div class="order-btn">
+                        <div class="dashboard-title-box mb-3">
+                            <div class="title-size3 titleGreenNavyColor">I want to:</div>
+                        </div>
+
+                        <div class="box-btn">
                             <router-link
                                     :to="{ path: '/dashboard/eat' }"
                                     tag="button"
-                                    class="w-100 main-btn btn-green-bright big-size hover-slide-left mb-3"
+                                    class="btnLightGreen btnHugeSize btn100 hover-slide-left mb-3"
                             >
                                 <span>
                                     <SvgIcon icon="eat" :params="{ fill: '#FEF8E6' }"></SvgIcon>
@@ -20,7 +23,7 @@
                             <router-link
                                     :to="{ path: '/dashboard/cook' }"
                                     tag="button"
-                                    class="w-100 main-btn btn-green big-size hover-slide-left"
+                                    class="btnGreen btnHugeSize btn100 hover-slide-left"
                             >
                                 <span>
                                     <SvgIcon icon="cook" :params="{ fill: '#FEF8E6' }"></SvgIcon>
@@ -31,7 +34,10 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="padl-25">
+                    <div class="notification padl-25">
+                        <div class="dashboard-title-box mb-3">
+                            <div class="title-size3 titleGreenNavyColor mb-3">Notifications</div>
+                        </div>
                         <NotificationsContent tempVisibleItems="3"></NotificationsContent>
                     </div>
                 </div>
@@ -39,8 +45,10 @@
             <div class="row pad-70b">
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <div class="reserved padr-25">
-                        <div class="title-additional mb-1">Get ready to feast!</div>
-                        <div class="title-size3 titleGreenNavyColor mb-3">Meals you’ve reserved</div>
+                        <div class="dashboard-title-box mb-3">
+                            <div class="title-additional mb-1">Get ready to feast!</div>
+                            <div class="title-size3 titleGreenNavyColor">Meals you’ve reserved</div>
+                        </div>
 
                         <template v-if="isLoaded && bookings && bookings.length">
                             <BookingInfoBlock
@@ -57,9 +65,13 @@
                                     <img src="../assets/images/dashboard/home/empty-posted.svg" alt=""
                                          class="img-fluid">
                                 </div>
-                                <div class="reserved-btn">
+                                <div class="box-btn w100">
                                     <!-- TODO: use correct path to the page -->
-                                    <router-link :to="{ path: '/dashboard/eat' }" tag="button" class="w-100 main-btn btn-green hover-slide-left transparent">
+                                    <router-link
+                                            :to="{ path: '/dashboard/eat' }"
+                                            tag="button"
+                                            class="btnGreenTransparent btnBigSize btn100 text-uppercase hover-slide-left"
+                                    >
                                         <span>LET’S GET RESERVING!</span>
                                     </router-link>
                                 </div>
@@ -69,8 +81,10 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="reserved padl-25">
-                        <div class="title-additional mb-1">Waiting for hungry neighbors!</div>
-                        <div class="title-size3 titleGreenNavyColor mb-3">Meals you’ve posted</div>
+                        <div class="dashboard-title-box mb-3 ">
+                            <div class="title-additional mb-1">Waiting for hungry neighbors!</div>
+                            <div class="title-size3 titleGreenNavyColor">Meals you’ve posted</div>
+                        </div>
 
                         <template v-if="isLoaded && myOffers && myOffers.length">
                             <MyMealInfo v-for="item in myOffers" :item-data="item"></MyMealInfo>
@@ -83,8 +97,12 @@
                                     <img src="../assets/images/dashboard/home/empty-posted.svg" alt=""
                                          class="img-fluid">
                                 </div>
-                                <div class="reserved-btn">
-                                    <router-link :to="{ path: '/dashboard/cook' }" tag="button" class="w-100 main-btn btn-green hover-slide-left transparent">
+                                <div class="box-btn w100">
+                                    <router-link
+                                            :to="{ path: '/dashboard/cook' }"
+                                            tag="button"
+                                            class="btnGreenTransparent btnBigSize btn100 text-uppercase hover-slide-left"
+                                    >
                                         <span>LET’S GET COOKING!</span>
                                     </router-link>
                                 </div>
@@ -96,13 +114,11 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="reserved">
+                    <div class="dashboard-title-box mb-3">
                         <div class="title-additional mb-1">Hungry?</div>
-                        <div class="title-size3 titleGreenNavyColor mb-3">Reserve a Meal</div>
+                        <div class="title-size3 titleGreenNavyColor">Reserve a Meal</div>
                     </div>
-                </div>
 
-                <div class="col-12">
                     <div class="carousel-reserved owl-carousel" v-if="isLoaded && offers && offers.length">
                         <OfferInfoBlock v-for="item in offers" :offer-info="item"></OfferInfoBlock>
                     </div>

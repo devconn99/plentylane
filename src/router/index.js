@@ -137,15 +137,6 @@ const routes = [
                 }
             },
             {
-                path: "notifications",
-                name: "Notifications",
-                component: () => import("../views/Notifications.vue"),
-                meta: {
-                    title: `${TITLE} - Notifications`,
-                    noLoader: true // possibly temp
-                }
-            },
-            {
                 path: "help",
                 name: "Help",
                 component: () => import("../views/Help.vue"),
@@ -187,7 +178,7 @@ router.beforeResolve((to, from, next) => {
 router.afterEach((to, from) => {
     let _timeout = 0;
     if (to.meta && !!to.meta.hideLoaderWithDelay) {
-        _timeout = 1000;
+        _timeout = 500;
     }
     if (!to.meta.skipHidingLoader) {
         setTimeout(() => {

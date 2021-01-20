@@ -21,7 +21,7 @@
                                     <router-link :to="item.to">{{item.text}}</router-link>
                                 </li>
                                 <li class="register-btn">
-                                    <router-link to="/sign-up" tag="a" class="main-btn btn-red hover-slide-left">
+                                    <router-link to="/sign-up" tag="a" class="btnLightRed btnNormalSize hover-slide-left">
                                         <span>Sign Up</span>
                                     </router-link>
                                 </li>

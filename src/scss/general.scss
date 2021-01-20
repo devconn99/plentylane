@@ -28,6 +28,10 @@ body {
 		overflow: hidden;
 		position: relative;
 	}
+	@media screen and (max-width: $phoneBigWidth) {
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
 }
 .cursor-pointer {
 	cursor: pointer;
@@ -54,7 +58,7 @@ a:hover, a:focus, a:active {
 	color: $greenLightColor;
 	text-decoration: none;
 }
-a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus, button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus, .main-btn.active.focus, .main-btn.active:focus, .main-btn.focus, .main-btn:active.focus, .main-btn:active:focus, .main-btn:focus {
+a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus, button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus {
     outline: none!important;
     outline-color: transparent!important;
     outline-width: 0!important;
@@ -91,7 +95,6 @@ input[type=number]:focus, input[type=password]:focus, input[type=email]:focus, i
 }
 input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, input[type=url]:focus,
 input[type=search]:focus, input[type=number]:focus, select:focus {
-	border: 1px solid $greenColor!important;
 	-webkit-transition: .3s all ease!important;
 		-o-transition: .3s all ease!important;
 		transition: .3s all ease!important;
@@ -119,23 +122,17 @@ input[type=search]:focus, input[type=number]:focus, select:focus {
 	}
 }
 textarea {
-	resize: none;
-	line-height: 21px;
 	&::-webkit-scrollbar {
-		width: 5px;
-		border-radius: 10px;
+		width: 8px;
 	}
 	&::-webkit-scrollbar-track {
 		background: #f1f1f1;
-		border-radius: 10px;
 	}
 	&::-webkit-scrollbar-thumb {
-		background: $greenColor;
-		border-radius: 10px;
+		background: rgba(24,24,22,0.11);
 	}
 	&::-webkit-scrollbar-thumb:hover {
-		background: $greenColor;
-		border-radius: 10px;
+		background: rgba(24,24,22,0.4);
 	}
 }
 ul, li {
@@ -158,7 +155,11 @@ p {
 	line-height: 24px;
 	font-size: 16px;
 	&:last-child {
-		margin-bottom: 0px;
+		margin-bottom: 0;
+	}
+	@media screen and (max-width: $phoneBigWidth) {
+		font-size: 14px;
+		margin-bottom: 20px;
 	}
 }
 .img {
@@ -211,10 +212,16 @@ input[type="submit"][disabled]:hover
 	}
 }
 .owl-stage-outer {
-	//overflow-y: visible!important;
 	padding-bottom: 20px;
 	a.item {
 		display: block;
+	}
+}
+// .hero-wave styles moved to HeroWave component
+.text-underline {
+	text-decoration: underline;
+	&:hover {
+		text-decoration: none;
 	}
 }
 /********************
@@ -299,25 +306,178 @@ input[type="submit"][disabled]:hover
 *   BUTTONS STYLE   *
 ********************/
 
-.main-btn {
-	text-decoration: none;
+.btnGreen {
+	background-color: $greenColor;
+	span {
+		color: $mainBackgroundColor;
+		border: 2px solid $greenColor;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				border: 2px solid $greenLightColor;
+			}
+		}
+		&:hover, &:focus, &:active {
+			@media screen and (max-width: $tableWidth) {
+				background-color: $greenLightColor;
+				color: $mainBackgroundColor;
+				border: 2px solid $greenLightColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $greenLightColor;
+			transition: 0.3s ease-out;
+		}
+	}
+}
+.btnLightGreen {
+	background-color: $greenBrightColor;
+	span {
+		color: $mainBackgroundColor;
+		border: 2px solid $greenBrightColor;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				transition: 0.2s 0.1s;
+				border: 2px solid $greenLightColor;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $greenLightColor;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $greenLightColor;
+			transition: 0.3s ease-out;
+		}
+	}
+}
+.btnGreenTransparent {
+	background: transparent;
+	span {
+		color: $greenColor;
+		border: 2px solid $greenColor;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				transition: 0.2s 0.1s;
+				background-color: $greenLightColor;
+				border: 2px solid $greenLightColor;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $greenLightColor;
+				border: 2px solid $greenLightColor;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $greenLightColor;
+			transition: 0.3s ease-out;
+		}
+	}
+}
+.btnLightRed {
+	background-color: $redColor;
+	span {
+		color: $mainBackgroundColor;
+		border: 2px solid $redColor;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				border: 2px solid $yellowColor;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $yellowColor;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $yellowColor;
+			transition: 0.3s ease-out;
+		}
+	}
+}
+.btnNavyRedTransparent {
+	background: transparent;
+	span {
+		color: $redNavyColor;
+		border: 2px solid $redNavyColor;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				transition: 0.2s 0.1s;
+				background-color: $redNavyColor;
+				border: 2px solid $redNavyColor;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $redNavyColor;
+				border: 2px solid $redNavyColor;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $redNavyColor;
+			transition: 0.3s ease-out;
+		}
+	}
+}
+.btnGreen, .btnLightGreen, .btnGreenTransparent, .btnLightRed, .btnNavyRedTransparent {
+	text-decoration: none!important;
 	display: inline-block;
-	font-size: $mainFontSize;
-	line-height: $mainLineHeight;
-    -webkit-transition: .3s all ease;
-    -o-transition: .3s all ease;
+	-webkit-transition: .3s all ease;
+	-o-transition: .3s all ease;
 	transition: .3s all ease;
 	border-radius: 0;
 	border: none;
 	position: relative;
-	min-width: 50px;
 	padding: 0;
 	-webkit-backface-visibility: hidden;
 	-moz-osx-font-smoothing: grayscale;
-	&:hover, &:focus, &:active {
-		font-size: $mainFontSize;
-		line-height: $mainLineHeight;
-		border: none;
+	overflow: hidden;
+	outline: none;
+	&:hover, &:after, &:focus {
+		outline: none;
+	}
+	span {
+		position: relative;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		top: 0;
+		left: 0;
+		width: 100%;
+		transition: 0.3s;
+		text-decoration: none!important;
+		.svg-icon-wrapper {
+			display: flex;
+		}
+		svg {
+			margin-right: 12px;
+		}
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				transition: 0.2s 0.1s;
+				text-decoration: none;
+			}
+		}
 	}
 	&::before, &::after {
 		position: absolute;
@@ -333,366 +493,98 @@ input[type="submit"][disabled]:hover
 	&.hover-slide-left:hover::before {
 		width: 100%;
 	}
-	&.big-size span {
-		text-transform: none;
+	&.btnHugeSize span {
 		font-size: 36px;
 		line-height: 42px;
 		letter-spacing: 1.2px;
-		@media screen and (max-width: $phoneBigWidth) {
+		padding: 24px;
+		font-family: $LacaProSemiBold;
+		@media screen and (max-width: $tableMinWidth) {
 			font-size: 24px;
 			line-height: 28px;
 			letter-spacing: 0.8px;
+			padding: 20px;
 		}
 		&:hover, &:focus, &:active {
-			@media screen and (max-width: $tableWidth) {
-				font-size: 36px;
-				line-height: 42px;
-				letter-spacing: 1.2px;
-			}
-			@media screen and (max-width: $phoneBigWidth) {
+			@media screen and (max-width: $tableMinWidth) {
 				font-size: 24px;
 				line-height: 28px;
 				letter-spacing: 0.8px;
 			}
 		}
 	}
-	&.transparent {
-		background: transparent;
-		span {
-			color: $greenColor;
-			border: 2px solid $greenColor;
-		}
-	}
-}
-.btn-green {
-	display: inline-block;
-	background-color: $greenColor;
-	border: none;
-	position: relative;
-	overflow: hidden;
-	outline: none;
-	min-width: 50%;
-	@media screen and (max-width: $phoneBigWidth) {
-		width: 100%;
-		display: block;
-	}
-	span {
-		position: relative;
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		letter-spacing: 1.15px;
+	&.btnBigSize span {
 		font-size: 22px;
 		line-height: 26px;
-		color: $mainBackgroundColor;
-		padding: 20px;
+		letter-spacing: 1.15px;
+		padding: 18px 10px 16px;
 		font-family: $LacaProSemiBold;
-		text-transform: uppercase;
-		top: 0;
-		left: 0;
-		width: 100%;
-		transition: 0.3s;
-		.svg-icon-wrapper {
-			display: flex;
-		}
-		svg {
-			margin-right: 12px;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
-			font-size: 16px;
-			line-height: 20px;
-			padding: 15px;
-		}
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-			}
+		@media screen and (max-width: $tableMinWidth) {
+			font-size: 18px;
+			line-height: 22px;
+			letter-spacing: 0.94px;
+			padding: 12px 10px 10px;
 		}
 		&:hover, &:focus, &:active {
-			@media screen and (max-width: $tableWidth) {
-				background-color: $greenLightColor;
-				letter-spacing: 1.15px;
-				font-size: 22px;
-				line-height: 26px;
-				padding: 20px;
-				color: $mainBackgroundColor;
-				font-family: $LacaProSemiBold;
-			}
-			@media screen and (max-width: $phoneBigWidth) {
-				font-size: 16px;
-				line-height: 20px;
-				padding: 15px;
+			@media screen and (max-width: $tableMinWidth) {
+				font-size: 18px;
+				line-height: 22px;
+				letter-spacing: 0.94px;
+				padding: 12px 10px 10px;
 			}
 		}
 	}
-	&.transparent {
-		span {
-			color: $greenColor;
-			border: 2px solid $greenColor;
-			padding-right: 0;
-			padding-left: 0;
-			@media screen and (min-width: $tableWidth) {
-				&:hover {
-					color: $mainBackgroundColor;
-					transition: 0.2s 0.1s;
-					border: 2px solid $greenLightColor;
-				}
-			}
-			@media screen and (max-width: $tableWidth) {
-				&:hover, &:focus, &:active {
-					background-color: $greenLightColor;
-					border: 2px solid $greenLightColor;
-					color: $mainBackgroundColor;
-					font-family: $LacaProSemiBold;
-				}
-			}
-		}
-	}
-
-	&.smaller-btn {
-		span {
-			padding-top: 12px;
-			padding-bottom: 12px;
-			font-size: 18px;
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $greenLightColor;
-			transition: 0.3s ease-out;
-		}
-	}
-}
-.btn-green-bright {
-	display: inline-block;
-	background-color: $greenBrightColor;
-	border: none;
-	position: relative;
-	overflow: hidden;
-	outline: none;
-	min-width: 50%;
-	@media screen and (max-width: $phoneBigWidth) {
-		width: 100%;
-		display: block;
-	}
-	span {
-		position: relative;
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		letter-spacing: 1.15px;
-		font-size: 22px;
-		line-height: 26px;
-		color: $mainBackgroundColor;
-		padding: 20px;
-		font-family: $LacaProSemiBold;
-		text-transform: uppercase;
-		top: 0;
-		left: 0;
-		width: 100%;
-		transition: 0.3s;
-		.svg-icon-wrapper {
-			display: flex;
-		}
-		svg {
-			margin-right: 12px;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
-			font-size: 16px;
-			line-height: 20px;
-			padding: 15px;
-		}
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $greenLightColor;
-				letter-spacing: 1.15px;
-				font-size: 22px;
-				line-height: 26px;
-				padding: 20px;
-				color: $mainBackgroundColor;
-				font-family: $LacaProSemiBold;
-				@media screen and (max-width: $phoneBigWidth) {
-					font-size: 16px;
-					line-height: 20px;
-					padding: 15px;
-				}
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $greenLightColor;
-			transition: 0.3s ease-out;
-		}
-	}
-}
-.btn-red {
-	display: inline-block;
-	background-color: $redColor;
-	border: none;
-	position: relative;
-	overflow: hidden;
-	outline: none;
-	@media screen and (max-width: $phoneBigWidth) {
-		width: 100%;
-		display: block;
-	}
-	span {
-		position: relative;
-		display: inline-block;
-		letter-spacing: 0.6px!important;
-		font-size: 18px!important;
-		line-height: 18px!important;
-		color: $mainBackgroundColor;
-		padding: 15px 20px 10px;
+	&.btnNormalSize span {
+		font-size: 18px;
+		line-height: 18px;
+		letter-spacing: 0.6px;
+		padding: 24px 10px 18px;
 		font-family: $FilsonProBold;
-		top: 0;
-		left: 0;
-		width: 100%;
-		padding: 15px 20px 10px;
-		transition: 0.3s;
-		@media screen and (max-width: $phoneBigWidth) {
-			font-size: 16px!important;
-			line-height: 20px!important;
-			padding: 15px 10px 12px;
-		}
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $yellowColor;
-				padding: 15px 20px 10px;
-				letter-spacing: 0.6px!important;
-				font-size: 18px!important;
-				line-height: 18px!important;
-				color: $mainBackgroundColor!important;
-				font-family: $FilsonProBold;
-				outline: none;
-				@media screen and (max-width: $phoneBigWidth) {
-					width: 100%;
-					font-size: 16px!important;
-					line-height: 20px!important;
-					padding: 15px 10px 12px;
-				}
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $yellowColor;
-			transition: 0.3s ease-out;
-		}
-	}
-}
-.btn-red-dark {
-	display: inline-block;
-	background-color: $redDarkColor;
-	border: none;
-	position: relative;
-	overflow: hidden;
-	outline: none;
-	min-width: 50%;
-	@media screen and (max-width: $phoneBigWidth) {
-		width: 100%;
-		display: block;
-	}
-	span {
-		position: relative;
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		letter-spacing: 1.15px;
-		font-size: 22px;
-		line-height: 26px;
-		color: $mainBackgroundColor;
-		padding: 20px;
-		font-family: $LacaProSemiBold;
-		text-transform: uppercase;
-		top: 0;
-		left: 0;
-		width: 100%;
-		transition: 0.3s;
-		.svg-icon-wrapper {
-			display: flex;
-		}
-		svg {
-			margin-right: 12px;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
+		@media screen and (max-width: $tableMinWidth) {
 			font-size: 16px;
-			line-height: 20px;
-			padding: 15px;
-		}
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-			}
+			line-height: 16px;
+			padding: 16px 10px 12px;
 		}
 		&:hover, &:focus, &:active {
-			@media screen and (max-width: $tableWidth) {
-				background-color: $redDarkColor;
-				letter-spacing: 1.15px;
-				font-size: 22px;
-				line-height: 26px;
-				padding: 20px;
-				color: $mainBackgroundColor;
-				font-family: $LacaProSemiBold;
-			}
-			@media screen and (max-width: $phoneBigWidth) {
+			@media screen and (max-width: $tableMinWidth) {
 				font-size: 16px;
-				line-height: 20px;
-				padding: 15px;
+				line-height: 16px;
+				padding: 16px 10px 12px;
 			}
 		}
 	}
-	&.transparent {
-		span {
-			color: $redDarkColor;
-			border: 2px solid $redDarkColor;
-			padding-right: 0;
-			padding-left: 0;
-			@media screen and (min-width: $tableWidth) {
-				&:hover {
-					color: $mainBackgroundColor;
-					transition: 0.2s 0.1s;
-					border: 2px solid $redDarkColor;
-				}
-			}
-			@media screen and (max-width: $tableWidth) {
-				&:hover, &:focus, &:active {
-					background-color: $redDarkColor;
-					border: 2px solid $redDarkColor;
-					color: $mainBackgroundColor;
-					font-family: $LacaProSemiBold;
-				}
-			}
+	&.btnSmallSize span {
+		font-size: 16px;
+		line-height: 17px;
+		letter-spacing: 0.53px;
+		font-family: $FilsonProBold;
+		padding: 11px 10px 8px;
+		&:hover, &:focus, &:active {
+			font-size: 16px;
+			line-height: 17px;
+			letter-spacing: 0.53px;
 		}
 	}
-
-	&.smaller-btn {
-		span {
-			padding-top: 12px;
-			padding-bottom: 12px;
-			font-size: 18px;
+	&.btn50 {
+		display: block;
+		width: 50%;
+		@media screen and (max-width: $phoneBigWidth) {
+			width: 100%;
 		}
 	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $redDarkColor;
-			transition: 0.3s ease-out;
-		}
+	&.btn100 {
+		display: block;
+		width: 100%;
+	}
+}
+.btnDisabled {
+	cursor: none;
+	pointer-events: none;
+	text-decoration: none;
+	span {
+		color: $textBlackColor;
+		background-color: $yellowColor;
+		border: 2px solid $yellowColor;
 	}
 }
 
@@ -709,121 +601,151 @@ h1, h2, h3, h4, h5, h6 {
 *    FORMS-STYLES  *
 ********************/
 
-.form-group {
-	margin-bottom: 32.5px;
-	position: relative;
-	@media screen and (max-width: $phoneBigWidth) {
-		margin-bottom: 20px;
-	}
-	label {
-		font-size: $mainFontSize;
-		letter-spacing: -0.05px;
-		margin-bottom: 8px;
-		display: block;
-	}
-	a {
-		font-size: $mainFontSize;
-		line-height: $mainLineHeight;
-		text-decoration: underline;
-	}
-}
-.form input[type=text], .form input[type=email], .form input[type=password],
-.form input[type=url], .form input[type=number], .form select {
-  	width: 100%;
-	display: block;
-	height: 65px;
-	padding-left: 27.5px;
-	padding-right: 27.5px;
-	padding-top: 10px;
-	-webkit-appearance: none;
-    -moz-appearance: none;
-	appearance: none;
-	border: 1px solid rgba(161,112,103,0.3);
-	border-radius: 0;
-	color: $textBlackColor;
-	font-size: 18px;
-	letter-spacing: 0.5px;
-	@media screen and (max-width: $phoneBigWidth) {
-		height: 50px;
-		font-size: 16px;
-		padding-left: 20px;
-		padding-right: 20px;
-	}
-}
-.form input[type=search] {
-	font-size: 16px;
-	line-height: 16px;
-	letter-spacing: 0;
-	color: $mainBackgroundColor;
-	background: rgba(216, 216, 216, 0.13);
-	border: 1px solid $greenNavyColor;
-	padding-top: 8px;
-	width: 100%;
-	display: block;
-	height: 34px;
-	border-radius: 16.5px;
-	padding-right: 30px;
-}
-input[type=search]::-webkit-search-cancel-button {
-	-webkit-appearance: none;
-	height: 18px;
-	width: 18px;
-	border-radius: 50em;
-	background: url('./assets/images/elements/dashboard/search_close.svg') no-repeat 50% 50%;
-	background-size: contain;
-	opacity: 0;
-	pointer-events: none;
-	cursor: pointer;
-	margin-right: 3px;
-}
-input[type=search]:focus::-webkit-search-cancel-button {
-	opacity: .3;
-	pointer-events: all;
-}
-.form textarea {
-  	width: 100%;
-	display: block;
-	padding: 27.5px 27.5px;
-	-webkit-appearance: none;
-    -moz-appearance: none;
-	appearance: none;
-	border: 1px solid rgba(161,112,103,0.3);
-	border-radius: 0;
-	font-size: 18px;
-	-webkit-transition: .3s all ease!important;
-		-o-transition: .3s all ease!important;
-		transition: .3s all ease!important;
-	@media screen and (max-width: $phoneBigWidth) {
-		height: 50px;
-		font-size: 16px;
-		padding: 20px;
-	}
-	&:focus, &:active {
-		border: 1px solid $greenColor!important;
-		-webkit-transition: .3s all ease!important;
+.form {
+	.form-group {
+		margin-bottom: 32.5px;
+		position: relative;
+		@media screen and (max-width: $tableMinWidth) {
+			margin-bottom: 20px;
+		}
+		// .custom-control-label - is a label for checkbox input
+		label:not(.custom-control-label) {
+			font-size: 18px;
+			line-height: 18px;
+			letter-spacing: 0.6px;
+			margin-bottom: 16px;
+			display: block;
+			font-family: $FilsonProBold;
+			@media screen and (max-width: $tableMinWidth) {
+				font-size: 16px;
+				line-height: 17px;
+				letter-spacing: 0.53px;
+				margin-bottom: 14px;
+			}
+		}
+		a {
+			font-size: $mainFontSize;
+			line-height: $mainLineHeight;
+			text-decoration: underline;
+			color: $greenColor;
+			&:hover, &:active, &:focus {
+				text-decoration: none;
+				color: $greenColor;
+			}
+		}
+		input[type=text], input[type=email], input[type=password], input[type=url],
+		input[type=tel], input[type=number], select {
+			width: 100%;
+			display: block;
+			height: 65px;
+			padding-left: 27.5px;
+			padding-right: 27.5px;
+			padding-top: 6px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border: 1px solid rgba(161,112,103,0.3);
+			border-radius: 0;
+			color: $textBlackColor;
+			font-size: 18px;
+			letter-spacing: 0.5px;
+			@media screen and (max-width: $tableMinWidth) {
+				height: 48px;
+				font-size: 16px;
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+			&:focus {
+				border: 1px solid $greenColor!important;
+				-webkit-transition: .3s all ease!important;
+				-o-transition: .3s all ease!important;
+				transition: .3s all ease!important;
+			}
+		}
+		input[type=search] {
+			font-size: 16px;
+			line-height: 16px;
+			letter-spacing: 0;
+			color: $mainBackgroundColor;
+			background: rgba(216, 216, 216, 0.13);
+			border: 1px solid $greenNavyColor;
+			padding-top: 8px;
+			width: 100%;
+			display: block;
+			height: 34px;
+			border-radius: 16.5px;
+			padding-right: 30px;
+			&::-webkit-search-cancel-button {
+				-webkit-appearance: none;
+				height: 18px;
+				width: 18px;
+				border-radius: 50em;
+				// path is fine
+				background: url('./assets/images/elements/dashboard/search_close.svg') no-repeat 50% 50%;
+				background-size: contain;
+				opacity: 0;
+				pointer-events: none;
+				cursor: pointer;
+				margin-right: 3px;
+			}
+			&:focus::-webkit-search-cancel-button {
+				opacity: .3;
+				pointer-events: all;
+			}
+			&::-webkit-input-placeholder {
+				font-size: 16px;
+				line-height: 24px;
+				letter-spacing: 0;
+				color: $mainBackgroundColor;
+				padding-top: 0px;
+			}
+		}
+		textarea {
+			width: 100%;
+			display: block;
+			padding: 27.5px 27.5px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border: 1px solid rgba(161,112,103,0.3);
+			border-radius: 0;
+			font-size: 18px;
+			-webkit-transition: .3s all ease!important;
 			-o-transition: .3s all ease!important;
 			transition: .3s all ease!important;
+			@media screen and (max-width: $tableMinWidth) {
+				padding: 20px;
+			}
+			&:focus, &:active {
+				border: 1px solid $greenColor!important;
+				-webkit-transition: .3s all ease!important;
+				-o-transition: .3s all ease!important;
+				transition: .3s all ease!important;
+			}
+		}
+		input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
+		input[type=text]::-webkit-input-placeholder, input[type=number]::-webkit-input-placeholder,
+		select::-webkit-input-placeholder {
+			font-size: 18px;
+			line-height: 18px;
+			letter-spacing: 0.6px;
+			color: $grayColor;
+			padding-top: 2px;
+			@media screen and (max-width: $phoneBigWidth) {
+				font-size: 16px;
+			}
+		}
 	}
 }
-.form input::-webkit-input-placeholder, .form textarea::-webkit-input-placeholder,
-input[type=text]::-webkit-input-placeholder, form input[type=number]::-webkit-input-placeholder,
-input[type=number]::-webkit-input-placeholder, select::-webkit-input-placeholder{
-	font-size: 18px;
-	line-height: 18px;
-	letter-spacing: 0.6px;
-	color: $grayColor;
-	padding-top: 2px;
-	@media screen and (max-width: $phoneBigWidth) {
-		font-size: 16px;
-	}
+
+
+.form input[type=button], .form input[type=submit], .form input[type=reset] {
 }
-input[type=search]::-webkit-input-placeholder {
-	font-size: 16px;
-	line-height: 24px;
-	letter-spacing: 0;
-	color: $mainBackgroundColor;
-	padding-top: 0px;
-}
+
+/*******************
+* HEADER-FORM-STYLES *
+********************/
+
 .header_search_container_mobile {
 	.form {
 		svg {
@@ -863,6 +785,7 @@ input[type=search]::-webkit-input-placeholder {
 		height: 18px;
 		width: 18px;
 		border-radius: 50em;
+		// path is fine
 		background: url('./assets/images/elements/dashboard/search_close.svg') no-repeat 50% 50%;
 		background-size: contain;
 		opacity: 0;
@@ -875,8 +798,10 @@ input[type=search]::-webkit-input-placeholder {
 		pointer-events: all;
 	}
 }
-.form input[type=button], .form input[type=submit], .form input[type=reset] {
-}
+
+/*******************
+* BIGSEARCH-FORM-STYLES *
+********************/
 
 /********************
 *   HEADER-BLOCK    *
@@ -1182,17 +1107,31 @@ body.mobile-menu-box-active .header {
 /********************
 *   BOOTSTRAP CHECKBOXES   *
 ********************/
+.custom-control-input {
+	+ label {
+		color: $textBlackColor;
+		font-family: $FilsonProRegular;
+		font-size: 18px;
+		letter-spacing: 0.6px;
+		line-height: 18px;
+		margin-bottom: 16px;
+		user-select: none;
 
-.custom-control-input:checked~.custom-control-label::before {
-	background-color: $greenColor;
-	border-color: $greenColor;
-}
-.custom-control-input:not(:disabled):active~.custom-control-label::before {
-	background-color: #a7f7f1;
-	border-color: #a7f7f1;
-}
-.custom-control-input:focus~.custom-control-label::before {
-	box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+		&:before, &:after {
+			top: 0;
+		}
+	}
+	&:checked~.custom-control-label::before {
+		background-color: $greenColor;
+		border-color: $greenColor;
+	}
+	&:not(:disabled):active~.custom-control-label::before {
+		background-color: #a7f7f1;
+		border-color: #a7f7f1;
+	}
+	&:focus~.custom-control-label::before {
+		box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+	}
 }
 
 /********************
@@ -1377,6 +1316,13 @@ body.mobile-menu-box-active .header {
 *   BOOTSTRAP-VUE TIME/DATE PICKER  *
 *********************/
 .dropdown-menu {
+	&.offer-pickup-time, &.offer-pickup-date {
+		& + label.form-control {
+			font-family: $FilsonProRegular;
+			margin-bottom: 0;
+			line-height: 26px;
+		}
+	}
 	&.offer-pickup-time {
 		.form-control {
 			&.focus {

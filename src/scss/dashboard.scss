@@ -34,11 +34,19 @@
 		.dashboard-section {
 			padding-left: 245px;
 			width: 100%;
+			display: flex;
+			min-height: 100vh;
+			height: 100%;
+			flex-direction: column;
+			&.dashboard-profile {
+				flex-direction: row;
+			}
 			@media screen and (max-width: $tableMinWidth) {
 				padding-left: 0;
 			}
 			.dashboard-content {
 				padding: 60px 65px 80px;
+				width: 100%;
 				@media screen and (max-width: $desktopBigWidth) {
 					padding: 40px 10px;
 				}
@@ -47,12 +55,26 @@
 				}
 			}
 		}
+		&.dashboard-home .dashboard-content {
+			// path is fine
+			background-image: url('./assets/images/elements/dashboard/dashboard-home-bg.svg');
+			background-position: top center;
+			background-repeat: repeat-x;
+		}
 	}
-	.btn {
-		&.btn-search {
-			width: auto;
-			min-width: 10px;
-			padding: 5px;
+	.btn-search {
+		width: auto;
+		min-width: 10px;
+		padding: 5px;
+		background: transparent;
+		border-radius: 0;
+		border: none;
+		-webkit-backface-visibility: hidden;
+		-moz-osx-font-smoothing: grayscale;
+		overflow: hidden;
+		outline: none;
+		&:hover, &:after, &:focus {
+			outline: none;
 		}
 	}
 	.dashboard-hero {
@@ -62,11 +84,13 @@
 		background-size: cover;
 		position: relative;
 		width: 100%;
+		min-height: 250px;
 		@media screen and (max-width: $desktopWidth) {
 			padding: 104px 0 80px;
 		}
 		@media screen and (max-width: $tableMinWidth) {
-			padding: 80px 0 60px;
+			padding: 45px 0;
+			min-height: auto;
 		}
 		&:after {
 		}
@@ -78,6 +102,27 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
+		}
+		&.dashboard-shop-bg {
+			background-color: $greenColor;
+			// path is fine
+			background-image: url('./assets/images/elements/dashboard/bg/shop-bg.svg');
+		}
+		&.dashboard-cook-bg {
+			background-color: $yellowColor;
+			// path is fine
+			background-image: url('./assets/images/elements/dashboard/bg/cook-bg.svg');
+		}
+		&.dashboard-eat-bg {
+			background-color: $yellowColor;
+			// path is fine
+			background-image: url('./assets/images/elements/dashboard/bg/eat-bg.svg');
+		}
+	}
+	.form .form-group {
+		margin-bottom: 40px;
+		@media screen and (max-width: $tableMinWidth) {
+			margin-bottom: 20px;
 		}
 	}
 }
@@ -98,6 +143,34 @@
 	&.active {
 		top: 66px;
 		transition: 0.4s;
+	}
+}
+.dashboard-title-box {
+	display: flex;
+	flex-direction: column;
+}
+.box-btn {
+	&.w100 {
+		width: 100%;
+	}
+}
+.profile-img {
+	text-align: center;
+	img {
+		border-radius: 50%;
+		width: 240px;
+		height: 240px;
+		object-fit: cover;
+		@media screen and (max-width: $tableMinWidth) {
+			width: 180px;
+			height: 180px;
+		}
+	}
+}
+.list-style-circle {
+	li {
+		list-style-type: square;
+		list-style-position: inside;
 	}
 }
 
@@ -360,33 +433,91 @@ ul.nav-menu-dashboard-small {
 }
 
 /********************
+* DASHBOARD-PROFILE *
+********************/
+
+.dashboard-profile-aside {
+	min-width: 240px;
+	max-width: 240px;
+	padding: 65px 0 65px;
+	box-shadow: 2px 0 rgba(24,24,22,0.07);
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	height: 100%;
+	@media screen and (max-width: $desktopWidth) {
+		min-width: 220px;
+		max-width: 220px;
+		padding: 40px 0;
+	}
+	.title-size2 {
+		padding: 0 9px 0 40px;
+		@media screen and (max-width: $desktopWidth) {
+			padding: 0 20px;
+		}
+		@media screen and (max-width: $tableMinWidth) {
+			padding: 0 15px;
+		}
+		@media screen and (max-width: $smTableWidth) {
+			text-align: center;
+		}
+	}
+}
+ul.nav-menu-dashboard-profile {
+	padding: 0;
+	margin: 0;
+	li {
+		a {
+			display: flex;
+			align-items: flex-start;
+			font-family: $LacaProSemiBold;
+			font-size: 24px;
+			line-height: 24px;
+			padding: 20px 9px 20px 40px;
+			color: $textBlackColor;
+			@media screen and (max-width: $desktopWidth) {
+				padding: 20px 20px 20px;
+			}
+			@media screen and (max-width: $tableMinWidth) {
+				font-size: 20px;
+				padding: 15px;
+				border-bottom: 2px solid #EEE8D7;
+			}
+			&:hover {
+				color: $greenColor;
+			}
+			&:active {
+				color: $greenColor;
+			}
+			&:focus {
+				color: $greenColor;
+			}
+		}
+		&.active a {
+			color: $greenColor;
+		}
+		&:first-child a {
+			padding-top: 0;
+		}
+		&:last-child a {
+			padding-bottom: 0;
+			@media screen and (max-width: $tableMinWidth) {
+				padding-bottom: 15px;
+			}
+		}
+	}
+}
+
+/********************
 * MAIN SECTION STYLES *
 ********************/
 
-.serving-number, a.serving-number {
-	line-height: 24px;
-	//margin-top: 4px;
-	color: $textBlackColor;
-	span {
-		font-family: $LacaProSemiBold;
-		color: $textBlackColor;
-	}
-}
 .cook-box {
-	//padding: 16px 16px 0;
-	@media screen and (max-width: $phoneWidth) {
-		//padding: 12px 12px 0;
-		font-size: 14px;
-	}
 	.cook-info {
 		display: flex;
 		align-items: center;
 		.cook-info-img {
 			flex: none;
-			//margin-right: 16px;
-			@media screen and (max-width: $tableMinWidth) {
-				//margin-right: 12px;
-			}
 			img {
 				width: 48px;
 				height: 48px;
@@ -409,17 +540,12 @@ ul.nav-menu-dashboard-small {
 		.cook-info-name, a.cook-info-name {
 			font-family: $FilsonProBold;
 			padding-top: 3px;
-			//margin-right: 8px;
 			color: $textBlackColor;
 		}
 		.cook-info-benefits {
 			display: flex;
 			align-items: center;
 			flex-direction: row-reverse;
-			//margin-left: 8px;
-			@media screen and (max-width: $mdphoneWidth) {
-				//margin-left: 0;
-			}
 			.cook-info-benefits-box {
 				box-shadow: 0 2px 2px rgba(213,203,183,0.3);
 				border: 1px solid #F3E5C8;
@@ -441,6 +567,9 @@ ul.nav-menu-dashboard-small {
 					margin-left: 3px;
 					padding-top: 4.5px;
 					display: block;
+					color: $textBlackColor;
+					font-weight: normal;
+					font-family: $FilsonProRegular;
 				}
 				&.longbox {
 					width: auto;
@@ -451,16 +580,8 @@ ul.nav-menu-dashboard-small {
 		}
 	}
 	.cook-info-additional {
-		//padding: 0 35px;
-		@media screen and (max-width: $tableMinWidth) {
-			//padding: 0 23px;
-		}
 		svg {
 			width: 16px;
-			//margin-right: 14px;
-			@media screen and (max-width: $tableMinWidth) {
-				//margin-right: 9px;
-			}
 		}
 		.cook-time {
 			color: $textBlackColor;
@@ -471,8 +592,8 @@ ul.nav-menu-dashboard-small {
 			}
 		}
 		.cook-location {
-			text-decoration: underline;
-			color: $greenColor;
+			text-decoration: none;
+			color: $textBlackColor;
 			display: block;
 			display: flex;
 			align-items: center;
@@ -482,90 +603,229 @@ ul.nav-menu-dashboard-small {
 		}
 	}
 }
-
-.reserved {
-	a.reserved-box, .reserved-box {
-		background-color: $whiteColor;
-		box-shadow: 0 4px 16px  rgba(69,53,38,0.15);
-		margin-bottom: 16px;
-		display: block;
+.cook-box, a.cook-box {
+	@media screen and (max-width: $phoneWidth) {
+		font-size: 14px;
 		font-family: $FilsonProRegular;
-		&:last-child {
-			margin-bottom: 0;
+	}
+}
+a.reserved-box, .reserved-box {
+	background-color: $whiteColor;
+	box-shadow: 0 4px 16px  rgba(69,53,38,0.15);
+	margin-bottom: 16px;
+	display: block;
+	font-family: $FilsonProRegular;
+	&:last-child {
+		margin-bottom: 0;
+	}
+	&:hover, &:focus, &:active {
+		box-shadow: 0 6px 18px  rgba(69,53,38,0.30);
+	}
+	@media screen and (max-width: $phoneWidth) {
+		padding: 12px;
+		margin-bottom: 12px;
+	}
+	.reserved-info {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		.reserved-img {
+			flex: none;
+			img {
+				width: 64px;
+				height: 64px;
+				object-fit: cover;
+				border-radius: 2px;
+				@media screen and (max-width: $tableMinWidth) {
+					width: 48px;
+					height: 48px;
+				}
+				@media screen and (max-width: $phoneBigWidth) {
+					width: 44px;
+					height: 44px;
+				}
+			}
 		}
-		&:hover, &:focus, &:active {
-			box-shadow: 0 6px 18px  rgba(69,53,38,0.30);
+		.reserved-boxtitle {
+			width: 100%;
+			.reserved-title {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				.title-size3 {
+					font-family: $LacaProSemiBold;
+					letter-spacing: 0;
+				}
+				.reserved-time {
+					flex: none;
+					margin-left: 16px;
+				}
+			}
 		}
-		@media screen and (max-width: $phoneWidth) {
-			padding: 12px;
-			margin-bottom: 12px;
+	}
+	&.empty {
+		border: 2px dashed $grayColor;
+		padding: 32px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		background: transparent;
+		box-shadow: none;
+		@media screen and (max-width: $phoneBigWidth) {
+			padding: 22px;
 		}
-		.reserved-info {
+		.reserved-title-empty {
+			color: $grayColor;
+			font-size: 24px;
+			line-height: 28px;
+			font-family: $LacaProSemiBold;
+		}
+		.reserved-img-empty {
+			margin: 30px 0;
+		}
+	}
+}
+// .recept-box has been moved to src/components/OfferInfoBlock styles
+.serving-number, a.serving-number {
+	line-height: 24px;
+	color: $textBlackColor;
+	span {
+		font-family: $LacaProSemiBold;
+		color: $textBlackColor;
+		font-size: 20px;
+		line-height: 24px;
+	}
+}
+.questions {
+	.questions-box {
+		padding: 20px 0;
+		border-bottom: 1px solid rgba(161,112,103,0.3);
+		.questions-box-author {
+			display: flex;
+			align-items: center;
+			.questions-box-author-img img {
+				width: 48px;
+				height: 48px;
+				object-fit: cover;
+				border-radius: 50%;
+			}
+			.questions-box-author-title {
+				display: flex;
+				flex-direction: column;
+				font-family: $FilsonProBold;
+				span {
+					font-family: $FilsonProRegular;
+				}
+			}
+		}
+		.questions-box-text {
+			@media screen and (max-width: $phoneBigWidth) {
+				padding-left: 56px;
+			}
+			p.question {
+				font-size: 18px;
+				line-height: 24px;
+				font-family: $FilsonProBold;
+				color: $textBlackColor;
+				margin-bottom: 0;
+				@media screen and (max-width: $phoneBigWidth) {
+					font-size: 16px;
+				}
+			}
+		}
+	}
+}
+.connection {
+	.connection-box {
+		padding: 11px 0;
+		border-bottom: 1px solid rgba(138,135,125,0.25);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		.connection-box-info {
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			.reserved-img {
-				flex: none;
-				@media screen and (max-width: $tableMinWidth) {
-				}
-				img {
-					width: 64px;
-					height: 64px;
-					object-fit: cover;
-					border-radius: 2px;
-					@media screen and (max-width: $tableMinWidth) {
-						width: 48px;
-						height: 48px;
-					}
-					@media screen and (max-width: $phoneBigWidth) {
-						width: 44px;
-						height: 44px;
-					}
-				}
+			flex: none;
+			.connection-box-info-img img {
+				width: 40px;
+				height: 40px;
+				object-fit: cover;
 			}
-			.reserved-boxtitle {
-				width: 100%;
-				.reserved-title {
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					.title-size3 {
-						font-family: $LacaProSemiBold;
-						letter-spacing: 0;
-					}
-					.reserved-time {
-						flex: none;
-						margin-left: 16px;
-					}
-				}
+			.connection-box-info-name {
+				font-family: $FilsonProBold;
 			}
 		}
-		&.empty {
-			border: 2px dashed $grayColor;
-			padding: 32px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-direction: column;
-			background: transparent;
-			box-shadow: none;
-			.reserved-title-empty {
-				color: $grayColor;
-				font-size: 24px;
-				line-height: 28px;
-				font-family: $LacaProSemiBold;
+	}
+}
+.profile-tabs {
+	border-bottom: 3px solid rgba(138,135,125,0.25);
+	padding-bottom: 10px;
+	.profile-item {
+		margin-bottom: -4px;
+		margin-right: 24px;
+		a {
+			font-family: $FilsonProBold;
+			font-size: 18px;
+			line-height: 24px;
+			letter-spacing: normal;
+			border-bottom: 3px solid transparent;
+			padding-bottom: 10px;
+			&.active {
+				color: $textBlackColor;
+				border-bottom: 3px solid $textBlackColor;
 			}
-			.reserved-img-empty {
-				margin: 30px 0;
+			&:hover {
+				color: $textBlackColor;
 			}
-			.reserved-btn {
-				width: 100%;
-			}
+		}
+		&:last-child {
+			margin-right: 0;
 		}
 	}
 }
 
 /********************
-*DASHBOARD COMPONENTS*
+*NOTIFICATION STYLES*
 ********************/
-// .recept-box has been moved to src/components/OfferInfoBlock styles
+// .notification, .notification .notification-box styles moved to NotificationsContent component
+
+/********************
+*   INVITE STYLES   *
+********************/
+
+.invite {
+	a.invite-box {
+		border-bottom: 2px solid #EEE8D7;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 17px;
+		.invite-box-info {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			.invite-icon {
+				flex: none;
+			}
+			.invite-name {
+				font-size: 24px;
+				line-height: 24px;
+				color: $textBlackColor;
+				padding-top: 2px;
+				@media screen and (max-width: $tableWidth) {
+					font-size: 22px;
+					line-height: 22px;
+				}
+				@media screen and (max-width: $phoneBigWidth) {
+					font-size: 20px;
+					line-height: 20px;
+					letter-spacing: 0.8px;
+				}
+			}
+		}
+	}
+}

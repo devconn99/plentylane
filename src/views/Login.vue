@@ -50,7 +50,7 @@
                                 <small class="text-danger d-flex mt-2" v-if="!$v.form.password.minLength">This field must be at least {{pwdMinLength}} characters long.</small>
                                 <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.password.maxLength">This field must be shorter than or equal to {{pwdMaxLength}} characters.</small>
                             </b-form-group>
-                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="w-100 main-btn btn-green hover-slide-left">
+                            <b-button type="submit" :disabled="$v.$invalid || submitted" class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left">
                                 <span>Login</span>
                             </b-button>
                         </b-form>
@@ -153,10 +153,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.btn-login {
-    padding-left: 60px;
-    padding-right: 60px;
-}
 .alert {
     padding-left: 25px;
     margin-bottom: 35px;

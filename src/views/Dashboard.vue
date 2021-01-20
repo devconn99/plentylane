@@ -55,7 +55,7 @@
             </b-form>
         </div>
 
-        <main class="dashboard">
+        <main class="dashboard dashboard-home">
             <aside id="dashboard-aside" class="dashboard-aside">
 
                 <div class="dashboard-logo">
@@ -79,7 +79,7 @@
                                         required
                                         v-model="searchStr"
                                 ></b-form-input>
-                                <button class="btn btn-search" type="submit">
+                                <button class="btn-search" type="submit">
                                     <SvgIcon icon="searchSmall" :params="{ stroke: '#009C90' }"></SvgIcon>
                                 </button>
                             </b-form-group>
@@ -133,9 +133,8 @@
                                 <span class="dashboard-user-name" v-if="displayUserName && displayUserName.length">{{displayUserName}}</span>
                                 <span class="dashboard-user-name" v-else>Profile</span>
                             </router-link>
-                            <router-link :to="{ path: '/dashboard/notifications' }" class="dashboard-user-notify" v-if="notificationsCount">
-                                {{notificationsCount}}
-                            </router-link>
+                            <!-- TODO: refactor tag <a> later -->
+                            <a v-b-modal.notifications-modal class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
                         </div>
                     </div>
                 </div>

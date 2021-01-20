@@ -34,9 +34,11 @@
                     <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.message.$dirty && !$v.form.message.required">This is a required field.</small>
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.message.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>
                 </b-form-group>
-                <b-button type="submit" :disabled="$v.$invalid" class="w-100 main-btn btn-green hover-slide-left">
-                    <span>Send message</span>
-                </b-button>
+                <div class="btn-box">
+                    <b-button type="submit" :disabled="$v.$invalid" class="btnGreen btnBigSize btn100 text-uppercase hover-slide-left">
+                        <span>Send message</span>
+                    </b-button>
+                </div>
             </b-form>
         </div>
         <div slot="modal-title"></div>

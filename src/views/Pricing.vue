@@ -4,14 +4,6 @@
 
         <main>
             <section class="hero green-bg">
-                <!--
-                <div class="hero-shape">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                        <path class="hero-shape-fill"
-                            d="M500,97C126.7,96.3,0.8,19.8,0,0v100l1000,0V1C1000,19.4,873.3,97.8,500,97z"></path>
-                    </svg>
-                </div>
-                -->
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-7 col-md-10 mx-auto text-center">
@@ -19,6 +11,7 @@
                         </div>
                     </div>
                 </div>
+                <HeroWave></HeroWave>
             </section>
 
             <section class="welcome pad-70">
@@ -65,7 +58,7 @@
                                             </ul>
                                         </div>
                                         <div class="price-btn">
-                                            <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
+                                            <router-link to="/sign-up" class="btnLightRed btnNormalSize btn100 hover-slide-left">
                                                 <span>Sign up with Starter</span>
                                             </router-link>
                                         </div>
@@ -89,7 +82,7 @@
                                             </ul>
                                         </div>
                                         <div class="price-btn">
-                                            <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
+                                            <router-link to="/sign-up" class="btnLightRed btnNormalSize btn100 hover-slide-left">
                                                 <span>Sign up with Casual</span>
                                             </router-link>
                                         </div>
@@ -116,7 +109,7 @@
                                             </ul>
                                         </div>
                                         <div class="price-btn">
-                                            <router-link to="/sign-up" class="main-btn btn-red hover-slide-left">
+                                            <router-link to="/sign-up" class="btnLightRed btnNormalSize btn100 hover-slide-left">
                                                 <span>Sign up with Unlimited</span>
                                             </router-link>
                                         </div>
@@ -158,9 +151,10 @@
 import Footer from "../components/homepage/Footer";
 import Header from "../components/homepage/Header";
 import BackToTop from '../components/BackToTop';
+import HeroWave from '../components/HeroWave';
 export default {
     name: "Pricing",
-    components: {Footer, Header, BackToTop},
+    components: {Footer, Header, BackToTop, HeroWave},
     mounted () {
         window.scrollTo(0, 0); // temp
     }

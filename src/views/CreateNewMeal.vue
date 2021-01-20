@@ -128,18 +128,20 @@
             </div>
 
             <div class="meal-posted-buttons-wrapper">
-                <b-button class="main-btn btn-green-bright hover-slide-left transparent mb-3" @click="redirectToMeal">
-                    <span>
-                        <i class="fa fa-eye"></i>
-                        View Your Meal
-                    </span>
-                </b-button>
-                <b-button class="main-btn btn-green-bright hover-slide-left" @click="createAnotherMeal">
-                    <span>
-                        <i class="fa fa-plus"></i>
-                        Create Another Meal
-                    </span>
-                </b-button>
+                <div class="box-btn">
+                    <b-button class="btnLightGreen btnHugeSize btn100 hover-slide-left mb-3" @click="redirectToMeal">
+                        <span>
+                            <i class="fa fa-eye"></i>
+                            View Your Meal
+                        </span>
+                    </b-button>
+                    <b-button class="btnGreenTransparent btnHugeSize btn100 hover-slide-left" @click="createAnotherMeal">
+                        <span>
+                            <i class="fa fa-plus"></i>
+                            Create Another Meal
+                        </span>
+                    </b-button>
+                </div>
             </div>
         </div>
     </div>
@@ -459,13 +461,6 @@ export default {
         @media screen and (max-width: $phoneBigWidth) {
             padding-left: 20px;
             padding-right: 20px;
-        }
-
-        .main-btn {
-            max-width: 400px;
-            @media screen and (max-width: $phoneBigWidth) {
-                max-width: 100%;
-            }
         }
     }
 }

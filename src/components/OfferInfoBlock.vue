@@ -88,7 +88,6 @@ export default {
     -webkit-transition: .3s all ease;
     -o-transition: .3s all ease;
     transition: .3s all ease;
-
     &:hover {
         box-shadow: 0 6px 18px rgba(69,53,38,0.3);
         -webkit-transition: .3s all ease;
@@ -96,26 +95,12 @@ export default {
         transition: .3s all ease;
     }
     .cook-box {
-        //padding: 16px;
-        @media screen and (max-width: $tableMinWidth) {
-            //padding: 12px;
-        }
         .cook-info-name, a.cook-info-name {
             padding-top: 0;
-        }
-        .cook-info-img img {
-            @media screen and (max-width: $tableMinWidth) {
-                //width: 48px;
-                //height: 48px;
-            }
         }
         .cook-info-part {
             flex-direction: column;
             align-items: flex-start;
-            .cook-info-benefits {
-                //margin-left: 0;
-                //margin-top: 3px;
-            }
         }
     }
     .recept-box-img {

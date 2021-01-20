@@ -42,20 +42,20 @@
                 <div class="row">
                     <div class="col-lg-4 order-lg-2">
                         <!-- TODO: I'm hiding this block if current user owns this order. I'll check it later -->
-                        <div class="reserved-btn" v-if="offerInfo.user.id !== currentUserId">
+                        <div class="box-btn" v-if="offerInfo.user.id !== currentUserId">
                             <b-btn
-                                    class="main-btn w-100 btn-green hover-slide-left transparent mb-2"
+                                    class="btnGreen btnBigSize btn100 text-uppercase hover-slide-left mb-4"
                                     v-if="offerInfo.availableQuantity > 0 && !wasReserved"
                                     @click="showReserveMealModal"
                             >
                                 <span>Reserve Meal</span>
                             </b-btn>
                             <div class="meal-reserved-info w-100 mb-2" v-if="wasReserved">Meal Reserved!</div>
-                            <b-btn class="main-btn w-100 btn-green smaller-btn hover-slide-left transparent mb-2" @click="showContactCookModal">
+                            <b-btn class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-2" @click="showContactCookModal">
                                 <span>Contact cook</span>
                             </b-btn>
                             <b-btn
-                                    class="main-btn w-100 btn-red-dark smaller-btn hover-slide-left transparent"
+                                    class="btnNavyRedTransparent btnNormalSize btn100 hover-slide-left"
                                     v-if="wasReserved"
                                     @click="cancelReservation"
                             >

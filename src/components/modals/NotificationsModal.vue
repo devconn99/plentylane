@@ -2,7 +2,10 @@
     <b-modal id="notifications-modal" ref="notificationsModal" hide-footer size="lg" modal-class="notifications-modal">
         <!-- TODO: refactor styles, content -->
         <div slot="default">
-            <NotificationsContent></NotificationsContent>
+            <div class="title-size3 titleGreenNavyColor mb-4 mb-md-5 text-center">Notifications</div>
+            <div class="notification">
+                <NotificationsContent></NotificationsContent>
+            </div>
         </div>
         <div slot="modal-title"></div>
         <div slot="modal-header-close">

@@ -67,10 +67,10 @@
             </div>
         </div>
         <template slot="modal-footer">
-            <b-btn class="main-btn btn-green hover-slide-left transparent smaller-btn" @click="cancel">
+            <b-btn class="btnGreenTransparent btnNormalSize text-uppercase hover-slide-left" @click="cancel">
                 <span>Cancel</span>
             </b-btn>
-            <b-btn class="main-btn btn-green hover-slide-left smaller-btn" @click="saveLocation">
+            <b-btn class="btnGreen btnNormalSize text-uppercase hover-slide-left" @click="saveLocation">
                 <span>Save</span>
             </b-btn>
         </template>

@@ -34,9 +34,11 @@
                     ></textarea>
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.notes.maxLength">This field must be shorter than or equal to {{notesMaxLength}} characters.</small>
                 </b-form-group>
-                <b-button type="submit" :disabled="$v.$invalid" class="w-100 main-btn btn-green hover-slide-left">
-                    <span>Reserve meal</span>
-                </b-button>
+                <div class="box-btn">
+                    <b-button type="submit" :disabled="$v.$invalid" class="btnGreen btnBigSize btn100 text-uppercase hover-slide-left">
+                        <span>Reserve meal</span>
+                    </b-button>
+                </div>
             </b-form>
 
             <div v-if="isReserved" class="reserved-info">
@@ -56,10 +58,10 @@
                     <p class="pickup-location-value">{{offerInfo.place.address}}</p>
                 </div>
                 <div class="buttons-wrapper">
-                    <b-btn class="main-btn btn-green hover-slide-left transparent" @click="contactTheCook">
+                    <b-btn class="btnGreenTransparent btnNormalSize btn100 text-uppercase hover-slide-left" @click="contactTheCook">
                         <span>Contact the cook</span>
                     </b-btn>
-                    <b-btn class="main-btn btn-green hover-slide-left" @click="browseMoreMeals">
+                    <b-btn class="btnGreen btnNormalSize btn100 text-uppercase hover-slide-left" @click="browseMoreMeals">
                         <span>Browse more meals</span>
                     </b-btn>
                 </div>

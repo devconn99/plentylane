@@ -26,6 +26,7 @@
                                 dropleft
                                 menu-class="offer-pickup-time"
                                 offset="100"
+                                minutes-step="5"
                         ></b-form-timepicker>
                     </b-form-group>
                     <b-form-group>
@@ -47,12 +48,10 @@
             <div class="meal-location-container">
                 <p class="mb-2 form-label-text">Pickup Location</p>
                 <div class="d-flex meal-location-controls">
-                    <b-form-select
-                            class="location-select"
-                            v-model="$v.form.placeId.$model"
-                            :options="locationOptions"
-                    ></b-form-select>
-                    <b-btn class="main-btn add-location-button btn-green-bright hover-slide-left transparent" v-b-modal.location-modal>
+                    <b-form-group class="location-select">
+                        <b-form-select v-model="$v.form.placeId.$model" :options="locationOptions"></b-form-select>
+                    </b-form-group>
+                    <b-btn class="add-location-button btnGreenTransparent btnNormalSize hover-slide-left" v-b-modal.location-modal>
                         <span>
                             <i class="fas fa-plus"></i>
                             New Location
@@ -197,14 +196,20 @@ export default {
                 margin-left: 10px;
             }
         }
-        .b-form-btn-label-control.form-control {
-            &.focus {
-                border-color: $greenColor;
-                box-shadow: none;
+        .b-form-btn-label-control {
+            &.form-control {
+                &.focus {
+                    border-color: $greenColor;
+                    box-shadow: none;
+                }
+            }
+            label.form-control {
+                margin-bottom: 0;
+                font-family: $FilsonProRegular !important;
             }
         }
 
-        @media screen and (max-width: $phoneBigWidth) {
+        @media screen and (max-width: $tableMinWidth) {
             flex-direction: column;
 
             .form-group {
@@ -225,6 +230,7 @@ export default {
     width: 100%;
     .meal-location-controls {
         width: 100%;
+
         .location-select {
             flex-grow: 1;
             margin-right: 10px;
@@ -234,15 +240,12 @@ export default {
             height: 65px;
             min-width: 200px;
 
-            span {
-                font-size: 18px;
-                letter-spacing: 0.6px;
-                line-height: 18px;
-                text-transform: none;
+            svg {
+                margin-top: -3px;
             }
         }
 
-        @media screen and (max-width: $phoneBigWidth) {
+        @media screen and (max-width: $tableMinWidth) {
             flex-direction: column;
 
             .location-select {

@@ -93,9 +93,9 @@
 	outline: 0;
 	pointer-events: auto;
 	width: 100%;
-	padding: 40px;
+	padding: 70px 40px 40px;
 	@media screen and (max-width: $tableWidth) {
-		padding: 15px;
+		padding: 40px 25px 25px;
 	}
 	.modal-popup-header {
 		margin-bottom: 32px;
@@ -151,14 +151,6 @@
 	}
 	.modal-popup-text p:last-child {
 		margin: 0;
-	}
-}
-.modal-popup-body.big-padding {
-	padding: 50px 70px;
-	max-height: 92vh;
-	height: 100%;
-	@media screen and (max-width: $tableWidth) {
-		padding: 15px;
 	}
 }
 .modal-popup-body-overflow::-webkit-scrollbar, .price-table-choose-email::-webkit-scrollbar {

@@ -1,6 +1,5 @@
 <template>
-    <div class="notification">
-        <div class="title-size3 titleGreenNavyColor mb-4 text-center">Notifications</div>
+    <div>
         <div class="notification-box" v-for="item in items.slice(0, tempVisibleItems || items.length)">
             <div class="notification-box-info">
                 <div class="notification-img">
@@ -78,7 +77,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "../scss/utils/vars";
 .notification {
     .notification-box {
@@ -95,7 +94,7 @@ export default {
             .notification-text {
                 padding-right: 50px;
                 @media screen and (max-width: $smPhoneWidth) {
-                    padding-right: 0px;
+                    padding-right: 0;
                 }
             }
         }

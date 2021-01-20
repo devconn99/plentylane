@@ -1,4 +1,7 @@
 
+#home-page .btnNormalSize span {
+	padding: 16px 10px 12px;
+}
 /********************
 *  NAV-MENU-LANDING  *
 ********************/
@@ -47,9 +50,7 @@ ul.nav-menu-landing {
 				display: block;
 				outline: none;
 				padding: 12px 29px;
-				&.main-btn {
-					padding: 0;
-				}
+
 				&:hover, &:focus, &:active {
 					color: $yellowColor;
 				}
@@ -59,6 +60,10 @@ ul.nav-menu-landing {
 			}
 			&.register-btn {
 				padding: 10px 29px 0;
+
+				a {
+					padding: 0;
+				}
 			}
 		}
 	}
@@ -92,10 +97,16 @@ ul.nav-menu-landing {
 
 #home-page .hero {
 	padding: 180px 0 90px;
+	// path is fine
+	background-image: url('./assets/images/elements/landing/hero/illust_little.svg');
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	position: relative;
 	@media screen and (max-width: $tableWidth) {
 		padding: 110px 0 30px;
 	}
-	.hero-img {
+	&.hero-img {
 		text-align: center;
 		@media screen and (max-width: $phoneBigWidth) {
 			max-width: 60%;
@@ -132,6 +143,12 @@ ul.nav-menu-landing {
 	}
 	&.hero-main {
 		padding: 90px 0 0;
+		// path is fine
+		background-image: url('./assets/images/elements/landing/hero/ilustr.svg');
+		background-position: top center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		position: relative;
 		@media screen and (max-width: $phoneBigWidth) {
 			padding: 110px 0 0;
 		}
@@ -344,16 +361,6 @@ ul.nav-menu-landing {
 			}
 		}
 	}
-	.price-btn {
-		.btn-red {
-			display: block;
-			width: 100%;
-			span {
-				padding-right: 10px;
-				padding-left: 10px;
-			}
-		}
-	}
 }
 
 /********************
@@ -491,7 +498,7 @@ ul.nav-menu-landing {
 			margin-bottom: 18px;
 		}
 		.footer-login-btn {
-			.main-btn {
+			.btn {
 				display: block;
 			}
 		}

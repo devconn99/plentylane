@@ -24,7 +24,7 @@
                     </div>
                     <div class="cook-location mt-1 mt-md-2">
                         <SvgIcon icon="location"></SvgIcon>
-                        <span class="ml-3">{{itemData.place.address}}</span>
+                        <span class="ml-3 titleGreenLightColor text-underline">{{itemData.place.address}}</span>
                     </div>
                 </div>
             </div>
