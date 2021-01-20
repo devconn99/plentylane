@@ -1268,9 +1268,17 @@ body.mobile-menu-box-active .header {
 						right: 0;
 						top: 14px;
 					}
-				}
-				.form-group {
-					width: 50%;
+
+					@media screen and (max-width: $phoneBigWidth) {
+						min-height: 50px !important;
+
+						> .form-control {
+							padding-top: 14px;
+						}
+						> .btn {
+							top: 8px;
+						}
+					}
 				}
 			}
 		}

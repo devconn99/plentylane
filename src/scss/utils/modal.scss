@@ -74,10 +74,13 @@
 				&:first-of-type {
 					margin-right: 10px;
 				}
-
 				&:last-of-type {
 					border: 1px solid $greenColor;
 					margin-left: 10px;
+				}
+				@media screen and (max-width: $phoneBigWidth) {
+					min-width: calc(50% - 20px);
+					width: calc(50% - 20px);
 				}
 			}
 		}

@@ -188,6 +188,7 @@ export default {
 
         .form-group {
             flex-grow: 1;
+            width: 50%;
 
             &:first-of-type {
                 margin-right: 10px;
@@ -200,6 +201,22 @@ export default {
             &.focus {
                 border-color: $greenColor;
                 box-shadow: none;
+            }
+        }
+
+        @media screen and (max-width: $phoneBigWidth) {
+            flex-direction: column;
+
+            .form-group {
+                width: 100%;
+
+                &:first-of-type {
+                    margin-right: 0;
+                    margin-bottom: 20px;
+                }
+                &:last-of-type {
+                    margin-left: 0;
+                }
             }
         }
     }
@@ -222,6 +239,18 @@ export default {
                 letter-spacing: 0.6px;
                 line-height: 18px;
                 text-transform: none;
+            }
+        }
+
+        @media screen and (max-width: $phoneBigWidth) {
+            flex-direction: column;
+
+            .location-select {
+                margin-right: 0;
+            }
+            .add-location-button {
+                margin-left: 0;
+                margin-top: 16px;
             }
         }
     }

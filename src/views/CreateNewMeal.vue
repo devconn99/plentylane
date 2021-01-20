@@ -324,8 +324,31 @@ export default {
     .meal-preview-fields-group {
         justify-content: space-between;
 
+        @media screen and (max-width: $tableWidth) {
+            flex-direction: column;
+
+            .meal-preview-field-item {
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+
+                & + .meal-preview-field-item {
+                    margin-top: 16px;
+                }
+
+                .meal-preview-field-item-image-holder {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+            }
+        }
+
         & + .meal-preview-fields-group {
             margin-top: 30px;
+
+            @media screen and (max-width: $tableWidth) {
+                margin-top: 16px;
+            }
         }
 
         .meal-preview-field-item {
@@ -432,6 +455,11 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        @media screen and (max-width: $phoneBigWidth) {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
 
         .main-btn {
             max-width: 400px;
