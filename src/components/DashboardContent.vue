@@ -119,8 +119,10 @@
                         <div class="title-size3 titleGreenNavyColor">Reserve a Meal</div>
                     </div>
 
-                    <div class="carousel-reserved owl-carousel" v-if="isLoaded && offers && offers.length">
-                        <OfferInfoBlock v-for="item in offers" :offer-info="item"></OfferInfoBlock>
+                    <div class="carousel-reserved" v-if="isLoaded && offers && offers.length">
+                        <CarouselContainer>
+                            <OfferInfoBlock v-for="item in offers" :offer-info="item"></OfferInfoBlock>
+                        </CarouselContainer>
                     </div>
                 </div>
             </div>
@@ -135,9 +137,10 @@ import api from '../api';
 import OfferInfoBlock from './OfferInfoBlock';
 import BookingInfoBlock from './BookingInfoBlock';
 import MyMealInfo from './MyMealInfo';
+import CarouselContainer from './CarouselContainer';
 export default {
     name: "DashboardContent",
-    components: {NotificationsContent, SvgIcon, OfferInfoBlock, BookingInfoBlock, MyMealInfo},
+    components: {NotificationsContent, SvgIcon, OfferInfoBlock, BookingInfoBlock, MyMealInfo, CarouselContainer},
     data: () => ({
         offers: [],
         bookings: [],

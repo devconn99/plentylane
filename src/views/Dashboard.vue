@@ -55,7 +55,7 @@
             </b-form>
         </div>
 
-        <main class="dashboard dashboard-home">
+        <main class="dashboard" v-bind:class="{ 'dashboard-home': isDashboardPage }">
             <aside id="dashboard-aside" class="dashboard-aside">
 
                 <div class="dashboard-logo">
@@ -206,6 +206,9 @@ export default {
                 nameStr += ` ${this.user.lastName.slice(0,1)}.`;
             }
             return nameStr;
+        },
+        isDashboardPage: function () {
+            return this.$route.path === '/dashboard';
         }
     },
     methods: {
