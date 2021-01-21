@@ -1,146 +1,167 @@
 <template>
-    <div class="new-meal-page">
-        <!-- class is required to override header styles -->
-        <form-wizard
-                v-if="!isWizardCompleted"
-                @on-complete="onComplete"
-                @on-change="onChange"
-                :title="stepTitles[currentStep]"
-                subtitle=""
-                shape="tab"
-                ref="newMealWizard"
-                class="wizard-new-meal"
-                v-bind:class="{ 'is-last-step': currentStep === totalSteps - 1 }"
-                color="#009C90">
-            <tab-content title="" :before-change="()=>validateStep('step1')">
-                <NewMealStep1 ref="step1" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
-            </tab-content>
-            <tab-content title="" :before-change="beforeSecondTabSwitch">
-                <NewMealImage ref="step2"></NewMealImage>
-            </tab-content>
-            <tab-content title="" :before-change="()=>validateStep('step3')">
-                <NewMealStep3 ref="step3" @on-validate="beforeThirdTabSwitch"></NewMealStep3>
-            </tab-content>
-            <tab-content title="" :before-change="beforeLastTabSwitch">
-                <div class="meal-preview-container">
-                    <div class="meal-preview-fields-group d-flex">
-                        <div class="meal-preview-field-item image-field-container">
-                            <div class="meal-preview-field-item-header d-flex">
-                                <span class="text-muted">Meal Image</span>
-                                <b-btn class="edit-btn" @click="goToStep(1)">
-                                    <i class="fa fa-pencil-alt"></i>
-                                    <span class="edit-btn-text">Edit</span>
-                                </b-btn>
-                            </div>
-                            <div class="meal-preview-field-item-image-holder">
-                                <!-- TODO: use real image when it's ready -->
-                                <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="meal-preview-field-item">
-                            <div class="meal-preview-field-item-header d-flex">
-                                <span class="text-muted">Meal Info</span>
-                                <b-btn class="edit-btn" @click="goToStep(0)">
-                                    <i class="fa fa-pencil-alt"></i>
-                                    <span class="edit-btn-text">Edit</span>
-                                </b-btn>
-                            </div>
-                            <div class="meal-preview-field-item-bg-block">
-                                <p class="meal-title">{{mealInfo.name}}</p>
-                                <p class="meal-quantity">{{mealQuantityStr}}</p>
-                                <p
-                                        class="meal-description"
-                                        v-if="mealInfo.description && mealInfo.description.length"
-                                >{{mealInfo.description}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="meal-preview-fields-group d-flex">
-                        <div class="meal-preview-field-item pickup-time-field-container">
-                            <div class="meal-preview-field-item-header d-flex">
-                                <span class="text-muted">Availability</span>
-                                <b-btn class="edit-btn" @click="goToStep(2)">
-                                    <i class="fa fa-pencil-alt"></i>
-                                    <span class="edit-btn-text">Edit</span>
-                                </b-btn>
-                            </div>
-                            <div class="meal-preview-field-item-bg-block">
-                                <p>{{formattedPickupTime}}</p>
-                            </div>
-                        </div>
-                        <div class="meal-preview-field-item location-field-container">
-                            <div class="meal-preview-field-item-header d-flex">
-                                <span class="text-muted">Location</span>
-                                <b-btn class="edit-btn" @click="goToStep(2)">
-                                    <i class="fa fa-pencil-alt"></i>
-                                    <span class="edit-btn-text">Edit</span>
-                                </b-btn>
-                            </div>
-                            <div class="meal-preview-field-item-bg-block">
-                                <p>{{mealInfo.placeAlias}}</p>
-                            </div>
-                        </div>
-                        <div class="meal-preview-field-item dietary-notes-field-container">
-                            <div class="meal-preview-field-item-header d-flex">
-                                <span class="text-muted">Dietary Notes</span>
-                                <b-btn class="edit-btn" @click="goToStep(2)">
-                                    <i class="fa fa-pencil-alt"></i>
-                                    <span class="edit-btn-text">Edit</span>
-                                </b-btn>
-                            </div>
-                            <div class="meal-preview-field-item-bg-block" v-if="mealInfo.dietaryNotes && mealInfo.dietaryNotes.length">
-                                <ul v-if="mealInfo.dietaryNotesText && mealInfo.dietaryNotesText.length">
-                                    <li v-for="note in mealInfo.dietaryNotesText">{{note}}</li>
-                                </ul>
-                                <ul v-else>
-                                    <li v-for="item in mealInfo.dietaryNotes">{{item.label}}</li>
-                                </ul>
-                            </div>
+    <div>
+        <div class="dashboard-hero dashboard-cook-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="title-size1 titleDarkColor">
+                            <template v-if="!isWizardCompleted">{{stepTitles[currentStep]}}</template>
+                            <template v-else>Meal posted, woohoo!</template>
                         </div>
                     </div>
                 </div>
-            </tab-content>
-
-            <template slot="footer" scope="props">
-                <div class=wizard-footer-left>
-                    <wizard-button @click.native="backBtnClick(props)" class="wizard-btn-prev" :style="props.fillButtonStyle">
-                        <i class="wizard-btn-icon fas fa-arrow-left"></i>
-                        <span class="wizard-btn-text">Back</span>
-                    </wizard-button>
-                </div>
-                <div class="wizard-footer-step-info">Step {{currentStep + 1}}/{{totalSteps}}</div>
-                <div class="wizard-footer-right">
-                    <wizard-button
-                            @click.native="props.nextTab()"
-                            class="wizard-btn-next"
-                            :style="props.fillButtonStyle"
-                    >
-                        <span v-if="!props.isLastStep" class="wizard-btn-text">Next</span>
-                        <span v-else class="wizard-btn-text">Post</span>
-                        <i class="wizard-btn-icon fas fa-arrow-right"></i>
-                    </wizard-button>
-                </div>
-            </template>
-        </form-wizard>
-        <div v-if="isWizardCompleted" class="meal-posted-container">
-            <div class="meal-posted-header">
-                <p class="title-size1">Meal posted, woohoo!</p>
             </div>
+            <HeroWave></HeroWave>
+        </div>
 
-            <div class="meal-posted-buttons-wrapper">
-                <div class="box-btn">
-                    <b-button class="btnLightGreen btnHugeSize btn100 hover-slide-left mb-3" @click="redirectToMeal">
-                        <span>
-                            <i class="fa fa-eye"></i>
-                            View Your Meal
-                        </span>
-                    </b-button>
-                    <b-button class="btnGreenTransparent btnHugeSize btn100 hover-slide-left" @click="createAnotherMeal">
-                        <span>
-                            <i class="fa fa-plus"></i>
-                            Create Another Meal
-                        </span>
-                    </b-button>
+        <div class="dashboard-content">
+            <div class="container-fluid">
+                <div class="row mt-md-5 mt-md-3">
+                    <div class="col-12 mx-auto" v-if="!isWizardCompleted">
+                        <form-wizard
+                                @on-complete="onComplete"
+                                @on-change="onChange"
+                                title=""
+                                subtitle=""
+                                shape="tab"
+                                ref="newMealWizard"
+                                class="wizard-new-meal"
+                                v-bind:class="{ 'is-last-step': currentStep === totalSteps - 1 }"
+                                color="#009C90">
+                            <tab-content title="" :before-change="()=>validateStep('step1')">
+                                <NewMealStep1 ref="step1" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
+                            </tab-content>
+                            <tab-content title="" :before-change="beforeSecondTabSwitch">
+                                <NewMealImage ref="step2"></NewMealImage>
+                            </tab-content>
+                            <tab-content title="" :before-change="()=>validateStep('step3')">
+                                <NewMealStep3 ref="step3" @on-validate="beforeThirdTabSwitch"></NewMealStep3>
+                            </tab-content>
+                            <tab-content title="" :before-change="beforeLastTabSwitch">
+                                <div class="meal-preview-container">
+                                    <div class="meal-preview-fields-group d-flex">
+                                        <div class="meal-preview-field-item image-field-container">
+                                            <div class="meal-preview-field-item-header d-flex">
+                                                <span class="text-muted">Meal Image</span>
+                                                <b-btn class="edit-btn" @click="goToStep(1)">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                    <span class="edit-btn-text">Edit</span>
+                                                </b-btn>
+                                            </div>
+                                            <div class="meal-preview-field-item-image-holder">
+                                                <!-- TODO: use real image when it's ready -->
+                                                <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="meal-preview-field-item">
+                                            <div class="meal-preview-field-item-header d-flex">
+                                                <span class="text-muted">Meal Info</span>
+                                                <b-btn class="edit-btn" @click="goToStep(0)">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                    <span class="edit-btn-text">Edit</span>
+                                                </b-btn>
+                                            </div>
+                                            <div class="meal-preview-field-item-bg-block">
+                                                <p class="meal-title">{{mealInfo.name}}</p>
+                                                <p class="meal-quantity">{{mealQuantityStr}}</p>
+                                                <p
+                                                        class="meal-description"
+                                                        v-if="mealInfo.description && mealInfo.description.length"
+                                                >{{mealInfo.description}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="meal-preview-fields-group d-flex">
+                                        <div class="meal-preview-field-item pickup-time-field-container">
+                                            <div class="meal-preview-field-item-header d-flex">
+                                                <span class="text-muted">Availability</span>
+                                                <b-btn class="edit-btn" @click="goToStep(2)">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                    <span class="edit-btn-text">Edit</span>
+                                                </b-btn>
+                                            </div>
+                                            <div class="meal-preview-field-item-bg-block">
+                                                <p>{{formattedPickupTime}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="meal-preview-field-item location-field-container">
+                                            <div class="meal-preview-field-item-header d-flex">
+                                                <span class="text-muted">Location</span>
+                                                <b-btn class="edit-btn" @click="goToStep(2)">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                    <span class="edit-btn-text">Edit</span>
+                                                </b-btn>
+                                            </div>
+                                            <div class="meal-preview-field-item-bg-block">
+                                                <p>{{mealInfo.placeAlias}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="meal-preview-field-item dietary-notes-field-container">
+                                            <div class="meal-preview-field-item-header d-flex">
+                                                <span class="text-muted">Dietary Notes</span>
+                                                <b-btn class="edit-btn" @click="goToStep(2)">
+                                                    <i class="fa fa-pencil-alt"></i>
+                                                    <span class="edit-btn-text">Edit</span>
+                                                </b-btn>
+                                            </div>
+                                            <div class="meal-preview-field-item-bg-block" v-if="mealInfo.dietaryNotes && mealInfo.dietaryNotes.length">
+                                                <ul v-if="mealInfo.dietaryNotesText && mealInfo.dietaryNotesText.length">
+                                                    <li v-for="note in mealInfo.dietaryNotesText">{{note}}</li>
+                                                </ul>
+                                                <ul v-else>
+                                                    <li v-for="item in mealInfo.dietaryNotes">{{item.label}}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab-content>
+
+                            <template slot="footer" scope="props">
+                                <div class=wizard-footer-left>
+                                    <wizard-button @click.native="backBtnClick(props)" class="wizard-btn-prev" :style="props.fillButtonStyle">
+                                        <i class="wizard-btn-icon fas fa-arrow-left"></i>
+                                        <span class="wizard-btn-text">Back</span>
+                                    </wizard-button>
+                                </div>
+                                <div class="wizard-footer-step-info">Step {{currentStep + 1}}/{{totalSteps}}</div>
+                                <div class="wizard-footer-right">
+                                    <wizard-button
+                                            @click.native="props.nextTab()"
+                                            class="wizard-btn-next"
+                                            :style="props.fillButtonStyle"
+                                    >
+                                        <span v-if="!props.isLastStep" class="wizard-btn-text">Next</span>
+                                        <span v-else class="wizard-btn-text">Post</span>
+                                        <i class="wizard-btn-icon fas fa-arrow-right"></i>
+                                    </wizard-button>
+                                </div>
+                            </template>
+                        </form-wizard>
+                    </div>
+
+                    <div class="meal-created-btn-wrapper mx-auto" v-else>
+                        <div class="box-btn">
+                            <b-button
+                                    class="btnLightGreen btnHugeSize btn100 hover-slide-left mb-3"
+                                    @click="redirectToMeal"
+                            >
+                                <span>
+                                    <i class="fa fa-eye"></i>
+                                    View Your Meal
+                                </span>
+                            </b-button>
+                            <b-button
+                                    class="btnGreenTransparent btnHugeSize btn100 hover-slide-left"
+                                    @click="createAnotherMeal"
+                            >
+                                <span>
+                                    <i class="fa fa-plus"></i>
+                                    Create Another Meal
+                                </span>
+                            </b-button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -151,10 +172,11 @@
 import NewMealStep1 from "../components/new-meal/NewMealStep1";
 import NewMealImage from "../components/new-meal/NewMealImage";
 import NewMealStep3 from "../components/new-meal/NewMealStep3";
+import HeroWave from '../components/HeroWave';
 import api from '../api';
 export default {
     name: "CreateNewMeal",
-    components: {NewMealStep1, NewMealImage, NewMealStep3},
+    components: {NewMealStep1, NewMealImage, NewMealStep3, HeroWave},
     data: () => ({
         stepTitles: ['What are we making?', 'Do you have an image?', 'Notes, availability, and location', 'Let\'s review'],
         currentStep: 0,
@@ -322,6 +344,16 @@ export default {
 
 <style scoped lang="scss">
 @import "../scss/utils/vars";
+.meal-created-btn-wrapper {
+    min-width: 560px;
+
+    @media screen and (max-width: $tableMinWidth) {
+        min-width: 100%;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
 .meal-preview-container {
     .meal-preview-fields-group {
         justify-content: space-between;
@@ -435,32 +467,6 @@ export default {
             ul {
                 padding-left: 16px;
             }
-        }
-    }
-}
-.meal-posted-container {
-    width: 100%;
-    position: relative;
-
-    .meal-posted-header {
-        background-color: $orangeColor;
-        height: 256px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .meal-posted-buttons-wrapper {
-        margin-top: 120px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        @media screen and (max-width: $phoneBigWidth) {
-            padding-left: 20px;
-            padding-right: 20px;
         }
     }
 }

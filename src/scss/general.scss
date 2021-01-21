@@ -1142,16 +1142,7 @@ body.mobile-menu-box-active .header {
 
 	&.wizard-new-meal {
 		.wizard-header {
-			background-color: $orangeColor;
-			height: 256px;
-			width: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			.wizard-title {
-				@extend .title-size1;
-			}
+			display: none;
 		}
 		&.is-last-step {
 			.wizard-navigation, .wizard-card-footer {
@@ -1179,7 +1170,7 @@ body.mobile-menu-box-active .header {
 		}
 
 		.wizard-tab-content {
-			padding-top: 80px;
+			padding-top: 0;
 			.form-group {
 				margin-bottom: 48px;
 			}
@@ -1208,14 +1199,14 @@ body.mobile-menu-box-active .header {
 						top: 14px;
 					}
 
-					@media screen and (max-width: $phoneBigWidth) {
-						min-height: 50px !important;
+					@media screen and (max-width: $tableMinWidth) {
+						min-height: 48px !important;
 
 						> .form-control {
-							padding-top: 14px;
+							padding-top: 12px;
 						}
 						> .btn {
-							top: 8px;
+							top: 7px;
 						}
 					}
 				}
@@ -1296,6 +1287,10 @@ body.mobile-menu-box-active .header {
 	position: relative;
 	border: 3px dashed $grayColor !important;
 	height: 303px !important;
+
+	@media screen and (max-width: $tableMinWidth) {
+		height: 224px !important;
+	}
 }
 .dropzone {
 	background: transparent !important;

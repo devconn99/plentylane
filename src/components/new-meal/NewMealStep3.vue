@@ -167,6 +167,11 @@ export default {
         padding-left: 16px;
         padding-right: 16px;
 
+        @media screen and (max-width: $tableMinWidth) {
+            flex-wrap: nowrap;
+            max-height: 100%;
+        }
+
         /* TODO: get back to styles later */
         .custom-control {
             .custom-control-label {
@@ -214,6 +219,7 @@ export default {
 
             .form-group {
                 width: 100%;
+                margin-bottom: 10px !important;
 
                 &:first-of-type {
                     margin-right: 0;
@@ -228,6 +234,10 @@ export default {
 }
 .meal-location-container {
     width: 100%;
+
+    @media screen and (max-width: $tableMinWidth) {
+        margin-top: 32px;
+    }
     .meal-location-controls {
         width: 100%;
 
@@ -237,7 +247,6 @@ export default {
         }
         .add-location-button {
             margin-left: 10px;
-            height: 65px;
             min-width: 200px;
 
             svg {
@@ -250,10 +259,11 @@ export default {
 
             .location-select {
                 margin-right: 0;
+                margin-bottom: 16px !important;
             }
             .add-location-button {
                 margin-left: 0;
-                margin-top: 16px;
+                margin-top: 0;
             }
         }
     }

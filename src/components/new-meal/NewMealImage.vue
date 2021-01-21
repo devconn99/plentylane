@@ -56,4 +56,11 @@ export default {
         margin-top: 10px;
     }
 }
+.new-meal-image-container {
+    .form-group {
+        @media screen and (max-width: $tableMinWidth) {
+            margin-bottom: 10px !important;
+        }
+    }
+}
 </style>

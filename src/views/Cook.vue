@@ -13,8 +13,8 @@
 
         <div class="dashboard-content">
             <div class="container-fluid">
-                <div class="row mt-5">
-                    <div class="col-md-6 mx-auto">
+                <div class="row mt-md-5 mt-sm-3">
+                    <div class="cook-page-btn-wrapper mx-auto">
                         <div class="box-btn">
                             <router-link
                                     to="cook/new-meal"
@@ -49,5 +49,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    // TODO: check buttons on screen width ~860px later
+@import "../scss/utils/vars";
+.cook-page-btn-wrapper {
+    min-width: 400px;
+
+    @media screen and (max-width: $tableMinWidth) {
+        min-width: 100%;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
 </style>
