@@ -269,6 +269,32 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response);
                     })
+            },
+            getOfferQuestions (offerId) {
+                // TODO: use real endpoint when it's ready
+                const questionsTemp = [
+                    {
+                        questionText: 'How spicy is it?',
+                        from: {
+                            name: 'Maggie G.',
+                            img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025',
+                        },
+                        date: new Date('2021-01-11'),
+                        answer: 'It\'s not super spicy, but...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed vehicula massa, vitae semper ante.!'
+                    },
+                    {
+                        questionText: 'What\'s in the sauce?',
+                        from: {
+                            name: 'Bobby T.',
+                            img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696',
+                        },
+                        date: new Date('2021-01-12'),
+                        answer: 'It\'s not super spicy!'
+                    }
+                ];
+                setTimeout(() => {
+                    return Promise.resolve(questionsTemp);
+                }, 500);
             }
         },
         bookings: {

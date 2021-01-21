@@ -50,7 +50,7 @@
                             >
                                 <span>Reserve Meal</span>
                             </b-btn>
-                            <div class="meal-reserved-info w-100 mb-2" v-if="wasReserved">Meal Reserved!</div>
+                            <div class="meal-reserved-info w-100 mb-4" v-if="wasReserved">Meal Reserved!</div>
                             <b-btn class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-4" @click="showContactCookModal">
                                 <span>Contact cook</span>
                             </b-btn>
@@ -179,83 +179,107 @@ export default {
         reservationId: '',
         numberOfServingsReserved: 0,
         currentUserId: '',
-        // TODO: temp questions data
-        questions: [
-            {
-                questionText: 'How spicy is it?',
-                from: {
-                    name: 'Maggie G.',
-                    img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025',
-                },
-                date: new Date('2021-01-11'),
-                answer: 'It\'s not super spicy, but...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed vehicula massa, vitae semper ante.!'
-            },
-            {
-                questionText: 'What\'s in the sauce?',
-                from: {
-                    name: 'Bobby T.',
-                    img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696',
-                },
-                date: new Date('2021-01-12'),
-                answer: 'It\'s not super spicy!'
-            }
-        ],
+        questions: [],
         // TODO: temp image url
         imageUrl: "https://cdn.pixabay.com/photo/2017/09/28/18/13/bread-2796393_960_720.jpg",
         moreOffers: []
     }),
-    mounted () {
-        this.isLoaded = false;
-        this.offerInfo = {};
-        const { id = '' } = this.$route.params;
-        this.offerId = id;
-        this.getOfferInfo();
-        // transform questions, temp
-        this.questions = this.questions.map(item => {
-            const _date = new Date(item.date);
-            item.date = `${_date.toLocaleDateString('en', { month: 'short' })} ${_date.getUTCDate()}`;
-            return item;
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            vm.clearData();
+            const { id = '' } = vm.$route.params;
+            vm.offerId = id;
+            vm.loadPageData();
         })
     },
-    methods: {
-        hideGlobalLoader () {
-            if (this.$loader && this.$loader.hide) {
-                this.$loader.hide();
+    beforeRouteUpdate (to, from, next) {
+        const _loading = this.$loading.show();
+        this.clearData();
+        const { id = '' } = to.params;
+        this.offerId = id;
+        const cb = () => {
+            next();
+            if (_loading && _loading.hide) {
+                _loading.hide();
             }
+        };
+        this.loadPageData(cb);
+    },
+    methods: {
+        clearData () {
+            this.isLoaded = false;
+            this.offerInfo = {};
+            this.offerId = '';
+            this.questions = [];
+            this.moreOffers = [];
+            this.wasReserved = false;
+            this.errLoadingOffer = false;
+            this.numberOfServingsReserved = 0;
+            this.reservationId = '';
         },
-        getOfferInfo () {
+        errLoadingDataHandler (cb, err) {
+            if (err) {
+                console.log('\n >> err > ', err);
+            }
+            this.errLoadingOffer = true;
+            this.isLoaded = true;
+            this.hideGlobalLoader();
+            if (cb) cb();
+        },
+        loadPageData (cb) {
             if (!this.offerId) {
-                this.errLoadingOffer = true;
+                this.errLoadingDataHandler(cb);
                 return;
             }
-            api.dashboard.offers.getOfferById(this.offerId)
-                .then(offer => {
-                    if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
-                        offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
+            const requests = [
+                api.dashboard.offers.getOfferById(this.offerId),
+                api.dashboard.offers.getOfferQuestions(this.offerId)
+            ];
+            Promise.all(requests)
+                .then(result => {
+                    if (result && result[0]) {
+                        // offer info
+                        const offer = result[0];
+                        if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
+                            offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
+                        }
+                        this.currentUserId = this.$store.getters.userId;
+                        this.offerInfo = { ...offer };
                     }
-                    this.currentUserId = this.$store.getters.userId;
-                    this.offerInfo = { ...offer };
-
+                    if (result && result[1] && result[1].length) {
+                        // transform questions, temp
+                        this.questions = result[1].map(item => {
+                            const _date = new Date(item.date);
+                            item.date = `${_date.toLocaleDateString('en', { month: 'short' })} ${_date.getUTCDate()}`;
+                            return item;
+                        });
+                    }
+                })
+                .then(() => {
+                    // load more offers
                     api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerId)
-                        .then(result => {
-                            if (result && result.data) {
-                                this.moreOffers = result.data;
+                        .then(res => {
+                            if (res && res.data) {
+                                this.moreOffers = res.data;
                             }
                             this.isLoaded = true;
                             this.hideGlobalLoader();
+                            if (cb) cb();
                         })
                         .catch(error => {
-                            console.log('\n >> error > ', error);
-                            this.isLoaded = true;
-                            this.hideGlobalLoader();
+                            this.errLoadingDataHandler(cb, error);
                         });
                 })
                 .catch(err => {
-                    console.log('\n >> err > ', err);
-                    this.errLoadingOffer = true;
-                    this.isLoaded = true;
-                    this.hideGlobalLoader();
+                    this.errLoadingDataHandler(cb, err);
                 })
+        },
+        hideGlobalLoader () {
+            if (this.$loader && this.$loader.hide) {
+                setTimeout(() => {
+                    this.$loader.hide()
+                }, 0);
+            }
         },
         showReserveMealModal () {
             this.$bvModal.show('reserve-meal-modal');
