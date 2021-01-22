@@ -62,7 +62,7 @@
                                 just sit back and relax while your neighbors claim your delicious grub!</p>
                         </div>
                         <div class="col-lg-5 col-sm-6 order-sm-1 ml-auto text-center mt-4 mt-sm-0">
-                            <img src="../assets/images/landing/img-snap.png" alt="" class="img-fluid">
+                            <img src="../assets/images/landing/img-snap.svg" alt="" class="img-fluid">
                         </div>
                     </div>
 
