@@ -146,6 +146,15 @@ const routes = [
                 }
             },
             {
+                path: 'search',
+                name: 'Search',
+                props: true,
+                component: () => import('../views/SearchResults.vue'),
+                meta: {
+                    title: `${TITLE} - Search Results`
+                }
+            },
+            {
                 path: "*",
                 redirect: "/dashboard"
             }

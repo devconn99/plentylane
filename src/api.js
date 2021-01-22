@@ -140,6 +140,23 @@ export default {
                         return checkErr(err.response);
                     })
             },
+            getPlacesByLocation (query) {
+                let endpoint = `${config.API_ORIGIN}/api/places`;
+                if (query && query.type) {
+                    const queryStr = `?${query.type}=${query.field}||${query.condition}||${query.value}`;
+                    endpoint += queryStr;
+                }
+                // TODO: apply filters for name/description, pickupTime
+                // TODO: ask for this JOIN: `offers.meal.user`
+                endpoint += '&join=offers&join=offers.meal&join=offers.bookings';
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
             getMyPlaces () {
                 const endpoint = `${config.API_ORIGIN}/api/me/places`;
                 return axios.get(endpoint)
@@ -172,35 +189,52 @@ export default {
             }
         },
         offers: {
-            getOffers (filters) {
+            getOffers (query) {
                 // example filters data:
-                filters = [
+                // quert = [
                     // {
+                    //     type: 'filter', // I'm expecting 'filter' or 'or' types
                     //     field: "quantity",
                     //     condition: '$in',
                     //     value: '3,7'
                     // },
-                    {
-                        field: 'pickupTime',
-                        condition: '$between',
-                        value: '2021-01-13,2021-01-20'
-                    },
+                    // {
+                    //     field: 'pickupTime',
+                    //     condition: '$between',
+                    //     value: '2021-01-13,2021-01-20'
+                    // },
                     // {
                     //     field: 'meal.name',
                     //     condition: '$contL',
                     //     value: 'Test'
                     // }
-                ];
-                let filtersStr = '';
-                if (filters && filters.length) {
-                    filters.forEach(item => {
-                        filtersStr += `&filter=${item.field}||${item.condition}||${item.value}`;
+                //];
+                let _queryStr = '';
+                if (query && query.length) {
+                    query.forEach(item => {
+                        if (item.type && item.type.length) {
+                            _queryStr += `&${item.type}=${item.field}||${item.condition}||${item.value}`;
+                        }
                     });
                 }
                 let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
-                if (filtersStr && filtersStr.length) {
-                    endpoint += filtersStr;
+                if (_queryStr && _queryStr.length) {
+                    endpoint += _queryStr;
+                    console.log('\n >> _queryStr > ', _queryStr);
                 }
+
+                // temp
+                // WHERE ({filter} AND {filter} AND ...) OR ({or} AND {or} AND ...)
+                // ?filter=type||$eq||hero&filter=status||$eq||alive&or=type||$eq||villain&or=status||$eq||dead
+                // &filter=pickupTime||$between||2021-01-27,2021-01-28
+
+                // endpoint += '&filter=meal.name||$starts||ee';
+                // endpoint += '&filter=pickupTime||$between||2021-01-10,2021-02-15';
+                // endpoint += '&filter=quantity||$between||1,30';
+                // endpoint += '&or=meal.description||$starts||ee';
+                // endpoint += '&or=pickupTime||$between||2021-01-10,2021-02-15';
+                // endpoint += '&or=quantity||$between||1,30';
+
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});

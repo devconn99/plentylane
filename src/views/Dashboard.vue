@@ -252,6 +252,9 @@ export default {
         },
         handleSearch () {
             // TODO: handle search (use this.searchStr as a value), redirect to search page
+            console.log('\n >>handleSearch  ', this.searchStr);
+            const str = this.searchStr && this.searchStr.length ? this.searchStr.trim() : '';
+            this.$router.push({ path: '/dashboard/search', query: { name: str } });
         }
     },
     mounted () {
