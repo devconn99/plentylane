@@ -27,6 +27,16 @@ body {
 	&.mobile-menu-box-active {
 		overflow: hidden;
 		position: relative;
+		&:before {
+			content: '';
+			width: 100%;
+			height: 100%;
+			z-index: 3;
+			top: 0;
+			left: 0;
+			position: fixed;
+			background: rgba(0, 0, 0, 0.7);
+		}
 	}
 	@media screen and (max-width: $phoneBigWidth) {
 		font-size: 14px;
@@ -844,10 +854,6 @@ h1, h2, h3, h4, h5, h6 {
 				cursor: pointer;
 				display: flex;
 				flex-direction: row;
-
-				.close-icon {
-					display: none;
-				}
 			}
 
 		}
@@ -873,17 +879,8 @@ body.mobile-menu-box-active .header {
 /********************
 * STYLE-MOBILE-MENU *
 ********************/
+// #mobile-body-overly styles has been moved to body.mobile-menu-box-active:before
 
-#mobile-body-overly {
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    top: 0;
-    left: 0;
-    position: fixed;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-}
 #mobile-menu-box-toggle {
     z-index: 999;
     border: 0;

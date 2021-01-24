@@ -11,9 +11,9 @@
 
                     <div class="header-links">
                         <div class="header-link-search">
-                            <div class="header-link-search-btn">
-                                <SvgIcon icon="search" :params="{ class: 'loop-icon' }"></SvgIcon>
-                                <SvgIcon icon="close" :params="{ class: 'close-icon' }"></SvgIcon>
+                            <div class="header-link-search-btn" @click="toggleMobileSearch">
+                                <SvgIcon icon="search" :params="{ class: 'loop-icon' }" v-if="!isMobileSearchVisible"></SvgIcon>
+                                <SvgIcon icon="close" :params="{ class: 'close-icon' }" v-else></SvgIcon>
                             </div>
                         </div>
                         <div class="header-link-notify">
@@ -24,8 +24,8 @@
                         </div>
                         <div class="header-link-nav">
                             <div class="mobile-button">
-                                <button type="button" id="mobile-menu-box-toggle" @click="toggleMobileMenu">
-                                    <span class="hamburger"></span>
+                                <button type="button" id="mobile-menu-box-toggle" @click="toggleMobileSideNav">
+                                    <span v-bind:class="{ 'hamburger': !isMobileSidebarVisible, 'hamburger-checked': isMobileSidebarVisible }"></span>
                                 </button>
                             </div>
                         </div>
@@ -34,9 +34,9 @@
             </div>
         </header>
 
-        <div class="header_search_container_mobile">
+        <div class="header_search_container_mobile" v-bind:class="{ 'active': isMobileSearchVisible }">
             <b-form class="form" @submit.stop.prevent="handleSearch">
-                <b-form-group>
+                <b-form-group v-on-clickaway="onMobileSearchClickedAway">
                     <div class="cursor-pointer" @click="handleSearch">
                         <SvgIcon icon="searchSmall"></SvgIcon>
                     </div>
@@ -56,7 +56,12 @@
         </div>
 
         <main class="dashboard" v-bind:class="{ 'dashboard-home': isDashboardPage }">
-            <aside id="dashboard-aside" class="dashboard-aside">
+            <aside
+                    id="dashboard-aside"
+                    class="dashboard-aside"
+                    v-bind:class="{ 'show-aside': isMobileSidebarVisible }"
+                    v-on-clickaway="onMobileSideNavClickedAway"
+            >
 
                 <div class="dashboard-logo">
                     <router-link to="/">
@@ -104,14 +109,14 @@
                             <ul class="nav-menu-dashboard-small">
                                 <li class="linotifications">
                                     <!-- TODO: refactor tag <a> later -->
-                                    <a v-b-modal.notifications-modal>
+                                    <a @click.stop.prevent="showNotificationsModal">
                                         <SvgIcon icon="bell"></SvgIcon>
                                         <span>Notifications</span>
                                     </a>
                                 </li>
                                 <li>
                                     <!-- TODO: refactor tag <a> later -->
-                                    <a v-b-modal.invite-friends-modal>
+                                    <a @click.stop.prevent="showInviteFriendsModal">
                                         <SvgIcon icon="invite"></SvgIcon>
                                         <span>Invite Friends</span>
                                     </a>
@@ -134,7 +139,7 @@
                                 <span class="dashboard-user-name" v-else>Profile</span>
                             </router-link>
                             <!-- TODO: refactor tag <a> later -->
-                            <a v-b-modal.notifications-modal class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
+                            <a @click.stop.prevent="showNotificationsModal" class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
                         </div>
                     </div>
                 </div>
@@ -184,8 +189,11 @@ export default {
                 text: 'Shop'
             },
         ],
-        isMobileSearchOpened: false,
-        searchStr: ''
+        searchStr: '',
+        isMobileSidebarVisible: false,
+        isMobileSearchVisible: false,
+        isMobileBtnSearchActive: false,
+        isMobileBtnMenuActive: false
     }),
     created () {
         const user = { ...this.$store.getters.userInfo };
@@ -211,6 +219,15 @@ export default {
             return this.$route.path === '/dashboard';
         }
     },
+    beforeRouteUpdate (to, from, next) {
+        if (this.isMobileSidebarVisible) {
+            this.hideMobileSideNav();
+        }
+        if (this.isMobileSearchVisible) {
+            this.hideMobileSearch();
+        }
+        next();
+    },
     methods: {
         loadUserInfo () {
             api.dashboard.userInfo()
@@ -221,67 +238,89 @@ export default {
                 })
                 .catch((err) => {});
         },
-        toggleMobileMenu () {
-            $('body').toggleClass('mobile-menu-box-active');
-            $('#mobile-menu-box-toggle span').toggleClass('hamburger-checked hamburger');
-            $('#mobile-body-overly').toggle();
-
-            const $dashboardAside = $('.dashboard-aside');
-            const $navLanding = $('.nav-landing');
-
-            if ($dashboardAside.hasClass('show-aside')) {
-                $dashboardAside.removeClass('show-aside');
+        toggleMobileSideNav () {
+            if (!this.isMobileSidebarVisible) {
+                this.showMobileSideNav();
             } else {
-                $dashboardAside.addClass('show-aside');
+                this.hideMobileSideNav();
             }
-            if ($navLanding.hasClass('show-nav')) {
-                $navLanding.removeClass('show-nav');
-            } else {
-                $navLanding.addClass('show-nav');
+            if (this.isMobileSidebarVisible) {
+                this.isMobileBtnMenuActive = true;
             }
+            // it's needed to exclude this click event from click outside mobile side nav block handler - onMobileSideNavClickedAway
+            // where 300ms is the transition duration
+            setTimeout(() => {
+                if (this.isMobileBtnMenuActive) {
+                    this.isMobileBtnMenuActive = false;
+                }
+            }, 300);
         },
         toggleMobileSearch () {
-            const $headerSearchContainerMobile = $('.header_search_container_mobile');
-            if ($headerSearchContainerMobile && $headerSearchContainerMobile.length) {
-                console.log('here?');
-                this.isMobileSearchOpened = !this.isMobileSearchOpened;
-                $headerSearchContainerMobile.toggleClass('active');
-                $('body').toggleClass('mobile-menu-box-active');
-                $('#mobile-body-overly').toggle();
+            if (!this.isMobileSearchVisible) {
+                this.showMobileSearch();
+            } else {
+                this.hideMobileSearch();
             }
+            if (this.isMobileSearchVisible) {
+                this.isMobileBtnSearchActive = true;
+            }
+            // it's needed to exclude this click event from click outside search block handler - onMobileSearchClickedAway
+            // where 300ms is the transition duration
+            setTimeout(() => {
+                if (this.isMobileBtnSearchActive) {
+                    this.isMobileBtnSearchActive = false;
+                }
+            }, 300);
+        },
+        showMobileSearch () {
+            this.isMobileSearchVisible = true;
+            this.$eventHub.$emit('mobile-search-opened');
+        },
+        hideMobileSearch () {
+            this.isMobileSearchVisible = false;
+            this.$eventHub.$emit('mobile-search-closed');
+        },
+        showMobileSideNav () {
+            this.isMobileSidebarVisible = true;
+            this.$eventHub.$emit('mobile-side-nav-opened');
+        },
+        hideMobileSideNav () {
+            this.isMobileSidebarVisible = false;
+            this.$eventHub.$emit('mobile-side-nav-closed');
         },
         handleSearch () {
             // TODO: handle search (use this.searchStr as a value), redirect to search page
-        }
-    },
-    mounted () {
-        // TODO: get back to it later
-        $('.header-link-search-btn').on('click', function (e) {
-            if ($('.header_search_container_mobile').length) {
-
-                if ($('#mobile-menu-box-toggle span').hasClass('hamburger-checked')) {
-                    $('#mobile-body-overly').addClass('static');
-                    $('#mobile-menu-box-toggle').trigger('click');
+        },
+        onMobileSearchClickedAway () {
+            if (!this.isMobileBtnSearchActive && this.isMobileSearchVisible) {
+                this.isMobileSearchVisible = false;
+                // don't hide body overlay if mobile side nav is visible
+                if (!this.isMobileSidebarVisible) {
+                    this.$eventHub.$emit('mobile-search-closed');
                 }
-
-                $('.header_search_container_mobile').toggleClass('active');
-                $('body').toggleClass('mobile-menu-box-active');
-                if ($('.header-link-search-btn .loop-icon').is(':visible')) {
-                    $('.header-link-search-btn .loop-icon').hide();
-                    $('.header-link-search-btn .close-icon').show();
-                    if (!$('#mobile-body-overly').is(':visible')) {
-                        $('#mobile-body-overly').fadeIn();
-                    }
-                } else {
-                    $('.header-link-search-btn .loop-icon').show();
-                    $('.header-link-search-btn .close-icon').hide();
-                    if (!$('#mobile-body-overly').hasClass('static')) {
-                        $('#mobile-body-overly').fadeOut();
-                    }
-                }
-                $('#mobile-body-overly').removeClass('static');
             }
-        });
+        },
+        onMobileSideNavClickedAway () {
+            if (!this.isMobileBtnMenuActive && this.isMobileSidebarVisible) {
+                this.isMobileSidebarVisible = false;
+                // don't hide body overlay if mobile search is visible
+                if (!this.isMobileSearchVisible) {
+                    this.$eventHub.$emit('mobile-side-nav-closed');
+                }
+            }
+        },
+        showInviteFriendsModal () {
+            if (this.isMobileSidebarVisible) {
+                this.hideMobileSideNav();
+            }
+            this.$bvModal.show('invite-friends-modal');
+        },
+        showNotificationsModal () {
+            if (this.isMobileSidebarVisible) {
+                this.hideMobileSideNav();
+            }
+            this.$bvModal.show('notifications-modal');
+        }
     }
 }
 </script>

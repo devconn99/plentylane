@@ -17,6 +17,7 @@ import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import { directive as onClickaway } from 'vue-clickaway';
 
 import PreLoader from './components/PreLoader';
 
@@ -35,6 +36,8 @@ Vue.use(Loading, {
 }, {
     default: (new Vue()).$createElement('pre-loader')
 });
+
+Vue.directive('onClickaway', onClickaway);
 
 Vue.use(Vuex);
 

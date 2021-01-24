@@ -157,6 +157,7 @@ export default {
     components: {Footer, Header, BackToTop, HeroWave},
     mounted () {
         window.scrollTo(0, 0); // temp
+        this.$eventHub.$emit('mobile-side-nav-closed');
     }
 }
 </script>
