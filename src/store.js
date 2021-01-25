@@ -7,6 +7,10 @@ const initialState = () => {
             firstName: null,
             lastName: null,
             fullName: null
+        },
+        browserCoordinates: {
+            lat: null,
+            lng: null
         }
     }
 };
@@ -22,6 +26,9 @@ export default {
         },
         userInfo (state, value) {
           state.userInfo = { ...state.userInfo, ...value };
+        },
+        browserCoordinates (state, value) {
+            state.browserCoordinates = { ...value };
         }
     },
     getters: {
@@ -31,6 +38,7 @@ export default {
         userId: (state) => (state.userInfo.id),
         fullName: (state) => (state.userInfo.fullName),
         firstName: (state) => (state.userInfo.firstName),
-        lastName: (state) => (state.userInfo.lastName)
+        lastName: (state) => (state.userInfo.lastName),
+        browserCoordinates: (state) => (state.browserCoordinates),
     }
 }

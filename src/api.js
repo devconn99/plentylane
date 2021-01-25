@@ -142,13 +142,26 @@ export default {
             },
             getPlacesByLocation (query) {
                 let endpoint = `${config.API_ORIGIN}/api/places`;
-                if (query && query.type) {
-                    const queryStr = `?${query.type}=${query.field}||${query.condition}||${query.value}`;
-                    endpoint += queryStr;
+                let _queryStr = '';
+                let hasPickupTimeFilter = false;
+                if (query && query.length) {
+                    query.forEach((item, index) => {
+                        if (item.type && item.type.length) {
+                            if (item.field.includes('pickupTime')) {
+                                hasPickupTimeFilter = true;
+                            }
+                            _queryStr += `${index === 0 ? '?' : '&'}${item.type}=${item.field}||${item.condition}||${item.value}`;
+                        }
+                    });
                 }
-                // TODO: apply filters for name/description, pickupTime
-                // TODO: ask for this JOIN: `offers.meal.user`
-                endpoint += '&join=offers&join=offers.meal&join=offers.bookings';
+                const sortByPickupTime = 'sort=offers.pickupTime,ASC';
+                if (_queryStr && _queryStr.length) {
+                    endpoint += _queryStr;
+                    endpoint += `&${sortByPickupTime}`;
+                } else {
+                    endpoint += `?${sortByPickupTime}`;
+                }
+                endpoint += `${_queryStr && _queryStr.length ? '&' : '?'}join=offers&join=offers.meal&join=offers.bookings&join=user`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -210,30 +223,25 @@ export default {
                     // }
                 //];
                 let _queryStr = '';
+                let hasPickupTimeFilter = false;
                 if (query && query.length) {
                     query.forEach(item => {
                         if (item.type && item.type.length) {
+                            if (item.field.includes('pickupTime')) {
+                                hasPickupTimeFilter = true;
+                            }
                             _queryStr += `&${item.type}=${item.field}||${item.condition}||${item.value}`;
                         }
                     });
                 }
                 let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
+
+                const sortByPickupTime = 'sort=pickupTime,ASC';
+
                 if (_queryStr && _queryStr.length) {
                     endpoint += _queryStr;
-                    console.log('\n >> _queryStr > ', _queryStr);
                 }
-
-                // temp
-                // WHERE ({filter} AND {filter} AND ...) OR ({or} AND {or} AND ...)
-                // ?filter=type||$eq||hero&filter=status||$eq||alive&or=type||$eq||villain&or=status||$eq||dead
-                // &filter=pickupTime||$between||2021-01-27,2021-01-28
-
-                // endpoint += '&filter=meal.name||$starts||ee';
-                // endpoint += '&filter=pickupTime||$between||2021-01-10,2021-02-15';
-                // endpoint += '&filter=quantity||$between||1,30';
-                // endpoint += '&or=meal.description||$starts||ee';
-                // endpoint += '&or=pickupTime||$between||2021-01-10,2021-02-15';
-                // endpoint += '&or=quantity||$between||1,30';
+                endpoint += `&${sortByPickupTime}`;
 
                 return axios.get(endpoint)
                     .then((res) => {

@@ -12,13 +12,12 @@
                     <b-button variant="success">Search</b-button>
                 </b-input-group-append>
             </b-input-group>
-            <small class="text-danger d-flex mt-2" v-if="!$v.form.name.minLength">This field must be at least 3 characters long.</small>
 
             <div class="mt-4 rest-filters-wrapper">
                 <b-form-group label="View">
                     <b-form-radio-group v-model="$v.form.viewType.$model" name="radios-btn-default" buttons>
                         <template #first>
-                            <b-form-radio :value="item.value" v-for="item in viewTypeOptions">
+                            <b-form-radio :value="item.value" v-for="item in viewTypeOptions" @change="viewTypeChanged">
                                 <i :class="item.iconClass"></i>
                                 <span class="pl-2">{{item.text}}</span>
                             </b-form-radio>
@@ -61,7 +60,6 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { minLength } from "vuelidate/lib/validators";
 export default {
     name: "SearchFilters",
     mixins: [validationMixin],
@@ -88,9 +86,7 @@ export default {
     }),
     validations: {
         form: {
-            name: {
-                minLength: minLength(3)
-            },
+            name: {},
             date: {},
             proximity: {},
             viewType: {}
@@ -110,6 +106,9 @@ export default {
                 model.name = model.name.trim();
             }
             this.$emit('on-filters-changed', model);
+        },
+        viewTypeChanged (type) {
+            this.$emit('on-view-type-changed', type);
         }
     },
     watch: {

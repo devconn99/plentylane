@@ -27,7 +27,11 @@
 
             <div class="row pad-70b">
                 <div class="col-12">
-                    <SearchFilters @on-filters-changed="onFiltersChanged" :search-str="queryName"></SearchFilters>
+                    <SearchFilters
+                            @on-filters-changed="onFiltersChanged"
+                            @on-view-type-changed="onViewTypeChanged"
+                            :search-str="queryName"
+                    ></SearchFilters>
                 </div>
             </div>
 
@@ -36,6 +40,10 @@
                     <OfferInfoBlock :offer-info="item"></OfferInfoBlock>
                 </div>
             </div>
+
+            <!--<div class="row search-map-wrapper" v-show="shouldShowMap">-->
+                <!--<div id="map" ref="map" class="map-container"></div>-->
+            <!--</div>-->
         </div>
     </div>
 </template>
@@ -61,40 +69,41 @@ export default {
         userCoordinates: {
             lat: '',
             lng: ''
-        }
+        },
+        currentForm: null,
+        isMapInitialized: false,
+        shouldShowMap: false,
+        map: null,
+        mapMarkers: []
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
-            const { name = '' } = vm.$route.query;
+            const { name = '' } = to.query;
             vm.queryName = name;
             vm.initPage();
         });
     },
     beforeRouteUpdate (to, from, next) {
-        next(() => {
-            const { name = '' } = this.$route.query;
-            this.queryName = name;
-            this.initPage();
-        });
+        const { name = '' } = to.query;
+        this.queryName = name;
+        this.initPage(next);
+    },
+    mounted () {
+        this.$eventHub.$on('browser-coordinates', (crd) => {
+            this.userCoordinates.lat = crd.lat;
+            this.userCoordinates.lng = crd.lng;
+        })
+    },
+    beforeDestroy () {
+        this.$eventHub.$off('browser-coordinates');
     },
     methods: {
-        getUserLocation () {
-            let vm = this;
-            const _options = {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-            };
-            function _successHandler (pos) {
-                const crd = pos.coords;
-                vm.userCoordinates.lat = crd.latitude;
-                vm.userCoordinates.lng = crd.longitude;
-                console.log('\n >> vm.userCoordinates > ', vm.userCoordinates)
+        prepareBrowserLocation () {
+            const crd = this.$store.getters.browserCoordinates;
+            if (crd && crd.lat && crd.lng) {
+                this.userCoordinates.lat = crd.lat;
+                this.userCoordinates.lng = crd.lng;
             }
-            function _errorHandler (err) {
-                console.log('\n >> err get location > ', err);
-            }
-            navigator.geolocation.getCurrentPosition(_successHandler, _errorHandler, _options);
         },
         clearPageData () {
             this.searchStr = '';
@@ -103,104 +112,86 @@ export default {
             this.userCoordinates.lng = '';
             this.isLoading = false;
             this.wasSearched = false;
+            this.currentForm = null;
+            this.isMapInitialized = false; // temp
+            this.shouldShowMap = false; // temp
+            // TODO: destroy map, remove map handlers, marker handlers
+            this.map = null;
+            this.mapMarkers = [];
         },
-        initPage () {
+        initPage (cb) {
             this.clearPageData();
-            this.getUserLocation();
+            this.prepareBrowserLocation();
             if (this.queryName && this.queryName.length) {
-                // TODO: get data
                 this.searchStr = this.queryName;
-                this.searchOffers({ name: this.queryName });
             }
+            this.searchOffers({ name: this.searchStr || '' })
+                .then(() => {
+                    if (cb) cb();
+                })
+                .catch(() => {
+                    if (cb) cb();
+                });
         },
         onFiltersChanged (model) {
-            console.log('\n >> model > ', model);
             this.searchStr = model['name'] || '';
+            this.currentForm = { ...model };
             this.searchOffers(model);
+        },
+        onViewTypeChanged (viewType) {
+            if (viewType === 'map') {
+                this.shouldShowMap = true;
+                if (!this.isMapInitialized) {
+                    this.initMap();
+                }
+            } else {
+                this.shouldShowMap = false;
+            }
         },
         searchOffers (form) {
             this.isLoading = true;
-            let query = [];
-            let resultQuery = [];
-            let shouldUseOr = false;
-            // ?s={"$and": [{"isActive": true}, {"createdAt": {"$ne": "2008-10-01T17:04:32"}}]}
-            // let _queryStr = '?s={'
-            if (form['date']) {
-                const _date = new Date(form['date']);
-                _date.setDate(_date.getDate() + 1);
-                const _dateEndStr = `${_date.getUTCFullYear()}-${_date.getUTCMonth() + 1}-${_date.getUTCDate()}`;
-                query.push({
-                    type: 'filter',
-                    field: 'pickupTime',
-                    condition: '$between',
-                    value: `${form['date']},${_dateEndStr}`
-                });
+            const { resultQuery, shouldUseLocationEndpoint }= this.prepareRequestFilters(form);
+
+            if (shouldUseLocationEndpoint) {
+                return this.getPlacesByLocation(resultQuery);
             }
-            if (form['proximity']) {
-                // TODO
-                const _item = {
-                    type: 'filter',
-                    field: 'location',
-                    condition: '$between',
-                    value: `${this.userCoordinates.lat},${this.userCoordinates.lng},${form['proximity']}`
-                };
-                if (this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
-                    // query.push({_item});
-                    // temp
-                    // TODO: send other queries to search by name/desc, pickupTime too
-                    return api.dashboard.places.getPlacesByLocation(_item)
-                        .then(result => {
-                            console.log('\n >> result > ', result);
-                            if (result && result.data && result.data.length) {
-                                // TODO: parse result
-                                const _offers = [];
-                                result.data.forEach(place => {
-                                    if (place.offers && place.offers.length) {
-                                        place.offers.forEach(offer => {
-                                            _offers.push({ ...offer, place: place });
-                                        })
-                                    }
-                                });
-                                if (_offers && _offers.length) {
-                                    this.results = _offers.slice(0);
-                                } else {
-                                    this.results = [];
-                                }
-                            } else {
-                                this.results = [];
-                            }
-                            this.isLoading = false;
-                        })
-                        .catch(err => {
-                            this.searchErrorHandler(err);
-                        })
-                } else {
-                    console.log('undefined location');
-                    this.isLoading = false;
-                    return;
-                }
-            }
-            if (form['name'] && form['name'].length) {
-                query.push({ type: 'filter', field: 'meal.name', condition: '$contL', value: form['name'] });
-                shouldUseOr = true;
-            }
-            resultQuery = query;
-            if (query.length && shouldUseOr) {
-                query.forEach(item => {
-                    resultQuery.push({
-                        type: 'or',
-                        field: item.field !== 'meal.name' ? item.field : 'meal.description',
-                        condition: item.condition,
-                        value: item.value
-                    });
-                })
-            }
-            api.dashboard.offers.getOffers(resultQuery)
+            return this.getOffersByQuery(resultQuery);
+        },
+        getPlacesByLocation (query) {
+            return api.dashboard.places.getPlacesByLocation(query)
                 .then(result => {
-                    this.searchSuccessHandler(result);
+                    if (result && result.data && result.data.length) {
+                        const _offers = [];
+                        result.data.forEach(place => {
+                            if (place.offers && place.offers.length) {
+                                place.offers.forEach(offer => {
+                                    _offers.push({ ...offer, place: place, user: { ...place.user } });
+                                })
+                            }
+                        });
+                        if (_offers && _offers.length) {
+                            this.results = _offers.slice(0);
+                            console.log('\n >> this.results > ', this.results);
+                        } else {
+                            this.results = [];
+                        }
+                    } else {
+                        this.results = [];
+                    }
+                    this.isLoading = false;
+                    return true;
                 })
                 .catch(err => {
-                    this.searchErrorHandler(err);
+                    return this.searchErrorHandler(err);
+                })
+        },
+        getOffersByQuery (query) {
+            return api.dashboard.offers.getOffers(query)
+                .then(result => {
+                    return this.searchSuccessHandler(result);
+                })
+                .catch(err => {
+                    return this.searchErrorHandler(err);
                 });
         },
         searchSuccessHandler (result) {
@@ -217,13 +208,121 @@ export default {
             console.log('\n >> error > ', error);
             this.isLoading = false;
             this.wasSearched = true;
+        },
+        prepareRequestFilters (form) {
+            let query = [];
+            let resultQuery = [];
+            let shouldUseOr = false;
+            let fieldPrefix = '';
+            let shouldUseLocationEndpoint = false;
+
+            if (form['proximity'] && this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
+                fieldPrefix = 'offers.';
+                shouldUseLocationEndpoint = true;
+                query.push({
+                    type: 'filter',
+                    field: 'location',
+                    condition: '$between',
+                    value: `${this.userCoordinates.lat},${this.userCoordinates.lng},${form['proximity']}`
+                })
+            }
+            if (form['date']) {
+                const _date = new Date(form['date']);
+                _date.setDate(_date.getDate() + 1);
+                const _dateEndStr = `${_date.getUTCFullYear()}-${_date.getUTCMonth() + 1}-${_date.getUTCDate()}`;
+                query.push({
+                    type: 'filter',
+                    field: `${fieldPrefix}pickupTime`,
+                    condition: '$between',
+                    value: `${form['date']},${_dateEndStr}`
+                });
+            } else {
+                query.push(this.prepareDefaultPickupTimeFilter(fieldPrefix));
+            }
+            if (form['name'] && form['name'].length) {
+                query.push({ type: 'filter', field: `${fieldPrefix}meal.name`, condition: '$contL', value: form['name'] });
+                shouldUseOr = true;
+            }
+            resultQuery = query;
+            if (query.length && shouldUseOr) {
+                query.forEach(item => {
+                    resultQuery.push({
+                        type: 'or',
+                        field: !item.field.includes('meal.name') ? item.field : `${fieldPrefix}meal.description`,
+                        condition: item.condition,
+                        value: item.value
+                    });
+                })
+            }
+            return { resultQuery, shouldUseLocationEndpoint };
+        },
+        prepareDefaultPickupTimeFilter (fieldPrefix) {
+            if (!fieldPrefix || !fieldPrefix.length) {
+                fieldPrefix = '';
+            } else if (!fieldPrefix.endsWith('.')) {
+                fieldPrefix += '.';
+            }
+            const _dateToday = new Date();
+            const dateStartStr = `${_dateToday.getUTCFullYear()}-${_dateToday.getUTCMonth() + 1}-${_dateToday.getUTCDate()}`;
+            const dateEnd = new Date(_dateToday.setDate(_dateToday.getDate() + 60)); // today + 60 days
+            const dateEndStr = `${dateEnd.getUTCFullYear()}-${dateEnd.getUTCMonth() + 1}-${dateEnd.getUTCDate()}`;
+            return {
+                type: 'filter',
+                field: `${fieldPrefix}pickupTime`,
+                condition: '$between',
+                value: `${dateStartStr},${dateEndStr}`
+            }
+        },
+        initMap () {
+            const options = {
+                center: { lat: 34.0802619, lng: -118.2628157 }, // temp center
+                zoom: 14,
+                disableDefaultUI: true
+            };
+            if (this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
+                options['center'] = {
+                    lat: this.userCoordinates.lat,
+                    lng: this.userCoordinates.lng
+                };
+            }
+            this.map = new window.google.maps.Map(this.$refs['map'], options);
+            this.isMapInitialized = true;
+            if (this.results && this.results.length) {
+                // TODO: add markers
+                this.results.forEach(item => {
+                    let marker = new window.google.maps.Marker({
+                        position: { lat: item.place.location.coordinates[0], lng: item.place.location.coordinates[1] },
+                        map: this.map,
+                        // label: `${item.availableQuantity}/${item.quantity}`
+                    });
+                    marker.addListener('click', () => {
+                        console.log('\n >> marker click: > ', item);
+                    });
+                    this.mapMarkers.push(marker);
+                })
+            }
+        },
+        clearMarkers () {
+            if (this.mapMarkers && this.mapMarkers.length) {
+                this.mapMarkers.forEach(marker => {
+                    marker.setMap(null);
+                });
+                this.mapMarkers = [];
+            }
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
-.search-results-page {
-    position: relative;
+.search-map-wrapper {
+    // temp
+    margin-left: -30px;
+    margin-right: -30px;
+
+    .map-container {
+        width: 100%;
+        height: 600px;
+    }
 }
 </style>
