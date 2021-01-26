@@ -35,15 +35,15 @@
                 </div>
             </div>
 
-            <div class="row" v-if="!isLoading && results && results.length">
+            <div class="row" v-if="!isLoading && results && results.length && !shouldShowMap">
                 <div class="col-sm-6 col-xl-4 mb-4" v-for="item in results">
                     <OfferInfoBlock :offer-info="item"></OfferInfoBlock>
                 </div>
             </div>
 
-            <!--<div class="row search-map-wrapper" v-show="shouldShowMap">-->
-                <!--<div id="map" ref="map" class="map-container"></div>-->
-            <!--</div>-->
+            <div class="row search-map-wrapper" v-show="shouldShowMap">
+                <div id="map" ref="map" class="map-container"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -53,6 +53,8 @@ import SearchFilters from '../components/SearchFilters';
 import Loading from 'vue-loading-overlay';
 import OfferInfoBlock from '../components/OfferInfoBlock';
 import api from "../api";
+import MyMealInfo from '../components/MyMealInfo';
+import Vue from 'vue';
 export default {
     name: "SearchResults",
     components: {SearchFilters, Loading, OfferInfoBlock},
@@ -74,7 +76,10 @@ export default {
         isMapInitialized: false,
         shouldShowMap: false,
         map: null,
-        mapMarkers: []
+        mapMarkers: [],
+        mapInfoWindows: {},
+        _infoWindowComponent: null,
+        _infoWindowComponentInstance: null
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -92,7 +97,10 @@ export default {
         this.$eventHub.$on('browser-coordinates', (crd) => {
             this.userCoordinates.lat = crd.lat;
             this.userCoordinates.lng = crd.lng;
-        })
+        });
+        this._infoWindowComponent = Vue.extend(MyMealInfo);
+        this._infoWindowComponentInstance = new this._infoWindowComponent({});
+        this._infoWindowComponentInstance.$mount();
     },
     beforeDestroy () {
         this.$eventHub.$off('browser-coordinates');
@@ -116,8 +124,8 @@ export default {
             this.isMapInitialized = false; // temp
             this.shouldShowMap = false; // temp
             // TODO: destroy map, remove map handlers, marker handlers
+            this.clearMarkers();
             this.map = null;
-            this.mapMarkers = [];
         },
         initPage (cb) {
             this.clearPageData();
@@ -143,6 +151,8 @@ export default {
                 this.shouldShowMap = true;
                 if (!this.isMapInitialized) {
                     this.initMap();
+                } else if (!this.mapMarkers || !this.mapMarkers.length) {
+                    this.addMarkers();
                 }
             } else {
                 this.shouldShowMap = false;
@@ -150,6 +160,9 @@ export default {
         },
         searchOffers (form) {
             this.isLoading = true;
+            if (this.isMapInitialized) {
+                this.clearMarkers();
+            }
             const { resultQuery, shouldUseLocationEndpoint }= this.prepareRequestFilters(form);
 
             if (shouldUseLocationEndpoint) {
@@ -160,8 +173,8 @@ export default {
         getPlacesByLocation (query) {
             return api.dashboard.places.getPlacesByLocation(query)
                 .then(result => {
+                    const _offers = [];
                     if (result && result.data && result.data.length) {
-                        const _offers = [];
                         result.data.forEach(place => {
                             if (place.offers && place.offers.length) {
                                 place.offers.forEach(offer => {
@@ -169,17 +182,8 @@ export default {
                                 })
                             }
                         });
-                        if (_offers && _offers.length) {
-                            this.results = _offers.slice(0);
-                            console.log('\n >> this.results > ', this.results);
-                        } else {
-                            this.results = [];
-                        }
-                    } else {
-                        this.results = [];
                     }
-                    this.isLoading = false;
-                    return true;
+                    return this.searchSuccessHandler({ data: _offers });
                 })
                 .catch(err => {
                     return this.searchErrorHandler(err);
@@ -200,6 +204,9 @@ export default {
                 this.results = result.data.slice(0);
             } else {
                 this.results = [];
+            }
+            if (this.shouldShowMap) {
+                this.addMarkers();
             }
             this.isLoading = false;
             this.wasSearched = true;
@@ -286,21 +293,11 @@ export default {
                 };
             }
             this.map = new window.google.maps.Map(this.$refs['map'], options);
+            this.map.addListener('click', () => {
+                this.closeInfoWindows();
+            });
             this.isMapInitialized = true;
-            if (this.results && this.results.length) {
-                // TODO: add markers
-                this.results.forEach(item => {
-                    let marker = new window.google.maps.Marker({
-                        position: { lat: item.place.location.coordinates[0], lng: item.place.location.coordinates[1] },
-                        map: this.map,
-                        // label: `${item.availableQuantity}/${item.quantity}`
-                    });
-                    marker.addListener('click', () => {
-                        console.log('\n >> marker click: > ', item);
-                    });
-                    this.mapMarkers.push(marker);
-                })
-            }
+            this.addMarkers();
         },
         clearMarkers () {
             if (this.mapMarkers && this.mapMarkers.length) {
@@ -308,6 +305,64 @@ export default {
                     marker.setMap(null);
                 });
                 this.mapMarkers = [];
+            }
+        },
+        addMarkers () {
+            if (!this.map || !this.results || !this.results.length) return;
+            // TODO: move map to one of those markers
+            this.results.forEach(item => {
+                const pos = {
+                    lat: item.place.location.coordinates[0],
+                    lng: item.place.location.coordinates[1]
+                };
+                if (this.isMarkerWithSameCoordinatesExist(pos.lat, pos.lng)) {
+                    // marker with current lat/lng already exists => apply a small multiplier to current coordinates
+                    const min = .999999;
+                    const max = 1.000001;
+                    pos.lat = pos.lat * (Math.random() * (max - min) + min);
+                    pos.lng = pos.lng * (Math.random() * (max - min) + min);
+                }
+                let marker = new window.google.maps.Marker({
+                    position: { ...pos },
+                    map: this.map
+                });
+                marker.addListener('click', () => {
+                    this.markerClickHandler(item, marker);
+                });
+                this.mapMarkers.push(marker);
+            })
+        },
+        isMarkerWithSameCoordinatesExist (lat, lng) {
+            if (!this.mapMarkers || !this.mapMarkers.length) return false;
+            const _found = this.mapMarkers.find(marker => {
+                return marker.position.lat() === lat && marker.position.lng() === lng;
+            });
+            return !!_found;
+        },
+        markerClickHandler (data, marker) {
+            if (!this.map) return;
+            this.closeInfoWindows();
+            this._infoWindowComponentInstance._props['itemData'] = data;
+            this._infoWindowComponentInstance._props['isMapInfoWindow'] = true;
+            if (!this.mapInfoWindows[data.id]) {
+                this.$nextTick(() => {
+                    this.mapInfoWindows[data.id] = new google.maps.InfoWindow({
+                        content: this._infoWindowComponentInstance.$el,
+                    });
+                    this.mapInfoWindows[data.id].open(this.map, marker);
+                });
+            } else {
+                this.mapInfoWindows[data.id].open(this.map, marker);
+            }
+        },
+        closeInfoWindows () {
+            const keys = Object.keys(this.mapInfoWindows);
+            if (keys && keys.length) {
+                for (let key of keys) {
+                    if (this.mapInfoWindows[key]) {
+                        this.mapInfoWindows[key].close();
+                    }
+                }
             }
         }
     }
