@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard-content">
+    <div class="dashboard-content search-page">
         <div class="container-fluid position-relative">
             <loading
                     :active.sync="isLoading"
@@ -78,6 +78,7 @@ export default {
         map: null,
         mapMarkers: [],
         mapInfoWindows: {},
+        defaultMapZoom: 16,
         _infoWindowComponent: null,
         _infoWindowComponentInstance: null
     }),
@@ -283,7 +284,7 @@ export default {
         initMap () {
             const options = {
                 center: { lat: 34.0802619, lng: -118.2628157 }, // temp center
-                zoom: 14,
+                zoom: this.defaultMapZoom,
                 disableDefaultUI: true
             };
             if (this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
@@ -309,7 +310,7 @@ export default {
         },
         addMarkers () {
             if (!this.map || !this.results || !this.results.length) return;
-            // TODO: move map to one of those markers
+            let hasMarkersCollision = false;
             this.results.forEach(item => {
                 const pos = {
                     lat: item.place.location.coordinates[0],
@@ -317,6 +318,7 @@ export default {
                 };
                 if (this.isMarkerWithSameCoordinatesExist(pos.lat, pos.lng)) {
                     // marker with current lat/lng already exists => apply a small multiplier to current coordinates
+                    hasMarkersCollision = true;
                     const min = .999999;
                     const max = 1.000001;
                     pos.lat = pos.lat * (Math.random() * (max - min) + min);
@@ -330,7 +332,17 @@ export default {
                     this.markerClickHandler(item, marker);
                 });
                 this.mapMarkers.push(marker);
-            })
+            });
+            // temp -> pan map to the first marker
+            if (!this.userCoordinates || !this.userCoordinates.lat || !this.userCoordinates.lng) {
+                this.map.panTo(this.mapMarkers[0].position);
+                if (this.map.zoom < this.defaultMapZoom) {
+                    this.map.setZoom(this.defaultMapZoom);
+                }
+            }
+            if (hasMarkersCollision) {
+                this.map.setZoom(18);
+            }
         },
         isMarkerWithSameCoordinatesExist (lat, lng) {
             if (!this.mapMarkers || !this.mapMarkers.length) return false;
@@ -370,6 +382,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.search-page {
+    &.dashboard-content {
+        padding-bottom: 0 !important;
+    }
+}
 .search-map-wrapper {
     // temp
     margin-left: -30px;
@@ -378,6 +395,20 @@ export default {
     .map-container {
         width: 100%;
         height: 600px;
+        position: relative;
+
+        &:before {
+            content: '';
+            height: 11px;
+            background: linear-gradient(0deg, #4E4646 0%, rgba(24,24,22,0) 99.94%);
+            width: 100%;
+            top: 0;
+            left: 0;
+            position: absolute;
+            z-index: 1000;
+            opacity: 0.14;
+            transform: rotate(-180deg);
+        }
     }
 }
 </style>
