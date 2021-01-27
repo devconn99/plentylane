@@ -252,14 +252,10 @@ export default {
                     })
             },
             getAvailableOffers () {
-                const endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=quantity||$gt||1`;
+                const endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=availableQuantity||$gte||1`;
                 return axios.get(endpoint)
                     .then((res) => {
-                        const _data = res.data || {};
-                        if (_data && _data.data && _data.data.length) {
-                            _data.data = _data.data.filter(item => item.availableQuantity > 1);
-                        }
-                        return Promise.resolve(_data);
+                        return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {
                         return checkErr(err.response);
@@ -296,17 +292,13 @@ export default {
                     });
             },
             getAvailableOffersFromUser (userId, exceptionId) {
-                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=user.id||$eq||${userId}&filter=quantity||$gt||1`;
+                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=user.id||$eq||${userId}&filter=availableQuantity||$gte||1`;
                 if (exceptionId) {
                     endpoint += `&filter=id||$ne||${exceptionId}`;
                 }
                 return axios.get(endpoint)
                     .then((res) => {
-                        const _data = res.data || {};
-                        if (_data && _data.data && _data.data.length) {
-                            _data.data = _data.data.filter(item => item.availableQuantity > 1);
-                        }
-                        return Promise.resolve(_data);
+                        return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {
                         return checkErr(err.response);

@@ -8,5 +8,9 @@ export default {
         QUANTITY_MAX: 1000
     },
     DINE_NOTES_MAX_LENGTH: 4000,
-    TEXT_AREA_MAX_LENGTH: 4000
+    TEXT_AREA_MAX_LENGTH: 4000,
+    SEARCH: {
+        AVAILABLE_SERVINGS_MIN: 1,
+        AVAILABLE_SERVINGS_MAX: 1000,
+    }
 }

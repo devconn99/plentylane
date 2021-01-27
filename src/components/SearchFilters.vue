@@ -123,11 +123,11 @@
                     <small
                             class="text-danger d-flex mt-2 text-left"
                             v-if="!$v.form.availableServings.minValue"
-                    >Minimum number of available servings is 1.</small>
+                    >Minimum number of available servings is {{availableServingsMin}}.</small>
                     <small
                             class="text-danger d-flex mt-2 text-left"
                             v-if="!$v.form.availableServings.maxValue"
-                    >Maximum number of meals is 1000.</small>
+                    >Maximum number of available servings is {{availableServingsMax}}.</small>
                 </b-form-group>
 
                 <b-form-group class="dietary-notes" label="Critical dietary notes">
@@ -153,6 +153,7 @@
 import { validationMixin } from "vuelidate";
 import { minValue, maxValue } from "vuelidate/lib/validators";
 import helpers from '../helpers';
+import config from '../config';
 export default {
     name: "SearchFilters",
     mixins: [validationMixin],
@@ -180,7 +181,9 @@ export default {
             { value: '0,15', text: '10-15 mi' }
         ],
         restFiltersVisible: false,
-        isMobileView: false
+        isMobileView: false,
+        availableServingsMin: config.SEARCH.AVAILABLE_SERVINGS_MIN,
+        availableServingsMax: config.SEARCH.AVAILABLE_SERVINGS_MAX
     }),
     validations: {
         form: {
@@ -189,8 +192,8 @@ export default {
             proximity: {},
             viewType: {},
             availableServings: {
-                minValue: minValue(1),
-                maxValue: maxValue(1000) // TODO: move to config, show error message in form
+                minValue: minValue(config.SEARCH.AVAILABLE_SERVINGS_MIN),
+                maxValue: maxValue(config.SEARCH.AVAILABLE_SERVINGS_MAX)
             },
             dietaryNotes: {}
         }

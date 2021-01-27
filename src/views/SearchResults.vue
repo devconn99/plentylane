@@ -251,8 +251,6 @@ export default {
                     value: `${form['date']},${_dateEndStr}`
                 });
             } else {
-                // filter results by pickupTime >= today + 60 days
-                // TODO: need to convert filter values to use hours:minutes also
                 query.push(this.prepareDefaultPickupTimeFilter(fieldPrefix));
             }
             if (form['name'] && form['name'].length) {
@@ -300,9 +298,12 @@ export default {
                 fieldPrefix += '.';
             }
             const _dateToday = new Date();
-            const dateStartStr = `${_dateToday.getUTCFullYear()}-${_dateToday.getUTCMonth() + 1}-${_dateToday.getUTCDate()}`;
+            const _todayHoursStr = (`0${_dateToday.getUTCHours()}`).slice(-2);
+            const _todayMinutesStr = (`0${_dateToday.getUTCMinutes()}`).slice(-2);
+            const _todayTimeStr = `T${_todayHoursStr}:${_todayMinutesStr}:00.00Z`;
+            const dateStartStr = `${_dateToday.getUTCFullYear()}-${_dateToday.getUTCMonth() + 1}-${_dateToday.getUTCDate()}${_todayTimeStr}`;
             const dateEnd = new Date(_dateToday.setDate(_dateToday.getDate() + 60)); // today + 60 days
-            const dateEndStr = `${dateEnd.getUTCFullYear()}-${dateEnd.getUTCMonth() + 1}-${dateEnd.getUTCDate()}`;
+            const dateEndStr = `${dateEnd.getUTCFullYear()}-${dateEnd.getUTCMonth() + 1}-${dateEnd.getUTCDate()}T23:59:59.99Z`;
             return {
                 type: 'filter',
                 field: `${fieldPrefix}pickupTime`,
