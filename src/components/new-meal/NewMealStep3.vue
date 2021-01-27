@@ -24,7 +24,7 @@
                                 hide-header
                                 no-close-button
                                 dropleft
-                                menu-class="offer-pickup-time"
+                                menu-class="offer-pickup-time override-timepicker-dropdown"
                                 offset="100"
                                 minutes-step="5"
                         ></b-form-timepicker>
@@ -40,7 +40,7 @@
                                 locale="en"
                                 hide-header
                                 dropleft
-                                menu-class="offer-pickup-date"
+                                menu-class="offer-pickup-date override-datepicker-dropdown"
                         ></b-form-datepicker>
                     </b-form-group>
                 </div>
@@ -70,22 +70,13 @@ import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import ModalNewLocation from '../modals/ModalNewLocation';
 import api from "../../api";
+import helpers from '../../helpers';
 export default {
     name: "NewMealStep3",
     mixins: [validationMixin],
     components: {ModalNewLocation},
     data: () => ({
-        dietaryOptions: [
-            { text: 'Contains dairy', value: 'DAIRY' },
-            { text: 'Contains tree nuts', value: 'TREE_NUTS' },
-            { text: 'Contains shellfish', value: 'SHELLFISH' },
-            { text: 'Vegetarian', value: 'VEGETARIAN' },
-            { text: 'Gluten free', value: 'GLUTEN_FREE' },
-            { text: 'Contains eggs', value: 'EGGS' },
-            { text: 'Contains peanuts', value: 'PEANUTS' },
-            { text: 'Contains fish', value: 'FISH' },
-            { text: 'Vegan', value: 'VEGAN' }
-        ],
+        dietaryOptions: helpers.prepareDietaryNotesCheckboxOptions(),
         form: {
             dietaryNotes: [],
             pickupTime: '',
@@ -248,6 +239,7 @@ export default {
         .add-location-button {
             margin-left: 10px;
             min-width: 200px;
+            height: 64px;
 
             svg {
                 margin-top: -3px;
@@ -264,6 +256,7 @@ export default {
             .add-location-button {
                 margin-left: 0;
                 margin-top: 0;
+                height: 48px;
             }
         }
     }

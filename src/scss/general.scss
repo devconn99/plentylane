@@ -1308,22 +1308,19 @@ body.mobile-menu-box-active .header {
 *   BOOTSTRAP-VUE TIME/DATE PICKER  *
 *********************/
 .dropdown-menu {
-	&.offer-pickup-time, &.offer-pickup-date {
+	&.override-datepicker-dropdown, &.override-timepicker-dropdown {
+		border-radius: 0;
+
 		& + label.form-control {
 			font-family: $FilsonProRegular;
 			margin-bottom: 0;
 			line-height: 26px;
 		}
 	}
-	&.offer-pickup-time {
-		.form-control {
-			&.focus {
-				border-color: rgba(0, 156, 144, 0.25);
-				box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
-			}
+	&.override-datepicker-dropdown {
+		.b-calendar .b-calendar-grid, .b-calendar-nav > .btn, .b-calendar-footer .btn {
+			border-radius: 0;
 		}
-	}
-	&.offer-pickup-date {
 		.form-control {
 			&:focus {
 				border-color: $greenColor;
@@ -1357,6 +1354,17 @@ body.mobile-menu-box-active .header {
 			border-color: $greenColor;
 		}
 	}
+	&.override-timepicker-dropdown {
+		.b-form-spinbutton {
+			border-radius: 0;
+		}
+		.form-control {
+			&.focus {
+				border-color: rgba(0, 156, 144, 0.25);
+				box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
+			}
+		}
+	}
 }
 
 /********************
@@ -1365,4 +1373,24 @@ body.mobile-menu-box-active .header {
 // hide bottom right info
 .gm-style-cc {
 	display: none;
+}
+
+/********************
+*   GLOBAL SEARCH - DATE PICKER INPUT FIELD  *
+*********************/
+.search-filters-wrapper {
+	.date-field-group {
+		.b-form-btn-label-control {
+			&.form-control {
+				> .form-control {
+					padding: 12px 35px 0 15px;
+				}
+				> .btn {
+					position: absolute;
+					right: 0;
+					top: 7px;
+				}
+			}
+		}
+	}
 }

@@ -1,3 +1,14 @@
+const DIETARY_NOTES = {
+    DAIRY: 'Contains dairy',
+    TREE_NUTS: 'Contains tree nuts',
+    SHELLFISH: 'Contains shellfish',
+    VEGETARIAN: 'Vegetarian',
+    GLUTEN_FREE: 'Gluten free',
+    EGGS: 'Contains eggs',
+    PEANUTS: 'Contains peanuts',
+    FISH: 'Contains fish',
+    VEGAN: 'Vegan'
+};
 export default {
     parseDate: function (inputDateStr, shouldCompareWithToday) {
         // should return date str in format: 5-6pm Tues, Feb. 1
@@ -36,20 +47,20 @@ export default {
         return `${userInfo.firstName} ${lastName.slice(0, 1)}.`;
     },
     retrieveDietaryNotes: function (data) {
-        const NOTES = {
-            DAIRY: 'Contains dairy',
-            TREE_NUTS: 'Contains tree nuts',
-            SHELLFISH: 'Contains shellfish',
-            VEGETARIAN: 'Vegetarian',
-            GLUTEN_FREE: 'Gluten free',
-            EGGS: 'Contains eggs',
-            PEANUTS: 'Contains peanuts',
-            FISH: 'Contains fish',
-            VEGAN: 'Vegan'
-        };
+        const notes = { ...DIETARY_NOTES };
         return data.map(item => {
-            const textLabel = NOTES[item.label];
+            const textLabel = notes[item.label];
             return { label: item.label, text: textLabel, value: item.label };
         });
+    },
+    prepareDietaryNotesCheckboxOptions: function () {
+        const notes = { ...DIETARY_NOTES };
+        const options = [];
+        for (let key of Object.keys(notes)) {
+            if (key && notes[key]) {
+                options.push({ value: key, text: notes[key] })
+            }
+        }
+        return options;
     }
 }

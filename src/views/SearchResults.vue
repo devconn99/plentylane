@@ -31,6 +31,7 @@
                             @on-filters-changed="onFiltersChanged"
                             @on-view-type-changed="onViewTypeChanged"
                             :search-str="queryName"
+                            :is-submitting="isSubmitting"
                     ></SearchFilters>
                 </div>
             </div>
@@ -63,6 +64,7 @@ export default {
         searchStr: '',
         isLoading: false,
         results: [],
+        isSubmitting: false,
         loaderOptions: {
             color: '#009C90',
             isFullPage: false
@@ -161,10 +163,11 @@ export default {
         },
         searchOffers (form) {
             this.isLoading = true;
+            this.isSubmitting = true;
             if (this.isMapInitialized) {
                 this.clearMarkers();
             }
-            const { resultQuery, shouldUseLocationEndpoint }= this.prepareRequestFilters(form);
+            const { resultQuery, shouldUseLocationEndpoint } = this.prepareRequestFilters(form);
 
             if (shouldUseLocationEndpoint) {
                 return this.getPlacesByLocation(resultQuery);
@@ -210,11 +213,13 @@ export default {
                 this.addMarkers();
             }
             this.isLoading = false;
+            this.isSubmitting = false;
             this.wasSearched = true;
         },
         searchErrorHandler (error) {
             console.log('\n >> error > ', error);
             this.isLoading = false;
+            this.isSubmitting = false;
             this.wasSearched = true;
         },
         prepareRequestFilters (form) {
@@ -223,12 +228,13 @@ export default {
             let shouldUseOr = false;
             let fieldPrefix = '';
             let shouldUseLocationEndpoint = false;
+            const defaultType = 'filter';
 
             if (form['proximity'] && this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
                 fieldPrefix = 'offers.';
                 shouldUseLocationEndpoint = true;
                 query.push({
-                    type: 'filter',
+                    type: defaultType,
                     field: 'location',
                     condition: '$between',
                     value: `${this.userCoordinates.lat},${this.userCoordinates.lng},${form['proximity']}`
@@ -239,17 +245,40 @@ export default {
                 _date.setDate(_date.getDate() + 1);
                 const _dateEndStr = `${_date.getUTCFullYear()}-${_date.getUTCMonth() + 1}-${_date.getUTCDate()}`;
                 query.push({
-                    type: 'filter',
+                    type: defaultType,
                     field: `${fieldPrefix}pickupTime`,
                     condition: '$between',
                     value: `${form['date']},${_dateEndStr}`
                 });
             } else {
+                // filter results by pickupTime >= today + 60 days
+                // TODO: need to convert filter values to use hours:minutes also
                 query.push(this.prepareDefaultPickupTimeFilter(fieldPrefix));
             }
             if (form['name'] && form['name'].length) {
-                query.push({ type: 'filter', field: `${fieldPrefix}meal.name`, condition: '$contL', value: form['name'] });
+                query.push({
+                    type: defaultType,
+                    field: `${fieldPrefix}meal.name`,
+                    condition: '$contL',
+                    value: form['name']
+                });
                 shouldUseOr = true;
+            }
+            if (form['availableServings']) {
+                query.push({
+                    type: defaultType,
+                    field: `${fieldPrefix}availableQuantity`,
+                    condition: '$gte',
+                    value: form['availableServings']
+                })
+            }
+            if (form['dietaryNotes'] && form['dietaryNotes'].length) {
+                query.push({
+                    type: defaultType,
+                    field: `${fieldPrefix}meal.dietaryNotes`,
+                    condition: '$in',
+                    value: form['dietaryNotes'].join(',')
+                });
             }
             resultQuery = query;
             if (query.length && shouldUseOr) {
@@ -334,11 +363,9 @@ export default {
                 this.mapMarkers.push(marker);
             });
             // temp -> pan map to the first marker
-            if (!this.userCoordinates || !this.userCoordinates.lat || !this.userCoordinates.lng) {
-                this.map.panTo(this.mapMarkers[0].position);
-                if (this.map.zoom < this.defaultMapZoom) {
-                    this.map.setZoom(this.defaultMapZoom);
-                }
+            this.map.panTo(this.mapMarkers[0].position);
+            if (this.map.zoom < this.defaultMapZoom) {
+                this.map.setZoom(this.defaultMapZoom);
             }
             if (hasMarkersCollision) {
                 this.map.setZoom(18);
