@@ -1,26 +1,30 @@
 <template>
-    <div class="search-filters-wrapper">
-        <b-form class="form" @submit.stop.prevent="onSubmit">
-            <b-input-group>
-                <b-input-group-prepend @click.stop="onSubmit">
-                    <b-button variant="outline-secondary">
-                        <i class="fa fa-search"></i>
-                    </b-button>
-                </b-input-group-prepend>
-                <b-form-input
-                        v-model="$v.form.name.$model"
-                        placeholder="E.g. Fish Tacos"
-                        v-on:keyup.enter="onSubmit"
-                ></b-form-input>
-                <b-input-group-append @click.stop="onSubmit">
-                    <b-button variant="success">Search</b-button>
-                </b-input-group-append>
-            </b-input-group>
+    <b-form class="form searchFormBig search-filters-wrapper" @submit.stop.prevent="onSubmit">
+        <div class="name-search-from-group form-group">
+            <div class="searchFormBigIcon">
+                <SvgIcon icon="search" :params="{ stroke: '#9F9F95' }"></SvgIcon>
+            </div>
+            <b-form-input
+                    id="searchFormBig"
+                    type="search"
+                    name="search"
+                    placeholder="E.g. Fish Tacos"
+                    required
+                    class="form-control"
+                    autocomplete="off"
+                    v-model="$v.form.name.$model"
+                    v-on:keyup.enter="onSubmit"
+            ></b-form-input>
+            <b-btn class="btnGreen btnBigSize text-uppercase hover-slide-left" @click.stop="onSubmit">
+                <span>Search</span>
+            </b-btn>
+        </div>
 
-            <div class="mt-4 main-filters-wrapper">
-                <b-form-group label="View">
+        <div class="main-filters-row">
+            <div class="filter-item filter-item-toggle-view">
+                <b-form-group class="toggle-view-type-form-group flex-column mb-0" label="View">
                     <b-form-radio-group
-                            class="toggle-view-type-group"
+                            class="toggle-view-type-radio-group"
                             v-model="$v.form.viewType.$model"
                             name="radios-btn-default"
                             buttons
@@ -33,14 +37,15 @@
                         </template>
                     </b-form-radio-group>
                 </b-form-group>
-
-                <b-form-group label="Date Available" v-if="!isMobileView" class="date-field-group">
+            </div>
+            <div class="filter-item" v-if="!isCompactView">
+                <b-form-group class="flex-column mb-0 date-field-group" label="Date Available">
                     <b-form-datepicker
                             v-model="$v.form.date.$model"
                             placeholder=""
                             :min="minDate"
                             name="date"
-                            :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
+                            :date-format-options="{ year: '2-digit', month: 'short', day: '2-digit', weekday: 'short' }"
                             locale="en"
                             hide-header
                             dropleft
@@ -49,104 +54,102 @@
                             reset-button
                     ></b-form-datepicker>
                 </b-form-group>
-
-                <b-form-group label="Proximity" v-if="!isMobileView" class="proximity-field-group">
+            </div>
+            <div class="filter-item" v-if="!isCompactView">
+                <b-form-group class="flex-column mb-0 proximity-field-group" label="Proximity">
                     <b-form-select
                             v-model="$v.form.proximity.$model"
                             :options="proximityOptions"
                             @change="onSubmit"
                     ></b-form-select>
                 </b-form-group>
-
-                <b-btn
-                        variant="success"
-                        class="collapse-filter-toggle-btn"
-                        :class="restFiltersVisible ? 'not-collapsed' : 'collapsed'"
-                        :aria-expanded="restFiltersVisible ? 'true' : 'false'"
-                        aria-controls="collapse-rest-filters"
-                        @click="restFiltersVisible = !restFiltersVisible"
-                >
-                    <span class="when-open">
-                        <i class="fa fa-minus"></i>
-                        <span class="collapse-btn-text">
+            </div>
+            <div class="filter-item collapse-filters-btn-wrapper">
+                <b-form-group class="flex-column mb-0 justify-content-end">
+                    <b-btn
+                            class="btnGreenTransparent btnSmallSize btn100 hover-slide-left collapse-filter-toggle-btn"
+                            :class="restFiltersVisible ? 'not-collapsed' : 'collapsed'"
+                            :aria-expanded="restFiltersVisible ? 'true' : 'false'"
+                            aria-controls="collapse-rest-filters"
+                            ref="toggleFiltersBtn"
+                            @click="toggleFiltersVisibilityBtn()"
+                    >
+                        <span class="when-open">
+                            <i class="fa fa-minus collapse-btn-icon"></i>
                             <template v-if="!isMobileView">Less filters</template>
                             <template v-else>Filters</template>
                         </span>
-                    </span>
-                    <span class="when-closed">
-                        <i class="fa fa-plus"></i>
-                        <span class="collapse-btn-text">
+                        <span class="when-closed">
+                            <i class="fa fa-plus collapse-btn-icon"></i>
                             <template v-if="!isMobileView">More filters</template>
                             <template v-else>Filters</template>
                         </span>
-                    </span>
-                </b-btn>
+                    </b-btn>
+                </b-form-group>
             </div>
+            <div class="w-100">
+                <b-collapse class="rest-filters-wrapper mt-2" id="collapse-rest-filters" v-model="restFiltersVisible">
+                    <template v-if="isCompactView">
+                        <b-form-group label="Date Available" class="date-field-group">
+                            <b-form-datepicker
+                                    v-model="$v.form.date.$model"
+                                    placeholder=""
+                                    :min="minDate"
+                                    name="date"
+                                    :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
+                                    locale="en"
+                                    hide-header
+                                    dropleft
+                                    menu-class="override-datepicker-dropdown"
+                                    @input="onSubmit"
+                                    reset-button
+                            ></b-form-datepicker>
+                        </b-form-group>
+                        <b-form-group label="Proximity" class="proximity-field-group">
+                            <b-form-select
+                                    v-model="$v.form.proximity.$model"
+                                    :options="proximityOptions"
+                                    @change="onSubmit"
+                            ></b-form-select>
+                        </b-form-group>
+                    </template>
 
-            <b-collapse class="rest-filters-wrapper mt-2" id="collapse-rest-filters" v-model="restFiltersVisible">
-                <template v-if="isMobileView">
-                    <b-form-group label="Date Available" class="date-field-group">
-                        <b-form-datepicker
-                                v-model="$v.form.date.$model"
-                                placeholder=""
-                                :min="minDate"
-                                name="date"
-                                :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit', weekday: 'short' }"
-                                locale="en"
-                                hide-header
-                                dropleft
-                                menu-class="override-datepicker-dropdown"
-                                @input="onSubmit"
-                                reset-button
-                        ></b-form-datepicker>
+                    <b-form-group label="Available servings" class="available-servings-form-group">
+                        <b-form-input
+                                name="availableServings"
+                                type="number"
+                                v-model="$v.form.availableServings.$model"
+                                placeholder="e.g. 5"
+                                autocomplete="off"
+                                debounce="500"
+                                @update="onSubmit"
+                                v-on:keyup.enter="onSubmit"
+                        ></b-form-input>
+                        <small
+                                class="text-danger d-flex mt-2 text-left"
+                                v-if="!$v.form.availableServings.minValue"
+                        >Minimum number of available servings is {{availableServingsMin}}.</small>
+                        <small
+                                class="text-danger d-flex mt-2 text-left"
+                                v-if="!$v.form.availableServings.maxValue"
+                        >Maximum number of available servings is {{availableServingsMax}}.</small>
                     </b-form-group>
-                    <b-form-group label="Proximity" class="proximity-field-group">
-                        <b-form-select
-                                v-model="$v.form.proximity.$model"
-                                :options="proximityOptions"
+
+                    <b-form-group class="dietary-notes" label="Critical dietary notes">
+                        <p class="mb-3 mt-0">Select as many apply</p>
+                        <b-form-checkbox-group
+                                class="dietary-notes-group"
+                                id="checkbox-group-1"
+                                v-model="$v.form.dietaryNotes.$model"
+                                :options="dietaryOptions"
+                                name="dietaryNotes"
                                 @change="onSubmit"
-                        ></b-form-select>
+                        ></b-form-checkbox-group>
                     </b-form-group>
-                </template>
-
-                <b-form-group label="Available servings">
-                    <b-form-input
-                            name="availableServings"
-                            type="number"
-                            v-model="$v.form.availableServings.$model"
-                            placeholder="e.g. 5"
-                            autocomplete="off"
-                            debounce="500"
-                            @update="onSubmit"
-                            v-on:keyup.enter="onSubmit"
-                    ></b-form-input>
-                    <small
-                            class="text-danger d-flex mt-2 text-left"
-                            v-if="!$v.form.availableServings.minValue"
-                    >Minimum number of available servings is {{availableServingsMin}}.</small>
-                    <small
-                            class="text-danger d-flex mt-2 text-left"
-                            v-if="!$v.form.availableServings.maxValue"
-                    >Maximum number of available servings is {{availableServingsMax}}.</small>
-                </b-form-group>
-
-                <b-form-group class="dietary-notes" label="Critical dietary notes">
-                    <p class="mb-3 mt-0">Select as many apply</p>
-                    <b-form-checkbox-group
-                            class="dietary-notes-group"
-                            id="checkbox-group-1"
-                            v-model="$v.form.dietaryNotes.$model"
-                            :options="dietaryOptions"
-                            name="dietaryNotes"
-                    ></b-form-checkbox-group>
-                </b-form-group>
-                <div class="dietary-notes-bottom-buttons">
-                    <b-btn variant="outline-warning" class="mr-2" @click="resetDietaryNotes">Reset dietary notes</b-btn>
-                    <b-btn variant="success" @click="onSubmit">Apply</b-btn>
-                </div>
-            </b-collapse>
-        </b-form>
-    </div>
+                </b-collapse>
+            </div>
+        </div>
+    </b-form>
 </template>
 
 <script>
@@ -154,9 +157,11 @@ import { validationMixin } from "vuelidate";
 import { minValue, maxValue } from "vuelidate/lib/validators";
 import helpers from '../helpers';
 import config from '../config';
+import SvgIcon from './SvgIcon';
 export default {
     name: "SearchFilters",
     mixins: [validationMixin],
+    components: {SvgIcon},
     props: ['searchStr', 'isSubmitting'],
     data: () => ({
         form: {
@@ -177,10 +182,11 @@ export default {
         proximityOptions: [
             { value: null, text: 'Select proximity' },
             { value: '0,5', text: '0-5 mi' },
-            { value: '0,10', text: '5-10 mi' },
-            { value: '0,15', text: '10-15 mi' }
+            { value: '0,10', text: '0-10 mi' },
+            { value: '0,15', text: '0-15 mi' }
         ],
         restFiltersVisible: false,
+        isCompactView: false,
         isMobileView: false,
         availableServingsMin: config.SEARCH.AVAILABLE_SERVINGS_MIN,
         availableServingsMax: config.SEARCH.AVAILABLE_SERVINGS_MAX
@@ -218,21 +224,26 @@ export default {
             this.$emit('on-view-type-changed', type);
         },
         checkFiltersVisibility () {
-            if ($(window).innerWidth() < 768) {
-                if (!this.isMobileView) {
-                    this.isMobileView = true;
+            const _width = $(window).innerWidth();
+            this.isMobileView = _width < 768;
+            if (_width < 1190) {
+                if (!this.isCompactView) {
+                    this.isCompactView = true;
                     this.restFiltersVisible = false;
                 }
             } else {
-                if (this.isMobileView) {
-                    this.isMobileView = false;
+                if (this.isCompactView) {
+                    this.isCompactView = false;
                     this.restFiltersVisible = false;
                 }
             }
         },
-        resetDietaryNotes () {
-            this.form.dietaryNotes = [];
-            this.onSubmit();
+        toggleFiltersVisibilityBtn () {
+            this.restFiltersVisible = !this.restFiltersVisible;
+            const _btn = this.$refs['toggleFiltersBtn'];
+            if (_btn && _btn['blur']) {
+                _btn.blur();
+            }
         }
     },
     watch: {
@@ -257,19 +268,105 @@ export default {
 
 <style scoped lang="scss">
 @import "../scss/utils/vars";
-.search-filters-wrapper {
-    .main-filters-wrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    .form {
-        .form-group {
-            margin-bottom: 0 !important;
+.form.searchFormBig {
+    .btnGreen {
+        span {
+            border-color: transparent;
         }
     }
+    .form-group {
+        height: 100%;
+        width: 100%;
+
+        &.name-search-from-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        label {
+            font-family: $FilsonProRegular;
+            margin-bottom: 10px!important;
+        }
+        input[type=search] {
+            font-size: 18px;
+            line-height: 24px;
+            letter-spacing: 0.6px;
+            color: $textBlackColor;
+            background-color: $whiteColor;
+            border: 1px solid rgba(161,112,103,0.3);
+            padding-top: 13px;
+            width: 100%;
+            display: block;
+            height: 64px;
+            border-radius: 0;
+            padding-right: 48px;
+            padding-left: 60px;
+            @media screen and (max-width: $phoneBigWidth) {
+                padding-left: 15px;
+                padding-right: 10px;
+            }
+            &::-webkit-search-cancel-button {
+                display: none;
+            }
+            &::-webkit-input-placeholder {
+                font-size: 18px;
+                line-height: 24px;
+                letter-spacing: 0;
+                color: #8A877D;
+                padding-top: 0;
+            }
+        }
+        .searchFormBigIcon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            @media screen and (max-width: $phoneBigWidth) {
+                display: none;
+            }
+        }
+        button {
+            flex: none;
+            &.btnGreen {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    }
+
+    .main-filters-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+
+        .filter-item {
+            position: relative;
+            flex: 0 0 210px;
+            max-width: 210px;
+
+            @media screen and (min-width: $desktopBigWidth) {
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+
+            &.filter-item-toggle-view {
+                flex: 0 0 230px !important;
+                max-width: 230px !important;
+            }
+            &.collapse-filters-btn-wrapper {
+                padding-top: 30px;
+
+                @media screen and (max-width: $phoneWidth) {
+                    flex: 0 0 calc(100% - 230px);
+                    max-width: calc(100% - 230px);
+                }
+                @media screen and (max-width: 389px) {
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+
     .collapse-filter-toggle-btn {
         &.collapsed {
             > .when-open {
@@ -281,21 +378,28 @@ export default {
                 display: none;
             }
         }
-        .collapse-btn-text {
-            margin-left: 10px;
+        .when-open, .when-closed {
+            position: relative;
+            padding: 16px 10px 11px;
+
+            .collapse-btn-icon {
+                position: relative;
+                top: -2px;
+            }
         }
     }
     .rest-filters-wrapper {
         .form-group {
-            + .form-group {
-                margin-top: 40px;
+            margin-top: 25px;
+            margin-bottom: 25px !important;
 
-                @media screen and (max-width: $tableMinWidth) {
-                    margin-top: 20px;
-                }
+            @media screen and (max-width: $tableMinWidth) {
+                margin-top: 20px;
+                margin-bottom: 20px !important;
             }
         }
         .dietary-notes {
+            margin-bottom: 0 !important;
             .dietary-notes-group {
                 display: flex;
                 flex-direction: column;
@@ -322,61 +426,60 @@ export default {
                 }
             }
         }
-        .dietary-notes-bottom-buttons {
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-        }
     }
-    .toggle-view-type-group {
+    .toggle-view-type-form-group {
         position: relative;
 
-        .btn {
-            border-radius: 24px !important;
-            border-color: transparent;
-            padding: 13px 20px;
-            transition: all .6ms ease;
-            font-family: $FilsonProRegular;
-            font-size: 18px;
-            letter-spacing: 0.6px;
-            line-height: 18px;
-            margin-bottom: 0;
+        .toggle-view-type-radio-group {
+            position: relative;
 
-            &.active {
-                z-index: 2;
-                background-color: #FFFFFF;
-                color: $textBlackColor;
-                box-shadow: 0 4px 16px 0 rgba(69,53,38,0.15);
-            }
-            &:not(.active) {
-                z-index: 1;
-                background-color: $greenColor;
-                color: #FFFFFF;
-            }
+            .btn {
+                border-radius: 24px !important;
+                border-color: transparent;
+                padding: 13px 20px;
+                transition: all .6ms ease;
+                font-family: $FilsonProRegular;
+                font-size: 18px;
+                letter-spacing: 0.6px;
+                line-height: 18px;
+                margin-bottom: 0 !important;
 
-            &:first-of-type {
-                &:not(.active) {
-                    padding-right: 40px;
-                    border-top-right-radius: 0 !important;
-                    border-bottom-right-radius: 0 !important;
-                }
-            }
-            &:last-of-type {
                 &.active {
-                    left: -30px;
+                    z-index: 2;
+                    background-color: #FFFFFF;
+                    color: $textBlackColor;
+                    box-shadow: 0 4px 16px 0 rgba(69,53,38,0.15);
+                    min-width: 120px;
                 }
                 &:not(.active) {
-                    padding-left: 40px;
-                    border-top-left-radius: 0 !important;
-                    border-bottom-left-radius: 0 !important;
-                    left: -30px;
+                    z-index: 1;
+                    background-color: $greenColor;
+                    color: #FFFFFF;
+                    min-width: 140px;
+                }
+
+                &:first-of-type {
+                    &:not(.active) {
+                        padding-right: 40px;
+                        border-top-right-radius: 0 !important;
+                        border-bottom-right-radius: 0 !important;
+                    }
+                }
+                &:last-of-type {
+                    &.active {
+                        left: -30px;
+                    }
+                    &:not(.active) {
+                        padding-left: 40px;
+                        border-top-left-radius: 0 !important;
+                        border-bottom-left-radius: 0 !important;
+                        left: -30px;
+                    }
                 }
             }
         }
     }
     .date-field-group {
-        width: 230px;
-
         .b-form-btn-label-control {
             &.form-control {
                 min-height: 48px !important;
@@ -393,11 +496,13 @@ export default {
             }
         }
     }
-    .proximity-field-group {
-        select {
-            height: 48px;
-            padding-left: 15px;
-        }
+    .proximity-field-group select,
+    .available-servings-form-group .form-control {
+        height: 48px;
+        padding-left: 15px;
+    }
+    .available-servings-form-group .form-control {
+        padding-right: 10px;
     }
 }
 </style>

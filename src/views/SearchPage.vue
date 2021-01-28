@@ -57,7 +57,7 @@ import api from "../api";
 import MyMealInfo from '../components/MyMealInfo';
 import Vue from 'vue';
 export default {
-    name: "SearchResults",
+    name: "SearchPage",
     components: {SearchFilters, Loading, OfferInfoBlock},
     data: () => ({
         queryName: '',

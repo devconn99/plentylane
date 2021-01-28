@@ -149,7 +149,7 @@ const routes = [
                 path: 'search',
                 name: 'Search',
                 props: true,
-                component: () => import('../views/SearchResults.vue'),
+                component: () => import('../views/SearchPage.vue'),
                 meta: {
                     title: `${TITLE} - Search Results`
                 }

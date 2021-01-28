@@ -98,7 +98,7 @@ export default {
                     <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                         class="${params && params.class ? params.class : ''}">
                         <g fill="none" fill-rule="evenodd">
-                            <g stroke="#009C90" stroke-width="1.5">
+                            <g stroke="${params && params.stroke ? params.stroke : '#009C90'}" stroke-width="1.5">
                                 <path d="M13.209 17.472A8.056 8.056 0 106.907 2.644a8.056 8.056 0 006.302 14.828zM15.754 15.754l6.248 6.249" />
                             </g>
                         </g>
