@@ -1374,6 +1374,104 @@ body.mobile-menu-box-active .header {
 .gm-style-cc {
 	display: none;
 }
+.map-container {
+	.marker-label-wrapper {
+		width: 38px;
+		height: 38px;
+		border-radius: 50%;
+		background-color: #FFFFFF;
+
+		.marker-label-container {
+			width: 100%;
+			height: 100%;
+			position: relative;
+
+			.marker-label-line {
+				width: 1px;
+				height: 24px;
+				background-color: rgba(24, 24, 22, 0.5);
+				transform: rotate(45deg);
+				position: absolute;
+				top: 9px;
+				left: 21px;
+			}
+			.marker-label-text-wrapper {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				color: $textBlackColor;
+
+				.marker-label-available-num {
+					position: absolute;
+					font-family: $FilsonProBold;
+					font-size: 18px;
+					letter-spacing: 0.6px;
+					line-height: 18px;
+					left: 9px;
+					top: 6px;
+
+					&.num-of-symbols_2 {
+						font-size: 15px;
+						left: 5px;
+						top: 5px;
+					}
+					&.num-of-symbols_3 {
+						font-size: 13px;
+						transform: rotate(-45deg);
+						left: 4px;
+						letter-spacing: -0.5px;
+						top: 8px;
+					}
+					&.num-of-symbols_4, &.num-of-symbols_5 {
+						transform: rotate(-45deg);
+						letter-spacing: -0.5px;
+						left: 4px;
+						top: 8px;
+					}
+					&.num-of-symbols_4 {
+						font-size: 11px;
+					}
+					&.num-of-symbols_5 {
+						font-size: 9px;
+					}
+				}
+				.marker-label-total-num {
+					position: absolute;
+					font-family: $FilsonProRegular;
+					font-size: 11px;
+					letter-spacing: 0.37px;
+					line-height: 11px;
+					bottom: 6px;
+					right: 8px;
+
+					&.num-of-symbols_2 {
+						right: 4px;
+						bottom: 4px;
+						font-size: 10px;
+					}
+					&.num-of-symbols_3 {
+						letter-spacing: -0.5px;
+						font-size: 9px;
+						transform: rotate(-45deg);
+						right: 3px;
+					}
+					&.num-of-symbols_4, &.num-of-symbols_5 {
+						transform: rotate(-45deg);
+						letter-spacing: -0.5px;
+						right: 1px;
+						bottom: 5px;
+					}
+					&.num-of-symbols_4 {
+						font-size: 8px;
+					}
+					&.num-of-symbols_5 {
+						font-size: 7px;
+					}
+				}
+			}
+		}
+	}
+}
 
 /********************
 *   GLOBAL SEARCH - DATE PICKER INPUT FIELD  *

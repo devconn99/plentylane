@@ -37,6 +37,7 @@ import OfferInfoBlock from './OfferInfoBlock';
 import api from '../api';
 import MyMealInfo from './MyMealInfo';
 import Vue from 'vue';
+import helpers from '../helpers';
 export default {
     name: "MainSearch",
     components: {SearchFilters, OfferInfoBlock},
@@ -311,9 +312,10 @@ export default {
                     pos.lat = pos.lat * (Math.random() * (max - min) + min);
                     pos.lng = pos.lng * (Math.random() * (max - min) + min);
                 }
-                let marker = new window.google.maps.Marker({
+                const marker = new MarkerWithLabel({
+                    map: this.map,
                     position: { ...pos },
-                    map: this.map
+                    ...helpers.getMarkerTemplate(item)
                 });
                 marker.addListener('click', () => {
                     this.markerClickHandler(item, marker);
@@ -367,10 +369,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../scss/utils/vars";
 .search-map-wrapper {
-    // temp
     margin-left: -30px;
     margin-right: -30px;
+
+    @media screen and (min-width: $desktopBigWidth + 1) {
+        margin-left: -80px;
+        margin-right: -80px;
+    }
 
     .map-container {
         width: 100%;

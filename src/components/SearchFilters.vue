@@ -335,8 +335,10 @@ export default {
         button {
             flex: none;
             &.btnGreen {
-                padding-left: 15px;
-                padding-right: 15px;
+                span {
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
             }
         }
     }
@@ -353,8 +355,8 @@ export default {
             max-width: 210px;
 
             @media screen and (min-width: $desktopBigWidth) {
-                flex: 0 0 25%;
-                max-width: 25%;
+                flex: 0 0 calc(25% - 16px);
+                max-width: calc(25% - 16px);
             }
 
             &.filter-item-toggle-view {

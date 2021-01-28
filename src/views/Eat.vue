@@ -65,6 +65,7 @@ export default {
 .eat-page {
     .dashboard-content {
         padding-top: 80px !important;
+        padding-bottom: 0 !important;
 
         @media screen and (max-width: $tableMinWidth) {
             padding-top: 40px !important;
