@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="eat-page">
         <div class="dashboard-hero dashboard-eat-bg">
             <div class="container-fluid">
                 <div class="row">
@@ -12,8 +12,18 @@
         </div>
 
         <div class="dashboard-content">
-            <div class="container-fluid">
-                <!-- TODO: add filters and content -->
+            <div class="container-fluid position-relative">
+                <loading
+                        :active.sync="isLoading"
+                        :is-full-page="loaderOptions.isFullPage"
+                        :color="loaderOptions.color"
+                ></loading>
+
+                <MainSearch
+                        :show-title="shouldShowTitle"
+                        @search-started="onSearchStarted"
+                        @search-finished="onSearchFinished"
+                ></MainSearch>
             </div>
         </div>
     </div>
@@ -21,12 +31,44 @@
 
 <script>
 import HeroWave from '../components/HeroWave';
+import MainSearch from '../components/MainSearch';
+import Loading from 'vue-loading-overlay';
 export default {
     name: "Eat",
-    components: {HeroWave}
+    components: {HeroWave, MainSearch, Loading},
+    data: () => ({
+        isLoading: false,
+        loaderOptions: {
+            color: '#009C90',
+            isFullPage: false
+        },
+        shouldShowTitle: true
+    }),
+    methods: {
+        onSearchStarted () {
+            this.isLoading = true;
+        },
+        onSearchFinished () {
+            this.isLoading = false;
+        }
+    },
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            vm.$eventHub.$emit('trigger-main-search', '');
+        })
+    }
 }
 </script>
 
 <style scoped lang="scss">
+@import "../scss/utils/vars";
+.eat-page {
+    .dashboard-content {
+        padding-top: 80px !important;
 
+        @media screen and (max-width: $tableMinWidth) {
+            padding-top: 40px !important;
+        }
+    }
+}
 </style>

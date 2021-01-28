@@ -15,7 +15,7 @@
                     v-model="$v.form.name.$model"
                     v-on:keyup.enter="onSubmit"
             ></b-form-input>
-            <b-btn class="btnGreen btnBigSize text-uppercase hover-slide-left" @click.stop="onSubmit">
+            <b-btn class="btnGreen btnBigSize text-uppercase hover-slide-left search-button" @click.stop="onSubmit">
                 <span>Search</span>
             </b-btn>
         </div>
@@ -177,7 +177,7 @@ export default {
         isMapView: false,
         viewTypeOptions: [
             { text: 'Grid', value: 'grid', iconClass: 'fas fa-th-large' },
-            { text: 'Map', value: 'map', iconClass: 'far fa-map' }
+            { text: 'Map', value: 'map', iconClass: 'far fa-map fa-flip-horizontal' }
         ],
         proximityOptions: [
             { value: null, text: 'Select proximity' },
@@ -281,6 +281,12 @@ export default {
         &.name-search-from-group {
             display: flex;
             justify-content: space-between;
+
+            .search-button {
+                @media screen and (max-width: $phoneBigWidth) {
+                    display: none;
+                }
+            }
         }
         label {
             font-family: $FilsonProRegular;
@@ -301,8 +307,9 @@ export default {
             padding-right: 48px;
             padding-left: 60px;
             @media screen and (max-width: $phoneBigWidth) {
-                padding-left: 15px;
-                padding-right: 10px;
+                padding-left: 45px;
+                padding-right: 15px;
+                height: 48px;
             }
             &::-webkit-search-cancel-button {
                 display: none;
@@ -319,8 +326,10 @@ export default {
             position: absolute;
             top: 20px;
             left: 20px;
+
             @media screen and (max-width: $phoneBigWidth) {
-                display: none;
+                top: 14px;
+                left: 12px;
             }
         }
         button {
@@ -351,17 +360,51 @@ export default {
             &.filter-item-toggle-view {
                 flex: 0 0 230px !important;
                 max-width: 230px !important;
+
+                @media screen and (max-width: $phoneBigWidth) {
+                    flex: 0 0 180px !important;
+                    max-width: 180px !important;
+
+                    .toggle-view-type-radio-group {
+                        .btn {
+                            font-size: 14px;
+                            padding: 15px;
+                            line-height: 14px;
+
+                            &.active {
+                                min-width: 85px;
+                            }
+                            &:not(.active) {
+                                min-width: 115px;
+                            }
+                            &:first-of-type {
+                                &:not(.active) {
+                                    padding-right: 40px;
+                                }
+                            }
+                            &:last-of-type {
+                                &.active {
+                                    left: -30px;
+                                }
+                                &:not(.active) {
+                                    padding-left: 40px;
+                                    left: -30px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             &.collapse-filters-btn-wrapper {
                 padding-top: 30px;
 
-                @media screen and (max-width: $phoneWidth) {
-                    flex: 0 0 calc(100% - 230px);
-                    max-width: calc(100% - 230px);
+                @media screen and (max-width: $phoneBigWidth) {
+                    flex: 0 0 50%;
+                    max-width: 50%;
                 }
-                @media screen and (max-width: 389px) {
-                    flex: 0 0 100%;
-                    max-width: 100%;
+                @media screen and (max-width: 400px) {
+                    flex: 0 0 110px;
+                    max-width: 110px;
                 }
             }
         }

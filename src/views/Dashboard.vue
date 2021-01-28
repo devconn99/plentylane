@@ -42,7 +42,6 @@
                     </div>
                     <!-- type="search" is fine here -->
                     <b-form-input
-                            id="gsearch"
                             type="search"
                             name="search"
                             placeholder="E.g. Fish Tacos"
@@ -50,6 +49,7 @@
                             class="form-control"
                             autocomplete="off"
                             v-model="searchStr"
+                            ref="searchRefMobile"
                     ></b-form-input>
                 </b-form-group>
             </b-form>
@@ -75,7 +75,6 @@
                             <b-form-group>
                                 <!-- type="search" is fine here -->
                                 <b-form-input
-                                        id="gsearch"
                                         type="search"
                                         name="search"
                                         placeholder="Search"
@@ -83,6 +82,7 @@
                                         autocomplete="off"
                                         required
                                         v-model="searchStr"
+                                        ref="searchRef"
                                 ></b-form-input>
                                 <button class="btn-search" type="submit">
                                     <SvgIcon icon="searchSmall" :params="{ stroke: '#009C90' }"></SvgIcon>
@@ -202,6 +202,13 @@ export default {
         } else {
             this.user = { ...user };
         }
+        this.$eventHub.$on('clear-global-search-value', () => {
+            this.searchStr = '';
+            const _inputRef = this.$refs['searchRef'];
+            if (_inputRef && _inputRef['blur']) {
+                _inputRef.blur();
+            }
+        });
     },
     computed: {
         displayUserName: function () {
@@ -275,6 +282,11 @@ export default {
         showMobileSearch () {
             this.isMobileSearchVisible = true;
             this.$eventHub.$emit('mobile-search-opened');
+            this.$nextTick(() => {
+                if (this.$refs['searchRefMobile']) {
+                    this.$refs['searchRefMobile'].focus();
+                }
+            })
         },
         hideMobileSearch () {
             this.isMobileSearchVisible = false;
@@ -323,6 +335,9 @@ export default {
             }
             this.$bvModal.show('notifications-modal');
         }
+    },
+    beforeDestroy () {
+        this.$eventHub.$off('clear-global-search-value');
     }
 }
 </script>
