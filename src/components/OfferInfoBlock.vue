@@ -1,11 +1,7 @@
 <template>
-    <router-link
-            :to="{ path: '/dashboard/offers/' + offerInfo.id }"
-            v-if="offerInfo && offerInfo.id"
-            class="offer-link"
-    >
+    <div v-if="offerInfo && offerInfo.id" class="offer-link">
         <div class="recept-box">
-            <div class="recept-box-img recept-box-img-overlay">
+            <div class="recept-box-img recept-box-img-overlay cursor-pointer" @click="redirectToOffer">
                 <!-- TODO: use meal's image later -->
                 <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="" class="img-fluid">
                 <div class="recept-box-title">
@@ -17,7 +13,7 @@
                 </div>
             </div>
             <div class="cook-box pb-2 pb-md-3">
-                <div class="cook-info p-2 p-sm-3">
+                <div class="cook-info p-2 p-sm-3 cursor-pointer" @click="redirectToCookProfile">
                     <div class="cook-info-img mr-2 mr-xl-3">
                         <!-- TODO: use real user's avatar later -->
                         <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
@@ -49,7 +45,7 @@
                 </div>
             </div>
         </div>
-    </router-link>
+    </div>
 </template>
 
 <script>
@@ -68,6 +64,18 @@ export default {
         },
         userName: function () {
             return helpers.userNameWithShortLastName(this.offerInfo.user);
+        }
+    },
+    methods: {
+        redirectToOffer () {
+            if (this.offerInfo && this.offerInfo.id) {
+                this.$router.push({ path: `/dashboard/offers/${this.offerInfo.id}` });
+            }
+        },
+        redirectToCookProfile () {
+            if (this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
+                this.$router.push({ path: `/dashboard/cook-profile/${this.offerInfo.user.id}` });
+            }
         }
     }
 }

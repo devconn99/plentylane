@@ -1,9 +1,8 @@
 <template>
     <div class="reserved-box-wrapper" v-if="bookingInfo && bookingInfo.id">
-        <!-- TODO: use correct path for router-link later -->
-        <router-link :to="{ path: '/' }" class="reserved-box p-2 p-xl-3">
+        <div class="reserved-box p-2 p-xl-3">
             <template v-if="!isSmall">
-                <div class="reserved-info">
+                <div class="reserved-info cursor-pointer" @click="redirectToBookingPage">
                     <div class="reserved-img mr-2 mr-xl-3">
                         <img src="../assets/images/data/images/dashboard/reserved/meat.jpg" alt=""
                              class="img-fluid">
@@ -18,7 +17,7 @@
                     </div>
                 </div>
                 <div class="cook-box">
-                    <div class="cook-info p-2 p-sm-3">
+                    <div class="cook-info p-2 p-sm-3 cursor-pointer" @click="redirectToCookProfile">
                         <div class="cook-info-img mr-2 mr-xl-3">
                             <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
                         </div>
@@ -54,7 +53,7 @@
                 </div>
             </template>
             <template v-else>
-                <div class="reserved-info">
+                <div class="reserved-info cursor-pointer" @click="redirectToBookingPage">
                     <div class="reserved-img mr-2 mr-xl-3">
                         <img src="../assets/images/data/images/dashboard/reserved/meat.jpg" alt=""
                              class="img-fluid">
@@ -69,7 +68,7 @@
                     </div>
                 </div>
             </template>
-        </router-link>
+        </div>
     </div>
 </template>
 
@@ -93,6 +92,24 @@ export default {
                 num = this.bookingInfo.servings;
             }
             return `<span>${num}</span> serving${num === 1 ? '' : 's'}`;
+        }
+    },
+    methods: {
+        redirectToCookProfile () {
+            if (!this.bookingInfo || !this.bookingInfo.id) return;
+            let cookId = '';
+            if (this.bookingInfo.cook && this.bookingInfo.cook.id) {
+                cookId = this.bookingInfo.cook.id;
+            } else if (this.bookingInfo.cookId) {
+                cookId = this.bookingInfo.cookId;
+            } else {
+                return;
+            }
+            this.$router.push({ path: `/dashboard/cook-profile/${cookId}` });
+        },
+        redirectToBookingPage () {
+            if (!this.bookingInfo || !this.bookingInfo.id) return;
+            this.$router.push({ path: `/dashboard/booking/${this.bookingInfo.id}` });
         }
     }
 }

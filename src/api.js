@@ -326,9 +326,7 @@ export default {
                         answer: 'It\'s not super spicy!'
                     }
                 ];
-                setTimeout(() => {
-                    return Promise.resolve(questionsTemp);
-                }, 500);
+                return Promise.resolve(questionsTemp);
             }
         },
         bookings: {
@@ -364,6 +362,31 @@ export default {
             },
             getMyCooks () {
                 const endpoint = `${config.API_ORIGIN}/api/me/bookings/cook`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            getBookingInfo (id) {
+                // NOTE: offer.availableServings equals to offer.quantity,
+                // so if need actual booking.offer info, please use another endpoint
+                const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine/${id}`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {})
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response)
+                    })
+            }
+        },
+        users: {
+            getUserInfo (id) {
+                // TODO: make sure join works here
+                const endpoint = `${config.API_ORIGIN}/api/users/${id}?join=meals&join=offers`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});

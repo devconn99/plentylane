@@ -159,9 +159,7 @@ export default {
         },
         browseMoreMeals () {
             this.closeModal();
-            // TODO: redirect to the homepage or search page
-            // temp
-            this.$router.push({ path: '/dashboard' });
+            this.$router.push({ path: '/dashboard/eat' });
         }
     },
     computed: {

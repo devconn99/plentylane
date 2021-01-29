@@ -1,12 +1,11 @@
 <template>
-    <div v-if="isLoaded && offerInfo && offerInfo.id">
+    <div v-if="offerInfo && offerInfo.id">
         <div class="dashboard-hero hero-img-overlay" :style="{ backgroundImage: 'url(' + imageUrl + ')' }">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 text-center">
                         <div class="title-size1 titleLightColor mb-2">{{offerInfo.meal.name}}</div>
-                        <!-- TODO: use router-link to redirect to user's profile later -->
-                        <div class="cook-box">
+                        <router-link class="cook-box" :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }">
                             <div class="cook-info justify-content-center">
                                 <div class="cook-info-img mr-3">
                                     <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
@@ -30,7 +29,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -42,7 +41,7 @@
                 <div class="row mb-5">
                     <div class="col-lg-4 order-lg-2 mb-5 mb-lg-0">
                         <!-- TODO: I'm hiding this block if current user owns this order. I'll check it later -->
-                        <div class="box-btn mb-4" v-if="offerInfo.user.id !== currentUserId">
+                        <div class="box-btn mb-4" v-if="!hiddenButtons">
                             <b-btn
                                     class="btnGreen btnBigSize btn100 text-uppercase hover-slide-left mb-4"
                                     v-if="offerInfo.availableQuantity > 0 && !wasReserved"
@@ -160,127 +159,25 @@
 
 <script>
 import api from '../api';
-import SvgIcon from '../components/SvgIcon';
 import helpers from '../helpers';
-import ReserveMealModal from '../components/modals/ReserveMealModal';
-import ContactCookModal from '../components/modals/ContactCookModal';
-import HeroWave from '../components/HeroWave';
-import CarouselContainer from '../components/CarouselContainer';
-import OfferInfoBlock from '../components/OfferInfoBlock';
+import ReserveMealModal from './modals/ReserveMealModal';
+import ContactCookModal from './modals/ContactCookModal';
+import HeroWave from './HeroWave';
+import CarouselContainer from './CarouselContainer';
+import OfferInfoBlock from './OfferInfoBlock';
+import SvgIcon from './SvgIcon';
 export default {
-    name: "OfferInfo",
-    components: {SvgIcon, ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock},
+    name: "OfferPageContent",
+    components: {ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock, SvgIcon},
+    props: ['offerInfo', 'hiddenButtons', 'isMealReservedOnInit', 'questions', 'moreOffers', 'bookingId', 'bookedServingsNum'],
     data: () => ({
-        offerId: '',
-        offerInfo: {},
-        isLoaded: false,
-        errLoadingOffer: false,
-        wasReserved: false,
-        reservationId: '',
-        numberOfServingsReserved: 0,
-        currentUserId: '',
-        questions: [],
         // TODO: temp image url
         imageUrl: "https://cdn.pixabay.com/photo/2017/09/28/18/13/bread-2796393_960_720.jpg",
-        moreOffers: []
+        wasReserved: false,
+        reservationId: '',
+        numberOfServingsReserved: 0
     }),
-    beforeRouteEnter (to, from, next) {
-        next(vm => {
-            vm.clearData();
-            const { id = '' } = vm.$route.params;
-            vm.offerId = id;
-            vm.loadPageData();
-        })
-    },
-    beforeRouteUpdate (to, from, next) {
-        const _loading = this.$loading.show();
-        this.clearData();
-        const { id = '' } = to.params;
-        this.offerId = id;
-        const cb = () => {
-            next();
-            if (_loading && _loading.hide) {
-                _loading.hide();
-            }
-        };
-        this.loadPageData(cb);
-    },
     methods: {
-        clearData () {
-            this.isLoaded = false;
-            this.offerInfo = {};
-            this.offerId = '';
-            this.questions = [];
-            this.moreOffers = [];
-            this.wasReserved = false;
-            this.errLoadingOffer = false;
-            this.numberOfServingsReserved = 0;
-            this.reservationId = '';
-        },
-        errLoadingDataHandler (cb, err) {
-            if (err) {
-                console.log('\n >> err > ', err);
-            }
-            this.errLoadingOffer = true;
-            this.isLoaded = true;
-            this.hideGlobalLoader();
-            if (cb) cb();
-        },
-        loadPageData (cb) {
-            if (!this.offerId) {
-                this.errLoadingDataHandler(cb);
-                return;
-            }
-            const requests = [
-                api.dashboard.offers.getOfferById(this.offerId),
-                api.dashboard.offers.getOfferQuestions(this.offerId)
-            ];
-            Promise.all(requests)
-                .then(result => {
-                    if (result && result[0]) {
-                        // offer info
-                        const offer = result[0];
-                        if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
-                            offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
-                        }
-                        this.currentUserId = this.$store.getters.userId;
-                        this.offerInfo = { ...offer };
-                    }
-                    if (result && result[1] && result[1].length) {
-                        // transform questions, temp
-                        this.questions = result[1].map(item => {
-                            const _date = new Date(item.date);
-                            item.date = `${_date.toLocaleDateString('en', { month: 'short' })} ${_date.getUTCDate()}`;
-                            return item;
-                        });
-                    }
-                })
-                .then(() => {
-                    // load more offers
-                    api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerId)
-                        .then(res => {
-                            if (res && res.data) {
-                                this.moreOffers = res.data;
-                            }
-                            this.isLoaded = true;
-                            this.hideGlobalLoader();
-                            if (cb) cb();
-                        })
-                        .catch(error => {
-                            this.errLoadingDataHandler(cb, error);
-                        });
-                })
-                .catch(err => {
-                    this.errLoadingDataHandler(cb, err);
-                })
-        },
-        hideGlobalLoader () {
-            if (this.$loader && this.$loader.hide) {
-                setTimeout(() => {
-                    this.$loader.hide()
-                }, 0);
-            }
-        },
         showReserveMealModal () {
             this.$bvModal.show('reserve-meal-modal');
         },
@@ -291,8 +188,8 @@ export default {
             this.wasReserved = true;
             this.reservationId = id;
             this.numberOfServingsReserved = numOfServings;
-            if (this.offerInfo.availableQuantity) {
-                this.offerInfo.availableQuantity -= this.numberOfServingsReserved;
+            if (this.offerInfo['availableQuantity']) {
+                this.offerInfo['availableQuantity'] -= this.numberOfServingsReserved;
             }
         },
         cancelReservation () {
@@ -304,13 +201,13 @@ export default {
                     if (value) {
                         api.dashboard.bookings.deleteDine(this.reservationId)
                             .then(() => {
-                                this.offerInfo.availableQuantity += this.numberOfServingsReserved;
+                                this.offerInfo['availableQuantity'] += this.numberOfServingsReserved;
                                 this.wasReserved = false;
                                 this.reservationId = '';
                                 this.numberOfServingsReserved = 0;
                             })
                             .catch(err => {
-                                console.log('\n >> err > ', err);
+                                console.log('\n >> err cancel reservation:', err);
                             })
                     }
                 })
@@ -319,10 +216,22 @@ export default {
     },
     computed: {
         userName: function () {
-            return helpers.userNameWithShortLastName(this.offerInfo.user);
+            return helpers.userNameWithShortLastName(this.offerInfo['user']);
         },
         readyTimeStr: function () {
+            if (!this.offerInfo || !this.offerInfo.pickupTime) return '';
             return `Ready at ${helpers.parseDate(this.offerInfo.pickupTime, true)}`;
+        }
+    },
+    created () {
+        if (this.isMealReservedOnInit) {
+            this.wasReserved = true;
+        }
+        if (this.bookingId) {
+            this.reservationId = this.bookingId;
+        }
+        if (this.bookedServingsNum) {
+            this.numberOfServingsReserved = this.bookedServingsNum;
         }
     }
 }

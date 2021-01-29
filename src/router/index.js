@@ -130,7 +130,7 @@ const routes = [
             {
                 path: "offers/:id",
                 name: "Offer Info",
-                component: () => import("../views/OfferInfo.vue"),
+                component: () => import("../views/OfferPage.vue"),
                 meta: {
                     title: `${TITLE} - Offer info`,
                     skipHidingLoader: true
@@ -152,6 +152,24 @@ const routes = [
                 component: () => import('../views/SearchPage.vue'),
                 meta: {
                     title: `${TITLE} - Search Results`
+                }
+            },
+            {
+                path: 'cook-profile/:id',
+                name: 'Cook Profile',
+                component: () => import("../views/CookProfile.vue"),
+                meta: {
+                    title: `${TITLE} - Cook profile`,
+                    skipHidingLoader: true
+                }
+            },
+            {
+                path: 'booking/:id',
+                name: 'Booking',
+                component: () => import("../views/BookingPage.vue"),
+                meta: {
+                    title: `${TITLE} - Booking`,
+                    skipHidingLoader: true
                 }
             },
             {
