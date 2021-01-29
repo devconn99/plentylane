@@ -93,8 +93,14 @@ export default {
                     return true;
                 })
                 .then(() => {
+                    if (this.isMyOffer) {
+                        this.isLoaded = true;
+                        this.hideGlobalLoader();
+                        if (cb) cb();
+                        return true;
+                    }
                     // load more offers
-                    api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerId)
+                    return api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerId)
                         .then(res => {
                             if (res && res.data) {
                                 this.moreOffers = res.data;
@@ -102,6 +108,7 @@ export default {
                             this.isLoaded = true;
                             this.hideGlobalLoader();
                             if (cb) cb();
+                            return true;
                         })
                         .catch(error => {
                             this.errLoadingDataHandler(cb, error);
