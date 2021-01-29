@@ -48,7 +48,7 @@ export default {
         redirect () {
             if (!this.itemData || !this.itemData.id) return;
             if (!this.isMapInfoWindow) {
-                this.$router.push({ path: `/dashboard/offers/${this.itemData.id}` });
+                this.$router.push({ path: `/dashboard/offers/${this.itemData.id}` }).catch(()=>{});
             } else {
                 this.$eventHub.$emit('marker-info-window-clicked', this.itemData.id);
             }

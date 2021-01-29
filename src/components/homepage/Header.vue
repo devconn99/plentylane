@@ -104,6 +104,7 @@ export default {
                         this.hideMobileSideNav();
                     }
                 })
+                .catch(()=>{});
         }
     }
 }

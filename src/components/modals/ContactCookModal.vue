@@ -70,7 +70,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minValue, maxLength } from "vuelidate/lib/validators";
+import { required, maxLength } from "vuelidate/lib/validators";
 import config from '../../config';
 export default {
     name: "ContactCookModal",

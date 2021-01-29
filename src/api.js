@@ -291,10 +291,14 @@ export default {
                         return checkErr(err.response);
                     });
             },
-            getAvailableOffersFromUser (userId, exceptionId) {
+            getAvailableOffersFromUser (userId, exceptionId, page) {
+                // TODO: add filter to exclude offers in past
                 let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=user.id||$eq||${userId}&filter=availableQuantity||$gte||1`;
                 if (exceptionId) {
                     endpoint += `&filter=id||$ne||${exceptionId}`;
+                }
+                if (page) {
+                    endpoint += `&page=${page}`;
                 }
                 return axios.get(endpoint)
                     .then((res) => {
@@ -385,8 +389,7 @@ export default {
         },
         users: {
             getUserInfo (id) {
-                // TODO: make sure join works here
-                const endpoint = `${config.API_ORIGIN}/api/users/${id}?join=meals&join=offers`;
+                const endpoint = `${config.API_ORIGIN}/api/users/${id}`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});

@@ -303,7 +303,7 @@ export default {
         handleSearch () {
             // TODO: handle search (use this.searchStr as a value), redirect to search page
             const str = this.searchStr && this.searchStr.length ? this.searchStr.trim() : '';
-            this.$router.push({ path: '/dashboard/search', query: { name: str } });
+            this.$router.push({ path: '/dashboard/search', query: { name: str } }).catch(()=>{});
         },
         onMobileSearchClickedAway () {
             if (!this.isMobileBtnSearchActive && this.isMobileSearchVisible) {

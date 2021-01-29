@@ -13,7 +13,11 @@
                 </div>
             </div>
             <div class="cook-box pb-2 pb-md-3">
-                <div class="cook-info p-2 p-sm-3 cursor-pointer" @click="redirectToCookProfile">
+                <div
+                        class="cook-info p-2 p-sm-3"
+                        v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
+                        @click="redirectToCookProfile"
+                >
                     <div class="cook-info-img mr-2 mr-xl-3">
                         <!-- TODO: use real user's avatar later -->
                         <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
@@ -53,7 +57,7 @@ import helpers from '../helpers';
 import SvgIcon from './SvgIcon';
 export default {
     name: "OfferInfoBlock",
-    props: ['offerInfo'],
+    props: ['offerInfo', 'avoidRedirectToCookProfile'],
     components: {SvgIcon},
     data: () => ({
         placeholderImg: '../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg',
@@ -69,12 +73,13 @@ export default {
     methods: {
         redirectToOffer () {
             if (this.offerInfo && this.offerInfo.id) {
-                this.$router.push({ path: `/dashboard/offers/${this.offerInfo.id}` });
+                this.$router.push({ path: `/dashboard/offers/${this.offerInfo.id}` }).catch(()=>{});
             }
         },
         redirectToCookProfile () {
+            if (this.avoidRedirectToCookProfile) return;
             if (this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
-                this.$router.push({ path: `/dashboard/cook-profile/${this.offerInfo.user.id}` });
+                this.$router.push({ path: `/dashboard/cook-profile/${this.offerInfo.user.id}` }).catch(()=>{});
             }
         }
     }

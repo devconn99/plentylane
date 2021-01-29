@@ -516,66 +516,96 @@ ul.nav-menu-dashboard-profile {
 	.cook-info {
 		display: flex;
 		align-items: center;
-		.cook-info-img {
+	}
+	.cook-box-bigimg {
+		position:relative;
+		overflow:hidden;
+		padding-bottom:100%;
+		@media screen and (max-width: $phoneBigWidth) {
+			padding-bottom: 0;
+			margin: 0 auto;
+			text-align: center;
+		}
+		img {
+			border-radius: 50%;
+			border-radius: 50%;
+			position: absolute;
+			max-width: 100%;
+			max-height: 100%;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: 100%;
+			object-fit: cover;
+			@media screen and (max-width: $phoneBigWidth) {
+				position: relative;
+				left: auto;
+				top: auto;
+				transform: none;
+				height: 180px;
+				width: 180px;
+			}
+		}
+	}
+	.cook-info-img {
+		flex: none;
+		img {
+			width: 48px !important; // owl-carousel inner styles could change this width to 100%
+			height: 48px;
+			object-fit: cover;
+			border-radius: 50%;
+			@media screen and (max-width: $tableMinWidth) {
+				width: 34px;
+				height: 34px;
+			}
+		}
+	}
+	.cook-info-part {
+		display: flex;
+		align-items: center;
+		@media screen and (max-width: $smPhoneWidth) {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+	.cook-info-name, a.cook-info-name {
+		font-family: $FilsonProBold;
+		padding-top: 3px;
+		color: $textBlackColor;
+	}
+	.cook-info-benefits {
+		display: flex;
+		align-items: center;
+		flex-direction: row-reverse;
+		.cook-info-benefits-box {
+			box-shadow: 0 2px 2px rgba(213,203,183,0.3);
+			border: 1px solid #F3E5C8;
+			border-radius: 50%;
+			width: 24px;
+			height: 24px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 			flex: none;
-			img {
-				width: 48px;
-				height: 48px;
-				object-fit: cover;
-				border-radius: 50%;
-				@media screen and (max-width: $tableMinWidth) {
-					width: 34px;
-					height: 34px;
-				}
+			margin-left: -4px;
+			background-color: $whiteColor;
+			&:last-child {
+				margin-left: 0;
 			}
-		}
-		.cook-info-part {
-			display: flex;
-			align-items: center;
-			@media screen and (max-width: $smPhoneWidth) {
-				flex-direction: column;
-				align-items: flex-start;
+			span {
+				font-size: 14px;
+				line-height: 14px;
+				margin-left: 3px;
+				padding-top: 4.5px;
+				display: block;
+				color: $textBlackColor;
+				font-weight: normal;
+				font-family: $FilsonProRegular;
 			}
-		}
-		.cook-info-name, a.cook-info-name {
-			font-family: $FilsonProBold;
-			padding-top: 3px;
-			color: $textBlackColor;
-		}
-		.cook-info-benefits {
-			display: flex;
-			align-items: center;
-			flex-direction: row-reverse;
-			.cook-info-benefits-box {
-				box-shadow: 0 2px 2px rgba(213,203,183,0.3);
-				border: 1px solid #F3E5C8;
-				border-radius: 50%;
-				width: 24px;
-				height: 24px;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex: none;
-				margin-left: -4px;
-				background-color: $whiteColor;
-				&:last-child {
-					margin-left: 0;
-				}
-				span {
-					font-size: 14px;
-					line-height: 14px;
-					margin-left: 3px;
-					padding-top: 4.5px;
-					display: block;
-					color: $textBlackColor;
-					font-weight: normal;
-					font-family: $FilsonProRegular;
-				}
-				&.longbox {
-					width: auto;
-					border-radius: 12px;
-					padding: 0 13px;
-				}
+			&.longbox {
+				width: auto;
+				border-radius: 12px;
+				padding: 0 13px;
 			}
 		}
 	}
@@ -598,6 +628,42 @@ ul.nav-menu-dashboard-profile {
 			display: flex;
 			align-items: center;
 			span {
+				padding-top: 2px;
+			}
+		}
+	}
+	.cook-info-links {
+		display: flex;
+		flex-direction: row;
+		@media screen and (max-width: $mdphoneWidth) {
+			flex-direction: column;
+		}
+		.link-item {
+			cursor: pointer;
+
+			.link-item-text {
+				font-family: $FilsonProBold;
+				font-size: 16px;
+				font-weight: 400;
+				line-height: 24px;
+				color: $greenColor;
+			}
+			.link-item-icon {
+				color: $greenColor;
+			}
+		}
+		a, .link-item {
+			display: flex;
+			align-items: center;
+			letter-spacing: 0.6px;
+			svg {
+				flex: none;
+			}
+			@media screen and (max-width: $tableMinWidth) {
+				font-size: 14px;
+				letter-spacing: 0;
+			}
+			.link-item-text {
 				padding-top: 2px;
 			}
 		}
@@ -687,6 +753,70 @@ a.reserved-box, .reserved-box {
 	}
 }
 // .recept-box has been moved to src/components/OfferInfoBlock styles
+// TODO: move it to shop-box component later
+.shop-modal .shop-box {
+	max-width: 160px;
+	margin: 0 auto;
+	&:hover {
+		box-shadow: 0 4px 16px rgba(69,53,38,0.15);
+	}
+	.shop-box-img {
+		padding: 0;
+	}
+}
+.shop-box {
+	box-shadow: 0 4px 16px rgba(69,53,38,0.15);
+	background-color: $whiteColor;
+	position: relative;
+	font-family: $FilsonProRegular;
+	-webkit-transition: .3s all ease;
+	-o-transition: .3s all ease;
+	transition: .3s all ease;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	&:hover {
+		box-shadow: 0 6px 18px rgba(69,53,38,0.3);
+		-webkit-transition: .3s all ease;
+		-o-transition: .3s all ease;
+		transition: .3s all ease;
+	}
+	.shop-box-img {
+		position: relative;
+		text-align: center;
+		padding: 22px 50px;
+		img {
+			max-width: 100%;
+			width: 160px;
+			height: 160px;
+			object-fit: cover;
+		}
+	}
+	.shop-box-info {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
+		.shop-box-info2 {
+			.shop-box-title {
+				font-family: $LacaProSemiBold;
+				color: $textBlackColor;
+				font-size: 24px;
+				line-height: 24px;
+			}
+			.shop-box-price {
+				color: $textBlackColor;
+				font-size: 16px;
+				line-height: 24px;
+			}
+		}
+		.shop-box-btn {
+			display: flex;
+			align-items: flex-end;
+			flex-direction: column;
+		}
+	}
+}
 .serving-number, a.serving-number {
 	line-height: 24px;
 	color: $textBlackColor;

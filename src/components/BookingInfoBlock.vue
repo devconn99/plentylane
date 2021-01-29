@@ -109,7 +109,7 @@ export default {
         },
         redirectToBookingPage () {
             if (!this.bookingInfo || !this.bookingInfo.id) return;
-            this.$router.push({ path: `/dashboard/booking/${this.bookingInfo.id}` });
+            this.$router.push({ path: `/dashboard/booking/${this.bookingInfo.id}` }).catch(()=>{});
         }
     }
 }
