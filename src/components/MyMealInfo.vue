@@ -26,7 +26,10 @@
                     </div>
                     <div class="cook-location mt-1 mt-md-2">
                         <SvgIcon icon="location"></SvgIcon>
-                        <span class="ml-3 titleGreenLightColor text-underline">{{itemData.place.address}}</span>
+                        <span
+                                class="ml-3"
+                                v-bind:class="{ 'titleGreenLightColor text-underline': !isMapInfoWindow }"
+                        >{{itemData.place.address}}</span>
                     </div>
                 </div>
             </div>
@@ -43,7 +46,12 @@ export default {
     props: ['itemData', 'isMapInfoWindow'],
     methods: {
         redirect () {
-            // TODO: add redirect to specific page
+            if (!this.itemData || !this.itemData.id) return;
+            if (!this.isMapInfoWindow) {
+                this.$router.push({ path: `/dashboard/offers/${this.itemData.id}` });
+            } else {
+                this.$eventHub.$emit('marker-info-window-clicked', this.itemData.id);
+            }
         }
     },
     computed: {

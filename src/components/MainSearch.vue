@@ -85,10 +85,16 @@ export default {
         this._infoWindowComponent = Vue.extend(MyMealInfo);
         this._infoWindowComponentInstance = new this._infoWindowComponent({});
         this._infoWindowComponentInstance.$mount();
+        this.$eventHub.$on('marker-info-window-clicked', (id) => {
+            if (!id) return;
+            this.closeInfoWindowById(id);
+            this.$router.push({ path: `/dashboard/offers/${id}` });
+        });
     },
     beforeDestroy () {
         this.$eventHub.$off('browser-coordinates');
         this.$eventHub.$off('trigger-main-search');
+        this.$eventHub.$off('marker-info-window-clicked');
         this._infoWindowComponentInstance.$destroy();
         this._infoWindowComponentInstance = null;
         this._infoWindowComponent = null;
@@ -354,13 +360,15 @@ export default {
                 this.mapInfoWindows[data.id].open(this.map, marker);
             }
         },
+        closeInfoWindowById (id) {
+            if (!id || !this.mapInfoWindows || !this.mapInfoWindows[id]) return;
+            this.mapInfoWindows[id].close();
+        },
         closeInfoWindows () {
             const keys = Object.keys(this.mapInfoWindows);
             if (keys && keys.length) {
                 for (let key of keys) {
-                    if (this.mapInfoWindows[key]) {
-                        this.mapInfoWindows[key].close();
-                    }
+                    this.closeInfoWindowById(key);
                 }
             }
         }
