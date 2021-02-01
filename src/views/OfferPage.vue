@@ -80,7 +80,11 @@ export default {
                             offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
                         }
                         this.offerInfo = { ...offer };
-                        this.isMyOffer = this.$store.getters.userId === this.offerInfo.user.id;
+                        let _userId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
+                        if (typeof _userId === 'string') {
+                            _userId = Number(_userId);
+                        }
+                        this.isMyOffer = _userId === this.offerInfo.user.id;
                     }
                     if (result && result[1] && result[1].length) {
                         // transform questions, temp

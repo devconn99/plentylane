@@ -140,7 +140,15 @@ export default {
                     if (response.accessToken) {
                         localStorage.setItem('plAccessToken', response.accessToken);
                     }
-                    this.$router.push({ path: '/dashboard' });
+                    api.dashboard.userInfo()
+                        .then((data) => {
+                            this.$store.commit('userInfo', { ...data });
+                            localStorage.setItem('plUserId', data.id);
+                            this.$router.push({ path: '/dashboard' });
+                        })
+                        .catch((err) => {
+                            this.$router.push({ path: '/dashboard' });
+                        });
                 })
                 .catch(err => {
                     console.log('\n >> err > ', err);

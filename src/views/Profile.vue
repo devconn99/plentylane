@@ -217,6 +217,7 @@ export default {
                 .then(value => {
                     if (value) {
                         localStorage.removeItem('plAccessToken');
+                        localStorage.removeItem('plUserId');
                         this.$store.commit('reset');
                         this.$router.push({path: '/login'});
                     }
