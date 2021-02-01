@@ -200,15 +200,17 @@ export default {
                 })
                 .catch(err => {
                     // error message will disappear on focus or on change value
-                    if (err.statusCode === '409') {
-                        this.errorMsg = err.message;
-                    } else if (Array.isArray(err.message) && err.message.length > 0) {
+                    if (Array.isArray(err.message) && err.message.length > 0) {
                         this.errorMsg = err.message.reduce((result, current) => {
                             if (!result || !result.length) {
                                 return `${this.capitalizeFirstLetter(current)}`;
                             }
                             return `${result}. ${this.capitalizeFirstLetter(current)}`;
                         }, '');
+                    } else if (typeof err.message === 'string') {
+                        this.errorMsg = err.message;
+                    } else {
+                        this.errorMsg = 'Error during registration.'
                     }
                     this.showErrorAlert = true;
                 })
