@@ -18,6 +18,20 @@ axios.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+const getTodayStartStr = () => {
+    const _dateObj = new Date();
+    const _month = (`0${_dateObj.getUTCMonth() + 1}`).slice(-2);
+    const _day = (`0${_dateObj.getUTCDate()}`).slice(-2);
+    return `${_dateObj.getUTCFullYear()}-${_month}-${_day}T00:00:00.000Z`;
+};
+const getDefaultPickupTimeNotInPastFilter = (prefix) => {
+    if (!prefix || !prefix.length) {
+        prefix = '';
+    } else if (!prefix.endsWith('.')) {
+        prefix += '.';
+    }
+    return `filter=${prefix}pickupTime||$gte||${getTodayStartStr()}`;
+};
 
 // TODO
 const checkErr = (errResponse) => {
@@ -143,13 +157,9 @@ export default {
             getPlacesByLocation (query) {
                 let endpoint = `${config.API_ORIGIN}/api/places`;
                 let _queryStr = '';
-                let hasPickupTimeFilter = false;
                 if (query && query.length) {
                     query.forEach((item, index) => {
                         if (item.type && item.type.length) {
-                            if (item.field.includes('pickupTime')) {
-                                hasPickupTimeFilter = true;
-                            }
                             _queryStr += `${index === 0 ? '?' : '&'}${item.type}=${item.field}||${item.condition}||${item.value}`;
                         }
                     });
@@ -203,40 +213,17 @@ export default {
         },
         offers: {
             getOffers (query) {
-                // example filters data:
-                // quert = [
-                    // {
-                    //     type: 'filter', // I'm expecting 'filter' or 'or' types
-                    //     field: "quantity",
-                    //     condition: '$in',
-                    //     value: '3,7'
-                    // },
-                    // {
-                    //     field: 'pickupTime',
-                    //     condition: '$between',
-                    //     value: '2021-01-13,2021-01-20'
-                    // },
-                    // {
-                    //     field: 'meal.name',
-                    //     condition: '$contL',
-                    //     value: 'Test'
-                    // }
-                //];
+                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
+                const sortByPickupTime = 'sort=pickupTime,ASC';
+
                 let _queryStr = '';
-                let hasPickupTimeFilter = false;
                 if (query && query.length) {
                     query.forEach(item => {
                         if (item.type && item.type.length) {
-                            if (item.field.includes('pickupTime')) {
-                                hasPickupTimeFilter = true;
-                            }
                             _queryStr += `&${item.type}=${item.field}||${item.condition}||${item.value}`;
                         }
                     });
                 }
-                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
-
-                const sortByPickupTime = 'sort=pickupTime,ASC';
 
                 if (_queryStr && _queryStr.length) {
                     endpoint += _queryStr;
@@ -251,8 +238,18 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getAvailableOffers () {
-                const endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=availableQuantity||$gte||1`;
+            getAvailableOffers (excludeUserId) {
+                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
+                const _filterHideInPast = getDefaultPickupTimeNotInPastFilter();
+                const _filterAvailableQuantity = 'filter=availableQuantity||$gte||1';
+                const _sortPickupTimeAsc = 'sort=pickupTime,ASC';
+                let _filters = `&${_filterAvailableQuantity}&${_filterHideInPast}&${_sortPickupTimeAsc}`;
+
+                if (excludeUserId) {
+                    _filters += `&filter=user.id||$ne||${excludeUserId}`;
+                }
+
+                endpoint += `&${_filters}&${_sortPickupTimeAsc}`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -261,8 +258,13 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getMyOffers () {
-                const endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`;
+            getMyOffers (shouldHidePastOffers) {
+                let endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`;
+                if (shouldHidePastOffers) {
+                    endpoint += `&${getDefaultPickupTimeNotInPastFilter()}`;
+                }
+                endpoint += '&sort=pickupTime,ASC';
+
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -292,8 +294,13 @@ export default {
                     });
             },
             getAvailableOffersFromUser (userId, exceptionId, page) {
-                // TODO: add filter to exclude offers in past
-                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user&filter=user.id||$eq||${userId}&filter=availableQuantity||$gte||1`;
+                let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
+                const _filterByUserId = `filter=user.id||$eq||${userId}`;
+                const _filterAvailableServings = 'filter=availableQuantity||$gte||1';
+                const _filterHideInPast = getDefaultPickupTimeNotInPastFilter();
+                const _sortByPickupTimeAsc = 'sort=pickupTime,ASC';
+                endpoint += `&${_filterByUserId}&${_filterAvailableServings}&${_filterHideInPast}&${_sortByPickupTimeAsc}`;
+
                 if (exceptionId) {
                     endpoint += `&filter=id||$ne||${exceptionId}`;
                 }
@@ -354,8 +361,17 @@ export default {
                         return checkErr(err.response)
                     })
             },
-            getMyDines () {
-                const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine`;
+            getMyDines (shouldHidePastReservations) {
+                let endpoint = `${config.API_ORIGIN}/api/me/bookings/dine`;
+                const _sortPickupTimeAsc = 'sort=offer.pickupTime,ASC';
+                let _filterAndSortStr = '';
+                if (shouldHidePastReservations) {
+                    _filterAndSortStr = `?${getDefaultPickupTimeNotInPastFilter('offer.')}&${_sortPickupTimeAsc}`;
+                } else {
+                    _filterAndSortStr = `?${_sortPickupTimeAsc}`;
+                }
+                endpoint += _filterAndSortStr;
+
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});

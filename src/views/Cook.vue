@@ -23,7 +23,7 @@
                             >
                                 <span>
                                     <i class="fas fa-plus"></i>
-                                New Meal
+                                    New Meal
                                 </span>
                             </router-link>
                             <b-button class="btnGreenTransparent btnHugeSize btn100 hover-slide-left">

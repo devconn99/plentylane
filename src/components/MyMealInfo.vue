@@ -1,14 +1,18 @@
 <template>
     <div class="my-meal-info-wrapper" v-if="itemData && itemData.id" v-bind:class="{ 'map-info-window': isMapInfoWindow }">
-        <div class="reserved-box p-2 p-xl-3 cursor-pointer" @click="redirect">
+        <div class="reserved-box p-2 p-xl-3">
             <div class="reserved-info">
                 <div class="reserved-img mr-2 mr-xl-3">
-                    <img src="../assets/images/data/images/dashboard/reserved/soup.jpg" alt=""
-                         class="img-fluid">
+                    <img
+                            src="../assets/images/data/images/dashboard/reserved/soup.jpg"
+                            alt=""
+                            class="img-fluid cursor-pointer"
+                            @click="redirect"
+                    >
                 </div>
                 <div class="reserved-boxtitle">
                     <div class="reserved-title">
-                        <div class="title-size3 titleDarkColor">{{itemData.meal.name}}</div>
+                        <div class="title-size3 titleDarkColor cursor-pointer" @click="redirect">{{itemData.meal.name}}</div>
                         <!-- TODO -->
                         <!--<div class="reserved-time title-size3 titleGreenLightColor">222h</div>-->
                     </div>

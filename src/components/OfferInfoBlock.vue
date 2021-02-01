@@ -13,18 +13,26 @@
                 </div>
             </div>
             <div class="cook-box pb-2 pb-md-3">
-                <div
-                        class="cook-info p-2 p-sm-3"
-                        v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
-                        @click="redirectToCookProfile"
-                >
-                    <div class="cook-info-img mr-2 mr-xl-3">
+                <div class="cook-info p-2 p-sm-3">
+                    <div
+                            class="cook-info-img mr-2 mr-xl-3"
+                            v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
+                            @click="redirectToCookProfile"
+                    >
                         <!-- TODO: use real user's avatar later -->
                         <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
                     </div>
                     <div class="cook-info-part">
-                        <div class="cook-info-name mr-2">{{userName}}</div>
-                        <div class="cook-info-benefits mt-1">
+                        <div
+                                class="cook-info-name mr-2"
+                                v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
+                                @click="redirectToCookProfile"
+                        >{{userName}}</div>
+                        <div
+                                class="cook-info-benefits mt-1"
+                                v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
+                                @click="redirectToCookProfile"
+                        >
                             <div class="cook-info-benefits-box">
                                 <SvgIcon icon="benefit3"></SvgIcon>
                             </div>

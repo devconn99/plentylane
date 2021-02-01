@@ -555,7 +555,7 @@ ul.nav-menu-dashboard-profile {
 			object-fit: cover;
 			border-radius: 50%;
 			@media screen and (max-width: $tableMinWidth) {
-				width: 34px;
+				width: 34px !important;
 				height: 34px;
 			}
 		}

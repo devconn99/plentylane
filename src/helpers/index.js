@@ -92,5 +92,16 @@ export default {
             labelClass: "marker-label-wrapper",
             labelInBackground: true
         }
+    },
+    getStartOfDateFilterStr (str) {
+        let _dateObj;
+        if (!str || !str.length) {
+            _dateObj = new Date();
+        } else {
+            _dateObj = new Date(str);
+        }
+        const _month = (`0${_dateObj.getUTCMonth() + 1}`).slice(-2);
+        const _day = (`0${_dateObj.getUTCDate()}`).slice(-2);
+        return `${_dateObj.getUTCFullYear()}-${_month}-${_day}T00:00:00.000Z`;
     }
 }

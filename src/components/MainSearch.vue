@@ -261,18 +261,11 @@ export default {
             } else if (!fieldPrefix.endsWith('.')) {
                 fieldPrefix += '.';
             }
-            const _dateToday = new Date();
-            const _todayHoursStr = (`0${_dateToday.getUTCHours()}`).slice(-2);
-            const _todayMinutesStr = (`0${_dateToday.getUTCMinutes()}`).slice(-2);
-            const _todayTimeStr = `T${_todayHoursStr}:${_todayMinutesStr}:00.00Z`;
-            const dateStartStr = `${_dateToday.getUTCFullYear()}-${_dateToday.getUTCMonth() + 1}-${_dateToday.getUTCDate()}${_todayTimeStr}`;
-            const dateEnd = new Date(_dateToday.setDate(_dateToday.getDate() + 60)); // today + 60 days
-            const dateEndStr = `${dateEnd.getUTCFullYear()}-${dateEnd.getUTCMonth() + 1}-${dateEnd.getUTCDate()}T23:59:59.99Z`;
             return {
                 type: 'filter',
                 field: `${fieldPrefix}pickupTime`,
-                condition: '$between',
-                value: `${dateStartStr},${dateEndStr}`
+                condition: '$gte',
+                value: helpers.getStartOfDateFilterStr()
             }
         },
         initMap () {

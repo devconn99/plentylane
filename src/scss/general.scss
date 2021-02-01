@@ -500,6 +500,9 @@ button {
 			margin-right: 12px;
 			flex: none; // TODO ?
 		}
+		i[class*='fa'] {
+			margin-right: 12px;
+		}
 		@media screen and (min-width: $tableWidth) {
 			&:hover {
 				transition: 0.2s 0.1s;

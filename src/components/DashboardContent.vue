@@ -145,9 +145,11 @@ export default {
         offers: [],
         bookings: [],
         myOffers: [],
-        isLoaded: false
+        isLoaded: false,
+        userId: ''
     }),
     mounted () {
+        this.userId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
         this.loadOffers();
     },
     methods: {
@@ -159,17 +161,20 @@ export default {
         loadOffers () {
             this.isLoaded = false;
             const requests = [
-                api.dashboard.offers.getAvailableOffers(),
-                api.dashboard.bookings.getMyDines(),
-                api.dashboard.offers.getMyOffers()
+                api.dashboard.offers.getAvailableOffers(this.userId),
+                api.dashboard.bookings.getMyDines(true),
+                api.dashboard.offers.getMyOffers(true)
             ];
             const dataKeys = ['offers', 'bookings', 'myOffers'];
 
             Promise.all(requests)
                 .then(responses => {
-                    responses.forEach((response, index) => {
+                    responses.map((response, index) => {
                         this[dataKeys[index]] = response.data || [];
                     });
+                    return true;
+                })
+                .then(() => {
                     this.isLoaded = true;
                     this.hideGlobalLoader();
                 })

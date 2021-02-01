@@ -2,14 +2,21 @@
     <div class="reserved-box-wrapper" v-if="bookingInfo && bookingInfo.id">
         <div class="reserved-box p-2 p-xl-3">
             <template v-if="!isSmall">
-                <div class="reserved-info cursor-pointer" @click="redirectToBookingPage">
+                <div class="reserved-info">
                     <div class="reserved-img mr-2 mr-xl-3">
-                        <img src="../assets/images/data/images/dashboard/reserved/meat.jpg" alt=""
-                             class="img-fluid">
+                        <img
+                                src="../assets/images/data/images/dashboard/reserved/meat.jpg"
+                                alt=""
+                                class="img-fluid cursor-pointer"
+                                @click="redirectToBookingPage"
+                        >
                     </div>
                     <div class="reserved-boxtitle">
                         <div class="reserved-title">
-                            <div class="title-size3 titleDarkColor">{{bookingInfo.offer.meal.name}}</div>
+                            <div
+                                    class="title-size3 titleDarkColor cursor-pointer"
+                                    @click="redirectToBookingPage"
+                            >{{bookingInfo.offer.meal.name}}</div>
                             <!-- TODO -->
                             <!--<div class="reserved-time title-size3 titleGreenLightColor">222h</div>-->
                         </div>
@@ -17,13 +24,13 @@
                     </div>
                 </div>
                 <div class="cook-box">
-                    <div class="cook-info p-2 p-sm-3 cursor-pointer" @click="redirectToCookProfile">
-                        <div class="cook-info-img mr-2 mr-xl-3">
+                    <div class="cook-info p-2 p-sm-3">
+                        <div class="cook-info-img mr-2 mr-xl-3 cursor-pointer" @click="redirectToCookProfile">
                             <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
                         </div>
                         <div class="cook-info-part">
-                            <div class="cook-info-name mr-2">{{userName}}</div>
-                            <div class="cook-info-benefits">
+                            <div class="cook-info-name mr-2 cursor-pointer" @click="redirectToCookProfile">{{userName}}</div>
+                            <div class="cook-info-benefits cursor-pointer" @click="redirectToCookProfile">
                                 <div class="cook-info-benefits-box">
                                     <SvgIcon icon="benefit3"></SvgIcon>
                                 </div>
@@ -53,14 +60,21 @@
                 </div>
             </template>
             <template v-else>
-                <div class="reserved-info cursor-pointer" @click="redirectToBookingPage">
+                <div class="reserved-info">
                     <div class="reserved-img mr-2 mr-xl-3">
-                        <img src="../assets/images/data/images/dashboard/reserved/meat.jpg" alt=""
-                             class="img-fluid">
+                        <img
+                                src="../assets/images/data/images/dashboard/reserved/meat.jpg"
+                                alt=""
+                                class="img-fluid cursor-pointer"
+                                @click="redirectToBookingPage"
+                        >
                     </div>
                     <div class="reserved-boxtitle">
                         <div class="reserved-title">
-                            <div class="title-size3 titleDarkColor">{{bookingInfo.offer.meal.name}}</div>
+                            <div
+                                    class="title-size3 titleDarkColor cursor-pointer"
+                                    @click="redirectToBookingPage"
+                            >{{bookingInfo.offer.meal.name}}</div>
                             <!-- TODO -->
                             <!--<div class="reserved-time title-size3 titleGreenLightColor">1d 222h</div>-->
                         </div>
