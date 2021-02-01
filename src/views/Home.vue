@@ -96,7 +96,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12 text-center">
-              <img src="../assets/images/landing/share-more-clean-less.svg" alt="" class="img-fluid">
+              <img src="../assets/images/landing/plenty-to-share.svg" alt="" class="img-fluid">
             </div>
           </div>
         </div>

@@ -302,11 +302,14 @@ ul.nav-menu-landing {
 
 .promo {
 	img {
+		@media screen and (min-width: $tableWidth + 1) {
+			max-width: 320px;
+		}
 		@media screen and (max-width: $tableWidth) {
-			max-width: 80%;
+			max-width: 280px;
 		}
 		@media screen and (max-width: $phoneBigWidth) {
-			max-width: 50%;
+			max-width: 190px;
 		}
 	}
 }
