@@ -145,7 +145,7 @@
                 </div>
             </aside>
 
-            <section class="dashboard-section">
+            <section class="dashboard-section" v-bind:class="{ 'dashboard-profile': isProfilePage }">
                 <router-view></router-view>
             </section>
         </main>
@@ -224,6 +224,9 @@ export default {
         },
         isDashboardPage: function () {
             return this.$route.path === '/dashboard';
+        },
+        isProfilePage: function () {
+            return this.$route.path.includes('/profile');
         }
     },
     beforeRouteUpdate (to, from, next) {

@@ -109,6 +109,7 @@ import { validationMixin } from "vuelidate";
 import { required, minLength, maxLength, sameAs, email } from "vuelidate/lib/validators";
 import api from '../api';
 import config from '../config';
+import helpers from '../helpers';
 export default {
     name: "SignUp",
     mixins: [validationMixin],
@@ -159,9 +160,6 @@ export default {
             if (value === '') return true;
             return new RegExp(`^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{${config.PWD_MIN_LENGTH},}$`, 'g').test(value);
         },
-        capitalizeFirstLetter(string) {
-            return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
-        },
         resetError () {
             if (this.submitted) {
                 this.submitted = false;
@@ -203,9 +201,9 @@ export default {
                     if (Array.isArray(err.message) && err.message.length > 0) {
                         this.errorMsg = err.message.reduce((result, current) => {
                             if (!result || !result.length) {
-                                return `${this.capitalizeFirstLetter(current)}`;
+                                return `${helpers.capitalizeFirstLetter(current)}`;
                             }
-                            return `${result}. ${this.capitalizeFirstLetter(current)}`;
+                            return `${result}. ${helpers.capitalizeFirstLetter(current)}`;
                         }, '');
                     } else if (typeof err.message === 'string') {
                         this.errorMsg = err.message;

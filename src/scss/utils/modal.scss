@@ -17,7 +17,8 @@
 	&.invite-friends-modal,
 	&.reserve-meal-modal,
 	&.contact-cook-modal,
-	&.location-modal {
+	&.location-modal,
+	&.confirm-modal {
 		.modal-header {
 			border-bottom: none;
 
@@ -59,7 +60,7 @@
 			}
 		}
 	}
-	&.location-modal {
+	&.location-modal, &.confirm-modal {
 		.modal-footer {
 			padding-top: 0;
 			border-top: none;

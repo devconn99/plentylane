@@ -84,12 +84,76 @@ const routes = [
             },
             {
                 path: "profile",
-                name: "Profile",
-                component: () => import("../views/Profile.vue"),
+                component: () => import("../views/profile/ProfileWrapper.vue"),
                 meta: {
                     title: `${TITLE} - Profile`,
-                    skipHidingLoader: true
-                }
+                    noLoader: true
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'Edit Profile',
+                        component: () => import("../views/profile/EditProfile.vue"),
+                        meta: {
+                            title: `${TITLE} - Edit Profile`,
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: 'my-meals',
+                        name: 'My Meals',
+                        component: () => import("../views/profile/MyMeals.vue"),
+                        meta: {
+                            title: `${TITLE} - My Meals`,
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: 'my-network',
+                        name: 'My Network',
+                        component: () => import("../views/profile/MyNetwork.vue"),
+                        meta: {
+                            title: `${TITLE} - My Network`,
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: 'certifications',
+                        name: 'Certifications',
+                        component: () => import("../views/profile/Certifications.vue"),
+                        meta: {
+                            title: `${TITLE} - Certifications`,
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: 'credits',
+                        name: 'Credits',
+                        component: () => import("../views/profile/Credits.vue"),
+                        meta: {
+                            title: `${TITLE} - Credits`,
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: 'orders',
+                        name: 'Orders',
+                        component: () => import("../views/profile/Orders.vue"),
+                        meta: {
+                            title: `${TITLE} - Orders`,
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: 'account',
+                        name: 'Account',
+                        component: () => import("../views/profile/Account.vue"),
+                        meta: {
+                            title: `${TITLE} - Account`,
+                            noLoader: true
+                        }
+                    }
+                ]
             },
             {
                 path: "eat",

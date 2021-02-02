@@ -103,5 +103,9 @@ export default {
         const _month = (`0${_dateObj.getUTCMonth() + 1}`).slice(-2);
         const _day = (`0${_dateObj.getUTCDate()}`).slice(-2);
         return `${_dateObj.getUTCFullYear()}-${_month}-${_day}T00:00:00.000Z`;
+    },
+    capitalizeFirstLetter(string) {
+        if (!string) return '';
+        return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
     }
 }
