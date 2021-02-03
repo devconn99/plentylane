@@ -56,7 +56,7 @@
                             <b-btn
                                     class="btnNavyRedTransparent btnNormalSize btn100 hover-slide-left"
                                     v-if="wasReserved"
-                                    @click="cancelReservation"
+                                    @click="openConfirmCancelReservation"
                             >
                                 <span>Cancel reservation</span>
                             </b-btn>
@@ -154,6 +154,7 @@
         <!-- Modals -->
         <ReserveMealModal :offer-info="{ ...this.offerInfo }" @onReserved="onReserved"></ReserveMealModal>
         <ContactCookModal :cook-id="this.offerInfo.user.id" :offer-id="this.offerInfo.id"></ContactCookModal>
+        <ConfirmModal :message="confirmCancelReservationMsg" @confirmed="onConfirmedCancelReservation"></ConfirmModal>
     </div>
 </template>
 
@@ -166,16 +167,18 @@ import HeroWave from './HeroWave';
 import CarouselContainer from './CarouselContainer';
 import OfferInfoBlock from './OfferInfoBlock';
 import SvgIcon from './SvgIcon';
+import ConfirmModal from './modals/ConfirmModal';
 export default {
     name: "OfferPageContent",
-    components: {ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock, SvgIcon},
+    components: {ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock, SvgIcon, ConfirmModal},
     props: ['offerInfo', 'hiddenButtons', 'isMealReservedOnInit', 'questions', 'moreOffers', 'bookingId', 'bookedServingsNum'],
     data: () => ({
         // TODO: temp image url
         imageUrl: "https://cdn.pixabay.com/photo/2017/09/28/18/13/bread-2796393_960_720.jpg",
         wasReserved: false,
         reservationId: '',
-        numberOfServingsReserved: 0
+        numberOfServingsReserved: 0,
+        confirmCancelReservationMsg: 'Are you sure you want to cancel reservation?'
     }),
     methods: {
         showReserveMealModal () {
@@ -192,26 +195,20 @@ export default {
                 this.offerInfo['availableQuantity'] -= this.numberOfServingsReserved;
             }
         },
-        cancelReservation () {
-            this.$bvModal.msgBoxConfirm('Are you sure you want to cancel reservation?', {
-                okTitle: 'Yes',
-                cancelTitle: 'No'
-            })
-                .then(value => {
-                    if (value) {
-                        api.dashboard.bookings.deleteDine(this.reservationId)
-                            .then(() => {
-                                this.offerInfo['availableQuantity'] += this.numberOfServingsReserved;
-                                this.wasReserved = false;
-                                this.reservationId = '';
-                                this.numberOfServingsReserved = 0;
-                            })
-                            .catch(err => {
-                                console.log('\n >> err cancel reservation:', err);
-                            })
-                    }
+        openConfirmCancelReservation () {
+            this.$bvModal.show('confirm-modal');
+        },
+        onConfirmedCancelReservation () {
+            api.dashboard.bookings.deleteDine(this.reservationId)
+                .then(() => {
+                    this.offerInfo['availableQuantity'] += this.numberOfServingsReserved;
+                    this.wasReserved = false;
+                    this.reservationId = '';
+                    this.numberOfServingsReserved = 0;
                 })
-                .catch(err => {})
+                .catch(err => {
+                    console.log('\n >> err cancel reservation:', err);
+                })
         }
     },
     computed: {
