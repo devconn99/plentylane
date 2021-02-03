@@ -20,7 +20,7 @@
         </div>
 
         <!-- Modals -->
-        <ConfirmModal :message="logoutMessage" @confirmed="onConfirmedLogout"></ConfirmModal>
+        <ConfirmModal :id="modalId" :message="logoutMessage" @confirmed="onConfirmedLogout"></ConfirmModal>
     </div>
 </template>
 
@@ -60,11 +60,12 @@ export default {
                 path: '/dashboard/profile/account'
             }
         ],
-        logoutMessage: 'Are you sure you want to logout?'
+        logoutMessage: 'Are you sure you want to logout?',
+        modalId: 'confirm-logout'
     }),
     methods: {
         openLogoutConfirmModal () {
-            this.$bvModal.show('confirm-modal');
+            this.$bvModal.show(this.modalId);
         },
         onConfirmedLogout () {
             localStorage.removeItem('plAccessToken');

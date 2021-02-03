@@ -154,7 +154,7 @@
         <!-- Modals -->
         <ReserveMealModal :offer-info="{ ...this.offerInfo }" @onReserved="onReserved"></ReserveMealModal>
         <ContactCookModal :cook-id="this.offerInfo.user.id" :offer-id="this.offerInfo.id"></ContactCookModal>
-        <ConfirmModal :message="confirmCancelReservationMsg" @confirmed="onConfirmedCancelReservation"></ConfirmModal>
+        <ConfirmModal :id="modalId" :message="confirmCancelReservationMsg" @confirmed="onConfirmedCancelReservation"></ConfirmModal>
     </div>
 </template>
 
@@ -178,7 +178,8 @@ export default {
         wasReserved: false,
         reservationId: '',
         numberOfServingsReserved: 0,
-        confirmCancelReservationMsg: 'Are you sure you want to cancel reservation?'
+        confirmCancelReservationMsg: 'Are you sure you want to cancel reservation?',
+        modalId: 'confirm-cancel-reservation'
     }),
     methods: {
         showReserveMealModal () {
@@ -196,7 +197,7 @@ export default {
             }
         },
         openConfirmCancelReservation () {
-            this.$bvModal.show('confirm-modal');
+            this.$bvModal.show(this.modalId);
         },
         onConfirmedCancelReservation () {
             api.dashboard.bookings.deleteDine(this.reservationId)

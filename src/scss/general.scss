@@ -783,6 +783,16 @@ h1, h2, h3, h4, h5, h6 {
 			}
 		}
 	}
+	&.searchFormNormal {
+		.form-group {
+			margin-bottom: 20px !important;
+
+			input[type=text], input[type=email], input[type=password], input[type=url],
+			input[type=tel], input[type=number], select {
+				height: 48px;
+			}
+		}
+	}
 }
 
 

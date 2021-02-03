@@ -414,6 +414,44 @@ export default {
                         return checkErr(err.response);
                     })
             }
+        },
+        network: {
+            getMyNetwork () {
+                // TODO: remove temp data when endpoint is ready
+                const tempData = [
+                    {
+                        id: 1,
+                        name: 'Eric Turner',
+                        img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696'
+                    },
+                    {
+                        id: 2,
+                        name: 'Luis Blair',
+                        img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696'
+                    },
+                    {
+                        id: 3,
+                        name: 'Lura Rodriquez',
+                        img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025'
+                    },
+                    {
+                        id: 4,
+                        name: 'Catherine Crawford',
+                        img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025'
+                    },
+                    {
+                        id: 5,
+                        name: 'Evan Carlson',
+                        img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696'
+                    },
+                    {
+                        id: 6,
+                        name: 'Lucille Reeves',
+                        img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025'
+                    }
+                ];
+                return Promise.resolve(tempData);
+            }
         }
     }
 }

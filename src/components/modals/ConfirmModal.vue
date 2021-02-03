@@ -1,6 +1,6 @@
 <template>
     <b-modal
-            id="confirm-modal"
+            :id="id"
             ref="confirmModal"
             size="lg"
             modal-class="confirm-modal"
@@ -40,7 +40,7 @@ import SvgIcon from '../SvgIcon';
 export default {
     name: "ConfirmModal",
     components: {SvgIcon},
-    props: ['message', 'cancelBtnText', 'confirmBtnText'],
+    props: ['id', 'message', 'cancelBtnText', 'confirmBtnText'],
     data: () => ({
         defaultMessage: 'Are you sure you want to confirm this action?'
     }),
