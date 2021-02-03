@@ -237,6 +237,15 @@ const routes = [
                 }
             },
             {
+                path: 'edit-meal/:id',
+                name: 'Edit Meal',
+                component: () => import("../views/EditMeal.vue"),
+                meta: {
+                    title: `${TITLE} - Edit Meal`,
+                    skipHidingLoader: true
+                }
+            },
+            {
                 path: "*",
                 redirect: "/dashboard"
             }

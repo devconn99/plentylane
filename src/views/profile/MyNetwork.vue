@@ -61,10 +61,9 @@
 import Loading from 'vue-loading-overlay';
 import api from '../../api';
 import ConfirmModal from '../../components/modals/ConfirmModal';
-import SvgIcon from '../../components/SvgIcon';
 export default {
     name: "MyNetwork",
-    components: {Loading, ConfirmModal, SvgIcon},
+    components: {Loading, ConfirmModal},
     data: () => ({
         loaderOptions: {
             color: '#009C90',
@@ -112,6 +111,8 @@ export default {
                     this.isLoading = false;
                 })
                 .catch(err => {
+                    this.myNetwork = [];
+                    this.myNetworkFiltered = [];
                     this.isLoading = false;
                 })
         },

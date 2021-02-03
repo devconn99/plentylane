@@ -123,7 +123,7 @@ export default {
                     })
             },
             getMealById (id) {
-                const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}?join=place`;
+                const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -132,8 +132,11 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getMyMeals () {
-                const endpoint = `${config.API_ORIGIN}/api/me/meals`;
+            getMyMeals (page) {
+                let endpoint = `${config.API_ORIGIN}/api/me/meals`;
+                if (page) {
+                    endpoint += `?page=${page}`;
+                }
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -141,6 +144,17 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response);
                     })
+            },
+            removeMyMeal (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}`;
+                return axios.delete(endpoint)
+                    .then((res) => {
+                        console.log('\n >> res > ', res);
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
             }
         },
         places: {
@@ -361,7 +375,7 @@ export default {
                         return checkErr(err.response)
                     })
             },
-            getMyDines (shouldHidePastReservations) {
+            getMyDines (shouldHidePastReservations, page) {
                 let endpoint = `${config.API_ORIGIN}/api/me/bookings/dine`;
                 const _sortPickupTimeAsc = 'sort=offer.pickupTime,ASC';
                 let _filterAndSortStr = '';
@@ -371,6 +385,9 @@ export default {
                     _filterAndSortStr = `?${_sortPickupTimeAsc}`;
                 }
                 endpoint += _filterAndSortStr;
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
 
                 return axios.get(endpoint)
                     .then((res) => {

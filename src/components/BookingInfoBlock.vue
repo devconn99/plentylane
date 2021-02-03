@@ -22,6 +22,22 @@
                         </div>
                         <div class="serving-number mt-1" v-html="numOfServingsHtml"></div>
                     </div>
+                    <div class="reserved-action-wrapper" v-if="showActionMenu && actions && actions.length">
+                        <b-dropdown
+                                size="sm"
+                                menu-class="reserved-action-menu"
+                                toggle-class="reserved-action-toggle text-decoration-none"
+                                no-caret
+                                variant="outline-secondary"
+                        >
+                            <template #button-content>
+                                <i class="fas fa-ellipsis-v"></i>
+                            </template>
+                            <template v-for="action in actions">
+                                <b-dropdown-item @click="emitAction(action.name)">{{action.title}}</b-dropdown-item>
+                            </template>
+                        </b-dropdown>
+                    </div>
                 </div>
                 <div class="cook-box">
                     <div class="cook-info p-2 p-sm-3">
@@ -80,6 +96,22 @@
                         </div>
                         <div class="serving-number mt-1" v-html="numOfServingsHtml"></div>
                     </div>
+                    <div class="reserved-action-wrapper" v-if="showActionMenu && actions && actions.length">
+                        <b-dropdown
+                                size="sm"
+                                menu-class="reserved-action-menu"
+                                toggle-class="reserved-action-toggle text-decoration-none"
+                                no-caret
+                                variant="outline-secondary"
+                        >
+                            <template #button-content>
+                                <i class="fas fa-ellipsis-v"></i>
+                            </template>
+                            <template v-for="action in actions">
+                                <b-dropdown-item @click="emitAction(action.name)">{{action.title}}</b-dropdown-item>
+                            </template>
+                        </b-dropdown>
+                    </div>
                 </div>
             </template>
         </div>
@@ -92,7 +124,7 @@ import helpers from '../helpers';
 export default {
     name: "BookingInfoBlock",
     components: {SvgIcon},
-    props: ['isSmall', 'bookingInfo'],
+    props: ['isSmall', 'bookingInfo', 'showActionMenu', 'actions'],
     computed: {
         readyTimeStr: function () {
             return `Ready at ${helpers.parseDate(this.bookingInfo.offer.pickupTime, true)}`;
@@ -124,6 +156,9 @@ export default {
         redirectToBookingPage () {
             if (!this.bookingInfo || !this.bookingInfo.id) return;
             this.$router.push({ path: `/dashboard/booking/${this.bookingInfo.id}` }).catch(()=>{});
+        },
+        emitAction (name) {
+            this.$emit(`on-action-${name}`, this.bookingInfo.id);
         }
     }
 }
