@@ -18,6 +18,10 @@
             <div class="container-fluid">
                 <div class="row mt-md-5 mt-md-3">
                     <div class="col-12 mx-auto" v-if="!isWizardCompleted">
+                        <loading :active.sync="isPosting"
+                                :is-full-page="loaderOptions.isFullPage"
+                                :color="loaderOptions.color"
+                        ></loading>
                         <form-wizard
                                 @on-complete="onComplete"
                                 @on-change="onChange"
@@ -38,83 +42,7 @@
                                 <NewMealStep3 ref="step3" @on-validate="beforeThirdTabSwitch"></NewMealStep3>
                             </tab-content>
                             <tab-content title="" :before-change="beforeLastTabSwitch">
-                                <div class="meal-preview-container">
-                                    <div class="meal-preview-fields-group d-flex">
-                                        <div class="meal-preview-field-item image-field-container">
-                                            <div class="meal-preview-field-item-header d-flex">
-                                                <span class="text-muted">Meal Image</span>
-                                                <b-btn class="edit-btn" @click="goToStep(1)">
-                                                    <i class="fa fa-pencil-alt"></i>
-                                                    <span class="edit-btn-text">Edit</span>
-                                                </b-btn>
-                                            </div>
-                                            <div class="meal-preview-field-item-image-holder">
-                                                <!-- TODO: use real image when it's ready -->
-                                                <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="meal-preview-field-item">
-                                            <div class="meal-preview-field-item-header d-flex">
-                                                <span class="text-muted">Meal Info</span>
-                                                <b-btn class="edit-btn" @click="goToStep(0)">
-                                                    <i class="fa fa-pencil-alt"></i>
-                                                    <span class="edit-btn-text">Edit</span>
-                                                </b-btn>
-                                            </div>
-                                            <div class="meal-preview-field-item-bg-block">
-                                                <p class="meal-title">{{mealInfo.name}}</p>
-                                                <p class="meal-quantity">{{mealQuantityStr}}</p>
-                                                <p
-                                                        class="meal-description"
-                                                        v-if="mealInfo.description && mealInfo.description.length"
-                                                >{{mealInfo.description}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="meal-preview-fields-group d-flex">
-                                        <div class="meal-preview-field-item pickup-time-field-container">
-                                            <div class="meal-preview-field-item-header d-flex">
-                                                <span class="text-muted">Availability</span>
-                                                <b-btn class="edit-btn" @click="goToStep(2)">
-                                                    <i class="fa fa-pencil-alt"></i>
-                                                    <span class="edit-btn-text">Edit</span>
-                                                </b-btn>
-                                            </div>
-                                            <div class="meal-preview-field-item-bg-block">
-                                                <p>{{formattedPickupTime}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="meal-preview-field-item location-field-container">
-                                            <div class="meal-preview-field-item-header d-flex">
-                                                <span class="text-muted">Location</span>
-                                                <b-btn class="edit-btn" @click="goToStep(2)">
-                                                    <i class="fa fa-pencil-alt"></i>
-                                                    <span class="edit-btn-text">Edit</span>
-                                                </b-btn>
-                                            </div>
-                                            <div class="meal-preview-field-item-bg-block">
-                                                <p>{{mealInfo.placeAlias}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="meal-preview-field-item dietary-notes-field-container">
-                                            <div class="meal-preview-field-item-header d-flex">
-                                                <span class="text-muted">Dietary Notes</span>
-                                                <b-btn class="edit-btn" @click="goToStep(2)">
-                                                    <i class="fa fa-pencil-alt"></i>
-                                                    <span class="edit-btn-text">Edit</span>
-                                                </b-btn>
-                                            </div>
-                                            <div class="meal-preview-field-item-bg-block" v-if="mealInfo.dietaryNotes && mealInfo.dietaryNotes.length">
-                                                <ul v-if="mealInfo.dietaryNotesText && mealInfo.dietaryNotesText.length">
-                                                    <li v-for="note in mealInfo.dietaryNotesText">{{note}}</li>
-                                                </ul>
-                                                <ul v-else>
-                                                    <li v-for="item in mealInfo.dietaryNotes">{{item.label}}</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <MealReviewBeforeSave :meal-info="mealInfo" @go-to-step="onGoToStepHandler"></MealReviewBeforeSave>
                             </tab-content>
 
                             <template slot="footer" scope="props">
@@ -174,9 +102,11 @@ import NewMealImage from "../components/new-meal/NewMealImage";
 import NewMealStep3 from "../components/new-meal/NewMealStep3";
 import HeroWave from '../components/HeroWave';
 import api from '../api';
+import Loading from 'vue-loading-overlay';
+import MealReviewBeforeSave from '../components/new-meal/MealReviewBeforeSave';
 export default {
     name: "CreateNewMeal",
-    components: {NewMealStep1, NewMealImage, NewMealStep3, HeroWave},
+    components: {NewMealStep1, NewMealImage, NewMealStep3, HeroWave, Loading, MealReviewBeforeSave},
     data: () => ({
         stepTitles: ['What are we making?', 'Do you have an image?', 'Notes, availability, and location', 'Let\'s review'],
         currentStep: 0,
@@ -191,42 +121,15 @@ export default {
             mealId: ''
         },
         isWizardCompleted: false,
-        newOfferId: ''
+        newOfferId: '',
+        loaderOptions: {
+            color: '#009C90',
+            isFullPage: false
+        },
+        isPosting: false
     }),
     computed: {
-        formattedPickupTime: function () {
-            // TODO: complete it later
-            if (!this.mealInfo || !this.mealInfo.pickupTime) {
-                return '';
-            }
-            // TODO: use helpers.parseDate instead
-            // format: 5-6pm Tues, Feb. 1
-            const date = new Date(this.mealInfo.pickupTime);
-            const weekdayName = date.toLocaleDateString('en', { weekday: 'short' });
-            const monthName = date.toLocaleDateString('en', { month: 'short' });
-            let hours = date.getUTCHours();
-            const minutes = date.getUTCMinutes();
-            const minutesStr = (`0${minutes}`).slice(-2);
-            const isPM = hours >= 12;
-            // temp time str
-            let timeStr = '';
-            const ampm = isPM ? 'pm' : 'am';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            if (minutes === 0) {
-                timeStr = `${hours}${ampm}`;
-            } else {
-                timeStr = `${hours}:${minutesStr}${ampm}`;
-            }
-            return `${timeStr} ${weekdayName}, ${monthName}. ${date.getUTCDate()}`;
-        },
-        mealQuantityStr: function () {
-            let num = 0;
-            if (this.mealInfo.quantity) {
-                num = Number(this.mealInfo.quantity);
-            }
-            return `${num} Serving${num === 1 ? '' : 's'}`;
-        },
+        // save it for later
         isCurrentStepValid: function () {
             // TODO: get back to it later
             switch (this.currentStep) {
@@ -256,6 +159,9 @@ export default {
     methods: {
         goToStep (stepIndex) {
             this.$refs.newMealWizard.changeTab(this.currentStep, stepIndex);
+        },
+        onGoToStepHandler (stepIndex) {
+            this.goToStep(stepIndex);
         },
         onChange (prevIndex, nextIndex) {
             if (nextIndex >= 0) {
@@ -297,6 +203,7 @@ export default {
             return true;
         },
         beforeLastTabSwitch () {
+            this.isPosting = true;
             return api.dashboard.meals.addMeal(this.postMeal)
                 .then(result => {
                     this.newMealId = result.id;
@@ -304,15 +211,18 @@ export default {
                     return api.dashboard.offers.addOffer(this.newOffer)
                         .then(offer => {
                             this.newOfferId = offer.id;
+                            this.isPosting = false;
                             return true;
                         })
                         .catch(err => {
+                            this.isPosting = false;
                             console.log('\n >> error POST offer:', err);
                             // TODO: handle error
                             return false;
                         });
                 })
                 .catch(err => {
+                    this.isPosting = false;
                     console.log('\n >> err post meal > ', err);
                     // TODO: handle error
                     return false;
@@ -352,122 +262,6 @@ export default {
         width: 100%;
         padding-right: 15px;
         padding-left: 15px;
-    }
-}
-.meal-preview-container {
-    .meal-preview-fields-group {
-        justify-content: space-between;
-
-        @media screen and (max-width: $tableWidth) {
-            flex-direction: column;
-
-            .meal-preview-field-item {
-                max-width: 100% !important;
-                margin-left: 0 !important;
-                margin-right: 0 !important;
-
-                & + .meal-preview-field-item {
-                    margin-top: 16px;
-                }
-
-                .meal-preview-field-item-image-holder {
-                    width: 100% !important;
-                    height: auto !important;
-                }
-            }
-        }
-
-        & + .meal-preview-fields-group {
-            margin-top: 30px;
-
-            @media screen and (max-width: $tableWidth) {
-                margin-top: 16px;
-            }
-        }
-
-        .meal-preview-field-item {
-            width: 100%;
-
-            &.image-field-container {
-                max-width: 204px;
-                min-width: 204px;
-            }
-            &.dietary-notes-field-container {
-                min-width: 200px;
-            }
-            &.pickup-time-field-container {
-                max-width: 204px;
-                min-width: 204px;
-            }
-            &.location-field-container {
-                min-width: 150px;
-            }
-
-            & + .meal-preview-field-item {
-                margin-left: 25px;
-            }
-
-            .meal-preview-field-item-header {
-                justify-content: space-between;
-                align-items: center;
-                font-family: $LacaProSemiBold;
-                font-size: 18px;
-                line-height: 18px;
-                color: #8A877D;
-                margin-bottom: 10px;
-
-                .edit-btn {
-                    background: transparent;
-                    border: none;
-                    outline: none;
-                    color: $greenColor;
-                    padding-left: 0;
-                    padding-right: 0;
-                    margin-left: 20px;
-
-                    .edit-btn-text {
-                        margin-left: 10px;
-                    }
-                }
-            }
-
-            .meal-title {
-                color: #181816;
-                font-family: $LacaProSemiBold;
-                font-size: 24px;
-            }
-            .meal-quantity {
-                font-family: $FilsonProBold;
-            }
-
-            .meal-preview-field-item-bg-block {
-                background-color: #fff;
-                color: #181816;
-                padding: 16px;
-                font-size: 16px;
-                line-height: 24px;
-                font-family: $FilsonProRegular;
-                letter-spacing: 0;
-            }
-
-            .meal-preview-field-item-image-holder {
-                // temp
-                width: 204px;
-                height: 180px;
-
-                img {
-                    width: 100%;
-                    height: auto;
-                }
-            }
-
-            ul, li {
-                list-style-type: disc;
-            }
-            ul {
-                padding-left: 16px;
-            }
-        }
     }
 }
 </style>

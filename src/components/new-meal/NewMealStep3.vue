@@ -11,7 +11,7 @@
                         name="dietaryNotes"
                 ></b-form-checkbox-group>
             </b-form-group>
-            <div class="meal-time-container">
+            <div class="meal-time-container" v-if="!hiddenFields || !hiddenFields.length || !hiddenFields.includes('pickupTime')">
                 <p class="mb-2 form-label-text">Meal availability</p>
                 <div class="d-flex meal-time-container-controls">
                     <b-form-group>
@@ -45,7 +45,7 @@
                     </b-form-group>
                 </div>
             </div>
-            <div class="meal-location-container">
+            <div class="meal-location-container" v-if="!hiddenFields || !hiddenFields.length || !hiddenFields.includes('location')">
                 <p class="mb-2 form-label-text">Pickup Location</p>
                 <div class="d-flex meal-location-controls">
                     <b-form-group class="location-select">
@@ -75,6 +75,7 @@ export default {
     name: "NewMealStep3",
     mixins: [validationMixin],
     components: {ModalNewLocation},
+    props: ['hiddenFields', 'prevValues'],
     data: () => ({
         dietaryOptions: helpers.prepareDietaryNotesCheckboxOptions(),
         form: {
@@ -88,13 +89,23 @@ export default {
             { value: null, text: 'Please select a location' }
         ]
     }),
-    validations: {
-        form: {
+    validations () {
+        const form = {
             dietaryNotes: {},
             pickupTime: {required},
             pickupDate: {required},
             placeId: {required}
+        };
+        if (this.hiddenFields && this.hiddenFields.length) {
+            if (this.hiddenFields.includes('pickupTime')) {
+                delete form.pickupTime;
+                delete form.pickupDate;
+            }
+            if (this.hiddenFields.includes('location')) {
+                delete form.placeId;
+            }
         }
+        return { form: form };
     },
     methods: {
         validate () {
@@ -128,6 +139,7 @@ export default {
         }
     },
     mounted () {
+        if (this.hiddenFields && this.hiddenFields.length && this.hiddenFields.includes('location')) return;
         // load my places
         api.dashboard.places.getMyPlaces()
             .then(result => {
@@ -138,6 +150,12 @@ export default {
             .catch(err => {
                 console.log('\n >> err > ', err);
             })
+    },
+    watch: {
+        prevValues: function (newVal) {
+            if (!newVal || !newVal['dietaryNotes'] || !newVal['dietaryNotes'].length) return;
+            this.form.dietaryNotes = newVal.dietaryNotes.map(item => item.label);
+        }
     }
 }
 </script>

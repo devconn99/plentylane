@@ -19,7 +19,7 @@
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.description.$dirty && !$v.form.description.required">This is a required field.</small>
             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.description.maxLength">This field must be shorter than or equal to {{descMaxLength}} characters.</small>
         </b-form-group>
-        <b-form-group label="Number of Meals">
+        <b-form-group label="Number of Meals" v-if="!excludeQuantityField">
             <p class="sub-label-text">1 meal = 1 container</p>
             <b-form-input
                     name="quantity"
@@ -42,6 +42,7 @@ import config from '../../config';
 export default {
     name: "NewMealStep1",
     mixins: [validationMixin],
+    props: ['excludeQuantityField', 'prevValues'],
     data: () => ({
         descMaxLength: config.MEAL_INFO.DESCRIPTION_MAX_LENGTH,
         quantityMin: config.MEAL_INFO.QUANTITY_MIN,
@@ -52,19 +53,22 @@ export default {
             quantity: null
         }
     }),
-    validations: {
-        form: {
+    validations() {
+        const form = {
             name: { required },
             description: {
                 required,
                 maxLength: maxLength(config.MEAL_INFO.DESCRIPTION_MAX_LENGTH)
-            },
-            quantity: {
+            }
+        };
+        if (!this.excludeQuantityField) {
+            form['quantity'] = {
                 required,
                 minValue: minValue(config.MEAL_INFO.QUANTITY_MIN),
                 maxValue: maxValue(config.MEAL_INFO.QUANTITY_MAX)
             }
         }
+        return { form: form };
     },
     methods: {
         validate () {
@@ -75,6 +79,16 @@ export default {
         },
         isFormValid () {
             return !this.$v.form.$invalid;
+        }
+    },
+    watch: {
+        prevValues: function (newVal) {
+            if (!newVal || !Object.keys(newVal)) return;
+            for (let key of ['name', 'description', 'quantity']) {
+                if (key in newVal && newVal[key]) {
+                    this.form[key] = newVal[key];
+                }
+            }
         }
     }
 }
