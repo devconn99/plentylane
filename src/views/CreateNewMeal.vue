@@ -33,13 +33,13 @@
                                 v-bind:class="{ 'is-last-step': currentStep === totalSteps - 1 }"
                                 color="#009C90">
                             <tab-content title="" :before-change="()=>validateStep('step1')">
-                                <NewMealStep1 ref="step1" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
+                                <NewMealStep1 ref="step1" :prev-values="copyMealInfo" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
                             </tab-content>
                             <tab-content title="" :before-change="beforeSecondTabSwitch">
                                 <NewMealImage ref="step2"></NewMealImage>
                             </tab-content>
                             <tab-content title="" :before-change="()=>validateStep('step3')">
-                                <NewMealStep3 ref="step3" @on-validate="beforeThirdTabSwitch"></NewMealStep3>
+                                <NewMealStep3 ref="step3" :prev-values="copyMealInfo" @on-validate="beforeThirdTabSwitch"></NewMealStep3>
                             </tab-content>
                             <tab-content title="" :before-change="beforeLastTabSwitch">
                                 <MealReviewBeforeSave :meal-info="mealInfo" @go-to-step="onGoToStepHandler"></MealReviewBeforeSave>
@@ -126,7 +126,8 @@ export default {
             color: '#009C90',
             isFullPage: false
         },
-        isPosting: false
+        isPosting: false,
+        copyMealInfo: {}
     }),
     computed: {
         // save it for later
@@ -244,9 +245,21 @@ export default {
                 mealId: ''
             };
             this.isWizardCompleted = false;
+            this.copyMealInfo = Object.assign({});
             setTimeout(() => {
                 this.goToStep(0);
             }, 0);
+        }
+    },
+    created () {
+        const { useCopy = false } = this.$route.query;
+        if (useCopy) {
+            // get copy meal info from $store
+            this.$nextTick(() => {
+                this.copyMealInfo = { ...this.$store.getters.copiedMealInfo } || {};
+                // reset $store value
+                this.$store.commit('copiedMealInfo', {});
+            });
         }
     }
 }

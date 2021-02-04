@@ -185,6 +185,7 @@ const routes = [
             {
                 path: "cook/new-meal",
                 name: "New Meal",
+                props: true,
                 component: () => import("../views/CreateNewMeal.vue"),
                 meta: {
                     title: `${TITLE} - Create new meal`,

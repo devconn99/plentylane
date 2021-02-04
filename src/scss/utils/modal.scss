@@ -18,7 +18,8 @@
 	&.reserve-meal-modal,
 	&.contact-cook-modal,
 	&.location-modal,
-	&.confirm-modal {
+	&.confirm-modal,
+	&.select-meal-modal {
 		.modal-header {
 			border-bottom: none;
 
@@ -43,7 +44,8 @@
 	}
 	&.reserve-meal-modal,
 	&.contact-cook-modal,
-	&.location-modal {
+	&.location-modal,
+	&.select-meal-modal {
 		.modal-body {
 			.form-group {
 				legend {
@@ -60,7 +62,7 @@
 			}
 		}
 	}
-	&.location-modal, &.confirm-modal {
+	&.location-modal, &.confirm-modal, &.select-meal-modal {
 		.modal-footer {
 			padding-top: 0;
 			border-top: none;

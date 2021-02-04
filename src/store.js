@@ -11,6 +11,12 @@ const initialState = () => {
         browserCoordinates: {
             lat: null,
             lng: null
+        },
+        mealsOptionsDataToCopy: [],
+        copiedMealInfo: {
+            name: '',
+            description: '',
+            dietaryNotes: []
         }
     }
 };
@@ -29,6 +35,16 @@ export default {
         },
         browserCoordinates (state, value) {
             state.browserCoordinates = { ...value };
+        },
+        mealsOptionsDataToCopy (state, data) {
+            if (!data || !data.length) {
+                state.mealsOptionsDataToCopy = [];
+            } else {
+                state.mealsOptionsDataToCopy = data.slice(0);
+            }
+        },
+        copiedMealInfo (state, value) {
+            state.copiedMealInfo = { ...value };
         }
     },
     getters: {
@@ -40,5 +56,7 @@ export default {
         firstName: (state) => (state.userInfo.firstName),
         lastName: (state) => (state.userInfo.lastName),
         browserCoordinates: (state) => (state.browserCoordinates),
+        mealsOptionsDataToCopy: (state) => (state.mealsOptionsDataToCopy),
+        copiedMealInfo: (state) => (state.copiedMealInfo)
     }
 }

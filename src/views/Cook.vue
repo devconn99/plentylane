@@ -26,7 +26,10 @@
                                     New Meal
                                 </span>
                             </router-link>
-                            <b-button class="btnGreenTransparent btnHugeSize btn100 hover-slide-left">
+                            <b-button
+                                    class="btnGreenTransparent btnHugeSize btn100 hover-slide-left"
+                                    ref="btnCopyMeal"
+                                    @click="openSelectMealModal">
                                 <span>
                                     <i class="fas fa-sync"></i>
                                     Copy Meal
@@ -37,14 +40,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modals -->
+        <SelectMealModal></SelectMealModal>
     </div>
 </template>
 
 <script>
 import HeroWave from '../components/HeroWave';
+import SelectMealModal from '../components/modals/SelectMealModal';
 export default {
     name: "Cook",
-    components: {HeroWave}
+    components: {HeroWave, SelectMealModal},
+    methods: {
+        openSelectMealModal () {
+            if (this.$refs['btnCopyMeal']) {
+                this.$refs.btnCopyMeal.blur();
+            }
+            this.$bvModal.show('select-meal-modal');
+        }
+    }
 }
 </script>
 
