@@ -124,6 +124,10 @@
 			// path is fine
 			background-image: url('./assets/images/elements/dashboard/bg/eat-bg.svg');
 		}
+		&.dashboard-not-found-bg {
+			background-color: #acacac;
+			background-image: url('./assets/images/elements/dashboard/bg/cook-bg.svg');
+		}
 	}
 	.form .form-group {
 		margin-bottom: 40px;

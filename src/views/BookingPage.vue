@@ -10,19 +10,6 @@
                     :more-offers="moreOffers"
             ></OfferPageContent>
         </template>
-        <!-- temp 404 error block -->
-        <!-- TODO: move to separate component -->
-        <div class="booking-page-not-found" v-if="showPageNotFoundError">
-            <p class="title-size1">404 error:</p>
-            <p class="title-size2">page is not found.</p>
-            <router-link
-                    :to="{ path: '/dashboard' }"
-                    tag="button"
-                    class="btnLightGreen btnHugeSize hover-slide-left mb-3"
-            >
-                <span>Go to dashboard</span>
-            </router-link>
-        </div>
     </div>
 </template>
 
@@ -38,8 +25,7 @@ export default {
         bookingId: '',
         bookingInfo: null,
         offerInfo: null,
-        isBookingCanceled: false,
-        showPageNotFoundError: false
+        isBookingCanceled: false
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -68,7 +54,6 @@ export default {
             this.bookingInfo = null;
             this.offerInfo = null;
             this.isBookingCanceled = false;
-            this.showPageNotFoundError = false;
         },
         hideGlobalLoader () {
             if (this.$loader && this.$loader.hide) {
@@ -80,12 +65,12 @@ export default {
         errLoadingDataHandler (cb, err) {
             if (err) {
                 if (err.data && err.data.statusCode === 404) {
-                    this.showPageNotFoundError = true;
                     this.isLoaded = true;
                     this.bookingInfo = null;
                     this.offerInfo = null;
-                } else {
-                    console.log('\n >> err loading booking/offer info:', err);
+                    this.hideGlobalLoader();
+                    if (cb) cb();
+                    return this.$router.push({ path: '/dashboard/not-found' }).catch(() => {});
                 }
             }
             this.isLoaded = true;
@@ -95,6 +80,10 @@ export default {
         loadPageData (cb) {
             if (!this.bookingId) {
                 this.errLoadingDataHandler(cb);
+                return;
+            }
+            if (isNaN(this.bookingId)) {
+                this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
             const offerRequests = [];

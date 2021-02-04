@@ -56,7 +56,12 @@ export default {
         },
         errLoadingDataHandler (cb, err) {
             if (err) {
-                console.log('\n >> err loading offer:', err);
+                if (err.data && err.data.statusCode === 404) {
+                    this.isLoaded = true;
+                    this.hideGlobalLoader();
+                    if (cb) cb();
+                    return this.$router.push({ path: '/dashboard/not-found' }).catch(() => {});
+                }
             }
             this.isLoaded = true;
             this.hideGlobalLoader();
@@ -65,6 +70,10 @@ export default {
         loadPageData (cb) {
             if (!this.offerId) {
                 this.errLoadingDataHandler(cb);
+                return;
+            }
+            if (isNaN(this.offerId)) {
+                this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
             const requests = [

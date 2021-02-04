@@ -247,10 +247,23 @@ const routes = [
                 }
             },
             {
+                path: 'not-found',
+                name: "NotFound",
+                component: () => import("../views/NotFound.vue"),
+                meta: {
+                    title: `${TITLE} - Not Found`,
+                    noLoader: true
+                }
+            },
+            {
                 path: "*",
                 redirect: "/dashboard"
             }
         ]
+    },
+    {
+        path: "*",
+        redirect: "/dashboard"
     }
 ];
 

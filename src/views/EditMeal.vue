@@ -177,7 +177,11 @@ export default {
         },
         errLoadingDataHandler (cb, err) {
             if (err) {
-                console.log('\n >> err > ', err);
+                if (err.data && err.data.statusCode === 404) {
+                    this.hideGlobalLoader();
+                    if (cb) cb();
+                    return this.$router.push({ path: '/dashboard/not-found' }).catch(() => {});
+                }
             }
             this.hideGlobalLoader();
             if (cb) cb();
@@ -185,6 +189,10 @@ export default {
         loadPageData (cb) {
             if (!this.mealId) {
                 this.errLoadingDataHandler(cb);
+                return;
+            }
+            if (isNaN(this.mealId)) {
+                this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
             api.dashboard.meals.getMealById(this.mealId)

@@ -173,7 +173,13 @@ export default {
         },
         errLoadingDataHandler (cb, err) {
             if (err) {
-                console.log('\n >> err > ', err);
+                if (err.data && err.data.statusCode === 404) {
+                    this.isLoaded = true;
+                    this.areOffersLoading = false;
+                    this.hideGlobalLoader();
+                    if (cb) cb();
+                    return this.$router.push({ path: '/dashboard/not-found' }).catch(() => {});
+                }
             }
             this.isLoaded = true;
             this.areOffersLoading = false;
@@ -183,6 +189,10 @@ export default {
         loadPageData (cb) {
             if (!this.cookId) {
                 this.errLoadingDataHandler(cb);
+                return;
+            }
+            if (isNaN(this.cookId)) {
+                this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
             // TODO: load reviews (api is not ready?)
