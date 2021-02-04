@@ -1,15 +1,34 @@
 <template>
     <div v-if="offerInfo && offerInfo.id" class="offer-link">
         <div class="recept-box">
-            <div class="recept-box-img recept-box-img-overlay cursor-pointer" @click="redirectToOffer">
+            <div class="recept-box-img recept-box-img-overlay">
                 <!-- TODO: use meal's image later -->
                 <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="" class="img-fluid">
                 <div class="recept-box-title">
-                    <div class="title-size3 titleLightColor">{{offerInfo.meal.name}}</div>
+                    <div
+                            class="title-size3 titleLightColor cursor-pointer"
+                            @click="redirectToOffer"
+                    >{{offerInfo.meal.name}}</div>
                     <div class="serving-number mt-1 titleLightColor">
                         <span class="titleLightColor">{{offerInfo.availableQuantity}}</span>
                         {{offerInfo.availableQuantity !== 1 ? 'servings' : 'serving'}}
                     </div>
+                </div>
+                <div class="recept-box-action-wrapper" v-if="showActionMenu && actions && actions.length">
+                    <b-dropdown
+                            size="sm"
+                            menu-class="recept-box-action-menu"
+                            toggle-class="recept-box-action-toggle text-decoration-none"
+                            no-caret
+                            variant="outline-secondary"
+                    >
+                        <template #button-content>
+                            <i class="fas fa-ellipsis-v"></i>
+                        </template>
+                        <template v-for="action in actions">
+                            <b-dropdown-item @click="emitAction(action.name)">{{action.title}}</b-dropdown-item>
+                        </template>
+                    </b-dropdown>
                 </div>
             </div>
             <div class="cook-box pb-2 pb-md-3">
@@ -65,7 +84,7 @@ import helpers from '../helpers';
 import SvgIcon from './SvgIcon';
 export default {
     name: "OfferInfoBlock",
-    props: ['offerInfo', 'avoidRedirectToCookProfile'],
+    props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions'],
     components: {SvgIcon},
     data: () => ({
         placeholderImg: '../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg',
@@ -89,6 +108,9 @@ export default {
             if (this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
                 this.$router.push({ path: `/dashboard/cook-profile/${this.offerInfo.user.id}` }).catch(()=>{});
             }
+        },
+        emitAction (name) {
+            this.$emit(`on-action-${name}`, this.offerInfo.id);
         }
     }
 }

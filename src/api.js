@@ -272,12 +272,15 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getMyOffers (shouldHidePastOffers) {
+            getMyOffers (shouldHidePastOffers, page) {
                 let endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`;
                 if (shouldHidePastOffers) {
                     endpoint += `&${getDefaultPickupTimeNotInPastFilter()}`;
                 }
                 endpoint += '&sort=pickupTime,ASC';
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
 
                 return axios.get(endpoint)
                     .then((res) => {
@@ -352,6 +355,16 @@ export default {
                     }
                 ];
                 return Promise.resolve(questionsTemp);
+            },
+            removeOffer (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}`;
+                return axios.delete(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {})
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response)
+                    })
             }
         },
         bookings: {

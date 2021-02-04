@@ -13,7 +13,6 @@
                                 :is-full-page="loaderOptions.isFullPage"
                                 :color="loaderOptions.color"
                         ></loading>
-                        <!-- temp -->
                         <div v-if="mealPagination.loaded">
                             <p>You have {{mealPagination.total}} meal{{mealPagination.total === 1 ? '' : 's'}}</p>
                             <div class="my-meal-wrapper" v-if="meals && meals.length">
@@ -91,6 +90,40 @@
                         </div>
                     </div>
                 </b-tab>
+                <b-tab title="Offers">
+                    <div class="tab-content-wrapper">
+                        <loading
+                                :active.sync="isLoadingOffers"
+                                :is-full-page="loaderOptions.isFullPage"
+                                :color="loaderOptions.color"
+                        ></loading>
+                        <div v-if="offersPagination.loaded">
+                            <p>You have {{offersPagination.total}} offer{{offersPagination.total === 1 ? '' : 's'}}</p>
+
+                            <div class="row">
+                                <template v-if="offers && offers.length">
+                                    <div class="col-sm-6 col-xl-4 mb-4" v-for="item in offers">
+                                        <OfferInfoBlock
+                                                :offer-info="item"
+                                                :show-action-menu="true"
+                                                :actions="offerActions"
+                                                @on-action-view="onActionViewOffer"
+                                                @on-action-remove="onActionRemoveOffer"
+                                        ></OfferInfoBlock>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <b-btn
+                                    v-if="!offersPagination.isLastPage"
+                                    class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
+                                    @click="loadMoreOffers"
+                            >
+                                <span>Load more</span>
+                            </b-btn>
+                        </div>
+                    </div>
+                </b-tab>
             </b-tabs>
         </div>
 
@@ -107,6 +140,12 @@
                 @confirmed="onModalDineConfirm"
                 @canceled="onModalDineCancel"
         ></ConfirmModal>
+        <ConfirmModal
+                :id="modalOfferInfo.id"
+                :message="modalOfferInfo.msg"
+                @confirmed="onModalOfferConfirm"
+                @canceled="onModalOfferCancel"
+        ></ConfirmModal>
     </div>
 </template>
 
@@ -115,9 +154,10 @@ import api from '../../api';
 import Loading from 'vue-loading-overlay';
 import BookingInfoBlock from '../../components/BookingInfoBlock';
 import ConfirmModal from '../../components/modals/ConfirmModal';
+import OfferInfoBlock from '../../components/OfferInfoBlock';
 export default {
     name: "MyMeals",
-    components: {Loading, BookingInfoBlock, ConfirmModal},
+    components: {Loading, BookingInfoBlock, ConfirmModal, OfferInfoBlock},
     data: () => ({
         loaderOptions: {
             color: '#009C90',
@@ -126,8 +166,10 @@ export default {
         activeTabIndex: 0,
         isLoadingMeals: false,
         isLoadingReservations: false,
+        isLoadingOffers: false,
         meals: [],
         reservations: [],
+        offers: [],
         mealPagination: {
             total: 0,
             page: 1,
@@ -136,6 +178,13 @@ export default {
             isLastPage: false
         },
         dinesPagination: {
+            total: 0,
+            page: 1,
+            pageCount: 1,
+            loaded: false,
+            isLastPage: false
+        },
+        offersPagination: {
             total: 0,
             page: 1,
             pageCount: 1,
@@ -151,8 +200,14 @@ export default {
             id: 'confirm-cancel-reservation',
             msg: 'Are you sure you want to cancel this reservation?'
         },
+        modalOfferInfo: {
+            id: 'confirm-remove-offer',
+            msg: 'Are you sure you want to remove this offer?'
+        },
         reservationToRemove: '',
-        dineActions: [{ title: 'View', name: 'view' }, { title: 'Cancel', name: 'cancel' }]
+        dineActions: [{ title: 'View', name: 'view' }, { title: 'Cancel', name: 'cancel' }],
+        offerActions: [{ title: 'View', name: 'view' }, { title: 'Remove', name: 'remove' }],
+        offerToRemove: ''
     }),
     created () {
         this.loadMeals();
@@ -216,6 +271,11 @@ export default {
                         return this.loadReservations();
                     }
                     break;
+                case 2:
+                    if (!this.offersPagination.loaded) {
+                        return this.loadOffers();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -239,6 +299,7 @@ export default {
                     this.mealToRemove = '';
                 })
                 .catch(err => {
+                    // TODO: handle error
                     console.log('\n >> err > ', err);
                     this.isLoadingMeals = false;
                     this.mealToRemove = '';
@@ -252,7 +313,6 @@ export default {
             this.$router.push({ path: `/dashboard/booking/${id}` }).catch(()=>{});
         },
         onActionCancel (id) {
-            console.log('\n >> onActionCancel id > ', id);
             if (!id) return;
             this.openConfirmCancelReservationModal(id);
         },
@@ -279,6 +339,61 @@ export default {
         },
         onModalDineCancel () {
             this.reservationToRemove = '';
+        },
+        loadOffers () {
+            this.isLoadingOffers = true;
+            api.dashboard.offers.getMyOffers(false, this.offersPagination.page)
+                .then(result => {
+                    if (result && result.data && result.data.length) {
+                        this.offers = this.offers.concat(result.data);
+                    }
+                    this.offersPagination.total = result.total;
+                    this.offersPagination.pageCount = result.pageCount;
+                    this.offersPagination.isLastPage = result.page === result.pageCount;
+                    this.offersPagination.loaded = true;
+                    this.isLoadingOffers = false;
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.isLoadingOffers = false;
+                })
+        },
+        loadMoreOffers () {
+            if (this.offersPagination.isLastPage) return;
+            this.offersPagination.page++;
+            this.loadOffers();
+        },
+        openConfirmRemoveOfferModal (id) {
+            this.offerToRemove = id;
+            this.$bvModal.show(this.modalOfferInfo.id);
+        },
+        onActionRemoveOffer (id) {
+            if (!id) return;
+            this.openConfirmRemoveOfferModal(id);
+        },
+        onActionViewOffer (id) {
+            if (!id) return;
+            this.$router.push({ path: `/dashboard/offers/${id}` }).catch(()=>{});
+        },
+        onModalOfferCancel () {
+            this.offerToRemove = '';
+        },
+        onModalOfferConfirm () {
+            if (!this.offerToRemove) return;
+            this.isLoadingOffers = true;
+
+            api.dashboard.offers.removeOffer(this.offerToRemove)
+                .then(() => {
+                    this.offers = this.offers.filter(item => Number(item.id) !== Number(this.offerToRemove));
+                    this.offersPagination.total = this.offers.length;
+                    this.offerToRemove = '';
+                    this.isLoadingOffers = false;
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.offerToRemove = '';
+                    this.isLoadingOffers = false;
+                })
         }
     }
 }

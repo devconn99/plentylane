@@ -923,16 +923,36 @@ a.reserved-box, .reserved-box {
 .my-meal-action-wrapper, .reserved-action-wrapper {
 	.my-meal-action-toggle, .reserved-action-toggle {
 		color: $grayColor !important;
+	}
+}
+.my-meal-action-wrapper, .reserved-action-wrapper, .recept-box-action-wrapper {
+	.my-meal-action-toggle, .reserved-action-toggle, .recept-box-action-toggle {
 		border-radius: 0 !important;
 		background-color: transparent !important;
 		border: none !important;
 	}
-	.my-meal-action-menu, .reserved-action-menu {
+	.my-meal-action-menu, .reserved-action-menu, .recept-box-action-menu {
 		border-radius: 0;
 		min-width: 120px !important;
 		width: 120px !important;
 		left: -90px !important;
 		box-shadow: 0 4px 9px rgba(69, 53, 38, 0.3) !important;
 		border-color: rgba(231, 230, 230, 0.5) !important;
+	}
+}
+.recept-box-action-wrapper {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+	z-index: 10;
+
+	.dropdown {
+		width: 30px !important;
+		height: 35px !important;
+	}
+
+	.recept-box-action-toggle {
+		color: #484848 !important;
 	}
 }
