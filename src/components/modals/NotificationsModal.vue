@@ -1,5 +1,12 @@
 <template>
-    <b-modal id="notifications-modal" ref="notificationsModal" hide-footer size="lg" modal-class="notifications-modal">
+    <b-modal
+            id="notifications-modal"
+            ref="notificationsModal"
+            hide-footer
+            size="lg"
+            modal-class="notifications-modal"
+            centered
+    >
         <!-- TODO: refactor styles, content -->
         <div slot="default">
             <div class="title-size3 titleGreenNavyColor mb-4 mb-md-5 text-center">Notifications</div>

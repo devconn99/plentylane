@@ -125,7 +125,7 @@ export default {
                     <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                         class="${params && params.class ? params.class : ''}">
                         <g fill="none" fill-rule="evenodd">
-                            <g stroke="#009C90" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                            <g class="possible-change-on-hover" stroke="${params && params.stroke ? params.stroke : '#009C90'}" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                                 <path d="M4.015 4.015l16.97 16.97M4.015 20.985l16.97-16.97" />
                             </g>
                         </g>
@@ -320,6 +320,20 @@ export default {
                                         d="M243.232 4c-1.91 0-3.695.944-4.77 2.522a.667.667 0 101.103.75 4.435 4.435 0 11-.491 4.042.667.667 0 10-1.25.467A5.769 5.769 0 10243.232 4z"/>
                                     <path
                                         d="M242.435 16.726a4.434 4.434 0 11.547-3.88.667.667 0 101.267-.417 5.77 5.77 0 10-.712 5.048.667.667 0 00-1.102-.751z"/>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                `;
+            },
+            plus: function () {
+                return `
+                    <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+                        <g fill="none" fill-rule="evenodd">
+                            <g transform="translate(-20 -20)">
+                                <g transform="translate(20 20)" filter="">
+                                    <path fill="#FEF8E6"
+                                          d="M9.302 3.64v5.63H3.684v5.776h5.618v5.594h5.799v-5.594h5.583V9.271h-5.583V3.64z" />
                                 </g>
                             </g>
                         </g>

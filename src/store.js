@@ -17,7 +17,8 @@ const initialState = () => {
             name: '',
             description: '',
             dietaryNotes: []
-        }
+        },
+        basket: []
     }
 };
 export default {
@@ -45,6 +46,22 @@ export default {
         },
         copiedMealInfo (state, value) {
             state.copiedMealInfo = { ...value };
+        },
+        addToBasket (state, value) {
+            if (!state.basket) {
+                state.basket = [];
+            }
+            const _item = state.basket.find(item => Number(item.id) === Number(value.id));
+            if (_item && _item.id) {
+                // update item count
+                _item.count++;
+            } else {
+                state.basket.push({ ...value });
+            }
+        },
+        removeFromBasket (state, id) {
+            if (!state.basket || !state.basket.length) return;
+            state.basket = state.basket.filter(item => Number(item.id) !== Number(id));
         }
     },
     getters: {
@@ -57,6 +74,15 @@ export default {
         lastName: (state) => (state.userInfo.lastName),
         browserCoordinates: (state) => (state.browserCoordinates),
         mealsOptionsDataToCopy: (state) => (state.mealsOptionsDataToCopy),
-        copiedMealInfo: (state) => (state.copiedMealInfo)
+        copiedMealInfo: (state) => (state.copiedMealInfo),
+        basket: (state) => (state.basket),
+        totalAmount: (state) => {
+            if (!state.basket || !state.basket.length) return 0;
+            let _amount = 0;
+            state.basket.forEach(item => {
+                _amount += item.price * item.count;
+            });
+            return _amount;
+        }
     }
 }

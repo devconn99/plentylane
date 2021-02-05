@@ -99,19 +99,23 @@ export default {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    height: 100%;
+    /*height: 100%;*/ // TODO?
     @media screen and (max-width: $desktopWidth) {
         min-width: 220px;
         max-width: 220px;
         padding: 40px 0;
+    }
+    @media screen and (max-width: $tableWidth) {
+        min-width: 180px;
+        max-width: 180px;
     }
     .title-size2 {
         padding: 0 9px 0 40px;
         @media screen and (max-width: $desktopWidth) {
             padding: 0 20px;
         }
-        @media screen and (max-width: $tableMinWidth) {
-            padding: 0 15px;
+        @media screen and (max-width: $tableWidth) {
+            padding: 0 10px;
         }
         @media screen and (max-width: $smTableWidth) {
             text-align: center;

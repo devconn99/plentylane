@@ -166,12 +166,49 @@ const routes = [
             },
             {
                 path: "shop",
-                name: "Shop",
-                component: () => import("../views/Shop.vue"),
-                meta: {
-                    title: `${TITLE} - Shop`,
-                    noLoader: true // possibly temp
-                }
+                component: () => import("../views/shop/ShopWrapper.vue"),
+                children: [
+                    {
+                        path: '',
+                        name: 'Shop',
+                        component: () => import("../views/shop/Shop.vue"),
+                        meta: {
+                            title: `${TITLE} - Shop`,
+                            headerTitle: 'Shop',
+                            skipHidingLoader: true
+                        }
+                    },
+                    {
+                        path: "basket",
+                        name: "Basket",
+                        component: () => import("../views/shop/Basket.vue"),
+                        meta: {
+                            title: `${TITLE} - Basket`,
+                            headerTitle: 'Basket',
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: "checkout",
+                        name: "Checkout",
+                        component: () => import("../views/shop/Checkout.vue"),
+                        meta: {
+                            title: `${TITLE} - Checkout`,
+                            headerTitle: 'Checkout',
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: "success",
+                        name: "Success",
+                        component: () => import("../views/shop/Success.vue"),
+                        meta: {
+                            title: `${TITLE} - Success`,
+                            headerTitle: 'Success!',
+                            noLoader: true
+                        }
+                    }
+                ]
             },
             {
                 path: "cook",

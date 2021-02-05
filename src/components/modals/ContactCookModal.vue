@@ -4,6 +4,7 @@
             ref="contactCookModal"
             hide-footer
             size="lg"
+            centered
             modal-class="contact-cook-modal"
             @hidden="onHidden"
     >

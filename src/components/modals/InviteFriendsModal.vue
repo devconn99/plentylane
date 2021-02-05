@@ -1,5 +1,12 @@
 <template>
-    <b-modal id="invite-friends-modal" ref="inviteFriendsModal" hide-footer size="lg" modal-class="invite-friends-modal">
+    <b-modal
+            id="invite-friends-modal"
+            ref="inviteFriendsModal"
+            hide-footer
+            size="lg"
+            modal-class="invite-friends-modal"
+            centered
+    >
         <div slot="default">
             <div class="title-size3 titleGreenNavyColor mb-4 mb-md-5 text-center">Invite Friends to Plenty Lane</div>
             <div class="invite">

@@ -19,7 +19,8 @@
 	&.contact-cook-modal,
 	&.location-modal,
 	&.confirm-modal,
-	&.select-meal-modal {
+	&.select-meal-modal,
+	&.added-to-basket-modal {
 		.modal-header {
 			border-bottom: none;
 
@@ -42,6 +43,7 @@
 			padding: 0 40px 40px;
 		}
 	}
+
 	&.reserve-meal-modal,
 	&.contact-cook-modal,
 	&.location-modal,
@@ -62,28 +64,46 @@
 			}
 		}
 	}
-	&.location-modal, &.confirm-modal, &.select-meal-modal {
+	&.location-modal, &.confirm-modal, &.select-meal-modal, &.added-to-basket-modal {
 		.modal-footer {
-			padding-top: 0;
+			padding: 0 25px 25px;
 			border-top: none;
 			display: flex;
 			flex-direction: row;
 			justify-content: center;
 			align-items: center;
 
-			.btn {
-				min-width: 200px;
+			.btn, button {
+				max-width: calc(50% - 20px);
+				width: 100%;
 
 				&:first-of-type {
 					margin-right: 10px;
 				}
 				&:last-of-type {
-					border: 1px solid $greenColor;
 					margin-left: 10px;
 				}
 				@media screen and (max-width: $phoneBigWidth) {
-					min-width: calc(50% - 20px);
-					width: calc(50% - 20px);
+					max-width: 100%;
+					margin-left: 0 !important;
+					margin-right: 0 !important;
+
+					& + .btn, & + button {
+						margin-top: 10px;
+					}
+				}
+			}
+		}
+	}
+	&.added-to-basket-modal {
+		.modal-content {
+			.shop-box {
+				max-width: 160px;
+				margin: 0 auto;
+				box-shadow: 0 4px 16px rgba(69,53,38,0.15);
+
+				.shop-box-img {
+					padding: 0;
 				}
 			}
 		}

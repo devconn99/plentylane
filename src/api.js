@@ -47,6 +47,34 @@ const checkErr = (errResponse) => {
     }
 };
 
+// temp data
+const TEMP_SHOP_ITEMS = [
+    {
+        title: 'Medium Container',
+        price: 10,
+        currency: '$',
+        id: 1
+    },
+    {
+        title: 'Assorted pack',
+        price: 20,
+        currency: '$',
+        id: 2
+    },
+    {
+        title: 'Container 5pk with long name inside title',
+        price: 35,
+        currency: '$',
+        id: 3
+    },
+    {
+        title: 'Medium Container 2',
+        price: 10,
+        currency: '$',
+        id: 4
+    }
+];
+
 export default {
     auth: {
         signUp (data) {
@@ -481,6 +509,20 @@ export default {
                     }
                 ];
                 return Promise.resolve(tempData);
+            }
+        },
+        shop: {
+            getContainers () {
+                // temp
+                return Promise.resolve(TEMP_SHOP_ITEMS.slice(0));
+            },
+            getContainerById (id) {
+                // temp
+                const _item = TEMP_SHOP_ITEMS.find(item => Number(item.id) === Number(id));
+                if (_item && _item.id) {
+                    return Promise.resolve(_item);
+                }
+                return Promise.reject({ data: { statusCode: 404 } });
             }
         }
     }

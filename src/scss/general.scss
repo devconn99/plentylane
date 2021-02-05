@@ -251,6 +251,11 @@ button {
 	outline-style: none!important;
 	box-shadow: none!important;
 }
+.clear-line {
+	width: 100%;
+	height: 1px;
+	background-color: transparent;
+}
 /********************
 *   MARGIN/PADDING  *
 ********************/
@@ -358,6 +363,16 @@ button {
 			transition: 0.3s ease-out;
 		}
 	}
+	&.btnDisabled {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		span {
+			color: $textBlackColor;
+			background-color: $yellowColor;
+			border: 2px solid $yellowColor;
+		}
+	}
 }
 .btnLightGreen {
 	background-color: $greenBrightColor;
@@ -412,6 +427,17 @@ button {
 			transition: 0.3s ease-out;
 		}
 	}
+	&.btnDisabled {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		span {
+			background-color: $greenBrightColor;
+			border: 2px solid $greenBrightColor;
+			color: $mainBackgroundColor;
+			opacity: 0.3;
+		}
+	}
 }
 .btnLightRed {
 	background-color: $redColor;
@@ -463,6 +489,17 @@ button {
 		&::before {
 			background-color: $redNavyColor;
 			transition: 0.3s ease-out;
+		}
+	}
+	&.btnDisabled {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		span {
+			background-color: $redNavyColor;
+			border: 2px solid $redNavyColor;
+			color: $mainBackgroundColor;
+			opacity: 0.3;
 		}
 	}
 }
@@ -607,15 +644,8 @@ button {
 		display: block;
 		width: 100%;
 	}
-}
-.btnDisabled {
-	cursor: none;
-	pointer-events: none;
-	text-decoration: none;
-	span {
-		color: $textBlackColor;
-		background-color: $yellowColor;
-		border: 2px solid $yellowColor;
+	&.btnUpper {
+		text-transform: uppercase;
 	}
 }
 .btn-round {
@@ -790,6 +820,72 @@ h1, h2, h3, h4, h5, h6 {
 			input[type=text], input[type=email], input[type=password], input[type=url],
 			input[type=tel], input[type=number], select {
 				height: 48px;
+			}
+		}
+	}
+	&.searchFormBig {
+		.form-group {
+			display: flex;
+			height: 100%;
+			justify-content: space-between;
+			label {
+				font-family: $FilsonProRegular;
+				margin-bottom: 10px!important;
+			}
+			// TODO???
+			input[type=search] {
+				font-size: 18px;
+				line-height: 24px;
+				letter-spacing: 0.6px;
+				color: $textBlackColor;
+				background-color: $whiteColor;
+				border: 1px solid rgba(161,112,103,0.3);
+				padding-top: 13px;
+				width: 100%;
+				display: block;
+				height: 64px;
+				border-radius: 0;
+				padding-right: 15px;
+				padding-left: 60px;
+				@media screen and (max-width: $phoneBigWidth) {
+					padding-left: 15px;
+					padding-right: 10px;
+				}
+				&::-webkit-input-placeholder {
+					font-size: 18px;
+					line-height: 24px;
+					letter-spacing: 0;
+					color: #8A877D;
+					padding-top: 0px;
+				}
+			}
+			.searchFormBigIcon {
+				position: absolute;
+				top: 20px;
+				left: 20px;
+				@media screen and (max-width: $phoneBigWidth) {
+					display: none;
+				}
+			}
+			button {
+				flex: none;
+				&.btnGreen {
+					padding-left: 15px;
+					padding-right: 15px;
+				}
+			}
+		}
+		&.smallHeight {
+			input[type=search] {
+				height: 50px;
+			}
+			.searchFormBigIcon {
+				position: absolute;
+				top: 13px;
+				left: 20px;
+				@media screen and (max-width: $phoneBigWidth) {
+					display: none;
+				}
 			}
 		}
 	}
