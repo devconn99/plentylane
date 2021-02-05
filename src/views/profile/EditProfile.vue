@@ -3,13 +3,13 @@
         <div class="col-12 position-relative">
             <loading
                     :active.sync="isLoading"
-                    :is-full-page="loaderOptions.isFullPage"
-                    :color="loaderOptions.color"
+                    :is-full-page="loaderOptions.IS_FULL_PAGE"
+                    :color="loaderOptions.COLOR"
             ></loading>
             <loading
                     :active.sync="isSubmitting"
-                    :is-full-page="loaderOptions.isFullPage"
-                    :color="loaderOptions.color"
+                    :is-full-page="loaderOptions.IS_FULL_PAGE"
+                    :color="loaderOptions.COLOR"
             ></loading>
 
             <div class="dashboard-title-box flex-row align-items-center mb-5 mt-2 mt-lg-3">
@@ -162,16 +162,14 @@ import Loading from 'vue-loading-overlay';
 import api from '../../api';
 import parsePhoneNumberWithError from 'libphonenumber-js';
 import helpers from '../../helpers';
+import config from "../../config";
 export default {
     name: "EditProfile",
     mixins: [validationMixin],
     components: {Loading},
     data: () => ({
         isLoading: false,
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         form: {
             firstName: '',
             lastName: '',

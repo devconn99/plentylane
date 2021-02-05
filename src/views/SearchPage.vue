@@ -3,8 +3,8 @@
         <div class="container-fluid position-relative">
             <loading
                     :active.sync="isLoading"
-                    :is-full-page="loaderOptions.isFullPage"
-                    :color="loaderOptions.color"
+                    :is-full-page="loaderOptions.IS_FULL_PAGE"
+                    :color="loaderOptions.COLOR"
             ></loading>
             <div class="row pad-70b">
                 <div class="col-12 text-center">
@@ -37,6 +37,7 @@
 import SearchFilters from '../components/SearchFilters';
 import Loading from 'vue-loading-overlay';
 import MainSearch from '../components/MainSearch';
+import config from "../config";
 export default {
     name: "SearchPage",
     components: {SearchFilters, Loading, MainSearch},
@@ -45,10 +46,7 @@ export default {
         searchStr: '',
         isLoading: false,
         results: [],
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         wasSearched: false
     }),
     beforeRouteEnter (to, from, next) {

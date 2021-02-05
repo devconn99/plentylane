@@ -67,8 +67,8 @@
             <div class="position-relative">
                 <loading
                         :active.sync="areOffersLoading"
-                        :is-full-page="loaderOptions.isFullPage"
-                        :color="loaderOptions.color"
+                        :is-full-page="loaderOptions.IS_FULL_PAGE"
+                        :color="loaderOptions.COLOR"
                 ></loading>
                 <template v-if="offers && offers.length">
                     <div class="row">
@@ -114,6 +114,7 @@ import SvgIcon from '../components/SvgIcon';
 import ContactCookModal from '../components/modals/ContactCookModal';
 import Loading from 'vue-loading-overlay';
 import OfferInfoBlock from '../components/OfferInfoBlock';
+import config from "../config";
 export default {
     name: "CookProfile",
     components: {SvgIcon, ContactCookModal, Loading, OfferInfoBlock},
@@ -127,10 +128,7 @@ export default {
         isLastPage: false,
         currentPage: 1,
         totalOffers: 0,
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        }
+        loaderOptions: { ...config.LOADER_OPTIONS }
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {

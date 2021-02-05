@@ -20,8 +20,8 @@
                     <div class="col-12 mx-auto" v-if="!isWizardCompleted">
                         <loading
                                 :active.sync="isSaving"
-                                :is-full-page="loaderOptions.isFullPage"
-                                :color="loaderOptions.color"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
                         ></loading>
                         <form-wizard
                                 @on-complete="onCompleteWizard"
@@ -120,6 +120,7 @@ import HeroWave from '../components/HeroWave';
 import api from '../api';
 import Loading from 'vue-loading-overlay';
 import MealReviewBeforeSave from '../components/new-meal/MealReviewBeforeSave';
+import config from '../config';
 export default {
     name: "EditMeal",
     components: {NewMealStep1, NewMealImage, NewMealStep3, HeroWave, Loading, MealReviewBeforeSave},
@@ -132,10 +133,7 @@ export default {
         mealInfo: {},
         isWizardCompleted: false,
         mealToPatch: {},
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         isSaving: false
     }),
     beforeRouteEnter (to, from, next) {

@@ -61,14 +61,12 @@
 import Loading from 'vue-loading-overlay';
 import api from '../../api';
 import ConfirmModal from '../../components/modals/ConfirmModal';
+import config from "../../config";
 export default {
     name: "MyNetwork",
     components: {Loading, ConfirmModal},
     data: () => ({
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         isLoading: false,
         myNetwork: [],
         myNetworkFiltered: [],

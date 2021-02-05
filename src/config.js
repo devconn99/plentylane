@@ -12,5 +12,9 @@ export default {
     SEARCH: {
         AVAILABLE_SERVINGS_MIN: 1,
         AVAILABLE_SERVINGS_MAX: 1000,
+    },
+    LOADER_OPTIONS: {
+        COLOR: '#009C90',
+        IS_FULL_PAGE: false
     }
 }

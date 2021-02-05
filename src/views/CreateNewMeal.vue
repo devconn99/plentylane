@@ -19,8 +19,8 @@
                 <div class="row mt-md-5 mt-md-3">
                     <div class="col-12 mx-auto" v-if="!isWizardCompleted">
                         <loading :active.sync="isPosting"
-                                :is-full-page="loaderOptions.isFullPage"
-                                :color="loaderOptions.color"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
                         ></loading>
                         <form-wizard
                                 @on-complete="onComplete"
@@ -104,6 +104,7 @@ import HeroWave from '../components/HeroWave';
 import api from '../api';
 import Loading from 'vue-loading-overlay';
 import MealReviewBeforeSave from '../components/new-meal/MealReviewBeforeSave';
+import config from "../config";
 export default {
     name: "CreateNewMeal",
     components: {NewMealStep1, NewMealImage, NewMealStep3, HeroWave, Loading, MealReviewBeforeSave},
@@ -122,10 +123,7 @@ export default {
         },
         isWizardCompleted: false,
         newOfferId: '',
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         isPosting: false,
         copyMealInfo: {}
     }),

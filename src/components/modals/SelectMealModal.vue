@@ -15,8 +15,8 @@
             <div v-if="!isDataReady" class="position-relative w-100" style="height: 100px;">
                 <loading
                         :active.sync="isLoading"
-                        :is-full-page="loaderOptions.isFullPage"
-                        :color="loaderOptions.color"
+                        :is-full-page="loaderOptions.IS_FULL_PAGE"
+                        :color="loaderOptions.COLOR"
                 ></loading>
             </div>
 
@@ -64,6 +64,7 @@ import SvgIcon from '../SvgIcon';
 import { validationMixin } from "vuelidate";
 import api from '../../api';
 import Loading from 'vue-loading-overlay';
+import config from "../../config";
 export default {
     name: "SelectMealModal",
     mixins: [validationMixin],
@@ -76,10 +77,7 @@ export default {
         isLoading: false,
         areNoMeals: false,
         hasError: false,
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         isDataReady: false,
         originalMeals: [],
         selectedMeal: {}

@@ -15,8 +15,8 @@
             <div class="container-fluid position-relative">
                 <loading
                         :active.sync="isLoading"
-                        :is-full-page="loaderOptions.isFullPage"
-                        :color="loaderOptions.color"
+                        :is-full-page="loaderOptions.IS_FULL_PAGE"
+                        :color="loaderOptions.COLOR"
                 ></loading>
 
                 <MainSearch
@@ -33,15 +33,13 @@
 import HeroWave from '../components/HeroWave';
 import MainSearch from '../components/MainSearch';
 import Loading from 'vue-loading-overlay';
+import config from "../config";
 export default {
     name: "Eat",
     components: {HeroWave, MainSearch, Loading},
     data: () => ({
         isLoading: false,
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         shouldShowTitle: true
     }),
     methods: {

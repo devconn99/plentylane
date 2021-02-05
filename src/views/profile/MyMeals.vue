@@ -10,8 +10,8 @@
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingMeals"
-                                :is-full-page="loaderOptions.isFullPage"
-                                :color="loaderOptions.color"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
                         ></loading>
                         <div v-if="mealPagination.loaded">
                             <p>You have {{mealPagination.total}} meal{{mealPagination.total === 1 ? '' : 's'}}</p>
@@ -65,8 +65,8 @@
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingReservations"
-                                :is-full-page="loaderOptions.isFullPage"
-                                :color="loaderOptions.color"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
                         ></loading>
                         <div v-if="dinesPagination.loaded">
                             <p>You have {{dinesPagination.total}} reservation{{dinesPagination.total === 1 ? '' : 's'}}</p>
@@ -94,8 +94,8 @@
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingOffers"
-                                :is-full-page="loaderOptions.isFullPage"
-                                :color="loaderOptions.color"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
                         ></loading>
                         <div v-if="offersPagination.loaded">
                             <p>You have {{offersPagination.total}} offer{{offersPagination.total === 1 ? '' : 's'}}</p>
@@ -155,14 +155,12 @@ import Loading from 'vue-loading-overlay';
 import BookingInfoBlock from '../../components/BookingInfoBlock';
 import ConfirmModal from '../../components/modals/ConfirmModal';
 import OfferInfoBlock from '../../components/OfferInfoBlock';
+import config from "../../config";
 export default {
     name: "MyMeals",
     components: {Loading, BookingInfoBlock, ConfirmModal, OfferInfoBlock},
     data: () => ({
-        loaderOptions: {
-            color: '#009C90',
-            isFullPage: false
-        },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         activeTabIndex: 0,
         isLoadingMeals: false,
         isLoadingReservations: false,
