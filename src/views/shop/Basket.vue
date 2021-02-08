@@ -17,7 +17,7 @@
                     <div class="col-4 col-sm-4 col-md-5 col-lg-4 col-xl-4">
                         <div class="shop-order-box justify-content-between">
                             <div class="shop-order-box-info-count">
-                                <b-form class="form basket-form">
+                                <b-form class="form basket-form" @submit.stop.prevent>
                                     <b-form-group class="mb-0">
                                         <b-form-input
                                                 name="count"
@@ -27,7 +27,7 @@
                                                 autocomplete="off"
                                                 :min="minCount"
                                                 :max="maxCount"
-                                                @change="onCountChanged"
+                                                v-on:change="onCountChanged($event, item.id)"
                                         ></b-form-input>
                                     </b-form-group>
                                 </b-form>
@@ -110,13 +110,14 @@ export default {
             }
             this.calculatePrice();
         },
-        onCountChanged () {
-            // TODO: update item count in store
+        onCountChanged (value, id) {
+            this.$store.commit('updateItemCountInBasket', { count: Number(value), id: id });
             this.calculatePrice();
         },
         calculatePrice () {
             if (!this.items || !this.items.length) {
                 this.price = { subTotal: 0, tax: 0, total: 0 };
+                this.$eventHub.$emit('basket-updated', 0);
                 return;
             }
             const koeff = 11.49;
@@ -132,6 +133,7 @@ export default {
             this.price.subTotal = _price;
             this.price.tax = _price / koeff;
             this.price.total = this.price.subTotal + this.price.tax;
+            this.$eventHub.$emit('basket-updated', this.price.subTotal);
         },
         convertCurrency (value) {
             if (isNaN(value)) return '$0.00';

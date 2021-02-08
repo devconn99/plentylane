@@ -31,13 +31,14 @@
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.quantity.$dirty && !$v.form.quantity.required">This is a required field.</small>
             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.quantity.minValue">Minimum number of meals is {{quantityMin}}.</small>
             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.quantity.maxValue">Maximum number of meals is {{quantityMax}}.</small>
+            <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.quantity.numeric">This value should be numeric.</small>
         </b-form-group>
     </b-form>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minValue, maxValue, maxLength } from "vuelidate/lib/validators";
+import { required, minValue, maxValue, maxLength, numeric } from "vuelidate/lib/validators";
 import config from '../../config';
 export default {
     name: "NewMealStep1",
@@ -64,6 +65,7 @@ export default {
         if (!this.excludeQuantityField) {
             form['quantity'] = {
                 required,
+                numeric,
                 minValue: minValue(config.MEAL_INFO.QUANTITY_MIN),
                 maxValue: maxValue(config.MEAL_INFO.QUANTITY_MAX)
             }

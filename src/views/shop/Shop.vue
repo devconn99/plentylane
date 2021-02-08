@@ -81,6 +81,7 @@ export default {
         },
         addItemToBasket (item) {
             this.$store.commit('addToBasket', { ...item, count: 1 });
+            this.$eventHub.$emit('added-item-to-basket', item.price);
             this.$bvModal.show('added-to-basket-modal');
         }
     }

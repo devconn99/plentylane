@@ -62,6 +62,14 @@ export default {
         removeFromBasket (state, id) {
             if (!state.basket || !state.basket.length) return;
             state.basket = state.basket.filter(item => Number(item.id) !== Number(id));
+        },
+        updateItemCountInBasket (state, value) {
+            if (!state.basket || !state.basket.length) return;
+            const { id, count } = value;
+            const _item = state.basket.find(item => Number(item.id) === Number(id));
+            if (_item && _item.id) {
+                _item.count = count;
+            }
         }
     },
     getters: {
@@ -76,13 +84,13 @@ export default {
         mealsOptionsDataToCopy: (state) => (state.mealsOptionsDataToCopy),
         copiedMealInfo: (state) => (state.copiedMealInfo),
         basket: (state) => (state.basket),
-        totalAmount: (state) => {
+        totalPrice: (state) => {
             if (!state.basket || !state.basket.length) return 0;
-            let _amount = 0;
+            let _price = 0;
             state.basket.forEach(item => {
-                _amount += item.price * item.count;
+                _price += item.price * item.count;
             });
-            return _amount;
+            return _price;
         }
     }
 }
