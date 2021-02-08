@@ -2,7 +2,12 @@
     <div class="row">
         <div class="col-12">
             <div class="dashboard-title-box flex-row align-items-center mb-5 mt-2 mt-lg-3">
-                <div class="title-size3 titleGreenNavyColor">My Network</div>
+                <div class="dashboard-profile-title-back mr-2 mr-md-3">
+                    <div class="cursor-pointer" @click="showMobileAside">
+                        <SvgIcon icon="arrowLeft"></SvgIcon>
+                    </div>
+                </div>
+                <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">My Network</div>
             </div>
 
             <b-tabs nav-class="custom-tabs" content-class="profile-item mt-4" v-model="activeTabIndex">
@@ -62,9 +67,10 @@ import Loading from 'vue-loading-overlay';
 import api from '../../api';
 import ConfirmModal from '../../components/modals/ConfirmModal';
 import config from "../../config";
+import SvgIcon from '../../components/SvgIcon';
 export default {
     name: "MyNetwork",
-    components: {Loading, ConfirmModal},
+    components: {Loading, ConfirmModal, SvgIcon},
     data: () => ({
         loaderOptions: { ...config.LOADER_OPTIONS },
         isLoading: false,
@@ -146,6 +152,9 @@ export default {
             this.myNetworkFiltered = this.myNetwork.filter(item => {
                 return item.name.toLowerCase().includes(this.searchStrMyNetwork);
             });
+        },
+        showMobileAside () {
+            this.$eventHub.$emit('show-mobile-profile-aside');
         }
     }
 }

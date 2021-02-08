@@ -13,7 +13,12 @@
             ></loading>
 
             <div class="dashboard-title-box flex-row align-items-center mb-5 mt-2 mt-lg-3">
-                <div class="title-size3 titleGreenNavyColor">Edit Profile</div>
+                <div class="dashboard-profile-title-back mr-2 mr-md-3">
+                    <div class="cursor-pointer" @click="showMobileAside">
+                        <SvgIcon icon="arrowLeft"></SvgIcon>
+                    </div>
+                </div>
+                <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">Edit Profile</div>
             </div>
 
             <b-form class="form" @submit.stop.prevent="onSubmit">
@@ -163,10 +168,11 @@ import api from '../../api';
 import parsePhoneNumberWithError from 'libphonenumber-js';
 import helpers from '../../helpers';
 import config from "../../config";
+import SvgIcon from '../../components/SvgIcon';
 export default {
     name: "EditProfile",
     mixins: [validationMixin],
-    components: {Loading},
+    components: {Loading, SvgIcon},
     data: () => ({
         isLoading: false,
         loaderOptions: { ...config.LOADER_OPTIONS },
@@ -325,6 +331,9 @@ export default {
                 this.prevAvatarUrl = '';
             }
             */
+        },
+        showMobileAside () {
+            this.$eventHub.$emit('show-mobile-profile-aside');
         }
     }
 }

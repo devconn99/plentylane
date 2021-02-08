@@ -100,6 +100,11 @@ export default {
         }
         .notification-btn {
             margin-left: 16px;
+            display: flex;
+            align-items: center;
+            .notification-box-respond {
+                margin-right: 16px;
+            }
             svg:hover path {
                 fill: $greenColor;
             }

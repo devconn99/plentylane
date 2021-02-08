@@ -2,7 +2,12 @@
     <div class="row">
         <div class="col-12">
             <div class="dashboard-title-box flex-row align-items-center mb-5 mt-2 mt-lg-3">
-                <div class="title-size3 titleGreenNavyColor">My Meals</div>
+                <div class="dashboard-profile-title-back mr-2 mr-md-3">
+                    <div class="cursor-pointer" @click="showMobileAside">
+                        <SvgIcon icon="arrowLeft"></SvgIcon>
+                    </div>
+                </div>
+                <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">My Meals</div>
             </div>
 
             <b-tabs nav-class="custom-tabs" content-class="mt-4" v-model="activeTabIndex" @input="onTabSwitched">
@@ -156,9 +161,10 @@ import BookingInfoBlock from '../../components/BookingInfoBlock';
 import ConfirmModal from '../../components/modals/ConfirmModal';
 import OfferInfoBlock from '../../components/OfferInfoBlock';
 import config from "../../config";
+import SvgIcon from '../../components/SvgIcon';
 export default {
     name: "MyMeals",
-    components: {Loading, BookingInfoBlock, ConfirmModal, OfferInfoBlock},
+    components: {Loading, BookingInfoBlock, ConfirmModal, OfferInfoBlock, SvgIcon},
     data: () => ({
         loaderOptions: { ...config.LOADER_OPTIONS },
         activeTabIndex: 0,
@@ -392,6 +398,9 @@ export default {
                     this.offerToRemove = '';
                     this.isLoadingOffers = false;
                 })
+        },
+        showMobileAside () {
+            this.$eventHub.$emit('show-mobile-profile-aside');
         }
     }
 }

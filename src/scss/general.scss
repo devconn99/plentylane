@@ -186,6 +186,9 @@ figure {
 svg {
 	line-height: 1;
 }
+svg + span {
+	padding-top: 2px;
+}
 svg path, a svg path {
 	-webkit-transition: .3s all ease;
 		-o-transition: .3s all ease;
@@ -468,7 +471,6 @@ button {
 }
 .btnGreen, .btnLightGreen, .btnGreenTransparent, .btnLightRed, .btnNavyRedTransparent {
 	text-decoration: none!important;
-	display: inline-block;
 	-webkit-transition: .3s all ease;
 	-o-transition: .3s all ease;
 	transition: .3s all ease;
@@ -480,6 +482,7 @@ button {
 	-moz-osx-font-smoothing: grayscale;
 	overflow: hidden;
 	outline: none;
+	display: block;
 	&:hover, &:after, &:focus {
 		outline: none;
 	}
