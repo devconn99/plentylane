@@ -877,52 +877,6 @@ a.reserved-box, .reserved-box {
 *   INVITE STYLES   *
 ********************/
 
-.invite {
-	a.invite-box {
-		border-bottom: 2px solid #EEE8D7;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		padding: 17px;
-		@media screen and (max-width: $phoneBigWidth) {
-			padding: 10px;
-		}
-		.invite-box-info {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			.invite-icon {
-				flex: none;
-			}
-			.invite-name {
-				font-size: 24px;
-				line-height: 24px;
-				color: $textBlackColor;
-				padding-top: 2px;
-				-webkit-transition: .3s all ease;
-				-o-transition: .3s all ease;
-				transition: .3s all ease;
-				&:hover {
-					color: $greenColor;
-					-webkit-transition: .3s all ease;
-					-o-transition: .3s all ease;
-					transition: .3s all ease;
-				}
-				@media screen and (max-width: $tableWidth) {
-					font-size: 22px;
-					line-height: 22px;
-				}
-				@media screen and (max-width: $phoneBigWidth) {
-					font-size: 16px;
-					line-height: 20px;
-					letter-spacing: 0.8px;
-				}
-			}
-		}
-	}
-}
-
 /**********************
 *  PROFILE -> MY NETWORK TABS  *
 ***********************/

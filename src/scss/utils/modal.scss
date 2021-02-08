@@ -67,7 +67,14 @@
 			outline: 0;
 			pointer-events: auto;
 			width: 100%;
-			padding: 0 40px 40px;
+			padding: 13px 40px 40px;
+
+			@media screen and (max-width: $tableWidth) {
+				padding-top: 0;
+			}
+			@media screen and (max-width: $phoneBigWidth) {
+				padding-top: 0;
+			}
 		}
 	}
 	&.reserve-meal-modal,
@@ -85,8 +92,12 @@
 	&.notifications-modal,
 	&.invite-friends-modal {
 		.modal-body {
+			padding: 13px 40px 40px;
 			@media screen and (max-width: $tableWidth) {
-				padding: 0 15px 15px;
+				padding: 0 25px 25px;
+			}
+			@media screen and (max-width: $phoneBigWidth) {
+				padding: 0 15px 20px;
 			}
 		}
 	}
@@ -117,6 +128,7 @@
 		}
 	}
 }
+// TODO: check these styles later and move to .modal-body if needed
 .modal-popup-body {
 	display: flex;
 	flex-direction: column;
