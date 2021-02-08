@@ -659,11 +659,12 @@ h1, h2, h3, h4, h5, h6 {
 			margin-bottom: 20px;
 		}
 		// .custom-control-label - is a label for checkbox input
-		label:not(.custom-control-label) {
+		label:not(.custom-control-label), legend {
 			font-size: 18px;
 			line-height: 18px;
 			letter-spacing: 0.6px;
 			margin-bottom: 16px;
+			padding-bottom: 0;
 			display: block;
 			font-family: $FilsonProBold;
 			@media screen and (max-width: $tableMinWidth) {

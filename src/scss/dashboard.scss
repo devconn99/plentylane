@@ -41,6 +41,7 @@
 			&.dashboard-profile {
 				flex-direction: row;
 				position: relative;
+				overflow-x: hidden;
 
 				@media screen and (max-width: $tableMinWidth) {
 					.dashboard-content {
@@ -918,6 +919,10 @@ a.reserved-box, .reserved-box {
 				background-color: transparent;
 				bottom: -2px;
 				transition: all 0.3s;
+			}
+
+			@media screen and (max-width: $tableWidth) {
+				font-size: 14px;
 			}
 
 			&.active {

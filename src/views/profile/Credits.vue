@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-12">
-            <div class="dashboard-title-box flex-row align-items-center mb-5 mt-2 mt-lg-3">
+            <div class="dashboard-title-box flex-row align-items-center mb-4 mb-lg-5 mt-2 mt-lg-3">
                 <div class="dashboard-profile-title-back mr-2 mr-md-3">
                     <div class="cursor-pointer" @click="showMobileAside">
                         <SvgIcon icon="arrowLeft"></SvgIcon>

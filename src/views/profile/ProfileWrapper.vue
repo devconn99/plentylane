@@ -5,7 +5,7 @@
             <nav id="nav-dashboard-profile">
                 <ul class="nav-menu-dashboard-profile">
                     <li v-for="item in navItems" v-bind:class="{ 'active': item.isActive }">
-                        <div class="aside-nav-item-wrapper" @click="redirectToPath(item.path)">
+                        <div class="aside-nav-item-wrapper" @click.stop.prevent="redirectToPath(item.path)">
                             <span>{{item.title}}</span>
                             <SvgIcon icon="openArrowRight"></SvgIcon>
                         </div>
@@ -118,14 +118,8 @@ export default {
             this.isMobileAsideEnabled = true;
         })
     },
-    mounted () {
-        this.$nextTick(() => {
-            $(window).on('resize', this.onResizeHandler);
-        })
-    },
     beforeDestroy () {
         this.$eventHub.$off('show-mobile-profile-aside');
-        $(window).off('resize');
     }
 }
 </script>
