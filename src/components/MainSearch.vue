@@ -193,6 +193,7 @@ export default {
             let fieldPrefix = '';
             let shouldUseLocationEndpoint = false;
             const defaultType = 'filter';
+            const currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
 
             if (form['proximity'] && this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
                 fieldPrefix = 'offers.';
@@ -216,6 +217,15 @@ export default {
                 });
             } else {
                 query.push(this.prepareDefaultPickupTimeFilter(fieldPrefix));
+            }
+            if (currentUserId) {
+                // to exclude current user's offers from the result
+                query.push({
+                    type: defaultType,
+                    field: 'user.id', // no need to use fieldPrefix there
+                    condition: '$ne',
+                    value: currentUserId
+                })
             }
             if (form['name'] && form['name'].length) {
                 query.push({

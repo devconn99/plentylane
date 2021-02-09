@@ -15,7 +15,13 @@
         <main>
             <section class="authorization">
                 <div class="authorization-box">
-                    <div class="authorization-box-position">
+                    <div class="authorization-box-position position-relative">
+                        <loading
+                                :active.sync="isSubmitting"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
+                        ></loading>
+
                         <h1 class="title-size3 titleGreenNavyColor">Register for Plenty Lane</h1>
 
                         <b-alert
@@ -110,8 +116,10 @@ import { required, minLength, maxLength, sameAs, email } from "vuelidate/lib/val
 import api from '../api';
 import config from '../config';
 import helpers from '../helpers';
+import Loading from 'vue-loading-overlay';
 export default {
     name: "SignUp",
+    components: {Loading},
     mixins: [validationMixin],
     data: () => ({
         showSuccessAlert: false,
@@ -125,7 +133,9 @@ export default {
             password: '',
             passwordConfirm: ''
         },
-        errorMsg: ''
+        errorMsg: '',
+        loaderOptions: { ...config.LOADER_OPTIONS },
+        isSubmitting: false
     }),
     validations: {
         form: {
@@ -180,6 +190,7 @@ export default {
                 return;
             }
             this.submitted = true;
+            this.isSubmitting = true;
             const fullName = this.$v.form.$model.fullName.trim();
             const firstName = fullName.split(' ')[0];
             const lastName = fullName.replace(`${firstName} `, '');
@@ -191,6 +202,7 @@ export default {
             };
             api.auth.signUp(userData)
                 .then(() => {
+                    this.isSubmitting = false;
                     this.showSuccessAlert = true;
                     setTimeout(() => {
                         this.$router.push({ path: '/login' });
@@ -210,6 +222,7 @@ export default {
                     } else {
                         this.errorMsg = 'Error during registration.'
                     }
+                    this.isSubmitting = false;
                     this.showErrorAlert = true;
                 })
         }

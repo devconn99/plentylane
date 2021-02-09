@@ -186,6 +186,9 @@ figure {
 svg {
 	line-height: 1;
 }
+svg + span {
+	padding-top: 2px;
+}
 svg path, a svg path {
 	-webkit-transition: .3s all ease;
 		-o-transition: .3s all ease;
@@ -505,7 +508,6 @@ button {
 }
 .btnGreen, .btnLightGreen, .btnGreenTransparent, .btnLightRed, .btnNavyRedTransparent {
 	text-decoration: none!important;
-	display: inline-block;
 	-webkit-transition: .3s all ease;
 	-o-transition: .3s all ease;
 	transition: .3s all ease;
@@ -517,6 +519,7 @@ button {
 	-moz-osx-font-smoothing: grayscale;
 	overflow: hidden;
 	outline: none;
+	display: block;
 	&:hover, &:after, &:focus {
 		outline: none;
 	}
@@ -686,11 +689,12 @@ h1, h2, h3, h4, h5, h6 {
 			margin-bottom: 20px;
 		}
 		// .custom-control-label - is a label for checkbox input
-		label:not(.custom-control-label) {
+		label:not(.custom-control-label), legend {
 			font-size: 18px;
 			line-height: 18px;
 			letter-spacing: 0.6px;
 			margin-bottom: 16px;
+			padding-bottom: 0;
 			display: block;
 			font-family: $FilsonProBold;
 			@media screen and (max-width: $tableMinWidth) {
@@ -773,8 +777,17 @@ h1, h2, h3, h4, h5, h6 {
 				font-size: 16px;
 				line-height: 24px;
 				letter-spacing: 0;
-				color: $mainBackgroundColor;
-				padding-top: 0px;
+				padding-top: 0;
+			}
+			&:not(.mobile-input-search) {
+				&::-webkit-input-placeholder {
+					color: $mainBackgroundColor;
+				}
+			}
+			&.mobile-input-search {
+				&::-webkit-input-placeholder {
+					color: $grayColor;
+				}
 			}
 		}
 		textarea {

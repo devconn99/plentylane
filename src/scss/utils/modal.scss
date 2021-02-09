@@ -7,6 +7,34 @@
 .modal-lg {
 	max-width: 640px;
 }
+
+.modal .modal-scroll {
+	max-height: 320px;
+	overflow-y: auto;
+	padding-right: 20px;
+	@media screen and (max-width: $phoneBigWidth) {
+		padding-right: 10px;
+	}
+	&::-webkit-scrollbar {
+		width: 8px;
+	}
+	&::-webkit-scrollbar-track {
+		background: #f1f1f1;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: rgba(24,24,22,0.11);
+	}
+	&::-webkit-scrollbar-thumb:hover {
+		background: rgba(24,24,22,0.4);
+	}
+}
+
+.modal-strong-title {
+	font-size: 18px;
+	line-height: 24px;
+	font-family: $FilsonProBold;
+}
+
 .modal-content {
 	border-radius: 0;
 	background: $mainBackgroundColor;
@@ -40,7 +68,14 @@
 			outline: 0;
 			pointer-events: auto;
 			width: 100%;
-			padding: 0 40px 40px;
+			padding: 13px 40px 40px;
+
+			@media screen and (max-width: $tableWidth) {
+				padding-top: 0;
+			}
+			@media screen and (max-width: $phoneBigWidth) {
+				padding-top: 0;
+			}
 		}
 	}
 
@@ -59,8 +94,12 @@
 	&.notifications-modal,
 	&.invite-friends-modal {
 		.modal-body {
+			padding: 13px 40px 40px;
 			@media screen and (max-width: $tableWidth) {
-				padding: 0 15px 15px;
+				padding: 0 25px 25px;
+			}
+			@media screen and (max-width: $phoneBigWidth) {
+				padding: 0 15px 20px;
 			}
 		}
 	}
@@ -109,6 +148,7 @@
 		}
 	}
 }
+// TODO: check these styles later and move to .modal-body if needed
 .modal-popup-body {
 	display: flex;
 	flex-direction: column;
@@ -119,6 +159,12 @@
 	padding: 70px 40px 40px;
 	@media screen and (max-width: $tableWidth) {
 		padding: 40px 25px 25px;
+	}
+	@media screen and (max-width: $phoneBigWidth) {
+		padding: 40px 15px 20px;
+	}
+	.btnGreen, .btnGreenTransparent, .btnLightGreen, .btnLightRed, .btnNavyRedTransparent {
+		display: block;
 	}
 	.modal-popup-header {
 		margin-bottom: 32px;
@@ -143,17 +189,6 @@
 			}
 		}
 	}
-	.modal-popup-body-overflow {
-		overflow-x: auto;
-	}
-	.modal-popup-body-overflow.scroll350 {
-		padding-right: 10px;
-	}
-	.modal-popup-body-overflow.scroll350 {
-		@media only screen and (max-width: $tableWidth) and (orientation: landscape) {
-			max-height: 230px;
-		}
-	}
 	.modal-popup-title {
 		display: flex;
 		justify-content: space-between;
@@ -165,65 +200,13 @@
 		margin-top: 20px;
 	}
 	.modal-popup-text p {
-		margin: 0 0 20px;
 		font-size: 14px;
 		color: #525f6e;
 		line-height: 17px;
 		letter-spacing: -.12px;
-		margin-bottom: 15px;
+		margin: 0 0 15px;
 	}
 	.modal-popup-text p:last-child {
 		margin: 0;
-	}
-}
-.modal-popup-body-overflow::-webkit-scrollbar, .price-table-choose-email::-webkit-scrollbar {
-	width: 5px;
-	border-radius: 10px;
-}
-.modal-popup-body-overflow::-webkit-scrollbar-track, .price-table-choose-email::-webkit-scrollbar-track {
-	background: #f1f1f1;
-	border-radius: 10px;
-}
-.modal-popup-body-overflow::-webkit-scrollbar-thumb, .price-table-choose-email::-webkit-scrollbar-thumb {
-	background: $greenNavyColor;
-	border-radius: 10px;
-}
-.modal-popup-body-overflow::-webkit-scrollbar-thumb:hover, .price-table-choose-email::-webkit-scrollbar-thumb:hover {
-	background: $greenNavyColor;
-	border-radius: 10px;
-}
-:root {
-	scrollbar-color: #f1f1f1 !important;
-	border-radius: 10px;
-}
-.modal-small {
-	max-width: 480px!important;
-	.modal-popup-body {
-		margin: 0 auto;
-		.modal-popup-buttons {
-			display: block;
-			text-align: center;
-			a {
-				font-size: $mainFontSize;
-			}
-		}
-	}
-}
-.modal-middle {
-	max-width: 560px!important;
-	.modal-popup-body {
-    	margin: 0 auto;
-		.modal-popup-buttons {
-			display: flex;
-			text-align: center;
-			justify-content: space-between;
-			align-items: center;
-			input[type=button], input[type=reset], input[type=submit], button {
-				width: auto;
-			}
-			a {
-				font-size: $mainFontSize;
-			}
-		}
 	}
 }

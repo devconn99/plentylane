@@ -7,10 +7,9 @@
             modal-class="notifications-modal"
             centered
     >
-        <!-- TODO: refactor styles, content -->
         <div slot="default">
             <div class="title-size3 titleGreenNavyColor mb-4 mb-md-5 text-center">Notifications</div>
-            <div class="notification">
+            <div class="notification modal-scroll">
                 <NotificationsContent></NotificationsContent>
             </div>
         </div>

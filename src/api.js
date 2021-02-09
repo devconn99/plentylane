@@ -33,6 +33,62 @@ const getDefaultPickupTimeNotInPastFilter = (prefix) => {
     return `filter=${prefix}pickupTime||$gte||${getTodayStartStr()}`;
 };
 
+// TODO: temp notifications
+const TEMP_NOTIFICATIONS = [
+    {
+        iconName: 'notificationType1',
+        content: 'Amy G. has reserved your meal: Baby Back Ribs!',
+        id: 1
+    },
+    {
+        iconName: 'notificationType2',
+        content: 'Get your food handler certification',
+        shouldReply: true,
+        id: 2
+    },
+    {
+        iconName: 'notificationType4',
+        content: 'New order from new customer',
+        shouldReply: true,
+        id: 3
+    },
+    {
+        iconName: 'notificationType3',
+        content: 'New meal from Winifred P.',
+        id: 4
+    },
+    {
+        iconName: 'notificationType1',
+        content: 'Amy G. has reserved your meal: Baby Back Ribs!',
+        id: 5
+    },
+    {
+        iconName: 'notificationType2',
+        content: 'Get your food handler certification',
+        id: 6
+    },
+    {
+        iconName: 'notificationType3',
+        content: 'New meal from Winifred P.',
+        id: 7
+    },
+    {
+        iconName: 'notificationType1',
+        content: 'Amy G. has reserved your meal: Baby Back Ribs!',
+        id: 8
+    },
+    {
+        iconName: 'notificationType2',
+        content: 'Get your food handler certification',
+        id: 9
+    },
+    {
+        iconName: 'notificationType3',
+        content: 'New meal from Winifred P.',
+        id: 10
+    }
+];
+
 // TODO
 const checkErr = (errResponse) => {
     if (errResponse.data && (errResponse.data.statusCode === 401 || errResponse.data.unauthorized === true)) {
@@ -509,6 +565,15 @@ export default {
                     }
                 ];
                 return Promise.resolve(tempData);
+            }
+        },
+        notifications: {
+            getTempNotifications (size) {
+                let _notifications = TEMP_NOTIFICATIONS.slice(0);
+                if (size) {
+                    _notifications = _notifications.slice(0, size);
+                }
+                return Promise.resolve(_notifications);
             }
         },
         shop: {

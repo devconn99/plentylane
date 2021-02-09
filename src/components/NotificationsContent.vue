@@ -1,27 +1,22 @@
 <template>
-    <div>
-        <div class="notification-box" v-for="item in items.slice(0, tempVisibleItems || items.length)">
+    <div v-if="isLoaded && items && items.length">
+        <div class="notification-box" v-for="item in items">
             <div class="notification-box-info">
-                <div class="notification-img">
+                <div class="notification-img mr-2 mr-md-3">
                     <SvgIcon :icon="item.iconName"></SvgIcon>
                 </div>
                 <div class="notification-text">{{item.content}}</div>
             </div>
-            <!-- TODO: check this block later, reply button now is not visible (missing styles?) -->
             <div class="notification-btn">
-                <div class="notification-box-respond"></div>
+                <div class="notification-box-respond" @click="reply(item)">
+                    <div class="cursor-pointer" v-if="item.shouldReply">
+                        <SvgIcon icon="reply"></SvgIcon>
+                    </div>
+                </div>
                 <div class="notification-box-close">
-                    <a>
-                        <svg width="17px" height="17px" xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 17 17">
-                            <g fill="none" fill-rule="evenodd">
-                                <g fill="#FCDBD0" fill-rule="nonzero">
-                                    <path
-                                            d="M12.512 2.31L8.499 6.32 4.487 2.31a1.75 1.75 0 00-2.474 0l-.114.124a1.75 1.75 0 00.113 2.35l4.012 4.013-4.012 4.013a1.75 1.75 0 00.786 2.927l.151.034a1.75 1.75 0 001.539-.487l4.011-4.013 4.013 4.013a1.75 1.75 0 002.475 0l.113-.124a1.75 1.75 0 00-.113-2.35l-4.012-4.013 4.013-4.012a1.75 1.75 0 10-2.476-2.475z" />
-                                </g>
-                            </g>
-                        </svg>
-                    </a>
+                    <div class="cursor-pointer" @click="removeNotification(item)">
+                        <SvgIcon icon="notificationClose"></SvgIcon>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,50 +25,42 @@
 
 <script>
 import SvgIcon from './SvgIcon';
+import api from '../api';
 export default {
     name: "NotificationsContent",
     components: {SvgIcon},
     props: ['tempVisibleItems'],
     data: () => ({
-        items: [
-            {
-                iconName: 'notificationType1',
-                content: 'Amy G. has reserved your meal: Baby Back Ribs!'
-            },
-            {
-                iconName: 'notificationType2',
-                content: 'Get your food handler certification'
-            },
-            {
-                iconName: 'notificationType3',
-                content: 'New meal from Winifred P.'
-            },
-            {
-                iconName: 'notificationType1',
-                content: 'Amy G. has reserved your meal: Baby Back Ribs!'
-            },
-            {
-                iconName: 'notificationType2',
-                content: 'Get your food handler certification'
-            },
-            {
-                iconName: 'notificationType3',
-                content: 'New meal from Winifred P.'
-            },
-            {
-                iconName: 'notificationType1',
-                content: 'Amy G. has reserved your meal: Baby Back Ribs!'
-            },
-            {
-                iconName: 'notificationType2',
-                content: 'Get your food handler certification'
-            },
-            {
-                iconName: 'notificationType3',
-                content: 'New meal from Winifred P.'
-            }
-        ]
-    })
+        items: [],
+        isLoading: false,
+        isLoaded: false
+    }),
+    methods: {
+        removeNotification (item) {
+            // TODO
+            if (!item || !item.id) return;
+            this.items = this.items.filter(i => Number(i.id) !== Number(item.id));
+        },
+        reply (item) {
+            // TODO
+        },
+        loadNotifications () {
+            this.isLoading = true;
+            api.dashboard.notifications.getTempNotifications(this.tempVisibleItems)
+                .then(result => {
+                    this.items = result.slice(0);
+                    this.isLoading = false;
+                    this.isLoaded = true;
+                })
+                .catch(err => {
+                    this.isLoading = false;
+                    this.isLoaded = true;
+                });
+        }
+    },
+    created () {
+        this.loadNotifications();
+    }
 }
 </script>
 
@@ -100,6 +87,11 @@ export default {
         }
         .notification-btn {
             margin-left: 16px;
+            display: flex;
+            align-items: center;
+            .notification-box-respond {
+                margin-right: 16px;
+            }
             svg:hover path {
                 fill: $greenColor;
             }

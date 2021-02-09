@@ -40,11 +40,72 @@
 			flex-direction: column;
 			&.dashboard-profile {
 				flex-direction: row;
+				position: relative;
+				overflow-x: hidden;
+
+				@media screen and (max-width: $tableMinWidth) {
+					.dashboard-content {
+						&.mobile-aside-enabled {
+							display: none;
+						}
+						&:not(.mobile-aside-enabled) {
+							display: block;
+							width: 100%;
+							max-width: 100%;
+						}
+					}
+					.dashboard-profile-aside {
+						position: relative;
+						transition: all 0.3s ease;
+
+						&.mobile-aside-enabled {
+							left: 0;
+							opacity: 1;
+						}
+						&:not(.mobile-aside-enabled) {
+							left: -100vw;
+							min-width: 0;
+							width: 0;
+							opacity: 1;
+						}
+					}
+				}
 
 				> .profile-page-wrapper {
 					flex-direction: row;
 					display: flex;
 					width: 100%;
+
+					.dashboard-content {
+						.dashboard-title-box {
+							display: flex;
+							flex-direction: column;
+							position: relative;
+							min-height: 24px;
+
+							.dashboard-profile-title-text {
+								width: 100%;
+
+								@media screen and (max-width: $tableMinWidth) {
+									width: auto;
+									margin: 0 auto;
+								}
+							}
+
+							.dashboard-profile-title-back {
+								position: absolute;
+								top: 0;
+								left: 0;
+
+								@media screen and (max-width: $tableMinWidth) {
+									display: block;
+								}
+								@media screen and (min-width: $tableMinWidth + 1) {
+									display: none;
+								}
+							}
+						}
+					}
 				}
 			}
 			@media screen and (max-width: $tableMinWidth) {
@@ -155,10 +216,6 @@
 		transition: 0.4s;
 	}
 }
-.dashboard-title-box {
-	display: flex;
-	flex-direction: column;
-}
 .box-btn {
 	&.w100 {
 		width: 100%;
@@ -257,10 +314,15 @@
 					align-items: center;
 					padding: 0 24px;
 				}
-				a.dashboard-user-info {
+				.dashboard-user-info {
 					display: flex;
 					align-items: center;
 					padding: 0 24px;
+					cursor: pointer;
+					-webkit-user-select: none;
+					-moz-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
 					span {
 						font-size: 18px;
 						line-height: 24px;
@@ -381,7 +443,7 @@ ul.nav-menu-dashboard {
 	padding: 0;
 	margin: 0;
 	li {
-		a {
+		.nav-link {
 			display: flex;
 			align-items: center;
 			font-family: $LacaProSemiBold;
@@ -400,7 +462,7 @@ ul.nav-menu-dashboard {
 				margin-left: 21px;
 			}
 		}
-		&.active a {
+		&.active .nav-link {
 			color: $mainBackgroundColor;
 			svg path {
 				fill: $greenLightColor;
@@ -409,7 +471,7 @@ ul.nav-menu-dashboard {
 				transition: .3s all ease;
 			}
 		}
-		&:first-child a {
+		&:first-child .nav-link {
 			padding-top: 0;
 		}
 	}
@@ -573,9 +635,6 @@ ul.nav-menu-dashboard-small {
 			color: $textBlackColor;
 			display: flex;
 			align-items: center;
-			span {
-				padding-top: 3px;
-			}
 		}
 		.cook-location {
 			text-decoration: none;
@@ -615,7 +674,7 @@ ul.nav-menu-dashboard-small {
 			svg {
 				flex: none;
 			}
-			@media screen and (max-width: $tableMinWidth) {
+			@media screen and (max-width: $tableWidth) {
 				font-size: 14px;
 				letter-spacing: 0;
 			}
@@ -804,40 +863,6 @@ a.reserved-box, .reserved-box {
 *   INVITE STYLES   *
 ********************/
 
-.invite {
-	a.invite-box {
-		border-bottom: 2px solid #EEE8D7;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		padding: 17px;
-		.invite-box-info {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			.invite-icon {
-				flex: none;
-			}
-			.invite-name {
-				font-size: 24px;
-				line-height: 24px;
-				color: $textBlackColor;
-				padding-top: 2px;
-				@media screen and (max-width: $tableWidth) {
-					font-size: 22px;
-					line-height: 22px;
-				}
-				@media screen and (max-width: $phoneBigWidth) {
-					font-size: 20px;
-					line-height: 20px;
-					letter-spacing: 0.8px;
-				}
-			}
-		}
-	}
-}
-
 /**********************
 *  PROFILE -> MY NETWORK TABS  *
 ***********************/
@@ -879,6 +904,10 @@ a.reserved-box, .reserved-box {
 				background-color: transparent;
 				bottom: -2px;
 				transition: all 0.3s;
+			}
+
+			@media screen and (max-width: $tableWidth) {
+				font-size: 14px;
 			}
 
 			&.active {

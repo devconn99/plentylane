@@ -46,7 +46,7 @@
                             name="search"
                             placeholder="E.g. Fish Tacos"
                             required
-                            class="form-control"
+                            class="form-control mobile-input-search"
                             autocomplete="off"
                             v-model="searchStr"
                             ref="searchRefMobile"
@@ -133,11 +133,11 @@
 
                     <div class="dashboard-aside-box">
                         <div class="dashboard-user">
-                            <router-link :to="{ path: '/dashboard/profile' }" class="dashboard-user-info">
+                            <div class="dashboard-user-info" @click="goToProfile()">
                                 <img src="../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">
                                 <span class="dashboard-user-name" v-if="displayUserName && displayUserName.length">{{displayUserName}}</span>
                                 <span class="dashboard-user-name" v-else>Profile</span>
-                            </router-link>
+                            </div>
                             <!-- TODO: refactor tag <a> later -->
                             <a @click.stop.prevent="showNotificationsModal" class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
                         </div>
@@ -337,6 +337,17 @@ export default {
                 this.hideMobileSideNav();
             }
             this.$bvModal.show('notifications-modal');
+        },
+        goToProfile () {
+            const pathToProfile = '/dashboard/profile';
+            if (this.$route.path === pathToProfile) {
+                // no need to redirect, just close mobile side nav
+                if (this.isMobileSidebarVisible) {
+                    this.hideMobileSideNav();
+                }
+                return;
+            }
+            this.$router.push({ path: pathToProfile }).catch(() => {});
         }
     },
     beforeDestroy () {
