@@ -314,10 +314,15 @@
 					align-items: center;
 					padding: 0 24px;
 				}
-				a.dashboard-user-info {
+				.dashboard-user-info {
 					display: flex;
 					align-items: center;
 					padding: 0 24px;
+					cursor: pointer;
+					-webkit-user-select: none;
+					-moz-user-select: none;
+					-ms-user-select: none;
+					user-select: none;
 					span {
 						font-size: 18px;
 						line-height: 24px;
@@ -438,7 +443,7 @@ ul.nav-menu-dashboard {
 	padding: 0;
 	margin: 0;
 	li {
-		a {
+		.nav-link {
 			display: flex;
 			align-items: center;
 			font-family: $LacaProSemiBold;
@@ -454,13 +459,13 @@ ul.nav-menu-dashboard {
 				margin-left: 21px;
 			}
 		}
-		&.active a {
+		&.active .nav-link {
 			color: $mainBackgroundColor;
 			svg path {
 				fill: $greenLightColor;
 			}
 		}
-		&:first-child a {
+		&:first-child .nav-link {
 			padding-top: 0;
 		}
 	}

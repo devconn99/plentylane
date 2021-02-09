@@ -747,8 +747,17 @@ h1, h2, h3, h4, h5, h6 {
 				font-size: 16px;
 				line-height: 24px;
 				letter-spacing: 0;
-				color: $mainBackgroundColor;
-				padding-top: 0px;
+				padding-top: 0;
+			}
+			&:not(.mobile-input-search) {
+				&::-webkit-input-placeholder {
+					color: $mainBackgroundColor;
+				}
+			}
+			&.mobile-input-search {
+				&::-webkit-input-placeholder {
+					color: $grayColor;
+				}
 			}
 		}
 		textarea {
