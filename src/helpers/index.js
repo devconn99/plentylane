@@ -107,5 +107,10 @@ export default {
     capitalizeFirstLetter(string) {
         if (!string) return '';
         return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+    },
+    convertCurrency (value) {
+        if (isNaN(value)) return '$0.00';
+        const val = (value/1).toFixed(2).replace('.', ',');
+        return `$${val.toString().replace(/B(?=(d{3})+(?!d))/g, ".")}`;
     }
 }

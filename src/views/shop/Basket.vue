@@ -27,7 +27,8 @@
                                                 autocomplete="off"
                                                 :min="minCount"
                                                 :max="maxCount"
-                                                v-on:change="onCountChanged($event, item.id)"
+                                                step="1"
+                                                v-on:change="onCountChanged($event, item)"
                                         ></b-form-input>
                                     </b-form-group>
                                 </b-form>
@@ -41,7 +42,7 @@
             </div>
 
             <div class="row mt-4">
-                <div class="col-7 col-sm-6 col-lg-4 ml-auto">
+                <div class="col-7 col-sm-6 col-xl-4 ml-auto">
                     <div class="shop-price-box">
                         <div class="shop-price-subtotal mb-3">
                             <div class="shop-price-subtotal-title">Subtotal</div>
@@ -60,12 +61,13 @@
                 <div class="clear-line"></div>
                 <div class="col-12 col-sm-6 col-xl-4 ml-auto">
                     <div class="box-btn">
-                        <a href="dashboard-shop-checkout.html"
-                           class="btnGreen btnNormalSize btnUpper btn100 hover-slide-left">
-												<span>
-													Checkout
-												</span>
-                        </a>
+                        <router-link
+                                :to="{ path: '/dashboard/shop/checkout' }"
+                                tag="button"
+                                class="btnGreen btnNormalSize btnUpper btn100 hover-slide-left"
+                        >
+                            <span>Checkout</span>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -78,6 +80,7 @@
 
 <script>
 import SvgIcon from '../../components/SvgIcon';
+import helpers from '../../helpers';
 export default {
     name: "Basket",
     components: {SvgIcon},
@@ -110,8 +113,26 @@ export default {
             }
             this.calculatePrice();
         },
-        onCountChanged (value, id) {
-            this.$store.commit('updateItemCountInBasket', { count: Number(value), id: id });
+        onCountChanged (value, item) {
+            if (typeof value !== 'number') {
+                value = Number(value);
+                if (isNaN(value)) {
+                    item.count = 0;
+                    value = 0;
+                }
+            }
+            if (!Number.isInteger(value)) {
+                value = Math.floor(this.minCount >= 0 ? Math.abs(value) : value);
+                item.count = value;
+            }
+            if (value > this.maxCount) {
+                item.count = this.maxCount;
+                value = this.maxCount;
+            } else if (value < this.minCount) {
+                value = Math.abs(value);
+                item.count = value;
+            }
+            this.$store.commit('updateItemCountInBasket', { count: Number(value), id: item.id });
             this.calculatePrice();
         },
         calculatePrice () {
@@ -134,22 +155,17 @@ export default {
             this.price.tax = _price / koeff;
             this.price.total = this.price.subTotal + this.price.tax;
             this.$eventHub.$emit('basket-updated', this.price.subTotal);
-        },
-        convertCurrency (value) {
-            if (isNaN(value)) return '$0.00';
-            const val = (value/1).toFixed(2).replace('.', ',');
-            return `$${val.toString().replace(/B(?=(d{3})+(?!d))/g, ".")}`;
         }
     },
     computed: {
         subTotalCurrency: function () {
-            return this.convertCurrency(this.price.subTotal);
+            return helpers.convertCurrency(this.price.subTotal);
         },
         taxCurrency: function () {
-            return this.convertCurrency(this.price.tax);
+            return helpers.convertCurrency(this.price.tax);
         },
         totalCurrency: function () {
-            return this.convertCurrency(this.price.total);
+            return helpers.convertCurrency(this.price.total);
         }
     }
 }

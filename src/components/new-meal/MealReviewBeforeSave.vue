@@ -5,7 +5,7 @@
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Meal Image</span>
                     <b-btn class="edit-btn" @click="emitGoToStepEvent(1)">
-                        <i class="fa fa-pencil-alt"></i>
+                        <SvgIcon icon="pencil"></SvgIcon>
                         <span class="edit-btn-text">Edit</span>
                     </b-btn>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Meal Info</span>
                     <b-btn class="edit-btn" @click="emitGoToStepEvent(0)">
-                        <i class="fa fa-pencil-alt"></i>
+                        <SvgIcon icon="pencil"></SvgIcon>
                         <span class="edit-btn-text">Edit</span>
                     </b-btn>
                 </div>
@@ -55,7 +55,7 @@
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Location</span>
                     <b-btn class="edit-btn" @click="emitGoToStepEvent(2)">
-                        <i class="fa fa-pencil-alt"></i>
+                        <SvgIcon icon="pencil"></SvgIcon>
                         <span class="edit-btn-text">Edit</span>
                     </b-btn>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Dietary Notes</span>
                     <b-btn class="edit-btn" @click="emitGoToStepEvent(2)">
-                        <i class="fa fa-pencil-alt"></i>
+                        <SvgIcon icon="pencil"></SvgIcon>
                         <span class="edit-btn-text">Edit</span>
                     </b-btn>
                 </div>
@@ -86,8 +86,10 @@
 
 <script>
 import helpers from '../../helpers';
+import SvgIcon from '../SvgIcon';
 export default {
     name: "MealReviewBeforeSave",
+    components: {SvgIcon},
     props: ['mealInfo', 'hiddenFields', 'hideQuantity'],
     methods: {
         emitGoToStepEvent (stepIndex) {
@@ -187,6 +189,12 @@ export default {
 
                     .edit-btn-text {
                         margin-left: 10px;
+                        position: relative;
+                        top: 3px;
+                        font-family: $LacaProSemiBold;
+                        font-size: 18px;
+                        letter-spacing: 0.6px;
+                        line-height: 24px;
                     }
                 }
             }

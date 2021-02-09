@@ -449,6 +449,61 @@ export default {
 				            fill="#FFF" />
 		            </svg>
                 `
+            },
+            pencil: function () {
+                return `
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" fill-rule="evenodd">
+                            <path d="M539-427H-501V915H539z" fill="#FEF8E6" />
+                                <g fill="#009C90" fill-rule="nonzero">
+                                    <path
+                                        d="M1.766 10.933a.333.333 0 00-.56.164L.262 15.34a.333.333 0 00.397.398l4.243-.943a.333.333 0 00.163-.561l-3.3-3.3zM11.901 4.805l-7.306 7.307a.168.168 0 000 .236l1.178 1.179c.132.127.34.127.472 0l7.071-7.072a.333.333 0 000-.471l-1.179-1.179a.168.168 0 00-.236 0zM11.195 3.863l-1.179-1.178a.333.333 0 00-.471 0l-7.072 7.07a.333.333 0 000 .472l1.179 1.178c.065.065.17.065.236 0L11.195 4.1a.168.168 0 000-.236zM14.966 1.035a2.67 2.67 0 00-3.772 0l-.471.471a.333.333 0 000 .471l3.3 3.3c.132.125.339.125.471 0l.472-.472a2.667 2.667 0 000-3.77z" />
+                                </g>
+                        </g>
+                    </svg>
+                `
+            },
+            user: function () {
+                return `
+                    <svg width="22" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="translate(1)" stroke="#009C90" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="10" cy="6" r="5.25" />
+                                <path d="M.25 23.25c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75" />
+                        </g>
+                    </svg>
+                `
+            },
+            location2: function () {
+                return `
+                    <svg width="20" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="translate(1)" stroke="#009C90" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="9.754" r="4.5" />
+                                <path
+                                    d="M18 9.754c0 7.9-6.932 12.331-8.629 13.3a.749.749 0 01-.743 0C6.931 22.084 0 17.652 0 9.754a9 9 0 1118 0h0z" />
+                        </g>
+                    </svg>
+                `
+            },
+            phone: function () {
+                return `
+                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.04 22.39l.012.007a5.533 5.533 0 006.884-.755l.774-.774c.72-.72.72-1.888 0-2.609L19.449 15a1.846 1.846 0 00-2.609 0h0a1.843 1.843 0 01-2.608 0L9.014 9.781a1.846 1.846 0 010-2.609h0a1.843 1.843 0 000-2.608L5.754 1.3a1.846 1.846 0 00-2.609 0l-.774.774a5.535 5.535 0 00-.756 6.884l.008.012A49.935 49.935 0 0015.04 22.39h0z"
+                            stroke="#009C90" stroke-width="1.5" fill="none"
+                            fill-rule="evenodd" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                `
+            },
+            creditCard: function () {
+                return `
+                    <svg width="24" height="18" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="#009C90" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x=".75" y=".75" width="22.5" height="16.5" rx="1.5" />
+                            <path d="M.75 5.25h22.5M5.25 9.75h8.25M5.25 12.75h5.25" />
+                        </g>
+                    </svg>
+                `
             }
         }
     }),

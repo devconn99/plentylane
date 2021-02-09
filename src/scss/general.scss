@@ -1286,6 +1286,16 @@ body.mobile-menu-box-active .header {
 		box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
 	}
 }
+.checkbox-icon-size-24 {
+	.custom-control-input {
+		+ label {
+			&:before, &:after {
+				width: 24px;
+				height: 24px;
+			}
+		}
+	}
+}
 
 /********************
 *   WIZARD STYLES   *

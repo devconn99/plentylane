@@ -70,6 +70,9 @@ export default {
             if (_item && _item.id) {
                 _item.count = count;
             }
+        },
+        clearBasket (state) {
+            state.basket = [];
         }
     },
     getters: {

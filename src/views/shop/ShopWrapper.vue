@@ -88,10 +88,14 @@ export default {
             this.price += price;
             this.prepareBasketPriceToDisplay();
         });
+        this.$eventHub.$on('basket-reset', () => {
+            this.resetCartInfo();
+        })
     },
     beforeDestroy () {
         this.$eventHub.$off('basket-updated');
         this.$eventHub.$off('added-item-to-basket');
+        this.$eventHub.$off('basket-reset');
     }
 }
 </script>

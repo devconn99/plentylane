@@ -776,24 +776,7 @@ a.reserved-box, .reserved-box {
 .shop-back-icon, .checkout-shipping-edit-icon, .checkout-payment-edit-icon {
 	flex: none;
 }
-.checkout-shipping-box, .checkout-payment-box {
-	background-color: $whiteColor;
-	box-shadow: 0 4px 16px rgba(69,53,38,0.15);
-	padding: 34px;
-	border-radius: 4px;
-}
-.checkout-payment-box-field, .checkout-shipping-box-field {
-	display: flex;
-	//align-items: center;
-	margin-bottom: 24px;
-	&:last-child {
-		margin-bottom: 0;
-	}
-	.checkout-shipping-box-field-icon, .checkout-payment-box-field-icon {
-		margin-right: 16px;
-		flex: none;
-	}
-}
+
 .shop-price-box {
 	.shop-price-subtotal, .shop-price-tax, .shop-price-total {
 		display: flex;
