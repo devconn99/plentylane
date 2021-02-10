@@ -45,7 +45,6 @@ export default {
     props: ['activeItem'],
     data: () => ({
         menuItems: [
-            { to: '/how-it-works', text: 'How it works', name: 'works' },
             { to: '/pricing', text: 'Pricing', name: 'pricing' },
             { to: '/faqs', text: 'FAQs', name: 'faqs' },
             { to: '/login', text: 'Login', name: 'login' }

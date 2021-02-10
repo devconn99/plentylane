@@ -202,7 +202,7 @@ export default {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        max-height: 170px;
+        max-height: 205px; // TODO: make sure it works correctly for any length of dietary notes
         align-items: start;
         width: 100%;
         padding-left: 16px;

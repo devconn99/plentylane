@@ -11,7 +11,7 @@
         <div slot="default">
             <div class="title-size3 titleGreenNavyColor mb-4 text-center">
                 <template v-if="!isReserved">Reserve this meal</template>
-                <template v-else>Meal Reserved!</template>
+                <template v-else>Meal reserved!</template>
             </div>
 
             <b-form class="form" @submit.stop.prevent="onSubmit" v-if="!isReserved">
@@ -26,7 +26,7 @@
                     <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.servings.$dirty && !$v.form.servings.required">This is a required field.</small>
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.minValue">Minimum number of servings is 1.</small>
                 </b-form-group>
-                <b-form-group label="Notes for cook">
+                <b-form-group label="Notes for Cook">
                     <textarea
                             name="notes"
                             v-model="$v.form.notes.$model"

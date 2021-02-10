@@ -13,9 +13,6 @@
                             <nav class="footer-nav">
                                 <ul class="footer-nav-menu-landing">
                                     <li>
-                                        <router-link to="/how-it-works">How it works</router-link>
-                                    </li>
-                                    <li>
                                         <router-link to="/pricing">Pricing</router-link>
                                     </li>
                                     <li>

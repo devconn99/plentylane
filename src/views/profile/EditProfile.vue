@@ -94,7 +94,7 @@
                     <div class="col-lg-6 col-xl-5 ml-auto">
                         <!-- TODO: use vue-bootstrap b-form-file component instead or use vue-dropzone -->
                         <div class="form-group">
-                            <label for="">Profile image</label>
+                            <label for="">Profile Image</label>
                             <div class="profile-img">
                                 <img
                                         src="../../assets/images/data/images/avatars/avatar.jpg"
@@ -123,7 +123,7 @@
                                         class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-3"
                                         @click="triggerSelectNewAvatar"
                                 >
-                                    <span>Upload image</span>
+                                    <span>Upload Image</span>
                                 </b-btn>
                                 <p class="cursor-pointer delete-image-trigger" @click="deleteImage">Delete Image</p>
                             </div>
