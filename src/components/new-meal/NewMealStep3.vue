@@ -1,7 +1,15 @@
 <template>
     <div class="new-meal-step-3">
         <b-form class="form">
-            <b-form-group label="Critical dietary notes" class="dietary-notes">
+            <b-form-group class="dietary-notes">
+                <legend class="custom-legend">
+                    <span>Critical dietary notes</span>
+                    <b-btn class="edit-btn" v-if="allowEnableEditNotes" @click="enableEditNotes()">
+                        <!-- TODO: use SvgIcon instead -->
+                        <i class="fa fa-pencil-alt"></i>
+                        <span class="edit-btn-text">Edit</span>
+                    </b-btn>
+                </legend>
                 <p class="mb-3 mt-0">Select as many apply</p>
                 <b-form-checkbox-group
                         class="dietary-notes-group"
@@ -75,7 +83,7 @@ export default {
     name: "NewMealStep3",
     mixins: [validationMixin],
     components: {ModalNewLocation},
-    props: ['hiddenFields', 'prevValues'],
+    props: ['hiddenFields', 'prevValues', 'disabledFields'],
     data: () => ({
         dietaryOptions: helpers.prepareDietaryNotesCheckboxOptions(),
         form: {
@@ -87,7 +95,8 @@ export default {
         minDate: new Date(),
         locationOptions: [
             { value: null, text: 'Please select a location' }
-        ]
+        ],
+        allowEnableEditNotes: false
     }),
     validations () {
         const form = {
@@ -136,6 +145,17 @@ export default {
         },
         onNewLocationAdded (place) {
             this.locationOptions.push({ value: place.id, text: place.alias });
+        },
+        updateExistingDietaryNotesOptions (shouldDisable) {
+            this.dietaryOptions = this.dietaryOptions.map(option => {
+                option['disabled'] = shouldDisable;
+                return option;
+            });
+        },
+        enableEditNotes () {
+            this.allowEnableEditNotes = false;
+            this.updateExistingDietaryNotesOptions(false);
+            this.$emit('should-allow-edit-meal-copy');
         }
     },
     mounted () {
@@ -155,6 +175,18 @@ export default {
         prevValues: function (newVal) {
             if (!newVal || !newVal['dietaryNotes'] || !newVal['dietaryNotes'].length) return;
             this.form.dietaryNotes = newVal.dietaryNotes.map(item => item.label);
+        },
+        disabledFields: function (newVal) {
+            if (!newVal || !newVal.length) {
+                this.allowEnableEditNotes = false;
+                this.updateExistingDietaryNotesOptions(false);
+                return;
+            }
+            this.$nextTick(() => {
+                const _shouldDisableNotes = newVal.includes('dietaryNotes') || false;
+                this.allowEnableEditNotes = _shouldDisableNotes;
+                this.updateExistingDietaryNotesOptions(_shouldDisableNotes);
+            });
         }
     }
 }
@@ -189,6 +221,26 @@ export default {
                 font-size: 18px;
                 letter-spacing: 0.6px;
                 line-height: 18px;
+            }
+        }
+    }
+    .custom-legend {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: 24px !important;
+        margin-bottom: 6px !important;
+
+        .edit-btn {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: $greenColor;
+            padding: 0;
+            margin-left: 20px;
+
+            .edit-btn-text {
+                margin-left: 10px;
             }
         }
     }

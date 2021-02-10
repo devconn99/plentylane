@@ -141,9 +141,9 @@ export default {
             this.closeModal();
             if (this.selectedMeal && this.selectedMeal.id) {
                 // redirect to new-meal page
-                const { name = '', description = '', dietaryNotes = [] } = this.selectedMeal;
-                this.$store.commit('copiedMealInfo', { name: `${name.trim()} (Copy)`, description, dietaryNotes });
-                this.$router.push({ path: '/dashboard/cook/new-meal', query: { useCopy: true } }).catch(() => {});
+                const { id = '', name = '', description = '', dietaryNotes = [] } = this.selectedMeal;
+                this.$store.commit('copiedMealInfo', { id, name, description, dietaryNotes });
+                this.$router.push({ path: '/dashboard/cook/new-meal' }).catch(() => {});
             }
         },
         cancel () {

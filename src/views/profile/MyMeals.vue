@@ -107,7 +107,7 @@
 
                             <div class="row">
                                 <template v-if="offers && offers.length">
-                                    <div class="col-sm-6 col-xl-4 mb-4" v-for="item in offers">
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 mb-4" v-for="item in offers">
                                         <OfferInfoBlock
                                                 :offer-info="item"
                                                 :show-action-menu="true"

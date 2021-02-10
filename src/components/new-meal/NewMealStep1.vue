@@ -1,20 +1,38 @@
 <template>
     <b-form class="form new-meal-wizard-form">
-        <b-form-group label="Meal Name">
+        <b-form-group>
+            <legend class="custom-legend">
+                <span>Meal Name</span>
+                <b-btn class="edit-btn" v-if="allowEnableEditFields" @click="enableEditFields()">
+                    <!-- TODO: use SvgIcon instead -->
+                    <i class="fa fa-pencil-alt"></i>
+                    <span class="edit-btn-text">Edit</span>
+                </b-btn>
+            </legend>
             <b-form-input
                     name="name"
-                    v-model="$v.form.name.$model"
+                    v-model.trim="$v.form.name.$model"
                     placeholder="e.g. Grandma's lasagna"
                     autocomplete="off"
+                    :disabled="shouldDisableName"
             ></b-form-input>
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.name.$dirty && !$v.form.name.required">This is a required field.</small>
         </b-form-group>
-        <b-form-group label="Meal Description">
+        <b-form-group>
+            <legend class="custom-legend">
+                <span>Meal Description</span>
+                <b-btn class="edit-btn" v-if="allowEnableEditFields" @click="enableEditFields()">
+                    <!-- TODO: use SvgIcon instead -->
+                    <i class="fa fa-pencil-alt"></i>
+                    <span class="edit-btn-text">Edit</span>
+                </b-btn>
+            </legend>
             <textarea
                     name="description"
-                    v-model="$v.form.description.$model"
+                    v-model.trim="$v.form.description.$model"
                     placeholder="a little something about your meal..."
                     autocomplete="off"
+                    :disabled="shouldDisableDescription"
             ></textarea>
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.description.$dirty && !$v.form.description.required">This is a required field.</small>
             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.description.maxLength">This field must be shorter than or equal to {{descMaxLength}} characters.</small>
@@ -42,7 +60,7 @@ import config from '../../config';
 export default {
     name: "NewMealStep1",
     mixins: [validationMixin],
-    props: ['excludeQuantityField', 'prevValues'],
+    props: ['excludeQuantityField', 'prevValues', 'disabledFields'],
     data: () => ({
         descMaxLength: config.MEAL_INFO.DESCRIPTION_MAX_LENGTH,
         quantityMin: config.MEAL_INFO.QUANTITY_MIN,
@@ -51,7 +69,10 @@ export default {
             name: '',
             description: '',
             quantity: null
-        }
+        },
+        allowEnableEditFields: false,
+        shouldDisableName: false,
+        shouldDisableDescription: false
     }),
     validations() {
         const form = {
@@ -79,6 +100,12 @@ export default {
         },
         isFormValid () {
             return !this.$v.form.$invalid;
+        },
+        enableEditFields () {
+            this.allowEnableEditFields = false;
+            this.shouldDisableName = false;
+            this.shouldDisableDescription = false;
+            this.$emit('should-allow-edit-meal-copy');
         }
     },
     watch: {
@@ -89,6 +116,20 @@ export default {
                     this.form[key] = newVal[key];
                 }
             }
+        },
+        disabledFields: function (newVal) {
+            if (!newVal || !newVal.length) {
+                this.allowEnableEditFields = false;
+                this.shouldDisableName = false;
+                this.shouldDisableDescription = false;
+                return;
+            }
+            this.$nextTick(() => {
+                const _shouldDisableMealFields = (newVal.includes('name') && newVal.includes('description')) || false;
+                this.allowEnableEditFields = _shouldDisableMealFields;
+                this.shouldDisableName = _shouldDisableMealFields;
+                this.shouldDisableDescription = _shouldDisableMealFields;
+            });
         }
     }
 }
@@ -104,6 +145,24 @@ export default {
             font-size: 16px;
             letter-spacing: 0;
             line-height: 24px;
+        }
+        .custom-legend {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .edit-btn {
+                background: transparent;
+                border: none;
+                outline: none;
+                color: $greenColor;
+                padding: 0;
+                margin-left: 20px;
+
+                .edit-btn-text {
+                    margin-left: 10px;
+                }
+            }
         }
     }
 }

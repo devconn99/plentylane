@@ -78,7 +78,8 @@ a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus
 		-o-transition: .3s all ease;
 		transition: .3s all ease;
 }
-[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=middlemit]:not(:disabled), button:not(:disabled), input, textarea:focus, input:focus, input:active, *:focus {
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=middlemit]:not(:disabled), button:not(:disabled),
+input, textarea:focus:not(:disabled), input:focus, input:active, *:focus {
     outline: none!important;
     outline-color: transparent!important;
     outline-width: 0!important;
@@ -776,11 +777,18 @@ h1, h2, h3, h4, h5, h6 {
 			@media screen and (max-width: $tableMinWidth) {
 				padding: 20px;
 			}
-			&:focus, &:active {
-				border: 1px solid $greenColor!important;
-				-webkit-transition: .3s all ease!important;
-				-o-transition: .3s all ease!important;
-				transition: .3s all ease!important;
+			&:not(:disabled) {
+				&:focus, &:active {
+					border: 1px solid $greenColor!important;
+					-webkit-transition: .3s all ease!important;
+					-o-transition: .3s all ease!important;
+					transition: .3s all ease!important;
+				}
+			}
+			&:disabled {
+				background-color: #e9ecef;
+				opacity: 1;
+				resize: none;
 			}
 		}
 		input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
@@ -1164,30 +1172,36 @@ body.mobile-menu-box-active .header {
 /********************
 *   BOOTSTRAP CHECKBOXES   *
 ********************/
-.custom-control-input {
-	+ label {
-		color: $textBlackColor;
-		font-family: $FilsonProRegular;
-		font-size: 18px;
-		letter-spacing: 0.6px;
-		line-height: 18px;
-		margin-bottom: 16px;
-		user-select: none;
+.custom-checkbox {
+	.custom-control-input {
+		+ label {
+			color: $textBlackColor;
+			font-family: $FilsonProRegular;
+			font-size: 18px;
+			letter-spacing: 0.6px;
+			line-height: 18px;
+			margin-bottom: 16px;
+			user-select: none;
 
-		&:before, &:after {
-			top: 0;
+			&:before, &:after {
+				top: 0;
+			}
 		}
-	}
-	&:checked~.custom-control-label::before {
-		background-color: $greenColor;
-		border-color: $greenColor;
-	}
-	&:not(:disabled):active~.custom-control-label::before {
-		background-color: #a7f7f1;
-		border-color: #a7f7f1;
-	}
-	&:focus~.custom-control-label::before {
-		box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+		&:disabled:checked~.custom-control-label::before {
+			background-color: rgba(0, 156, 144, 0.5);
+			border-color: rgba(0, 156, 144, 0.3);
+		}
+		&:checked~.custom-control-label::before {
+			background-color: $greenColor;
+			border-color: $greenColor;
+		}
+		&:not(:disabled):active~.custom-control-label::before {
+			background-color: #a7f7f1;
+			border-color: #a7f7f1;
+		}
+		&:focus~.custom-control-label::before {
+			box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+		}
 	}
 }
 
@@ -1351,6 +1365,14 @@ body.mobile-menu-box-active .header {
 }
 .dropzone {
 	background: transparent !important;
+	&:not(.dz-clickable) {
+		border-color: #c8c8c8 !important;
+		background-color: #e9ecef !important;
+
+		.dropzone-custom-content {
+			opacity: 0.5;
+		}
+	}
 
 	.dz-message {
 		color: $grayColor !important;

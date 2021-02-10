@@ -13,11 +13,7 @@ const initialState = () => {
             lng: null
         },
         mealsOptionsDataToCopy: [],
-        copiedMealInfo: {
-            name: '',
-            description: '',
-            dietaryNotes: []
-        }
+        copiedMealInfo: null
     }
 };
 export default {

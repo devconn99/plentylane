@@ -33,13 +33,29 @@
                                 v-bind:class="{ 'is-last-step': currentStep === totalSteps - 1 }"
                                 color="#009C90">
                             <tab-content title="" :before-change="()=>validateStep('step1')">
-                                <NewMealStep1 ref="step1" :prev-values="copyMealInfo" @on-validate="beforeFirstTabSwitch"></NewMealStep1>
+                                <NewMealStep1
+                                        ref="step1"
+                                        :prev-values="copyMealInfo"
+                                        :disabled-fields="disabledFields"
+                                        @on-validate="beforeFirstTabSwitch"
+                                        @should-allow-edit-meal-copy="onShouldAllowEditMealCopy"
+                                ></NewMealStep1>
                             </tab-content>
                             <tab-content title="" :before-change="beforeSecondTabSwitch">
-                                <NewMealImage ref="step2"></NewMealImage>
+                                <NewMealImage
+                                        ref="step2"
+                                        :disabled-fields="disabledFields"
+                                        @should-allow-edit-meal-copy="onShouldAllowEditMealCopy"
+                                ></NewMealImage>
                             </tab-content>
                             <tab-content title="" :before-change="()=>validateStep('step3')">
-                                <NewMealStep3 ref="step3" :prev-values="copyMealInfo" @on-validate="beforeThirdTabSwitch"></NewMealStep3>
+                                <NewMealStep3
+                                        ref="step3"
+                                        :prev-values="copyMealInfo"
+                                        :disabled-fields="disabledFields"
+                                        @on-validate="beforeThirdTabSwitch"
+                                        @should-allow-edit-meal-copy="onShouldAllowEditMealCopy"
+                                ></NewMealStep3>
                             </tab-content>
                             <tab-content title="" :before-change="beforeLastTabSwitch">
                                 <MealReviewBeforeSave :meal-info="mealInfo" @go-to-step="onGoToStepHandler"></MealReviewBeforeSave>
@@ -125,7 +141,8 @@ export default {
         newOfferId: '',
         loaderOptions: { ...config.LOADER_OPTIONS },
         isPosting: false,
-        copyMealInfo: {}
+        copyMealInfo: {},
+        disabledFields: []
     }),
     computed: {
         // save it for later
@@ -201,8 +218,45 @@ export default {
             this.postMeal['dietaryNotes'] = model.dietaryNotes;
             return true;
         },
+        hasMealInfoChanged () {
+            if (this.postMeal.name !== this.copyMealInfo.name.trim()) return true;
+            if (this.postMeal.description !== this.copyMealInfo.description.trim()) return true;
+            // TODO: check if new image was uploaded (when uploading is ready)
+            const _prevNotes =
+                this.copyMealInfo.dietaryNotes && this.copyMealInfo.dietaryNotes.length
+                    ? this.copyMealInfo.dietaryNotes.map(note => note.label)
+                    : [];
+            const _newNotes =
+                this.postMeal.dietaryNotes && this.postMeal.dietaryNotes.length
+                    ? this.postMeal.dietaryNotes.map(note => note.label)
+                    : [];
+            if (_newNotes.length && !_prevNotes.length) return true;
+            if (!_newNotes.length && _prevNotes.length) return true;
+            const _prevNotesValueStr = _prevNotes.sort().join(',');
+            const _newNotesValueStr = _newNotes.sort().join(',');
+            return _prevNotesValueStr !== _newNotesValueStr;
+        },
         beforeLastTabSwitch () {
             this.isPosting = true;
+            if (this.copyMealInfo && this.copyMealInfo.id) {
+                // check if meal info has changed. If there are no changes - skip POST new meal, just POST new offer
+                if (!this.hasMealInfoChanged()) {
+                    this.newOffer.mealId = this.copyMealInfo.id;
+                    return api.dashboard.offers.addOffer(this.newOffer)
+                        .then(offer => {
+                            this.newOfferId = offer.id;
+                            this.isPosting = false;
+                            return true;
+                        })
+                        .catch(err => {
+                            this.isPosting = false;
+                            console.log('\n >> error POST offer:', err);
+                            // TODO: handle error
+                            return false;
+                        });
+                }
+            }
+            // just a regular flow: POST new meal -> POST new offer
             return api.dashboard.meals.addMeal(this.postMeal)
                 .then(result => {
                     this.newMealId = result.id;
@@ -244,21 +298,27 @@ export default {
             };
             this.isWizardCompleted = false;
             this.copyMealInfo = Object.assign({});
+            this.disabledFields = [];
             setTimeout(() => {
                 this.goToStep(0);
             }, 0);
+        },
+        onShouldAllowEditMealCopy () {
+            this.$nextTick(() => {
+                this.disabledFields = [];
+            });
         }
     },
     created () {
-        const { useCopy = false } = this.$route.query;
-        if (useCopy) {
-            // get copy meal info from $store
-            this.$nextTick(() => {
-                this.copyMealInfo = { ...this.$store.getters.copiedMealInfo } || {};
-                // reset $store value
-                this.$store.commit('copiedMealInfo', {});
-            });
-        }
+        // get copy meal info from $store
+        this.$nextTick(() => {
+            const _copiedInfo = { ...this.$store.getters.copiedMealInfo };
+            if (!_copiedInfo || !_copiedInfo.id || !_copiedInfo.name) return;
+            this.copyMealInfo = { ..._copiedInfo };
+            // reset $store value
+            this.$store.commit('copiedMealInfo', {});
+            this.disabledFields = ['name', 'description', 'image', 'dietaryNotes'];
+        });
     }
 }
 </script>
