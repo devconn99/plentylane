@@ -1622,12 +1622,11 @@ body.mobile-menu-box-active .header {
 *  CUSTOM VUE-SELECT    *
 **********************/
 .custom-vue-select {
-	.vs__search::placeholder,
 	.vs__dropdown-toggle,
-	.vs__dropdown-menu {
+	.vs__dropdown-menu,
+	.vs__search::-webkit-input-placeholder {
 		background: #FFFFFF;
 		border-radius: 0;
-		color: $textBlackColor;
 		font-family: $FilsonProRegular;
 		font-size: 18px;
 		letter-spacing: 0.6px;
@@ -1638,6 +1637,13 @@ body.mobile-menu-box-active .header {
 			line-height: 16px;
 		}
 	}
+	.vs__dropdown-toggle,
+	.vs__dropdown-menu {
+		color: $textBlackColor;
+	}
+	.vs__search::-webkit-input-placeholder {
+		color: $grayColor;
+	}
 	.vs__selected, .vs__search, .vs__search:focus {
 		height: 65px;
 		padding-left: 25px;
@@ -1647,12 +1653,18 @@ body.mobile-menu-box-active .header {
 			padding-left: 15px;
 		}
 	}
+	.vs__dropdown-menu {
+		max-height: 300px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			max-height: 200px;
+		}
+	}
 	.vs__dropdown-option--highlight {
 		background-color: $greenColor !important;
 	}
 	.vs__dropdown-option {
-		padding-left: 25px;
-		padding-right: 25px;
+		padding: 8px 25px;
 
 		@media screen and (max-width: $tableMinWidth) {
 			padding-left: 15px;
@@ -1662,10 +1674,21 @@ body.mobile-menu-box-active .header {
 	.vs__actions {
 		padding-left: 16px;
 		padding-right: 16px;
+		position: relative;
 
 		@media screen and (max-width: $tableMinWidth) {
 			padding-left: 5px;
 			padding-right: 10px;
+		}
+	}
+	.vs__spinner {
+		position: absolute;
+		z-index: 1000;
+		background-color: #FFFFFF;
+		right: 15px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			right: 10px;
 		}
 	}
 	.vs__clear {
@@ -1673,6 +1696,44 @@ body.mobile-menu-box-active .header {
 
 		@media screen and (max-width: $tableMinWidth) {
 			margin-right: 10px;
+		}
+	}
+	.vs__selected {
+		max-width: 420px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		// temp
+		@media screen and (max-width: $tableWidth) {
+			max-width: 390px;
+		}
+		@media screen and (max-width: 859px) {
+			max-width: 320px;
+		}
+		@media screen and (min-width: $tableMinWidth - 1) and (max-width: 789px) {
+			max-width: 300px;
+		}
+		@media screen and (max-width: $tableMinWidth) {
+			max-width: 380px;
+		}
+		@media screen and (max-width: $phoneBigWidth) {
+			max-width: 320px;
+		}
+		@media screen and (max-width: 515px) {
+			max-width: 280px;
+		}
+		@media screen and (max-width: 469px) {
+			max-width: 220px;
+		}
+		@media screen and (max-width: 420px) {
+			max-width: 180px;
+		}
+		@media screen and (max-width: 380px) {
+			max-width: 170px;
+		}
+		@media screen and (max-width: 370px) {
+			max-width: 130px;
 		}
 	}
 }

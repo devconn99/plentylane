@@ -22,6 +22,14 @@
                     @search="onSearch"
                     @search:focus="onFocusSearch"
             >
+                <template #search="{ attributes, events }">
+                    <input
+                            class="vs__search"
+                            v-bind="attributes"
+                            v-on="events"
+                            :placeholder="selectedMeal && selectedMeal.id ? '' : 'Search by name'"
+                    />
+                </template>
                 <template slot="no-options">
                     No meals matching your criteria.
                 </template>
@@ -66,8 +74,10 @@ export default {
     }),
     methods: {
         onSearch (search, loading) {
-            loading(true);
-            this.searchItems(loading, search, this);
+            if (search.length) {
+                loading(true);
+                this.searchItems(loading, search, this);
+            }
         },
         onFocusSearch (search, loading) {
             search = search || this.$refs.select.search;
