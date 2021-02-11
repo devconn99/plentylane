@@ -201,6 +201,19 @@ export default {
                         return checkErr(err.response);
                     })
             },
+            searchMyMeals (name) {
+                let endpoint = `${config.API_ORIGIN}/api/me/meals`;
+                if (name && name.length) {
+                    endpoint += `?filter=name||$contL||${name}`;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
             removeMyMeal (id) {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}`;
                 return axios.delete(endpoint)
