@@ -7,6 +7,7 @@
             no-close-on-esc
             no-close-on-backdrop
             centered
+            :return-focus="{}"
             @ok="onConfirmed"
             @cancel="onCanceled"
     >
@@ -18,7 +19,7 @@
         </div>
         <div slot="modal-title"></div>
         <div slot="modal-header-close">
-            <div class="modal-popup-title-icon">
+            <div class="modal-popup-title-icon" @click="$emit('canceled')">
                 <SvgIcon icon="closeModalIcon"></SvgIcon>
             </div>
         </div>

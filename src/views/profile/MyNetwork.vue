@@ -10,44 +10,143 @@
                 <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">My Network</div>
             </div>
 
-            <b-tabs nav-class="custom-tabs" content-class="profile-item mt-4" v-model="activeTabIndex">
-                <b-tab title="My Connections">
-                    <b-form class="form searchFormNormal">
-                        <b-form-group>
-                            <b-form-input
-                                    v-model="searchStrMyNetwork"
-                                    placeholder="Search my connections"
-                                    class="form-control"
-                                    autocomplete="off"
-                                    debounce="500"
-                                    @update="onMyNtwSearchUpdate"
-                            >
-                            </b-form-input>
-                        </b-form-group>
-                    </b-form>
-                    <div class="connection" v-if="myNetworkFiltered && myNetworkFiltered.length">
-                        <div class="connection-box" v-for="item in myNetworkFiltered">
-                            <div class="connection-box-info">
-                                <div class="connection-box-info-img mr-2 mr-xl-3">
-                                    <img :src="item.img" alt="" class="img-fluid">
+            <b-tabs nav-class="custom-tabs" content-class="profile-item mt-4" v-model="activeTabIndex" @input="onTabSwitched">
+                <b-tab title="My Connections" :disabled="isLoadingUsers || isLoadingInvites">
+                    <div class="tab-content-wrapper">
+                        <b-form class="form searchFormNormal">
+                            <b-form-group class="position-relative">
+                                <b-form-input
+                                        v-model.trim="searchStrConnections"
+                                        placeholder="Search my connections"
+                                        class="form-control search-form-control"
+                                        autocomplete="off"
+                                        debounce="500"
+                                        @update="triggerFilterConnections"
+                                >
+                                </b-form-input>
+                                <div
+                                        class="clear-icon-wrapper cursor-pointer"
+                                        v-if="searchStrConnections && searchStrConnections.length"
+                                        @click="clearSearchStrConnections"
+                                >
+                                    <SvgIcon icon="close"></SvgIcon>
                                 </div>
-                                <div class="connection-box-info-name">{{item.name}}</div>
+                            </b-form-group>
+                        </b-form>
+                        <loading
+                                :active.sync="isLoadingConnections"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
+                        ></loading>
+                        <template v-if="areConnectionsLoaded">
+                            <div class="connection" v-if="connectionsFiltered && connectionsFiltered.length">
+                                <div
+                                        class="connection-box has-action-button"
+                                        v-for="item in connectionsFiltered"
+                                        v-bind:key="item.id"
+                                >
+                                    <div class="connection-box-info">
+                                        <!-- TODO: make it to be a link to cook-profile -->
+                                        <div class="connection-box-info-img-placeholder mr-2 mr-xl-3">
+                                            <i class="fas fa-user-circle user-icon"></i>
+                                        </div>
+                                        <!-- TODO: display real image if exists -->
+                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3">-->
+                                        <!--<img src="../../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">-->
+                                        <!--</div>-->
+                                        <div class="connection-box-info-name">{{item.fullName}}</div>
+                                    </div>
+                                    <div class="box-btn">
+                                        <b-btn
+                                                class="action-button btnNavyRedTransparent btnSmallSize hover-slide-left"
+                                                v-bind:class="{ btnDisabled: connectionToRemove && connectionToRemove.id === item.id }"
+                                                @click="removeItemFromMyNetwork(item)"
+                                        >
+                                            <span class="pending" v-if="connectionToRemove && connectionToRemove.id === item.id">Pending</span>
+                                            <span v-else>Remove</span>
+                                        </b-btn>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="box-btn">
-                                <b-btn
-                                        class="btnNavyRedTransparent btnSmallSize hover-slide-left"
-                                        @click="removeItemFromMyNetwork(item.id)">
-                                    <span>Remove</span>
-                                </b-btn>
+                            <div v-else>
+                                <p>No connections found.</p>
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </b-tab>
-                <b-tab title="Invites">
-                    <div class="invite"></div>
+
+                <b-tab title="Invites" :disabled="isLoadingUsers || isLoadingConnections">
+                    <div class="tab-content-wrapper">
+                        <loading
+                                :active.sync="isLoadingInvites"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
+                        ></loading>
+                        <template v-if="areInvitesLoaded">
+                            <div v-if="invites && invites.length">
+                                <!-- TODO: display invites list -->
+                            </div>
+                            <div v-else>
+                                <p>No invites found.</p>
+                            </div>
+                        </template>
+                    </div>
                 </b-tab>
-                <b-tab title="Everybody">
-                    <div class="everybody"></div>
+
+                <b-tab title="Everybody" :disabled="isLoadingConnections || isLoadingInvites">
+                    <div class="tab-content-wrapper">
+                        <b-form class="form searchFormNormal">
+                            <b-form-group class="position-relative">
+                                <b-form-input
+                                        v-model.trim="searchStrUsers"
+                                        placeholder="Search users by name"
+                                        class="form-control search-form-control"
+                                        autocomplete="off"
+                                        debounce="500"
+                                        @update="triggerSearchUsers"
+                                >
+                                </b-form-input>
+                                <div
+                                        class="clear-icon-wrapper cursor-pointer"
+                                        v-if="searchStrUsers && searchStrUsers.length"
+                                        @click="clearSearchStrUsers"
+                                >
+                                    <SvgIcon icon="close"></SvgIcon>
+                                </div>
+                            </b-form-group>
+                        </b-form>
+                        <loading
+                                :active.sync="isLoadingUsers"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
+                        ></loading>
+                        <template v-if="usersPagination.loaded">
+                            <div class="connection" v-if="users && users.length">
+                                <div class="connection-box" v-for="user in users">
+                                    <div class="connection-box-info">
+                                        <!-- TODO: make it to be a link to cook-profile -->
+                                        <div class="connection-box-info-img-placeholder mr-2 mr-xl-3">
+                                            <i class="fas fa-user-circle user-icon"></i>
+                                        </div>
+                                        <!-- TODO: display real image if exists -->
+                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3">-->
+                                            <!--<img src="../../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">-->
+                                        <!--</div>-->
+                                        <div class="connection-box-info-name">{{user.fullName}}</div>
+                                    </div>
+                                </div>
+                                <b-btn
+                                        v-if="!usersPagination.isLastPage"
+                                        class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
+                                        @click="loadMoreUsers">
+                                    <span>Load more</span>
+                                </b-btn>
+                            </div>
+                            <div v-else>
+                                <p>No users found.</p>
+                            </div>
+                        </template>
+                    </div>
                 </b-tab>
             </b-tabs>
         </div>
@@ -73,84 +172,181 @@ export default {
     components: {Loading, ConfirmModal, SvgIcon},
     data: () => ({
         loaderOptions: { ...config.LOADER_OPTIONS },
-        isLoading: false,
-        myNetwork: [],
-        myNetworkFiltered: [],
         activeTabIndex: 0,
         confirmRemoveMsg: 'Are you sure you want to remove this person from your network?',
-        idToRemove: '',
+        connectionToRemove: null,
         modalId: 'confirm-remove',
-        searchStrMyNetwork: ''
+        searchStrConnections: '',
+        connections: [],
+        connectionsFiltered: [],
+        isLoadingConnections: false,
+        areConnectionsLoaded: false,
+        isRemovingConnection: false,
+        invites: [],
+        invitesFiltered: [],
+        isLoadingInvites: false,
+        areInvitesLoaded: false,
+        users: [],
+        usersPagination: {
+            total: 0,
+            page: 1,
+            pageCount: 1,
+            loaded: false,
+            isLastPage: false
+        },
+        isLoadingUsers: false,
+        searchStrUsers: '',
+        currentUserId: ''
     }),
     created () {
-        this.loadTabData(this.activeTabIndex);
+        this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
+        this.loadConnections();
     },
     methods: {
-        loadTabData (tabIndex) {
+        onTabSwitched (tabIndex) {
             switch (tabIndex) {
                 case 0:
-                    if (!this.myNetwork || !this.myNetwork.length) {
-                        this.getMyNetworkData();
+                    if (!this.areConnectionsLoaded) {
+                        return this.loadConnections();
                     }
                     break;
                 case 1:
+                    if (!this.areInvitesLoaded) {
+                        return this.loadInvites();
+                    }
                     break;
                 case 2:
+                    if (!this.usersPagination.loaded) {
+                        return this.loadUsers();
+                    }
                     break;
                 default:
                     break;
             }
         },
-        getMyNetworkData () {
-            this.isLoading = true;
-            api.dashboard.network.getMyNetwork()
+        loadConnections () {
+            this.isLoadingConnections = true;
+            api.dashboard.follows.getMyConnections()
                 .then(result => {
-                    if (result && result.length) {
-                        this.myNetwork = result;
-                        this.myNetworkFiltered = this.myNetwork.slice(0);
-                    } else {
-                        this.myNetwork = [];
-                        this.myNetworkFiltered = [];
+                    if (result.following && result.following.length) {
+                        this.connections = result.following.map(user => user);
+                        this.connectionsFiltered = this.connections.slice(0);
                     }
-                    this.isLoading = false;
+                    this.isLoadingConnections = false;
+                    this.areConnectionsLoaded = true;
                 })
                 .catch(err => {
-                    this.myNetwork = [];
-                    this.myNetworkFiltered = [];
-                    this.isLoading = false;
+                    console.log('\n >> err > ', err);
+                    this.isLoadingConnections = false;
                 })
         },
-        removeItemFromMyNetwork (id) {
-            this.idToRemove = id;
+        loadInvites () {
+            this.isLoadingInvites = true;
+            api.dashboard.follows.getMyInvites()
+                .then(result => {
+                    // TODO: parse the result
+                    this.isLoadingInvites = false;
+                    this.areInvitesLoaded = true;
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.isLoadingInvites = false;
+                })
+        },
+        loadUsers (search) {
+            this.isLoadingUsers = true;
+            api.dashboard.users.getAllUsers(this.usersPagination.page, search, this.currentUserId)
+                .then(result => {
+                    if (result && result.data && result.data.length) {
+                        this.users = result.data.slice(0);
+                    } else {
+                        this.users = [];
+                    }
+                    this.usersPagination.total = result.total;
+                    this.usersPagination.pageCount = result.pageCount;
+                    this.usersPagination.isLastPage = result.page === result.pageCount;
+                    this.usersPagination.loaded = true;
+                    this.isLoadingUsers = false;
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.isLoadingUsers = false;
+                })
+        },
+        loadMoreUsers () {
+            if (this.usersPagination.isLastPage) return;
+            this.usersPagination.page++;
+            this.loadUsers();
+        },
+        followUser (user) {
+            // temp
+            api.dashboard.follows.followUser(user.id)
+                .then(result => {
+                    this.connections.push({ ...user });
+                    this.filterConnections();
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                })
+        },
+        triggerSearchUsers () {
+            this.usersPagination.total = 0;
+            this.usersPagination.page = 1;
+            this.usersPagination.pageCount = 1;
+            this.usersPagination.loaded = false;
+            this.usersPagination.loaisLastPageded = false;
+            this.users = [];
+            this.loadUsers(this.searchStrUsers);
+        },
+        clearSearchStrUsers () {
+            this.searchStrUsers = '';
+            this.triggerSearchUsers();
+        },
+        removeItemFromMyNetwork (item) {
+            if (this.isRemovingConnection) return;
+            this.connectionToRemove = { ...item };
             this.$bvModal.show(this.modalId);
         },
         onConfirmedRemove () {
-            if (this.idToRemove) {
-                this.myNetwork = this.myNetwork.filter(item => item.id !== Number(this.idToRemove));
-                if (this.myNetworkFiltered && this.myNetworkFiltered.length) {
-                    this.myNetworkFiltered = this.myNetworkFiltered.filter(item => item.id !== Number(this.idToRemove));
-                }
-                this.idToRemove = '';
-            }
+            if (!this.connectionToRemove || !this.connectionToRemove.id) return;
+            this.isRemovingConnection = true;
+            const _id = this.connectionToRemove.id;
+            api.dashboard.follows.unFollowUser(_id)
+                .then(() => {
+                    this.connections = this.connections.filter(item => item.id !== Number(_id));
+                    if (this.connectionsFiltered && this.connectionsFiltered.length) {
+                        this.connectionsFiltered = this.connectionsFiltered.filter(item => item.id !== Number(_id));
+                    }
+                    this.connectionToRemove = null;
+                    this.isRemovingConnection = false;
+                })
+                .catch(err => {
+                    console.log('\nerr unfollow user:', err);
+                    this.connectionToRemove = null;
+                    this.isRemovingConnection = false;
+                });
         },
         onCanceledRemove () {
-            this.idToRemove = '';
+            this.connectionToRemove = null;
         },
-        onMyNtwSearchUpdate () {
-            this.filterMyNetwork();
+        clearSearchStrConnections () {
+            this.searchStrConnections = '';
+            this.triggerFilterConnections();
         },
-        filterMyNetwork () {
-            if (!this.searchStrMyNetwork || !this.searchStrMyNetwork.length) {
-                if (!this.myNetwork || !this.myNetwork.length) {
-                    this.myNetworkFiltered = [];
+        triggerFilterConnections () {
+            this.filterConnections();
+        },
+        filterConnections () {
+            if (!this.searchStrConnections || !this.searchStrConnections.length) {
+                if (!this.connections || !this.connections.length) {
+                    this.connectionsFiltered = [];
                     return;
                 }
-                this.myNetworkFiltered = this.myNetwork.slice(0);
+                this.connectionsFiltered = this.connections.slice(0);
                 return;
             }
-            this.searchStrMyNetwork.trim();
-            this.myNetworkFiltered = this.myNetwork.filter(item => {
-                return item.name.toLowerCase().includes(this.searchStrMyNetwork);
+            this.connectionsFiltered = this.connections.filter(item => {
+                return item.fullName.toLowerCase().includes(this.searchStrConnections);
             });
         },
         showMobileAside () {
@@ -164,17 +360,34 @@ export default {
 @import "../../scss/utils/vars";
 .connection {
     .connection-box {
+        $actionBtnWidth: 108px;
+        $actionBtnWidthMobile: 84px;
+
         padding: 11px 0;
         border-bottom: 1px solid rgba(138,135,125,0.25);
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
+
+        &.has-action-button {
+            .connection-box-info {
+                width: calc(100% - #{$actionBtnWidth});
+
+                @media screen and (max-width: $phoneBigWidth) {
+                    width: calc(100% - #{$actionBtnWidthMobile});
+                }
+            }
+        }
+
         .connection-box-info {
             display: flex;
             flex-direction: row;
             align-items: center;
             flex: none;
+            width: 100%;
+
             .connection-box-info-img img {
                 width: 40px;
                 height: 40px;
@@ -182,17 +395,68 @@ export default {
             }
             .connection-box-info-name {
                 font-family: $FilsonProBold;
+
+                @media screen and (max-width: $phoneBigWidth) {
+                    padding-right: 5px;
+                }
+            }
+            .connection-box-info-img-placeholder {
+                width: 40px;
+                height: 40px;
+
+                .user-icon {
+                    font-size: 40px;
+                    color: $grayColor;
+                }
+            }
+        }
+        .box-btn {
+            .action-button {
+                min-width: $actionBtnWidth;
+
+                span.pending {
+                    &::after {
+                        content: '...';
+
+                        @media screen and (max-width: $phoneBigWidth) {
+                            content: '';
+                        }
+                    }
+                }
+
+                @media screen and (max-width: $phoneBigWidth) {
+                    min-width: $actionBtnWidthMobile;
+
+                    span {
+                        font-size: 14px;
+                    }
+                }
             }
         }
     }
 }
-
 .profile-item {
     margin-bottom: -4px;
     margin-right: 24px;
 
     &:last-child {
         margin-right: 0;
+    }
+}
+.tab-content-wrapper {
+    min-height: 300px;
+    width: 100%;
+    position: relative;
+
+    .form-group {
+        .search-form-control {
+            padding-right: 45px;
+        }
+        .clear-icon-wrapper {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
     }
 }
 </style>

@@ -7,6 +7,7 @@
             centered
             no-close-on-esc
             no-close-on-backdrop
+            :return-focus="{}"
             @hidden="onModalHidden"
     >
         <div slot="default" class="position-relative">

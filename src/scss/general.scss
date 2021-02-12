@@ -362,6 +362,16 @@ button {
 			transition: 0.3s ease-out;
 		}
 	}
+	&.btnDisabled {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		span {
+			color: $textBlackColor;
+			background-color: $yellowColor;
+			border: 2px solid $yellowColor;
+		}
+	}
 }
 .btnLightGreen {
 	background-color: $greenBrightColor;
@@ -416,6 +426,17 @@ button {
 			transition: 0.3s ease-out;
 		}
 	}
+	&.btnDisabled {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		span {
+			background-color: $greenBrightColor;
+			border: 2px solid $greenBrightColor;
+			color: $mainBackgroundColor;
+			opacity: 0.3;
+		}
+	}
 }
 .btnLightRed {
 	background-color: $redColor;
@@ -467,6 +488,18 @@ button {
 		&::before {
 			background-color: $redNavyColor;
 			transition: 0.3s ease-out;
+		}
+	}
+	&.btnDisabled, &[disabled] {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		background-color: transparent !important;
+		span {
+			background-color: $redNavyColor;
+			border: 2px solid $redNavyColor;
+			color: $mainBackgroundColor;
+			opacity: 0.3;
 		}
 	}
 }
@@ -610,16 +643,6 @@ button {
 	&.btn100 {
 		display: block;
 		width: 100%;
-	}
-}
-.btnDisabled {
-	cursor: none;
-	pointer-events: none;
-	text-decoration: none;
-	span {
-		color: $textBlackColor;
-		background-color: $yellowColor;
-		border: 2px solid $yellowColor;
 	}
 }
 .btn-round {

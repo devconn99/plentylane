@@ -54,9 +54,6 @@ export default {
     components: {HeroWave, SelectMealModal},
     methods: {
         openSelectMealModal () {
-            if (this.$refs['btnCopyMeal']) {
-                this.$refs.btnCopyMeal.blur();
-            }
             this.$bvModal.show('select-meal-modal');
         }
     }

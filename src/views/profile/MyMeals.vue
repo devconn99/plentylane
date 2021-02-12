@@ -11,7 +11,7 @@
             </div>
 
             <b-tabs nav-class="custom-tabs" content-class="mt-4" v-model="activeTabIndex" @input="onTabSwitched">
-                <b-tab title="Meals">
+                <b-tab title="Meals" :disabled="isLoadingReservations || isLoadingOffers">
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingMeals"
@@ -21,7 +21,7 @@
                         <div v-if="mealPagination.loaded">
                             <p>You have {{mealPagination.total}} meal{{mealPagination.total === 1 ? '' : 's'}}</p>
                             <div class="my-meal-wrapper" v-if="meals && meals.length">
-                                <div class="my-meal-item p-2 p-xl-3" v-for="item in meals">
+                                <div class="my-meal-item p-2 p-xl-3" v-for="item in meals" v-bind:key="item.id">
                                     <div class="my-meal-item-info">
                                         <div class="my-meal-item-img-wrapper mr-2 mr-xl-3">
                                             <img
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </b-tab>
-                <b-tab title="Reservations">
+                <b-tab title="Reservations" :disabled="isLoadingMeals || isLoadingOffers">
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingReservations"
@@ -78,6 +78,7 @@
                             <div v-if="reservations && reservations.length">
                                 <BookingInfoBlock
                                         v-for="item in reservations"
+                                        v-bind:key="item.id"
                                         :booking-info="item"
                                         :actions="dineActions"
                                         :show-action-menu="true"
@@ -95,7 +96,7 @@
                         </div>
                     </div>
                 </b-tab>
-                <b-tab title="Offers">
+                <b-tab title="Offers" :disabled="isLoadingMeals || isLoadingReservations">
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingOffers"
@@ -107,7 +108,7 @@
 
                             <div class="row">
                                 <template v-if="offers && offers.length">
-                                    <div class="col-sm-12 col-lg-6 col-xl-4 mb-4" v-for="item in offers">
+                                    <div class="col-sm-12 col-lg-6 col-xl-4 mb-4" v-for="item in offers" v-bind:key="item.id">
                                         <OfferInfoBlock
                                                 :offer-info="item"
                                                 :show-action-menu="true"

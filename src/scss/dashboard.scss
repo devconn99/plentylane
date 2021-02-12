@@ -914,6 +914,12 @@ a.reserved-box, .reserved-box {
 			padding-left: 0;
 			padding-right: 0;
 			position: relative;
+			opacity: 1;
+
+			&.disabled {
+				color: #6c757d;
+				opacity: 0.5;
+			}
 
 			&:after {
 				content: '';
