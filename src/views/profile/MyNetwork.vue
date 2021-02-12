@@ -46,15 +46,19 @@
                                         v-bind:key="item.id"
                                 >
                                     <div class="connection-box-info">
-                                        <!-- TODO: make it to be a link to cook-profile -->
-                                        <div class="connection-box-info-img-placeholder mr-2 mr-xl-3">
+                                        <div
+                                                class="connection-box-info-img-placeholder mr-2 mr-xl-3"
+                                                @click="redirectToCookProfile(item.id)"
+                                        >
                                             <i class="fas fa-user-circle user-icon"></i>
                                         </div>
                                         <!-- TODO: display real image if exists -->
-                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3">-->
-                                        <!--<img src="../../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">-->
+                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3" @click="redirectToCookProfile(item.id)">-->
+                                            <!--<img src="../../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">-->
                                         <!--</div>-->
-                                        <div class="connection-box-info-name">{{item.fullName}}</div>
+                                        <div class="connection-box-info-name cursor-pointer">
+                                            <span @click="redirectToCookProfile(item.id)">{{item.fullName}}</span>
+                                        </div>
                                     </div>
                                     <div class="box-btn">
                                         <b-btn
@@ -124,15 +128,19 @@
                             <div class="connection" v-if="users && users.length">
                                 <div class="connection-box" v-for="user in users">
                                     <div class="connection-box-info">
-                                        <!-- TODO: make it to be a link to cook-profile -->
-                                        <div class="connection-box-info-img-placeholder mr-2 mr-xl-3">
+                                        <div
+                                                class="connection-box-info-img-placeholder mr-2 mr-xl-3"
+                                                @click="redirectToCookProfile(user.id)"
+                                        >
                                             <i class="fas fa-user-circle user-icon"></i>
                                         </div>
                                         <!-- TODO: display real image if exists -->
-                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3">-->
+                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3" @click="redirectToCookProfile(user.id)">-->
                                             <!--<img src="../../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">-->
                                         <!--</div>-->
-                                        <div class="connection-box-info-name">{{user.fullName}}</div>
+                                        <div class="connection-box-info-name">
+                                            <span @click="redirectToCookProfile(user.id)">{{user.fullName}}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <b-btn
@@ -351,6 +359,10 @@ export default {
         },
         showMobileAside () {
             this.$eventHub.$emit('show-mobile-profile-aside');
+        },
+        redirectToCookProfile (id) {
+            if (!id) return;
+            this.$router.push({ path: `/dashboard/cook-profile/${id}` }).catch(()=>{});
         }
     }
 }
@@ -388,19 +400,35 @@ export default {
             flex: none;
             width: 100%;
 
-            .connection-box-info-img img {
-                width: 40px;
-                height: 40px;
-                object-fit: cover;
+            .connection-box-info-img {
+                cursor: pointer;
+
+                img {
+                    width: 40px;
+                    height: 40px;
+                    object-fit: cover;
+                }
             }
+
             .connection-box-info-name {
                 font-family: $FilsonProBold;
+                cursor: pointer;
+                -webkit-transition: color 0.3s ease;
+                -moz-transition: color 0.3s ease;
+                -ms-transition: color 0.3s ease;
+                -o-transition: color 0.3s ease;
+                transition: color 0.3s ease;
+
+                &:hover {
+                    color: $greenColor;
+                }
 
                 @media screen and (max-width: $phoneBigWidth) {
                     padding-right: 5px;
                 }
             }
             .connection-box-info-img-placeholder {
+                cursor: pointer;
                 width: 40px;
                 height: 40px;
 
