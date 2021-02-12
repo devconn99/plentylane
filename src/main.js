@@ -18,6 +18,13 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import { directive as onClickaway } from 'vue-clickaway';
+import vSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
+import _ from 'lodash';
+import Deselect from './components/vue-select/Deselect';
+import OpenIndicator from './components/vue-select/OpenIndicator';
+
+Object.defineProperty(Vue.prototype, '_', { value: _ });
 
 import PreLoader from './components/PreLoader';
 
@@ -28,6 +35,9 @@ Vue.use(BootstrapVue);
 Vue.use(VueFormWizard);
 
 Vue.component('pre-loader', PreLoader);
+
+vSelect.props.components.default = () => ({ Deselect, OpenIndicator });
+Vue.component('v-select', vSelect);
 
 Vue.use(Loading, {
     isFullPage: true,

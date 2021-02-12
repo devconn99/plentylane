@@ -1,6 +1,14 @@
 <template>
     <b-form class="new-meal-image-container">
-        <b-form-group label="Add an image">
+        <b-form-group>
+            <legend class="custom-legend">
+                <span>Add an image</span>
+                <b-btn class="edit-btn" v-if="allowEnableEditField" @click="enableEditField()">
+                    <!-- TODO: use SvgIcon instead -->
+                    <i class="fa fa-pencil-alt"></i>
+                    <span class="edit-btn-text">Edit</span>
+                </b-btn>
+            </legend>
             <p class="mb-4 text-muted">You don’t need an image right now, you can always add this later…</p>
             <vue-dropzone v-if="dropzoneOptions" ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :useCustomSlot=true>
                 <div class="dropzone-custom-content">
@@ -20,9 +28,11 @@ export default {
     components: {
         vueDropzone: vue2Dropzone
     },
+    props: ['disabledFields'],
     data: () => ({
         mealId: '', // TODO
         dropzoneOptions: null,
+        allowEnableEditField: false
     }),
     mounted () {
         this.dropzoneOptions = {
@@ -32,6 +42,33 @@ export default {
             maxFiles: 1,
             headers: { "My-Awesome-Header": "header value" }, // TODO
             acceptedFiles: 'image/*'
+        }
+    },
+    methods: {
+        enableEditField () {
+            this.$nextTick(() => {
+                this.allowEnableEditField = false;
+                this.$refs.myVueDropzone.enable();
+                this.$emit('should-allow-edit-meal-copy');
+            });
+        }
+    },
+    watch: {
+        disabledFields: function (newVal) {
+            if (!newVal || !newVal.length) {
+                this.allowEnableEditField = false;
+                this.$refs.myVueDropzone.enable();
+                return;
+            }
+            this.$nextTick(() => {
+                const _shouldDisableField = newVal.includes('image');
+                this.allowEnableEditField = _shouldDisableField;
+                if (_shouldDisableField) {
+                    this.$refs.myVueDropzone.disable();
+                } else {
+                    this.$refs.myVueDropzone.enable();
+                }
+            });
         }
     }
 }
@@ -60,6 +97,26 @@ export default {
     .form-group {
         @media screen and (max-width: $tableMinWidth) {
             margin-bottom: 10px !important;
+        }
+        .custom-legend {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            line-height: 24px !important;
+            margin-bottom: 6px !important;
+
+            .edit-btn {
+                background: transparent;
+                border: none;
+                outline: none;
+                color: $greenColor;
+                padding: 0;
+                margin-left: 20px;
+
+                .edit-btn-text {
+                    margin-left: 10px;
+                }
+            }
         }
     }
 }

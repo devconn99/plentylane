@@ -8,6 +8,7 @@
             modal-class="contact-cook-modal"
             @hidden="onHidden"
             centered
+            :return-focus="{}"
     >
         <div slot="default">
             <div class="title-size3 titleGreenNavyColor mb-4 text-center">

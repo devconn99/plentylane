@@ -7,6 +7,7 @@
             no-close-on-esc
             no-close-on-backdrop
             centered
+            :return-focus="{}"
             @shown="onModalShown"
             @hide="onModalHide"
     >

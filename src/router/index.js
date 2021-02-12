@@ -26,12 +26,6 @@ const routes = [
         meta: { title: TITLE, hideLoaderWithDelay: true }
     },
     {
-        path: "/how-it-works",
-        name: "HowItWorks",
-        component: () => import("../views/HowItWorks.vue"),
-        meta: { title: `${TITLE} - How it works`, hideLoaderWithDelay: true }
-    },
-    {
         path: "/pricing",
         name: "Pricing",
         component: () => import("../views/Pricing.vue"),
@@ -222,7 +216,6 @@ const routes = [
             {
                 path: "cook/new-meal",
                 name: "New Meal",
-                props: true,
                 component: () => import("../views/CreateNewMeal.vue"),
                 meta: {
                     title: `${TITLE} - Create new meal`,

@@ -5,32 +5,41 @@
             size="lg"
             modal-class="select-meal-modal"
             centered
-            :no-close-on-esc="!areNoMeals || hasError"
-            :no-close-on-backdrop="!areNoMeals || hasError"
-            @shown="onModalShown"
+            no-close-on-esc
+            no-close-on-backdrop
+            :return-focus="{}"
             @hidden="onModalHidden"
     >
         <div slot="default" class="position-relative">
             <div class="title-size3 titleGreenNavyColor mb-4 text-center">Select a meal to copy</div>
-            <div v-if="!isDataReady" class="position-relative w-100" style="height: 100px;">
-                <loading
-                        :active.sync="isLoading"
-                        :is-full-page="loaderOptions.IS_FULL_PAGE"
-                        :color="loaderOptions.COLOR"
-                ></loading>
-            </div>
 
-            <template v-else>
-                <b-form class="form" v-if="!isLoading && !areNoMeals && options && options.length">
-                    <b-form-group class="meal-select-group">
-                        <b-form-select v-model="$v.form.mealId.$model" :options="options" @change="onSelect"></b-form-select>
-                    </b-form-group>
-                </b-form>
-                <p class="text-center" v-if="areNoMeals && !isLoading">You don't have any meals.</p>
-                <p class="text-center" v-if="!isLoading && hasError">
-                    Sorry, but we're unable load your meals. Please try again later.
-                </p>
-            </template>
+            <v-select
+                    label="id"
+                    ref="select"
+                    class="custom-vue-select"
+                    :filterable="false"
+                    :options="options"
+                    v-model="selectedMeal"
+                    @search="onSearch"
+                    @search:focus="onFocusSearch"
+            >
+                <template #search="{ attributes, events }">
+                    <input
+                            class="vs__search"
+                            v-bind="attributes"
+                            v-on="events"
+                            :placeholder="selectedMeal && selectedMeal.id ? '' : 'Search by name'"
+                    />
+                </template>
+                <template slot="no-options">
+                    No meals matching your criteria.
+                </template>
+                <template slot="option" slot-scope="option">{{option.name}}</template>
+                <template slot="selected-option" slot-scope="option">{{option.name}}</template>
+                <template #spinner="{ loading }">
+                    <div v-if="loading" style="border-left-color: rgba(0,156,144,0.61)" class="vs__spinner"></div>
+                </template>
+            </v-select>
         </div>
         <div slot="modal-title"></div>
         <div slot="modal-header-close">
@@ -39,100 +48,89 @@
             </div>
         </div>
         <template slot="modal-footer">
-            <div v-if="!isDataReady"></div>
-            <template v-else>
-                <template v-if="!areNoMeals && !isLoading && !hasError">
-                    <b-btn class="btnGreenTransparent btnNormalSize text-uppercase hover-slide-left" @click="cancel">
-                        <span>Cancel</span>
-                    </b-btn>
-                    <b-btn
-                            class="btnGreen btnNormalSize text-uppercase hover-slide-left"
-                            :disabled="!areNoMeals && !$v.form.mealId.$model"
-                            @click="closeModalWithValue"
-                    >
-                        <span>Select</span>
-                    </b-btn>
-                </template>
-                <div v-else></div>
-            </template>
+            <b-btn class="btnGreenTransparent btnNormalSize text-uppercase hover-slide-left" @click="cancel">
+                <span>Cancel</span>
+            </b-btn>
+
+            <b-btn
+                    class="btnGreen btnNormalSize text-uppercase hover-slide-left"
+                    :disabled="!selectedMeal || !selectedMeal.id"
+                    @click="closeModalWithValue"
+            >
+                <span>Select</span>
+            </b-btn>
         </template>
     </b-modal>
 </template>
 
 <script>
 import SvgIcon from '../SvgIcon';
-import { validationMixin } from "vuelidate";
 import api from '../../api';
-import Loading from 'vue-loading-overlay';
-import config from "../../config";
 export default {
     name: "SelectMealModal",
-    mixins: [validationMixin],
-    components: {SvgIcon, Loading},
+    components: {SvgIcon},
     data: () => ({
-        form: {
-            mealId: ''
-        },
         options: [],
-        isLoading: false,
-        areNoMeals: false,
-        hasError: false,
-        loaderOptions: { ...config.LOADER_OPTIONS },
-        isDataReady: false,
-        originalMeals: [],
-        selectedMeal: {}
+        selectedMeal: null
     }),
-    validations: {
-        form: {
-            mealId: {}
-        }
-    },
     methods: {
-        onModalShown () {
-            this.isLoading = true;
+        onSearch (search, loading) {
+            if (search.length) {
+                loading(true);
+                this.searchItems(loading, search, this);
+            }
+        },
+        onFocusSearch (search, loading) {
+            search = search || this.$refs.select.search;
+            loading = loading || this.$refs.select.toggleLoading;
+            if (!search || !search.length) {
+                loading(true);
+                this.loadInitMeals(loading);
+            }
+        },
+        loadInitMeals (loading) {
             const _options = this.$store.getters.mealsOptionsDataToCopy;
             if (_options && _options.length) {
-                _options.forEach(item => {
-                    this.options.push({ value: item.id, text: item.name });
-                    this.originalMeals.push(item);
-                });
-                // temp timeout to make loader visible
-                setTimeout(() => {
-                    this.isDataReady = true;
-                    this.isLoading = false;
-                }, 300);
+                this.options = _options.map(item => item);
+                loading(false);
             } else {
-                api.dashboard.meals.getMyMeals()
+                api.dashboard.meals.getMyMeals(0)
                     .then(result => {
                         if (result && result.data && result.data.length) {
-                            result.data.forEach(item => {
-                                this.options.push({ value: item.id, text: item.name });
-                                this.originalMeals.push(item);
-                            });
                             this.$store.commit('mealsOptionsDataToCopy', result.data);
+                            this.options = result.data.map(item => item);
+                            loading(false);
                         } else {
-                            this.areNoMeals = true;
+                            this.options = [];
+                            loading(false);
                         }
-                        this.isLoading = false;
-                        this.isDataReady = true;
                     })
                     .catch(() => {
-                        this.isLoading = false;
-                        this.hasError = true;
-                        this.isDataReady = true;
+                        this.options = [];
+                        loading(false);
                     })
             }
         },
+        searchItems: _.debounce((loading, search, vm) => {
+            api.dashboard.meals.searchMyMeals(search)
+                .then(result => {
+                    if (result && result.data && result.data.length) {
+                        vm.options = result.data.map(item => item);
+                        loading(false);
+                    } else {
+                        vm.options = [];
+                        loading(false);
+                    }
+                })
+                .catch(() => {
+                    vm.options = [];
+                    loading(false);
+                });
+        }, 350),
         onModalHidden () {
             // need to reset data when modal is hidden
-            this.areNoMeals = false;
-            this.isLoading = false;
-            this.form.mealId = '';
-            this.hasError = false;
             this.options = [];
-            this.isDataReady = false;
-            this.originalMeals = [];
-            this.selectedMeal = {};
+            this.selectedMeal = null;
         },
         closeModal () {
             this.$refs.selectMealModal.hide();
@@ -141,22 +139,17 @@ export default {
             this.closeModal();
             if (this.selectedMeal && this.selectedMeal.id) {
                 // redirect to new-meal page
-                const { name = '', description = '', dietaryNotes = [] } = this.selectedMeal;
-                this.$store.commit('copiedMealInfo', { name: `${name.trim()} (Copy)`, description, dietaryNotes });
-                this.$router.push({ path: '/dashboard/cook/new-meal', query: { useCopy: true } }).catch(() => {});
+                const { id = '', name = '', description = '', dietaryNotes = [] } = this.selectedMeal;
+                this.$store.commit('copiedMealInfo', { id, name, description, dietaryNotes });
+                this.$router.push({ path: '/dashboard/cook/new-meal' }).catch(() => {});
             }
         },
         cancel () {
             this.closeModal();
-        },
-        onSelect (mealId) {
-            const _meal = this.originalMeals.find(item => Number(item.id) === Number(mealId));
-            this.selectedMeal = _meal && _meal.id ? _meal : {};
         }
     }
 }
 </script>
 
 <style scoped>
-
 </style>

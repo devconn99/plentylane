@@ -229,6 +229,19 @@ export default {
                         return checkErr(err.response);
                     })
             },
+            searchMyMeals (name) {
+                let endpoint = `${config.API_ORIGIN}/api/me/meals`;
+                if (name && name.length) {
+                    endpoint += `?filter=name||$contL||${name}`;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
             removeMyMeal (id) {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}`;
                 return axios.delete(endpoint)
@@ -527,6 +540,67 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response);
                     })
+            },
+            getAllUsers (page, search, exceptionId) {
+                let endpoint = `${config.API_ORIGIN}/api/users`;
+                const filterById = exceptionId ? `filter=id||$ne||${exceptionId}` : '';
+                // TODO: use filter by fullName when ready
+                const filterByName = search && search.length ? `filter=firstName||$contL||${search}&or=lastName||$contL||${search}` : '';
+                if (page) {
+                    endpoint += `?page=${page}`;
+                }
+                if (filterById.length) {
+                    endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterById}`;
+                }
+                if (filterByName.length) {
+                    endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterByName}`;
+                    if (exceptionId) {
+                        endpoint += `&or=id||$ne||${exceptionId}`;
+                    }
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            }
+        },
+        follows: {
+            getMyConnections () {
+                const endpoint = `${config.API_ORIGIN}/api/me/follows`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMyInvites () {
+                // TODO: use real endpoint when it's ready
+                return new Promise(resolve => setTimeout(resolve, 1000));
+            },
+            followUser (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/follows`;
+                return axios.post(endpoint, { action: 'add', followingId: id })
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            unFollowUser (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/follows`;
+                return axios.post(endpoint, { action: 'remove', followingId: id })
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
             }
         },
         network: {

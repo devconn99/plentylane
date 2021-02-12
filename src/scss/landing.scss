@@ -152,6 +152,13 @@ ul.nav-menu-landing {
 		@media screen and (max-width: $phoneBigWidth) {
 			padding: 110px 0 0;
 		}
+		.empty-img-placeholder {
+			height: 443px;
+
+			@media screen and (max-width: $phoneBigWidth) {
+				display: none;
+			}
+		}
 	}
 }
 

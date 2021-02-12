@@ -78,7 +78,8 @@ a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus
 		-o-transition: .3s all ease;
 		transition: .3s all ease;
 }
-[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=middlemit]:not(:disabled), button:not(:disabled), input, textarea:focus, input:focus, input:active, *:focus {
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=middlemit]:not(:disabled), button:not(:disabled),
+input, textarea:focus:not(:disabled), input:focus, input:active, *:focus {
     outline: none!important;
     outline-color: transparent!important;
     outline-width: 0!important;
@@ -494,10 +495,11 @@ button {
 			transition: 0.3s ease-out;
 		}
 	}
-	&.btnDisabled {
+	&.btnDisabled, &[disabled] {
 		cursor: none;
 		pointer-events: none;
 		text-decoration: none;
+		background-color: transparent !important;
 		span {
 			background-color: $redNavyColor;
 			border: 2px solid $redNavyColor;
@@ -806,11 +808,18 @@ h1, h2, h3, h4, h5, h6 {
 			@media screen and (max-width: $tableMinWidth) {
 				padding: 20px;
 			}
-			&:focus, &:active {
-				border: 1px solid $greenColor!important;
-				-webkit-transition: .3s all ease!important;
-				-o-transition: .3s all ease!important;
-				transition: .3s all ease!important;
+			&:not(:disabled) {
+				&:focus, &:active {
+					border: 1px solid $greenColor!important;
+					-webkit-transition: .3s all ease!important;
+					-o-transition: .3s all ease!important;
+					transition: .3s all ease!important;
+				}
+			}
+			&:disabled {
+				background-color: #e9ecef;
+				opacity: 1;
+				resize: none;
 			}
 		}
 		input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
@@ -1173,6 +1182,19 @@ body.mobile-menu-box-active .header {
 		font-size: 18px;
 		line-height: 23px;
 	}
+	.description-sub-title {
+		font-size: 28px;
+		line-height: 34px;
+
+		@media screen and (max-width: $tableWidth) {
+			font-size: 26px;
+			line-height: 30px;
+		}
+		@media screen and (max-width: $phoneBigWidth) {
+			font-size: 22px;
+			line-height: 24px;
+		}
+	}
 	p {
 		font-size: 24px;
 		line-height: 28.5px;
@@ -1260,30 +1282,36 @@ body.mobile-menu-box-active .header {
 /********************
 *   BOOTSTRAP CHECKBOXES   *
 ********************/
-.custom-control-input {
-	+ label {
-		color: $textBlackColor;
-		font-family: $FilsonProRegular;
-		font-size: 18px;
-		letter-spacing: 0.6px;
-		line-height: 18px;
-		margin-bottom: 16px;
-		user-select: none;
+.custom-checkbox {
+	.custom-control-input {
+		+ label {
+			color: $textBlackColor;
+			font-family: $FilsonProRegular;
+			font-size: 18px;
+			letter-spacing: 0.6px;
+			line-height: 18px;
+			margin-bottom: 16px;
+			user-select: none;
 
-		&:before, &:after {
-			top: 0;
+			&:before, &:after {
+				top: 0;
+			}
 		}
-	}
-	&:checked~.custom-control-label::before {
-		background-color: $greenColor;
-		border-color: $greenColor;
-	}
-	&:not(:disabled):active~.custom-control-label::before {
-		background-color: #a7f7f1;
-		border-color: #a7f7f1;
-	}
-	&:focus~.custom-control-label::before {
-		box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+		&:disabled:checked~.custom-control-label::before {
+			background-color: rgba(0, 156, 144, 0.5);
+			border-color: rgba(0, 156, 144, 0.3);
+		}
+		&:checked~.custom-control-label::before {
+			background-color: $greenColor;
+			border-color: $greenColor;
+		}
+		&:not(:disabled):active~.custom-control-label::before {
+			background-color: #a7f7f1;
+			border-color: #a7f7f1;
+		}
+		&:focus~.custom-control-label::before {
+			box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+		}
 	}
 }
 .checkbox-icon-size-24 {
@@ -1457,6 +1485,14 @@ body.mobile-menu-box-active .header {
 }
 .dropzone {
 	background: transparent !important;
+	&:not(.dz-clickable) {
+		border-color: #c8c8c8 !important;
+		background-color: #e9ecef !important;
+
+		.dropzone-custom-content {
+			opacity: 0.5;
+		}
+	}
 
 	.dz-message {
 		color: $grayColor !important;
@@ -1687,4 +1723,124 @@ body.mobile-menu-box-active .header {
 **********************/
 .alert {
 	border-radius: 0;
+}
+
+/*********************
+*  CUSTOM VUE-SELECT    *
+**********************/
+.custom-vue-select {
+	.vs__dropdown-toggle,
+	.vs__dropdown-menu,
+	.vs__search::-webkit-input-placeholder {
+		background: #FFFFFF;
+		border-radius: 0;
+		font-family: $FilsonProRegular;
+		font-size: 18px;
+		letter-spacing: 0.6px;
+		line-height: 18px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			font-size: 16px;
+			line-height: 16px;
+		}
+	}
+	.vs__dropdown-toggle,
+	.vs__dropdown-menu {
+		color: $textBlackColor;
+	}
+	.vs__search::-webkit-input-placeholder {
+		color: $grayColor;
+	}
+	.vs__selected, .vs__search, .vs__search:focus {
+		height: 65px;
+		padding-left: 25px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			height: 48px;
+			padding-left: 15px;
+		}
+	}
+	.vs__dropdown-menu {
+		max-height: 300px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			max-height: 200px;
+		}
+	}
+	.vs__dropdown-option--highlight {
+		background-color: $greenColor !important;
+	}
+	.vs__dropdown-option {
+		padding: 8px 25px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+	}
+	.vs__actions {
+		padding-left: 16px;
+		padding-right: 16px;
+		position: relative;
+
+		@media screen and (max-width: $tableMinWidth) {
+			padding-left: 5px;
+			padding-right: 10px;
+		}
+	}
+	.vs__spinner {
+		position: absolute;
+		z-index: 1000;
+		background-color: #FFFFFF;
+		right: 15px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			right: 10px;
+		}
+	}
+	.vs__clear {
+		margin-right: 15px;
+
+		@media screen and (max-width: $tableMinWidth) {
+			margin-right: 10px;
+		}
+	}
+	.vs__selected {
+		max-width: 420px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		// temp
+		@media screen and (max-width: $tableWidth) {
+			max-width: 390px;
+		}
+		@media screen and (max-width: 859px) {
+			max-width: 320px;
+		}
+		@media screen and (min-width: $tableMinWidth - 1) and (max-width: 789px) {
+			max-width: 300px;
+		}
+		@media screen and (max-width: $tableMinWidth) {
+			max-width: 380px;
+		}
+		@media screen and (max-width: $phoneBigWidth) {
+			max-width: 320px;
+		}
+		@media screen and (max-width: 515px) {
+			max-width: 280px;
+		}
+		@media screen and (max-width: 469px) {
+			max-width: 220px;
+		}
+		@media screen and (max-width: 420px) {
+			max-width: 180px;
+		}
+		@media screen and (max-width: 380px) {
+			max-width: 170px;
+		}
+		@media screen and (max-width: 370px) {
+			max-width: 130px;
+		}
+	}
 }
