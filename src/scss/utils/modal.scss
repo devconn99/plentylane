@@ -2,10 +2,10 @@
 *    MODAL-STYLES   *
 ********************/
 
-// TODO: review this file later, refactor styles
-
 .modal-lg {
-	max-width: 640px;
+	@media screen and (min-width: $smTableWidth + 1) {
+		max-width: 640px;
+	}
 }
 
 .modal .modal-scroll {
@@ -39,60 +39,47 @@
 	border-radius: 0;
 	background: $mainBackgroundColor;
 	box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+
+	button.close {
+		background-color: transparent !important;
+	}
 }
 .modal {
-	&.notifications-modal,
-	&.invite-friends-modal,
-	&.reserve-meal-modal,
-	&.contact-cook-modal,
-	&.location-modal,
-	&.confirm-modal,
-	&.select-meal-modal,
-	&.added-to-basket-modal,
-	&.shipping-info-modal {
-		.modal-header {
-			border-bottom: none;
+	.modal-header {
+		border-bottom: none;
 
-			.modal-popup-title-icon {
-				svg {
-					cursor: pointer;
-					&:hover path {
-						fill: $greenColor;
-					}
-				}
-			}
-		}
-		.modal-body {
-			display: flex;
-			flex-direction: column;
-			position: relative;
-			outline: 0;
-			pointer-events: auto;
-			width: 100%;
-			padding: 13px 40px 40px;
-
-			@media screen and (max-width: $tableWidth) {
-				padding-top: 0;
-			}
-			@media screen and (max-width: $phoneBigWidth) {
-				padding-top: 0;
-			}
-		}
-	}
-
-	&.reserve-meal-modal,
-	&.contact-cook-modal,
-	&.location-modal,
-	&.select-meal-modal,
-	&.shipping-info-modal {
-		.modal-body {
-			.form-group {
-				legend {
-					font-weight: bold;
+		.modal-popup-title-icon {
+			svg {
+				cursor: pointer;
+				&:hover path {
+					fill: $greenColor;
 				}
 			}
 		}
 	}
+	.modal-body {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		outline: 0;
+		pointer-events: auto;
+		width: 100%;
+		padding: 13px 40px 40px;
+
+		@media screen and (max-width: $tableWidth) {
+			padding-top: 0;
+		}
+		@media screen and (max-width: $phoneBigWidth) {
+			padding-top: 0;
+		}
+
+		.form-group {
+			legend {
+				font-weight: bold;
+			}
+		}
+	}
+
 	&.notifications-modal,
 	&.invite-friends-modal {
 		.modal-body {
@@ -105,7 +92,7 @@
 			}
 		}
 	}
-	&.location-modal, &.confirm-modal, &.select-meal-modal, &.added-to-basket-modal {
+	&.modal-with-buttons {
 		.modal-footer {
 			padding: 0 25px 25px;
 			border-top: none;
@@ -148,67 +135,5 @@
 				}
 			}
 		}
-	}
-}
-// TODO: check these styles later and move to .modal-body if needed
-.modal-popup-body {
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	outline: 0;
-	pointer-events: auto;
-	width: 100%;
-	padding: 70px 40px 40px;
-	@media screen and (max-width: $tableWidth) {
-		padding: 40px 25px 25px;
-	}
-	@media screen and (max-width: $phoneBigWidth) {
-		padding: 40px 15px 20px;
-	}
-	.btnGreen, .btnGreenTransparent, .btnLightGreen, .btnLightRed, .btnNavyRedTransparent {
-		display: block;
-	}
-	.modal-popup-header {
-		margin-bottom: 32px;
-		display: flex;
-		justify-content: space-between;
-	}
-	.modal-popup-description {
-		font-size: 14px;
-		color: #525f6e;
-		line-height: 17px;
-		letter-spacing: -0.12px;
-		margin-bottom: 15px;
-	}
-	.modal-popup-title-icon {
-		position: absolute;
-		right: 16px;
-		top: 13px;
-		svg {
-			cursor: pointer;
-			&:hover path {
-				fill: $greenColor;
-			}
-		}
-	}
-	.modal-popup-title {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 20px;
-	}
-	.modal-popup-buttons {
-		display: flex;
-		align-items: center;
-		margin-top: 20px;
-	}
-	.modal-popup-text p {
-		font-size: 14px;
-		color: #525f6e;
-		line-height: 17px;
-		letter-spacing: -.12px;
-		margin: 0 0 15px;
-	}
-	.modal-popup-text p:last-child {
-		margin: 0;
 	}
 }

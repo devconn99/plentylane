@@ -238,13 +238,6 @@ input[type="submit"][disabled]:hover
 		text-decoration: none;
 	}
 }
-// TODO: get back to it later
-.modal-open .modal {
-	padding-left: 260px;
-	@media screen and (max-width: $tableMinWidth) {
-		padding-left: 0;
-	}
-}
 button {
 	-webkit-text-size-adjust: 100%;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);

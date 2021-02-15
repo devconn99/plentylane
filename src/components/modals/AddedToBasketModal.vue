@@ -4,7 +4,7 @@
             ref="addedToBasketModal"
             size="lg"
             centered
-            modal-class="added-to-basket-modal"
+            modal-class="added-to-basket-modal modal-with-buttons"
     >
         <div slot="default">
             <div class="title-size3 titleGreenNavyColor mb-4 mb-md-5 text-center">Item added to your basket!</div>

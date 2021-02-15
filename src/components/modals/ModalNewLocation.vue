@@ -3,7 +3,7 @@
             id="location-modal"
             ref="locationModal"
             size="lg"
-            modal-class="location-modal"
+            modal-class="location-modal modal-with-buttons"
             no-close-on-esc
             no-close-on-backdrop
             centered

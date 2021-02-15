@@ -3,7 +3,7 @@
             id="select-meal-modal"
             ref="selectMealModal"
             size="lg"
-            modal-class="select-meal-modal"
+            modal-class="select-meal-modal modal-with-buttons"
             centered
             no-close-on-esc
             no-close-on-backdrop

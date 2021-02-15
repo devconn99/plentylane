@@ -3,7 +3,7 @@
             :id="id"
             ref="confirmModal"
             size="lg"
-            modal-class="confirm-modal"
+            modal-class="confirm-modal modal-with-buttons"
             no-close-on-esc
             no-close-on-backdrop
             centered
