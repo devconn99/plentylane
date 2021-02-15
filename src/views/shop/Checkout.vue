@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-12 col-lg-10 mx-auto position-relative">
+        <div class="col-12 col-lg-10 mx-auto position-relative" v-if="!isBasketEmpty">
             <loading
                     :active.sync="isLoading"
                     :is-full-page="loaderOptions.IS_FULL_PAGE"
@@ -31,11 +31,7 @@
                                 <SvgIcon icon="location2"></SvgIcon>
                             </div>
                             <!-- TODO: use correct data to display -->
-                            <div class="checkout-shipping-box-field-text">
-                                5555 Main St.<br>
-                                Austin, Texas 78741<br>
-                                USA
-                            </div>
+                            <div class="checkout-shipping-box-field-text">{{shippingInfo.address || '-'}}</div>
                         </div>
                         <div class="checkout-shipping-box-field">
                             <div class="checkout-shipping-box-field-icon">
@@ -110,27 +106,43 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-12 col-sm-8 col-md-10 col-lg-9 col-xl-8 mx-auto text-center" v-else>
+            <div class="dashboard-title-box mb-3">
+                <div class="title-size3 titleGreenNavyColor">Your basket is empty.</div>
+            </div>
+
+            <div class="box-btn mt-5">
+                <router-link
+                        :to="{ path: '/dashboard/shop' }"
+                        class="btnGreenTransparent btnHugeSize btn100 hover-slide-left"
+                >
+                    <span>Go to Shop</span>
+                </router-link>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <ShippingInfoModal :prev-values="modalShippingInfo" @shipping-info-saved="onShippingInfoSaved"></ShippingInfoModal>
     </div>
 </template>
 
 <script>
 import SvgIcon from '../../components/SvgIcon';
+import ShippingInfoModal from '../../components/modals/ShippingInfoModal';
 import helpers from '../../helpers';
 import Loading from 'vue-loading-overlay';
 import config from '../../config';
 import api from '../../api';
 export default {
     name: "Checkout",
-    components: {SvgIcon, Loading},
+    components: {SvgIcon, Loading, ShippingInfoModal},
     data: () => ({
         loaderOptions: { ...config.LOADER_OPTIONS },
         isLoading: false,
         shippingInfo: {
             fullName: '',
-            address: {
-                text: '',
-                data: null
-            },
+            address: '5555 Main St. Austin, Texas 78741 USA',
             phoneNumber: ''
         },
         paymentMethod: {
@@ -151,7 +163,12 @@ export default {
         shippingPrice: 5,
         isPriceLoaded: false,
         isSubmitting: false,
-        isShippingLoaded: false
+        isShippingLoaded: false,
+        modalShippingInfo: {
+            fullName: '',
+            address: '',
+            phone: ''
+        }
     }),
     created () {
         this.prepareData();
@@ -160,12 +177,21 @@ export default {
         prepareData () {
             this.isLoading = true;
             const _basket = this.$store.getters.basket;
-            if (_basket && _basket.length) {
-                this.basketItems = _basket.map(item => item);
-                this.calculatePrice();
-            } else {
+            if (!_basket || !_basket.length) {
                 this.isBasketEmpty = true;
-                this.isPriceLoaded = true;
+                this.isLoading = false;
+                return;
+            }
+            this.basketItems = _basket.map(item => item);
+            this.calculatePrice();
+            const _shippingInfo = this.$store.getters.shippingInfo;
+            if (_shippingInfo && Object.keys(_shippingInfo).length) {
+                this.shippingInfo.fullName = _shippingInfo.fullName;
+                this.shippingInfo.address = _shippingInfo.address;
+                this.shippingInfo.phoneNumber = _shippingInfo.phoneNumber;
+                this.isLoading = false;
+                this.isShippingLoaded = true;
+                return;
             }
             const _user = { ...this.$store.getters.userInfo };
             if (!_user || !_user.fullName) {
@@ -173,7 +199,8 @@ export default {
                     .then((data) => {
                         this.$store.commit('userInfo', { ...data });
                         this.shippingInfo.fullName = data.fullName;
-                        this.shippingInfo.phoneNumber = data.phone || '-';
+                        this.shippingInfo.phoneNumber = data.phone || '';
+                        this.$store.commit('shippingInfo', { ...this.shippingInfo });
                         this.isLoading = false;
                         this.isShippingLoaded = true;
                     })
@@ -183,7 +210,8 @@ export default {
                     });
             } else {
                 this.shippingInfo.fullName = _user.fullName;
-                this.shippingInfo.phoneNumber = _user.phone || '-';
+                this.shippingInfo.phoneNumber = _user.phone || '';
+                this.$store.commit('shippingInfo', { ...this.shippingInfo });
                 this.isLoading = false;
                 this.isShippingLoaded = true;
             }
@@ -211,7 +239,10 @@ export default {
             this.isPriceLoaded = true;
         },
         editShippingInfo () {
-            // TODO
+            this.modalShippingInfo.fullName = this.shippingInfo.fullName;
+            this.modalShippingInfo.address = this.shippingInfo.address;
+            this.modalShippingInfo.phone = this.shippingInfo.phoneNumber;
+            this.$bvModal.show('shipping-info-modal');
         },
         editPaymentMethod () {
             // TODO
@@ -225,9 +256,22 @@ export default {
                 this.isLoading = false;
                 this.isSubmitting = false;
                 this.$store.commit('clearBasket');
+                this.$store.commit('clearShippingInfo');
                 this.$eventHub.$emit('basket-reset');
                 this.$router.push({ path: '/dashboard/shop/success' });
             }, 3000);
+        },
+        onShippingInfoSaved (data) {
+            if (data.fullName && data.fullName.length) {
+                this.shippingInfo.fullName = data.fullName;
+            }
+            if (data.phone) {
+                this.shippingInfo.phoneNumber = data.phone;
+            }
+            if (data.address && data.address.length) {
+                this.shippingInfo.address = data.address;
+            }
+            this.$store.commit('shippingInfo', { ...this.shippingInfo });
         }
     }
 }

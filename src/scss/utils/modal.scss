@@ -48,7 +48,8 @@
 	&.location-modal,
 	&.confirm-modal,
 	&.select-meal-modal,
-	&.added-to-basket-modal {
+	&.added-to-basket-modal,
+	&.shipping-info-modal {
 		.modal-header {
 			border-bottom: none;
 
@@ -82,7 +83,8 @@
 	&.reserve-meal-modal,
 	&.contact-cook-modal,
 	&.location-modal,
-	&.select-meal-modal {
+	&.select-meal-modal,
+	&.shipping-info-modal {
 		.modal-body {
 			.form-group {
 				legend {

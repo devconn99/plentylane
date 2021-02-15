@@ -910,6 +910,13 @@ h1, h2, h3, h4, h5, h6 {
 				}
 			}
 		}
+		.rest-filters-wrapper {
+			.form-group {
+				legend + div {
+					width: 100%;
+				}
+			}
+		}
 	}
 }
 

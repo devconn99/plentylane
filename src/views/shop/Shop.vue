@@ -16,8 +16,8 @@
                             <img src="../../assets/images/data/images/dashboard/shop/img-1.svg" alt=""
                                  class="img-fluid">
                         </div>
-                        <div class="shop-box-info p-2 p-sm-3">
-                            <div class="shop-box-info2">
+                        <div class="shop-box-info">
+                            <div>
                                 <div class="shop-box-title mb-1">{{item.title}}</div>
                                 <div class="shop-box-price mb-1">{{item.currency || '$'}}{{item.price}}</div>
                             </div>
@@ -123,25 +123,28 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         height: 100%;
-        .shop-box-info2 {
-            .shop-box-title {
-                font-family: $LacaProSemiBold;
-                color: $textBlackColor;
-                font-size: 24px;
-                line-height: 24px;
-            }
-            .shop-box-price {
-                color: $textBlackColor;
-                font-size: 16px;
-                line-height: 24px;
-            }
+        padding: 16px;
+
+        .shop-box-title {
+            font-family: $LacaProSemiBold;
+            color: $textBlackColor;
+            font-size: 24px;
+            line-height: 24px;
         }
+        .shop-box-price {
+            color: $textBlackColor;
+            font-size: 16px;
+            line-height: 24px;
+        }
+
         .shop-box-btn {
             display: flex;
             align-items: flex-end;
             flex-direction: column;
 
             .btn-round {
+                width: 64px !important;
+                height: 64px !important;
                 -webkit-transition: background-color 0.3s ease;
                 -moz-transition: background-color 0.3s ease;
                 -ms-transition: background-color 0.3s ease;

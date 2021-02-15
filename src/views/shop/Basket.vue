@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-12 col-lg-10 mx-auto" v-if="!isBasketEmpty && items && items.length">
             <div class="shop-order pt-3 pb-3" v-for="item in items" v-bind:key="item.id">
-                <div class="row align-items-center">
-                    <div class="col-8 col-sm-8 col-md-7 col-lg-8 col-xl-8">
+                <div class="row shop-order-wrapper">
+                    <div class="col-7 col-sm-7 col-md-7 col-lg-8 col-xl-8">
                         <div class="shop-order-box">
                             <div class="shop-order-box-image mr-3 mr-md-4">
                                 <img src="../../assets/images/data/images/dashboard/shop/img-1.svg" alt="" class="img-fluid">
@@ -14,8 +14,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 col-sm-4 col-md-5 col-lg-4 col-xl-4">
-                        <div class="shop-order-box justify-content-between">
+                    <div class="col-5 col-sm-5 col-md-5 col-lg-4 col-xl-4">
+                        <div class="shop-order-box shop-order-box-counter-wrapper justify-content-between">
                             <div class="shop-order-box-info-count">
                                 <b-form class="form basket-form" @submit.stop.prevent>
                                     <b-form-group class="mb-0">
@@ -75,8 +75,19 @@
                 </div>
             </div>
         </div>
-        <div v-if="isBasketEmpty">
-            <p>Your basket is empty.</p>
+        <div class="col-12 col-sm-8 col-md-10 col-lg-9 col-xl-8 mx-auto text-center" v-if="isBasketEmpty">
+            <div class="dashboard-title-box mb-3">
+                <div class="title-size3 titleGreenNavyColor">Your basket is empty.</div>
+            </div>
+
+            <div class="box-btn mt-5">
+                <router-link
+                        :to="{ path: '/dashboard/shop' }"
+                        class="btnGreenTransparent btnHugeSize btn100 hover-slide-left"
+                >
+                    <span>Go to Shop</span>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -178,53 +189,73 @@ export default {
 @import "../../scss/utils/vars";
 .shop-order {
     border-bottom: 1px solid rgba(138,135,125,0.25);
-    .shop-order-box {
-        display: flex;
+
+    .shop-order-wrapper {
         align-items: center;
-        .shop-order-box-image {
-            flex: none;
-            img {
-                width: 80px;
-                height: 80px;
-                object-fit: cover;
-                border: 1px solid rgba(161,112,103,0.3);
-                @media screen and (max-width: $phoneBigWidth) {
-                    width: 48px;
-                    height: 48px;
+
+        @media screen and (max-width: $phoneBigWidth) {
+            align-items: flex-start;
+        }
+
+        .shop-order-box {
+            display: flex;
+            align-items: center;
+
+            @media screen and (max-width: $phoneBigWidth) {
+                &:not(.shop-order-box-counter-wrapper) {
+                    align-items: flex-start;
+                }
+            }
+
+            .shop-order-box-image {
+                flex: none;
+                img {
+                    width: 80px;
+                    height: 80px;
+                    object-fit: cover;
+                    border: 1px solid rgba(161,112,103,0.3);
+                    @media screen and (max-width: $phoneBigWidth) {
+                        width: 48px;
+                        height: 48px;
+                    }
+                }
+            }
+            .shop-order-box-info {
+                .shop-order-box-info-title {
+                    font-family: $FilsonProBold;
+
+                    @media screen and (max-width: $phoneBigWidth) {
+                        word-break: break-word;
+                    }
+                }
+            }
+            .shop-order-box-info-delete {
+                a:hover svg g.possible-change-on-hover {
+                    stroke: $greenLightColor;
+                    -webkit-transition: .3s all ease;
+                    -o-transition: .3s all ease;
+                    transition: .3s all ease;
                 }
             }
         }
-        .shop-order-box-info {
-            .shop-order-box-info-title {
-                font-family: $FilsonProBold;
-            }
-        }
-        .shop-order-box-info-delete {
-            a:hover svg g.possible-change-on-hover {
-                stroke: $greenLightColor;
-                -webkit-transition: .3s all ease;
-                -o-transition: .3s all ease;
-                transition: .3s all ease;
-            }
-        }
-    }
-    .basket-form {
-        .form-group {
-            width: 131px;
-
-            .count-value-input {
-                padding-right: 25px;
-            }
-            @media screen and (max-width: $tableMinWidth) {
-                width: 66px !important;
+        .basket-form {
+            .form-group {
+                width: 131px;
 
                 .count-value-input {
-                    padding-right: 10px;
-                    padding-left: 13px;
+                    padding-right: 25px;
                 }
-            }
-            @media screen and (max-width: $mdphoneWidth) {
-                width: 61px !important;
+                @media screen and (max-width: $tableMinWidth) {
+                    width: 66px !important;
+
+                    .count-value-input {
+                        padding-right: 10px;
+                        padding-left: 13px;
+                    }
+                }
+                @media screen and (max-width: $mdphoneWidth) {
+                    width: 70px !important;
+                }
             }
         }
     }
