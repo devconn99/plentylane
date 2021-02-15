@@ -544,19 +544,15 @@ export default {
             getAllUsers (page, search, exceptionId) {
                 let endpoint = `${config.API_ORIGIN}/api/users`;
                 const filterById = exceptionId ? `filter=id||$ne||${exceptionId}` : '';
-                // TODO: use filter by fullName when ready
-                const filterByName = search && search.length ? `filter=firstName||$contL||${search}&or=lastName||$contL||${search}` : '';
+                const filterByFullName = search && search.length ? `filter=fullName||$contL||${search}` : '';
                 if (page) {
                     endpoint += `?page=${page}`;
                 }
+                if (filterByFullName.length) {
+                    endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterByFullName}`;
+                }
                 if (filterById.length) {
                     endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterById}`;
-                }
-                if (filterByName.length) {
-                    endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterByName}`;
-                    if (exceptionId) {
-                        endpoint += `&or=id||$ne||${exceptionId}`;
-                    }
                 }
                 return axios.get(endpoint)
                     .then((res) => {
