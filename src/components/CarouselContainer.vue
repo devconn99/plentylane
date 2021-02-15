@@ -26,12 +26,12 @@ export default {
             nav: false,
             dots: false,
             responsive: {
-                0: { items: 1.2, loop: true, margin: 15 },
-                425: { items: 1.5, loop: true },
-                575: { items: 2,  loop: true },
-                700: { items: 2.5, loop: true },
-                768: { items: 1.5, loop: true },
-                920: { items: 2, loop: true },
+                0: { items: 1.2, margin: 15 },
+                425: { items: 1.5 },
+                575: { items: 2 },
+                700: { items: 2.5 },
+                768: { items: 1.5 },
+                920: { items: 2 },
                 1280: { items: 3 }
             }
         }
