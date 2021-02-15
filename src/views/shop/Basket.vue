@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-12 col-lg-10 mx-auto" v-if="!isBasketEmpty && items && items.length">
-            <div class="shop-order pt-3 pb-3" v-for="item in items">
+            <div class="shop-order pt-3 pb-3" v-for="item in items" v-bind:key="item.id">
                 <div class="row align-items-center">
                     <div class="col-8 col-sm-8 col-md-7 col-lg-8 col-xl-8">
                         <div class="shop-order-box">
@@ -23,11 +23,14 @@
                                                 name="count"
                                                 class="count-value-input"
                                                 type="number"
+                                                pattern="[0-9]*"
                                                 v-model="item.count"
                                                 autocomplete="off"
                                                 :min="minCount"
                                                 :max="maxCount"
                                                 step="1"
+                                                @paste.prevent
+                                                onkeypress="return event.code.includes('Digit')"
                                                 v-on:change="onCountChanged($event, item)"
                                         ></b-form-input>
                                     </b-form-group>

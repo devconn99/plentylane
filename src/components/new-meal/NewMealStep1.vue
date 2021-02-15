@@ -40,16 +40,17 @@
         <b-form-group label="Number of Meals" v-if="!excludeQuantityField">
             <p class="sub-label-text">1 meal = 1 container</p>
             <b-form-input
-                    id="quantity_input"
                     name="quantity"
                     type="number"
                     pattern="[0-9]*"
                     v-model="$v.form.quantity.$model"
                     :min="quantityMin"
                     :max="quantityMax"
-                    @input="onQuantityInput"
+                    step="1"
+                    @paste.prevent
                     placeholder="e.g. 5"
                     autocomplete="off"
+                    onkeypress="return event.code.includes('Digit')"
             ></b-form-input>
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.quantity.$dirty && !$v.form.quantity.required">This is a required field.</small>
             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.quantity.minValue">Minimum number of meals is {{quantityMin}}.</small>
@@ -113,33 +114,6 @@ export default {
             this.shouldDisableName = false;
             this.shouldDisableDescription = false;
             this.$emit('should-allow-edit-meal-copy');
-        },
-        onQuantityInput (val) {
-            // clear input value when inserting copied text (negative value, decimal value, exponential value, any text)
-            val += ''; // make it string
-            let shouldResetModel = false;
-            if (!val) {
-                shouldResetModel = true;
-                document.getElementById('quantity_input').value = '';
-            }
-            if (val.includes('e')) {
-                shouldResetModel = true;
-            }
-            val = Number(val);
-            if (isNaN(val)) {
-                shouldResetModel = true;
-            }
-            if (this.quantityMin >= 0 && Math.sign(val) === -1) {
-                shouldResetModel = true;
-            }
-            if (!Number.isInteger(val)) {
-                shouldResetModel = true;
-            }
-            if (shouldResetModel) {
-                this.$nextTick(() => {
-                    this.$v.form.quantity.$model = '';
-                });
-            }
         }
     },
     watch: {
@@ -164,15 +138,6 @@ export default {
                 this.shouldDisableName = _shouldDisableMealFields;
                 this.shouldDisableDescription = _shouldDisableMealFields;
             });
-        }
-    },
-    mounted () {
-        const _quantityInput = document.getElementById('quantity_input');
-        if (_quantityInput) {
-            _quantityInput.onkeypress = function(e) {
-                // only digits allowed here
-                return e.code.includes('Digit');
-            }
         }
     }
 }

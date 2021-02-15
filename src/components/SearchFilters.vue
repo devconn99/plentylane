@@ -118,7 +118,12 @@
                         <b-form-input
                                 name="availableServings"
                                 type="number"
+                                pattern="[0-9]*"
+                                min="1"
+                                step="1"
                                 v-model="$v.form.availableServings.$model"
+                                @paste.prevent
+                                onkeypress="return event.code.includes('Digit')"
                                 placeholder="e.g. 5"
                                 autocomplete="off"
                                 debounce="500"

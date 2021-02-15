@@ -20,12 +20,16 @@
                     <b-form-input
                             name="servings"
                             type="number"
+                            pattern="[0-9]*"
                             v-model="$v.form.servings.$model"
                             placeholder="e.g. 5"
                             autocomplete="off"
+                            :min="minCount"
+                            @paste.prevent
+                            onkeypress="return event.code.includes('Digit')"
                     ></b-form-input>
                     <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.servings.$dirty && !$v.form.servings.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.minValue">Minimum number of servings is 1.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.minValue">Minimum number of servings is {{minCount}}.</small>
                 </b-form-group>
                 <b-form-group label="Notes for Cook">
                     <textarea
@@ -85,6 +89,7 @@ import config from '../../config';
 import api from '../../api';
 import SvgIcon from '../SvgIcon';
 import helpers from '../../helpers';
+const MIN_COUNT = 1;
 export default {
     name: "ReserveMealModal",
     mixins: [validationMixin],
@@ -96,13 +101,14 @@ export default {
             servings: null,
             notes: null
         },
-        isReserved: false
+        isReserved: false,
+        minCount: MIN_COUNT
     }),
     validations: {
         form: {
             servings: {
                 required,
-                minValue: minValue(1)
+                minValue: minValue(MIN_COUNT)
             },
             notes: {
                 maxLength: maxLength(config.DINE_NOTES_MAX_LENGTH)
