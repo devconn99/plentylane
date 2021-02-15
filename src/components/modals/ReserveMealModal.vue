@@ -6,6 +6,7 @@
             size="lg"
             modal-class="reserve-meal-modal"
             @hidden="onHidden"
+            @show="onShow"
             centered
             :return-focus="{}"
     >
@@ -30,6 +31,7 @@
                     ></b-form-input>
                     <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.servings.$dirty && !$v.form.servings.required">This is a required field.</small>
                     <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.minValue">Minimum number of servings is {{minCount}}.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.maxValue">Maximum number of servings is {{maxCount}}.</small>
                 </b-form-group>
                 <b-form-group label="Notes for Cook">
                     <textarea
@@ -84,12 +86,11 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minValue, maxLength } from "vuelidate/lib/validators";
+import { required, minValue, maxValue, maxLength } from "vuelidate/lib/validators";
 import config from '../../config';
 import api from '../../api';
 import SvgIcon from '../SvgIcon';
 import helpers from '../../helpers';
-const MIN_COUNT = 1;
 export default {
     name: "ReserveMealModal",
     mixins: [validationMixin],
@@ -102,22 +103,29 @@ export default {
             notes: null
         },
         isReserved: false,
-        minCount: MIN_COUNT
+        minCount: 1,
+        maxCount: 10000 // temp value, it's initialized via offerInfo.availableQuantity
     }),
-    validations: {
-        form: {
-            servings: {
-                required,
-                minValue: minValue(MIN_COUNT)
-            },
-            notes: {
-                maxLength: maxLength(config.DINE_NOTES_MAX_LENGTH)
+    validations () {
+        return {
+            form: {
+                servings: {
+                    required,
+                    minValue: minValue(this.minCount),
+                    maxValue: maxValue(this.maxCount)
+                },
+                notes: {
+                    maxLength: maxLength(this.notesMaxLength)
+                }
             }
-        }
+        };
     },
     methods: {
         closeModal () {
             this.$bvModal.hide('reserve-meal-modal');
+        },
+        onShow () {
+            this.maxCount = this.offerInfo.availableQuantity;
         },
         onHidden () {
             this.isReserved = false;
@@ -142,6 +150,14 @@ export default {
                 })
                 .catch(err => {
                     console.log('\n >> err > ', err);
+                    // typical error message is "You can reserve up to {num} servings only."
+                    const errMessage = err.data && err.data.message ? err.data.message : '';
+                    if (errMessage.toLowerCase().includes('you can reserve up to')) {
+                        const _temp = errMessage.match(/\d+/g);
+                        if (_temp && _temp.length) {
+                            this.maxCount = _temp[0];
+                        }
+                    }
                 })
         },
         contactTheCook () {
