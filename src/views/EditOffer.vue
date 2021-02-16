@@ -93,6 +93,9 @@
                             >
                                 <span>Go to the dashboard</span>
                             </router-link>
+                            <b-btn class="btnGreenTransparent btnHugeSize btn100 hover-slide-left" @click="redirectToMyOffers">
+                                <span>Go to my offers</span>
+                            </b-btn>
                         </div>
                     </div>
                 </div>
@@ -283,6 +286,10 @@ export default {
                     this.isSaving = false;
                     return false;
                 });
+        },
+        redirectToMyOffers () {
+            this.$store.commit('myOffersActiveTabIndexOnInit', 2);
+            this.$router.push({ path: '/dashboard/profile/my-meals' }).catch(() => {});
         }
     }
 }

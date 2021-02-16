@@ -215,6 +215,14 @@ export default {
         offerToRemove: ''
     }),
     created () {
+        const _index = this.$store.getters.myOffersActiveTabIndexOnInit;
+        if (_index !== 0) {
+            this.$store.commit('myOffersActiveTabIndexOnInit', 0);
+            this.$nextTick(() => {
+                this.activeTabIndex = _index;
+            });
+            return;
+        }
         this.loadMeals();
     },
     methods: {

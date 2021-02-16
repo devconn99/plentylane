@@ -15,7 +15,8 @@ const initialState = () => {
         mealsOptionsDataToCopy: [],
         copiedMealInfo: null,
         basket: [],
-        shippingInfo: null
+        shippingInfo: null,
+        myOffersActiveTabIndexOnInit: 0
     }
 };
 export default {
@@ -76,6 +77,9 @@ export default {
         },
         clearShippingInfo (state) {
             state.shippingInfo = null;
+        },
+        myOffersActiveTabIndexOnInit (state, value) {
+            state.myOffersActiveTabIndexOnInit = value;
         }
     },
     getters: {
@@ -98,6 +102,7 @@ export default {
             });
             return _price;
         },
-        shippingInfo: (state) => (state.shippingInfo)
+        shippingInfo: (state) => (state.shippingInfo),
+        myOffersActiveTabIndexOnInit: (state) => (state.myOffersActiveTabIndexOnInit)
     }
 }
