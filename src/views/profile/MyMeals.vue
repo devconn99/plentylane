@@ -113,6 +113,7 @@
                                                 :offer-info="item"
                                                 :show-action-menu="true"
                                                 :actions="offerActions"
+                                                :is-my-offer="true"
                                                 @on-action-edit="onActionEditOffer"
                                                 @on-action-remove="onActionRemoveOffer"
                                         ></OfferInfoBlock>

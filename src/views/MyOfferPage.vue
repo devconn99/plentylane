@@ -2,9 +2,9 @@
     <div v-if="isLoaded && offerInfo && offerInfo.id">
         <OfferPageContent
                 :offer-info="offerInfo"
-                :more-offers="moreOffers"
+                :more-offers="[]"
                 :questions="questions"
-                :hidden-buttons="isMyOffer"
+                :hidden-buttons="true"
         ></OfferPageContent>
     </div>
 </template>
@@ -14,15 +14,14 @@ import api from '../api';
 import helpers from '../helpers';
 import OfferPageContent from '../components/OfferPageContent';
 export default {
-    name: "OfferPage",
+    name: "MyOfferPage",
     components: {OfferPageContent},
     data: () => ({
         offerId: '',
         offerInfo: {},
         isLoaded: false,
         questions: [],
-        moreOffers: [],
-        isMyOffer: false // TODO: get back to this value later - possibly it's redundant on this page
+        currentUser: {}
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -51,8 +50,7 @@ export default {
             this.offerInfo = {};
             this.offerId = '';
             this.questions = [];
-            this.moreOffers = [];
-            this.isMyOffer = false;
+            // no need to clear this.currentUser
         },
         errLoadingDataHandler (cb, err) {
             if (err) {
@@ -77,9 +75,18 @@ export default {
                 return;
             }
             const requests = [
-                api.dashboard.offers.getOfferById(this.offerId),
+                api.dashboard.offers.getMyOfferById(this.offerId),
                 api.dashboard.offers.getOfferQuestions(this.offerId)
             ];
+            if (!this.currentUser || !this.currentUser.id) {
+                const _user = this.$store.getters.userInfo;
+                if (_user && _user.id) {
+                    this.currentUser = { ..._user };
+                } else {
+                    // need to load current user data
+                    requests.push(api.dashboard.userInfo());
+                }
+            }
             Promise.all(requests)
                 .then(result => {
                     if (result && result[0]) {
@@ -88,12 +95,8 @@ export default {
                         if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
                             offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
                         }
+                        // NOTE, offer response doesn't have user data here (/api/me/offers/${id})
                         this.offerInfo = { ...offer };
-                        let _userId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
-                        if (typeof _userId === 'string') {
-                            _userId = Number(_userId);
-                        }
-                        this.isMyOffer = _userId === this.offerInfo.user.id;
                     }
                     if (result && result[1] && result[1].length) {
                         // transform questions, temp
@@ -103,29 +106,18 @@ export default {
                             return item;
                         });
                     }
-                    return true;
-                })
-                .then(() => {
-                    if (this.isMyOffer) {
-                        this.isLoaded = true;
-                        this.hideGlobalLoader();
-                        if (cb) cb();
-                        return true;
+                    if (result && result[2]) {
+                        const user = { ...result[2] };
+                        this.currentUser = { ...user };
+                        this.$store.commit('userInfo', { ...user });
+                        this.offerInfo['user'] = { ...user };
+                    } else {
+                        this.offerInfo['user'] = { ...this.currentUser };
                     }
-                    // load more offers
-                    return api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerId)
-                        .then(res => {
-                            if (res && res.data) {
-                                this.moreOffers = res.data;
-                            }
-                            this.isLoaded = true;
-                            this.hideGlobalLoader();
-                            if (cb) cb();
-                            return true;
-                        })
-                        .catch(error => {
-                            this.errLoadingDataHandler(cb, error);
-                        });
+                    this.isLoaded = true;
+                    this.hideGlobalLoader();
+                    if (cb) cb();
+                    return true;
                 })
                 .catch(err => {
                     this.errLoadingDataHandler(cb, err);
@@ -142,4 +134,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped>
+
+</style>

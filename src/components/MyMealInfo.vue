@@ -47,12 +47,13 @@ import helpers from '../helpers';
 export default {
     name: "MyMealInfo",
     components: {SvgIcon},
-    props: ['itemData', 'isMapInfoWindow'],
+    props: ['itemData', 'isMapInfoWindow', 'isMyMeal'],
     methods: {
         redirect () {
             if (!this.itemData || !this.itemData.id) return;
             if (!this.isMapInfoWindow) {
-                this.$router.push({ path: `/dashboard/offers/${this.itemData.id}` }).catch(()=>{});
+                const path = this.isMyMeal ? `/dashboard/my-offers/${this.itemData.id}` : `/dashboard/offers/${this.itemData.id}`;
+                this.$router.push({ path: path }).catch(()=>{});
             } else {
                 this.$eventHub.$emit('marker-info-window-clicked', this.itemData.id);
             }

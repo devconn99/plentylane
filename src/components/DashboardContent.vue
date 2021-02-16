@@ -87,7 +87,7 @@
                         </div>
 
                         <template v-if="isLoaded && myOffers && myOffers.length">
-                            <MyMealInfo v-for="item in myOffers" :item-data="item"></MyMealInfo>
+                            <MyMealInfo v-for="item in myOffers" :item-data="item" :is-my-meal="true"></MyMealInfo>
                         </template>
 
                         <template v-else>

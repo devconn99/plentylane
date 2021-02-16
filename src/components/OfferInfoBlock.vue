@@ -84,7 +84,7 @@ import helpers from '../helpers';
 import SvgIcon from './SvgIcon';
 export default {
     name: "OfferInfoBlock",
-    props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions'],
+    props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer'],
     components: {SvgIcon},
     data: () => ({
         placeholderImg: '../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg',
@@ -100,7 +100,8 @@ export default {
     methods: {
         redirectToOffer () {
             if (this.offerInfo && this.offerInfo.id) {
-                this.$router.push({ path: `/dashboard/offers/${this.offerInfo.id}` }).catch(()=>{});
+                const path = this.isMyOffer ? `/dashboard/my-offers/${this.offerInfo.id}` : `/dashboard/offers/${this.offerInfo.id}`;
+                this.$router.push({ path: path }).catch(()=>{});
             }
         },
         redirectToCookProfile () {

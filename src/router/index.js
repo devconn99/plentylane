@@ -232,6 +232,15 @@ const routes = [
                 }
             },
             {
+                path: 'my-offers/:id',
+                name: 'My Offer Info',
+                component: () => import("../views/MyOfferPage.vue"),
+                meta: {
+                    title: `${TITLE} - Offer Info`,
+                    skipHidingLoader: true
+                }
+            },
+            {
                 path: "help",
                 name: "Help",
                 component: () => import("../views/Help.vue"),
