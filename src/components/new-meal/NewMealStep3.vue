@@ -13,6 +13,7 @@
                 <p class="mb-3 mt-0">Select as many apply</p>
                 <b-form-checkbox-group
                         class="dietary-notes-group"
+                        v-bind:class="'options-count_' + dietaryOptions.length"
                         id="checkbox-group-1"
                         v-model="$v.form.dietaryNotes.$model"
                         :options="dietaryOptions"
@@ -96,7 +97,8 @@ export default {
         locationOptions: [
             { value: null, text: 'Please select a location' }
         ],
-        allowEnableEditNotes: false
+        allowEnableEditNotes: false,
+        limitPlaces: 100
     }),
     validations () {
         const form = {
@@ -161,7 +163,7 @@ export default {
     mounted () {
         if (this.hiddenFields && this.hiddenFields.length && this.hiddenFields.includes('location')) return;
         // load my places
-        api.dashboard.places.getMyPlaces()
+        api.dashboard.places.getMyPlaces(this.limitPlaces)
             .then(result => {
                 if (result.data && result.data.length) {
                     this.locationOptions = this.locationOptions.concat(result.data.map(item => ({ value: item.id, text: item.alias })));
@@ -173,8 +175,20 @@ export default {
     },
     watch: {
         prevValues: function (newVal) {
-            if (!newVal || !newVal['dietaryNotes'] || !newVal['dietaryNotes'].length) return;
-            this.form.dietaryNotes = newVal.dietaryNotes.map(item => item.label);
+            if (!newVal || !Object.keys(newVal)) return;
+            if (newVal['dietaryNotes'] && newVal['dietaryNotes'].length) {
+                this.form.dietaryNotes = newVal.dietaryNotes.map(item => item.label);
+            }
+            if (newVal['pickupTime'] && newVal['pickupTime'].length) {
+                // need to parse pickupDate and pickupTime form fields
+                // newVal.pickupTime has format "2021-01-01T00:00:00.000Z"
+                const _splitDate = newVal.pickupTime.split('T');
+                this.form.pickupDate = _splitDate && _splitDate[0] ? _splitDate[0] : '';
+                this.form.pickupTime = _splitDate && _splitDate[1] ? _splitDate[1].slice(0, 8) : '';
+            }
+            if (newVal['placeId']) {
+                this.form.placeId = newVal.placeId;
+            }
         },
         disabledFields: function (newVal) {
             if (!newVal || !newVal.length) {
@@ -198,32 +212,6 @@ export default {
 
 }
 .dietary-notes {
-    .dietary-notes-group {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        max-height: 205px; // TODO: make sure it works correctly for any length of dietary notes
-        align-items: start;
-        width: 100%;
-        padding-left: 16px;
-        padding-right: 16px;
-
-        @media screen and (max-width: $tableMinWidth) {
-            flex-wrap: nowrap;
-            max-height: 100%;
-        }
-
-        /* TODO: get back to styles later */
-        .custom-control {
-            .custom-control-label {
-                color: #181816;
-                font-family: $FilsonProRegular;
-                font-size: 18px;
-                letter-spacing: 0.6px;
-                line-height: 18px;
-            }
-        }
-    }
     .custom-legend {
         display: flex;
         align-items: center;

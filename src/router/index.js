@@ -277,6 +277,15 @@ const routes = [
                 }
             },
             {
+                path: 'edit-offer/:id',
+                name: 'Edit Offer',
+                component: () => import('../views/EditOffer.vue'),
+                meta: {
+                    title: `${TITLE} - Edit Offer`,
+                    skipHidingLoader: true
+                }
+            },
+            {
                 path: 'not-found',
                 name: "NotFound",
                 component: () => import("../views/NotFound.vue"),

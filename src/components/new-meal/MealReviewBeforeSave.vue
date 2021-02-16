@@ -71,11 +71,13 @@
                         <span class="edit-btn-text">Edit</span>
                     </b-btn>
                 </div>
-                <div class="meal-preview-field-item-bg-block" v-if="mealInfo.dietaryNotes && mealInfo.dietaryNotes.length">
-                    <ul v-if="mealInfo.dietaryNotesText && mealInfo.dietaryNotesText.length">
+                <div class="meal-preview-field-item-bg-block" v-if="mealInfo.dietaryNotesText && mealInfo.dietaryNotesText.length">
+                    <ul>
                         <li v-for="note in mealInfo.dietaryNotesText">{{note}}</li>
                     </ul>
-                    <ul v-else>
+                </div>
+                <div class="meal-preview-field-item-bg-block" v-else-if="mealInfo.dietaryNotes && mealInfo.dietaryNotes.length">
+                    <ul>
                         <li v-for="item in mealInfo.dietaryNotes">{{item.label}}</li>
                     </ul>
                 </div>

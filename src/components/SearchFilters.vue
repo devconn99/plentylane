@@ -144,6 +144,7 @@
                         <p class="mb-3 mt-0">Select as many apply</p>
                         <b-form-checkbox-group
                                 class="dietary-notes-group"
+                                v-bind:class="'options-count_' + dietaryOptions.length"
                                 id="checkbox-group-1"
                                 v-model="$v.form.dietaryNotes.$model"
                                 :options="dietaryOptions"
@@ -292,10 +293,6 @@ export default {
                     display: none;
                 }
             }
-        }
-        label {
-            font-family: $FilsonProRegular;
-            margin-bottom: 10px!important;
         }
         input[type=search] {
             font-size: 18px;
@@ -450,31 +447,6 @@ export default {
         }
         .dietary-notes {
             margin-bottom: 0 !important;
-            .dietary-notes-group {
-                display: flex;
-                flex-direction: column;
-                flex-wrap: wrap;
-                max-height: 170px;
-                align-items: start;
-                width: 100%;
-                padding-left: 16px;
-                padding-right: 16px;
-
-                @media screen and (max-width: $tableMinWidth) {
-                    flex-wrap: nowrap;
-                    max-height: 100%;
-                }
-
-                .custom-control {
-                    .custom-control-label {
-                        color: #181816;
-                        font-family: $FilsonProRegular;
-                        font-size: 18px;
-                        letter-spacing: 0.6px;
-                        line-height: 18px;
-                    }
-                }
-            }
         }
     }
     .toggle-view-type-form-group {

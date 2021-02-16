@@ -5,11 +5,11 @@ const DIETARY_NOTES = {
     TREE_NUTS: 'Contains tree nuts',
     FISH: 'Contains fish',
     SHELLFISH: 'Contains shellfish',
-    SOY: 'Contains soy',
+    // SOY: 'Contains soy', // TODO: uncomment out this value when it's supported on BE
     VEGETARIAN: 'Vegetarian',
     VEGAN: 'Vegan',
     GLUTEN_FREE: 'Gluten free',
-    GLUTEN_FREE_KITCHEN: 'Gluten free kitchen',
+    // GLUTEN_FREE_KITCHEN: 'Gluten free kitchen' // TODO: uncomment out this value when it's supported on BE
 };
 export default {
     parseDate: function (inputDateStr, shouldCompareWithToday) {

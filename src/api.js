@@ -291,8 +291,11 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getMyPlaces () {
-                const endpoint = `${config.API_ORIGIN}/api/me/places`;
+            getMyPlaces (limit) {
+                let endpoint = `${config.API_ORIGIN}/api/me/places`;
+                if (limit) {
+                    endpoint += `?limit=${limit}`;
+                }
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -407,6 +410,16 @@ export default {
                         return checkErr(err.response);
                     });
             },
+            getMyOfferById (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}?join=place&join=meal`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
             getAvailableOffersFromUser (userId, exceptionId, page) {
                 let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
                 const _filterByUserId = `filter=user.id||$eq||${userId}`;
@@ -461,6 +474,16 @@ export default {
                     })
                     .catch((err) => {
                         return checkErr(err.response)
+                    })
+            },
+            updateOffer (id, data) {
+                const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}`;
+                return axios.patch(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
                     })
             }
         },

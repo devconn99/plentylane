@@ -845,7 +845,9 @@ h1, h2, h3, h4, h5, h6 {
 			justify-content: space-between;
 			label {
 				font-family: $FilsonProRegular;
-				margin-bottom: 10px!important;
+				&:not(.custom-control-label) {
+					margin-bottom: 10px !important;
+				}
 			}
 			// TODO???
 			input[type=search] {
@@ -1321,6 +1323,52 @@ body.mobile-menu-box-active .header {
 				width: 24px;
 				height: 24px;
 			}
+		}
+	}
+}
+
+/********************
+*   DIETARY NOTES CHECKBOXES (two columns on desktop, one column on mobile)  *
+********************/
+.dietary-notes-group {
+	$optionHeight: 34px;
+	$minColumnNumDesktop: 4;
+
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-items: start;
+	width: 100%;
+	padding-left: 16px;
+	padding-right: 16px;
+
+	@media screen and (min-width: $tableMinWidth + 1) {
+		@for $i from 0 through 50 {
+			@if $i < $minColumnNumDesktop + 1 {
+				&.options-count_#{$i} {
+					max-height: $optionHeight * $minColumnNumDesktop;
+				}
+			} @else {
+				&.options-count_#{$i} {
+					max-height: $optionHeight * ceil($i / 2);
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: $tableMinWidth) {
+		flex-wrap: nowrap;
+		max-height: 100% !important;
+	}
+
+	.custom-control {
+		.custom-control-label {
+			color: #181816;
+			font-family: $FilsonProRegular;
+			font-size: 18px;
+			letter-spacing: 0.6px;
+			line-height: 18px;
+			margin-bottom: 16px !important;
 		}
 	}
 }

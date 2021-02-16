@@ -113,7 +113,7 @@
                                                 :offer-info="item"
                                                 :show-action-menu="true"
                                                 :actions="offerActions"
-                                                @on-action-view="onActionViewOffer"
+                                                @on-action-edit="onActionEditOffer"
                                                 @on-action-remove="onActionRemoveOffer"
                                         ></OfferInfoBlock>
                                     </div>
@@ -211,7 +211,7 @@ export default {
         },
         reservationToRemove: '',
         dineActions: [{ title: 'View', name: 'view' }, { title: 'Cancel', name: 'cancel' }],
-        offerActions: [{ title: 'View', name: 'view' }, { title: 'Remove', name: 'remove' }],
+        offerActions: [{ title: 'Edit', name: 'edit' }, { title: 'Remove', name: 'remove' }],
         offerToRemove: ''
     }),
     created () {
@@ -376,9 +376,9 @@ export default {
             if (!id) return;
             this.openConfirmRemoveOfferModal(id);
         },
-        onActionViewOffer (id) {
+        onActionEditOffer (id) {
             if (!id) return;
-            this.$router.push({ path: `/dashboard/offers/${id}` }).catch(()=>{});
+            this.$router.push({ path: `/dashboard/edit-offer/${id}` }).catch(()=>{});
         },
         onModalOfferCancel () {
             this.offerToRemove = '';
