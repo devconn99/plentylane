@@ -92,6 +92,15 @@
 			}
 		}
 	}
+	&.invite-friends-modal {
+		.modal-scroll {
+			max-height: 270px;
+
+			@media screen and (max-width: $phoneBigWidth) {
+				max-height: 200px;
+			}
+		}
+	}
 	&.modal-with-buttons {
 		.modal-footer {
 			padding: 0 25px 25px;

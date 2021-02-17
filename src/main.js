@@ -23,6 +23,7 @@ import 'vue-select/dist/vue-select.css';
 import _ from 'lodash';
 import Deselect from './components/vue-select/Deselect';
 import OpenIndicator from './components/vue-select/OpenIndicator';
+import VueClipboard from 'vue-clipboard2';
 
 Object.defineProperty(Vue.prototype, '_', { value: _ });
 
@@ -33,6 +34,9 @@ window.$ = JQuery;
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueFormWizard);
+
+VueClipboard.config.autoSetContainer = true;
+Vue.use(VueClipboard);
 
 Vue.component('pre-loader', PreLoader);
 

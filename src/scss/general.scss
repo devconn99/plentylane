@@ -904,6 +904,14 @@ h1, h2, h3, h4, h5, h6 {
 					display: none;
 				}
 			}
+			.search-modal-input {
+				> div {
+					width: 100%;
+				}
+				.form-control {
+					height: 48px;
+				}
+			}
 		}
 		.rest-filters-wrapper {
 			.form-group {
