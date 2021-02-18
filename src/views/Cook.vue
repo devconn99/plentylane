@@ -63,7 +63,7 @@ export default {
 <style scoped lang="scss">
 @import "../scss/utils/vars";
 .cook-page-btn-wrapper {
-    min-width: 400px;
+    min-width: 560px;
 
     @media screen and (max-width: $tableMinWidth) {
         min-width: 100%;
