@@ -799,11 +799,6 @@ a.reserved-box, .reserved-box {
 // .shop-box has been moved to src/components/shop/Shop styles
 // .shop-order has been moved to src/components/shop/Basket styles
 
-
-.shop-back-icon, .checkout-shipping-edit-icon, .checkout-payment-edit-icon {
-	flex: none;
-}
-
 .shop-price-box {
 	.shop-price-subtotal, .shop-price-tax, .shop-price-total {
 		display: flex;

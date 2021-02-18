@@ -13,12 +13,9 @@
             </router-link>
             <div class="row mt-5">
                 <div class="col-12 col-sm-12 col-xl-8 pr-xl-5" v-if="isShippingLoaded">
-                    <div class="checkout-shipping d-flex justify-content-between mb-3">
+                    <div class="checkout-shipping d-flex justify-content-between align-items-center mb-3">
                         <div class="title-size3 titleGreenNavyColor">Shipping Info</div>
-                        <div class="checkout-shipping-edit d-flex justify-content-between" @click="editShippingInfo()">
-                            <SvgIcon icon="pencil"></SvgIcon>
-                            <span class="ml-2 user-select-none">Edit</span>
-                        </div>
+                        <EditBtn @on-clicked="editShippingInfo"></EditBtn>
                     </div>
                     <div class="checkout-shipping-box">
                         <div class="checkout-shipping-box-field">
@@ -42,12 +39,9 @@
                         </div>
                     </div>
 
-                    <div class="checkout-payment d-flex justify-content-between mt-5 mb-3">
+                    <div class="checkout-payment d-flex justify-content-between align-items-center mt-5 mb-3">
                         <div class="title-size3 titleGreenNavyColor">Payment Method</div>
-                        <div class="checkout-payment-edit d-flex justify-content-between" @click="editPaymentMethod()">
-                            <SvgIcon icon="pencil"></SvgIcon>
-                            <span class="ml-2 user-select-none">Edit</span>
-                        </div>
+                        <EditBtn @on-clicked="editPaymentMethod"></EditBtn>
                     </div>
                     <div class="checkout-payment-box">
                         <div class="checkout-payment-box-field">
@@ -135,9 +129,10 @@ import helpers from '../../helpers';
 import Loading from 'vue-loading-overlay';
 import config from '../../config';
 import api from '../../api';
+import EditBtn from '../../components/EditBtn';
 export default {
     name: "Checkout",
-    components: {SvgIcon, Loading, ShippingInfoModal},
+    components: {SvgIcon, Loading, ShippingInfoModal, EditBtn},
     data: () => ({
         loaderOptions: { ...config.LOADER_OPTIONS },
         isLoading: false,
@@ -295,16 +290,6 @@ export default {
     .checkout-shipping-box-field-icon, .checkout-payment-box-field-icon {
         margin-right: 16px;
         flex: none;
-    }
-}
-.checkout-shipping .checkout-shipping-edit, .checkout-payment .checkout-payment-edit {
-    cursor: pointer;
-    span {
-        color: $greenColor;
-        font-family: $LacaProSemiBold;
-        font-size: 18px;
-        letter-spacing: 0.6px;
-        line-height: 24px;
     }
 }
 .checkout-price-wrapper {

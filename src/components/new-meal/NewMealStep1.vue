@@ -3,11 +3,9 @@
         <b-form-group>
             <legend class="custom-legend">
                 <span>Meal Name</span>
-                <b-btn class="edit-btn" v-if="allowEnableEditFields" @click="enableEditFields()">
-                    <!-- TODO: use SvgIcon instead -->
-                    <i class="fa fa-pencil-alt"></i>
-                    <span class="edit-btn-text">Edit</span>
-                </b-btn>
+                <template v-if="allowEnableEditFields">
+                    <EditBtn @on-clicked="enableEditFields"></EditBtn>
+                </template>
             </legend>
             <b-form-input
                     name="name"
@@ -21,11 +19,9 @@
         <b-form-group>
             <legend class="custom-legend">
                 <span>Meal Description</span>
-                <b-btn class="edit-btn" v-if="allowEnableEditFields" @click="enableEditFields()">
-                    <!-- TODO: use SvgIcon instead -->
-                    <i class="fa fa-pencil-alt"></i>
-                    <span class="edit-btn-text">Edit</span>
-                </b-btn>
+                <template v-if="allowEnableEditFields">
+                    <EditBtn @on-clicked="enableEditFields"></EditBtn>
+                </template>
             </legend>
             <textarea
                     name="description"
@@ -64,9 +60,11 @@
 import { validationMixin } from "vuelidate";
 import { required, minValue, maxValue, maxLength, numeric } from "vuelidate/lib/validators";
 import config from '../../config';
+import EditBtn from '../EditBtn';
 export default {
     name: "NewMealStep1",
     mixins: [validationMixin],
+    components: {EditBtn},
     props: ['excludeQuantityField', 'prevValues', 'disabledFields'],
     data: () => ({
         descMaxLength: config.MEAL_INFO.DESCRIPTION_MAX_LENGTH,
@@ -158,19 +156,6 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            .edit-btn {
-                background: transparent;
-                border: none;
-                outline: none;
-                color: $greenColor;
-                padding: 0;
-                margin-left: 20px;
-
-                .edit-btn-text {
-                    margin-left: 10px;
-                }
-            }
         }
     }
 }

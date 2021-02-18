@@ -3,11 +3,9 @@
         <b-form-group>
             <legend class="custom-legend">
                 <span>Add an image</span>
-                <b-btn class="edit-btn" v-if="allowEnableEditField" @click="enableEditField()">
-                    <!-- TODO: use SvgIcon instead -->
-                    <i class="fa fa-pencil-alt"></i>
-                    <span class="edit-btn-text">Edit</span>
-                </b-btn>
+                <template v-if="allowEnableEditField">
+                    <EditBtn @on-clicked="enableEditField"></EditBtn>
+                </template>
             </legend>
             <p class="mb-4 text-muted">You don’t need an image right now, you can always add this later…</p>
             <vue-dropzone v-if="dropzoneOptions" ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" :useCustomSlot=true>
@@ -23,10 +21,12 @@
 
 <script>
 import vue2Dropzone from 'vue2-dropzone';
+import EditBtn from '../EditBtn';
 export default {
     name: "NewMealImage",
     components: {
-        vueDropzone: vue2Dropzone
+        vueDropzone: vue2Dropzone,
+        EditBtn
     },
     props: ['disabledFields'],
     data: () => ({
@@ -104,19 +104,6 @@ export default {
             justify-content: space-between;
             line-height: 24px !important;
             margin-bottom: 6px !important;
-
-            .edit-btn {
-                background: transparent;
-                border: none;
-                outline: none;
-                color: $greenColor;
-                padding: 0;
-                margin-left: 20px;
-
-                .edit-btn-text {
-                    margin-left: 10px;
-                }
-            }
         }
     }
 }

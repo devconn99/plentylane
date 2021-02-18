@@ -4,11 +4,9 @@
             <b-form-group class="dietary-notes">
                 <legend class="custom-legend">
                     <span>Critical dietary notes</span>
-                    <b-btn class="edit-btn" v-if="allowEnableEditNotes" @click="enableEditNotes()">
-                        <!-- TODO: use SvgIcon instead -->
-                        <i class="fa fa-pencil-alt"></i>
-                        <span class="edit-btn-text">Edit</span>
-                    </b-btn>
+                    <template v-if="allowEnableEditNotes">
+                        <EditBtn @on-clicked="enableEditNotes"></EditBtn>
+                    </template>
                 </legend>
                 <p class="mb-3 mt-0">Select as many apply</p>
                 <b-form-checkbox-group
@@ -80,10 +78,11 @@ import { required } from "vuelidate/lib/validators";
 import ModalNewLocation from '../modals/ModalNewLocation';
 import api from "../../api";
 import helpers from '../../helpers';
+import EditBtn from '../EditBtn';
 export default {
     name: "NewMealStep3",
     mixins: [validationMixin],
-    components: {ModalNewLocation},
+    components: {ModalNewLocation, EditBtn},
     props: ['hiddenFields', 'prevValues', 'disabledFields'],
     data: () => ({
         dietaryOptions: helpers.prepareDietaryNotesCheckboxOptions(),
@@ -218,19 +217,6 @@ export default {
         justify-content: space-between;
         line-height: 24px !important;
         margin-bottom: 6px !important;
-
-        .edit-btn {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: $greenColor;
-            padding: 0;
-            margin-left: 20px;
-
-            .edit-btn-text {
-                margin-left: 10px;
-            }
-        }
     }
 }
 .meal-time-container {

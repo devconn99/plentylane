@@ -4,10 +4,7 @@
             <div class="meal-preview-field-item image-field-container">
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Meal Image</span>
-                    <b-btn class="edit-btn" @click="emitGoToStepEvent(1)">
-                        <SvgIcon icon="pencil"></SvgIcon>
-                        <span class="edit-btn-text">Edit</span>
-                    </b-btn>
+                    <EditBtn @on-clicked="emitGoToStepEvent(1)"></EditBtn>
                 </div>
                 <div class="meal-preview-field-item-image-holder">
                     <!-- TODO: use real image when it's ready -->
@@ -17,10 +14,7 @@
             <div class="meal-preview-field-item">
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Meal Info</span>
-                    <b-btn class="edit-btn" @click="emitGoToStepEvent(0)">
-                        <SvgIcon icon="pencil"></SvgIcon>
-                        <span class="edit-btn-text">Edit</span>
-                    </b-btn>
+                    <EditBtn @on-clicked="emitGoToStepEvent(0)"></EditBtn>
                 </div>
                 <div class="meal-preview-field-item-bg-block">
                     <p class="meal-title">{{mealInfo.name}}</p>
@@ -39,10 +33,7 @@
             >
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Availability</span>
-                    <b-btn class="edit-btn" @click="emitGoToStepEvent(2)">
-                        <i class="fa fa-pencil-alt"></i>
-                        <span class="edit-btn-text">Edit</span>
-                    </b-btn>
+                    <EditBtn @on-clicked="emitGoToStepEvent(2)"></EditBtn>
                 </div>
                 <div class="meal-preview-field-item-bg-block">
                     <p>{{formattedPickupTime}}</p>
@@ -54,10 +45,7 @@
             >
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Location</span>
-                    <b-btn class="edit-btn" @click="emitGoToStepEvent(2)">
-                        <SvgIcon icon="pencil"></SvgIcon>
-                        <span class="edit-btn-text">Edit</span>
-                    </b-btn>
+                    <EditBtn @on-clicked="emitGoToStepEvent(2)"></EditBtn>
                 </div>
                 <div class="meal-preview-field-item-bg-block">
                     <p>{{mealInfo.placeAlias}}</p>
@@ -66,10 +54,7 @@
             <div class="meal-preview-field-item dietary-notes-field-container">
                 <div class="meal-preview-field-item-header d-flex">
                     <span class="text-muted">Dietary Notes</span>
-                    <b-btn class="edit-btn" @click="emitGoToStepEvent(2)">
-                        <SvgIcon icon="pencil"></SvgIcon>
-                        <span class="edit-btn-text">Edit</span>
-                    </b-btn>
+                    <EditBtn @on-clicked="emitGoToStepEvent(2)"></EditBtn>
                 </div>
                 <div class="meal-preview-field-item-bg-block" v-if="mealInfo.dietaryNotesText && mealInfo.dietaryNotesText.length">
                     <ul>
@@ -88,10 +73,10 @@
 
 <script>
 import helpers from '../../helpers';
-import SvgIcon from '../SvgIcon';
+import EditBtn from '../EditBtn';
 export default {
     name: "MealReviewBeforeSave",
-    components: {SvgIcon},
+    components: {EditBtn},
     props: ['mealInfo', 'hiddenFields', 'hideQuantity'],
     methods: {
         emitGoToStepEvent (stepIndex) {
@@ -179,26 +164,6 @@ export default {
                 line-height: 18px;
                 color: #8A877D;
                 margin-bottom: 10px;
-
-                .edit-btn {
-                    background: transparent;
-                    border: none;
-                    outline: none;
-                    color: $greenColor;
-                    padding-left: 0;
-                    padding-right: 0;
-                    margin-left: 20px;
-
-                    .edit-btn-text {
-                        margin-left: 10px;
-                        position: relative;
-                        top: 3px;
-                        font-family: $LacaProSemiBold;
-                        font-size: 18px;
-                        letter-spacing: 0.6px;
-                        line-height: 24px;
-                    }
-                }
             }
 
             .meal-title {
