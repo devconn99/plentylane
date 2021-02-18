@@ -20,6 +20,7 @@
                                 :active.sync="isSubmitting"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
 
                         <h1 class="title-size3 titleGreenNavyColor">Register for Plenty Lane</h1>

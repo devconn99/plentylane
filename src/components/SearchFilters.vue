@@ -376,7 +376,7 @@ export default {
                             line-height: 14px;
 
                             &.active {
-                                min-width: 85px;
+                                min-width: 90px;
                             }
                             &:not(.active) {
                                 min-width: 115px;

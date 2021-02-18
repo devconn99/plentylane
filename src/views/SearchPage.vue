@@ -5,6 +5,7 @@
                     :active.sync="isLoading"
                     :is-full-page="loaderOptions.IS_FULL_PAGE"
                     :color="loaderOptions.COLOR"
+                    :background-color="loaderOptions.BACKGROUND_COLOR"
             ></loading>
             <div class="row pad-70b">
                 <div class="col-12 text-center">

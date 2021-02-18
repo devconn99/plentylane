@@ -1,6 +1,12 @@
 <template>
     <div class="dashboard-content" v-if="cookInfo && cookInfo.id">
-        <div class="container-fluid">
+        <div class="container-fluid cook-profile-page-container">
+            <loading
+                    :active.sync="isProcessing"
+                    :is-full-page="loaderOptions.IS_FULL_PAGE"
+                    :color="loaderOptions.COLOR"
+                    :background-color="loaderOptions.BACKGROUND_COLOR"
+            ></loading>
             <div class="row mb-5 align-items-center">
                 <div class="col-sm-4 mb-4 mb-sm-0">
                     <div class="cook-box">
@@ -39,20 +45,23 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="cook-info-links mb-3">
+                            <div class="cook-info-links">
                                 <div class="mr-2 mr-md-3 link-item" @click="openContactCookModal">
                                     <SvgIcon icon="message"></SvgIcon>
                                     <span class="ml-1 link-item-text">Message</span>
                                 </div>
                                 <div class="mr-2 mr-md-3 link-item" @click="toggleFavorite">
-                                    <!--<i class="far fa-heart link-item-icon"></i>-->
-                                    <!-- TODO: use font awesome icon instead, add toggling class later -->
-                                    <SvgIcon icon="heart"></SvgIcon>
+                                     <i class="fa-heart link-item-icon" v-bind:class="{ fas: isFavorite, far: !isFavorite }"></i>
                                     <span class="ml-1 link-item-text">Favorite</span>
                                 </div>
-                                <div class="mr-2 mr-md-3 link-item" @click="addToNetwork">
+                                <div class="link-item" @click="onClickNetworkBtn">
                                     <SvgIcon icon="network"></SvgIcon>
-                                    <span class="ml-1 link-item-text">Add to Network</span>
+                                    <span class="ml-1 link-item-text">
+                                        <template v-if="!isCookInMyNetwork">
+                                            Add to Network
+                                        </template>
+                                        <template v-else>Remove from Network</template>
+                                    </span>
                                 </div>
                             </div>
                             <template v-if="cookInfo.bio && cookInfo.bio.length">
@@ -69,6 +78,7 @@
                         :active.sync="areOffersLoading"
                         :is-full-page="loaderOptions.IS_FULL_PAGE"
                         :color="loaderOptions.COLOR"
+                        :background-color="loaderOptions.BACKGROUND_COLOR"
                 ></loading>
                 <template v-if="offers && offers.length">
                     <div class="row">
@@ -128,7 +138,9 @@ export default {
         isLastPage: false,
         currentPage: 1,
         totalOffers: 0,
-        loaderOptions: { ...config.LOADER_OPTIONS }
+        loaderOptions: { ...config.LOADER_OPTIONS },
+        isCookInMyNetwork: false,
+        isProcessing: false
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -161,6 +173,8 @@ export default {
             this.isLastPage = false;
             this.currentPage = 1;
             this.totalOffers = 0;
+            this.isCookInMyNetwork = false;
+            this.isProcessing = false;
         },
         hideGlobalLoader () {
             if (this.$loader && this.$loader.hide) {
@@ -194,18 +208,44 @@ export default {
                 return;
             }
             // TODO: load reviews (api is not ready?)
-            api.dashboard.users.getUserInfo(this.cookId)
-                .then(result => {
-                    this.cookInfo = result;
+            const requests = [
+                api.dashboard.users.getUserInfo(this.cookId),
+                api.dashboard.offers.getAvailableOffersFromUser(this.cookId)
+            ];
+            const _myNetwork = this.$store.getters.myNetwork;
+            if (_myNetwork && _myNetwork.length) {
+                this.isCookInMyNetwork = this.$store.getters.isUserInMyNetwork(this.cookId);
+            } else {
+                requests.push(api.dashboard.follows.getMyConnections());
+            }
+            Promise.all(requests)
+                .then(results => {
+                    for (const [index, data] of results.entries()) {
+                        switch (index) {
+                            case 0:
+                                // cook info
+                                this.cookInfo = { ...data };
+                                break;
+                            case 1:
+                                // offers
+                                const _offers = { ...data };
+                                this.isLastPage = _offers.page === _offers.pageCount;
+                                this.offers = _offers.data;
+                                this.currentPage = _offers.page;
+                                this.totalOffers = _offers.total;
+                                break;
+                            case 2:
+                                // my network
+                                const _network = data['following'] || [];
+                                this.$nextTick(() => {
+                                    this.$store.commit('setMyNetwork', _network);
+                                    this.isCookInMyNetwork = this.$store.getters.isUserInMyNetwork(this.cookId);
+                                });
+                                break;
+                        }
+                    }
                     this.isLoaded = true;
                     this.areOffersLoading = true;
-                    return api.dashboard.offers.getAvailableOffersFromUser(this.cookId);
-                })
-                .then(offers => {
-                    this.isLastPage = offers.page === offers.pageCount;
-                    this.offers = offers.data;
-                    this.currentPage = offers.page;
-                    this.totalOffers = offers.total;
                     this.areOffersLoading = false;
                     this.hideGlobalLoader();
                     if (cb) cb();
@@ -218,11 +258,48 @@ export default {
             this.$bvModal.show('contact-cook-modal');
         },
         toggleFavorite () {
-            // TODO: update icon styles
-            // this.isFavorite = !this.isFavorite;
+            if (this.isProcessing) return;
+            // TODO: it's temp
+            this.isProcessing = true;
+            setTimeout(() => {
+                this.isFavorite = !this.isFavorite;
+                this.isProcessing = false;
+            }, 500);
+        },
+        onClickNetworkBtn () {
+            if (!this.cookId) return;
+            if (this.isCookInMyNetwork) {
+                return this.removeFromNetwork();
+            }
+            return this.addToNetwork();
         },
         addToNetwork () {
-            // TODO: show modal?
+            this.isProcessing = true;
+            api.dashboard.follows.followUser(this.cookId)
+                .then(result => {
+                    if (result && result.following && result.following.length) {
+                        this.$store.commit('setMyNetwork', result.following.slice(0));
+                    }
+                    this.isProcessing = false;
+                    this.isCookInMyNetwork = true;
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.isProcessing = false;
+                })
+        },
+        removeFromNetwork () {
+            this.isProcessing = true;
+            api.dashboard.follows.unFollowUser(this.cookId)
+                .then(() => {
+                    this.isProcessing = false;
+                    this.isCookInMyNetwork = false;
+                    this.$store.commit('removeUserFromNetwork', this.cookId)
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.isProcessing = false;
+                })
         },
         loadMoreOffers () {
             if (this.$refs['moreOffersBtn']) {
@@ -257,6 +334,14 @@ export default {
 
 <style scoped lang="scss">
 @import "../scss/utils/vars";
+.cook-profile-page-container {
+    position: relative;
+    min-height: 500px;
+
+    @media screen and (max-width: $phoneBigWidth) {
+        min-height: 300px;
+    }
+}
 
 @media screen and (max-width: $phoneBigWidth) {
     .cook-profile {

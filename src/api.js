@@ -196,16 +196,6 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getMealByUuid (uuid) {
-                const endpoint = `${config.API_ORIGIN}/api/meals/${uuid}?join=place&join=user`;
-                return axios.get(endpoint)
-                    .then((res) => {
-                        return Promise.resolve(res.data || {});
-                    })
-                    .catch((err) => {
-                        return checkErr(err.response);
-                    })
-            },
             getMealById (id) {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}`;
                 return axios.get(endpoint)
@@ -602,6 +592,9 @@ export default {
                 return new Promise(resolve => setTimeout(resolve, 1000));
             },
             followUser (id) {
+                if (typeof id !== 'number') {
+                    id = Number(id);
+                }
                 const endpoint = `${config.API_ORIGIN}/api/me/follows`;
                 return axios.post(endpoint, { action: 'add', followingId: id })
                     .then((res) => {
@@ -612,6 +605,9 @@ export default {
                     });
             },
             unFollowUser (id) {
+                if (typeof id !== 'number') {
+                    id = Number(id);
+                }
                 const endpoint = `${config.API_ORIGIN}/api/me/follows`;
                 return axios.post(endpoint, { action: 'remove', followingId: id })
                     .then((res) => {

@@ -5,11 +5,13 @@
                     :active.sync="isLoading"
                     :is-full-page="loaderOptions.IS_FULL_PAGE"
                     :color="loaderOptions.COLOR"
+                    :background-color="loaderOptions.BACKGROUND_COLOR"
             ></loading>
             <loading
                     :active.sync="isSubmitting"
                     :is-full-page="loaderOptions.IS_FULL_PAGE"
                     :color="loaderOptions.COLOR"
+                    :background-color="loaderOptions.BACKGROUND_COLOR"
             ></loading>
 
             <div class="dashboard-title-box flex-row align-items-center mb-4 mb-lg-5 mt-2 mt-lg-3">

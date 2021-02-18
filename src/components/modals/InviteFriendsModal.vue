@@ -34,7 +34,7 @@
                             :active.sync="isLoadingContent"
                             :is-full-page="loaderOptions.IS_FULL_PAGE"
                             :color="loaderOptions.COLOR"
-                            :background-color="loaderOptions.backgroundColor"
+                            :background-color="loaderOptions.BACKGROUND_COLOR"
                     ></loading>
                     <div class="invite-back-button" @click="showItemsAside">
                         <SvgIcon icon="arrowLeft"></SvgIcon>
@@ -244,7 +244,7 @@ export default {
                 innerTitle: 'Invite Friends by a Link'
             }
         ],
-        loaderOptions: { ...config.LOADER_OPTIONS, backgroundColor: '#FEF8E6' },
+        loaderOptions: { ...config.LOADER_OPTIONS },
         activeItem: null,
         isAsideEnabled: true,
         isLoadingContent: false,

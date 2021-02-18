@@ -17,6 +17,7 @@
                         :active.sync="isLoading"
                         :is-full-page="loaderOptions.IS_FULL_PAGE"
                         :color="loaderOptions.COLOR"
+                        :background-color="loaderOptions.BACKGROUND_COLOR"
                 ></loading>
 
                 <MainSearch

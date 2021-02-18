@@ -302,6 +302,9 @@ export default {
             svg {
                 margin-top: -3px;
             }
+            i.fa, i.fas, i.far, i.fab {
+                margin-top: -5px;
+            }
         }
 
         @media screen and (max-width: $tableMinWidth) {

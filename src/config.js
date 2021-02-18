@@ -15,6 +15,7 @@ export default {
     },
     LOADER_OPTIONS: {
         COLOR: '#009C90',
+        BACKGROUND_COLOR: '#FEF8E6',
         IS_FULL_PAGE: false
     }
 }

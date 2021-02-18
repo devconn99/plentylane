@@ -665,11 +665,17 @@ ul.nav-menu-dashboard-small {
 	.cook-info-links {
 		display: flex;
 		flex-direction: row;
+		flex-wrap: wrap;
 		@media screen and (max-width: $mdphoneWidth) {
 			flex-direction: column;
 		}
 		.link-item {
 			cursor: pointer;
+			margin-bottom: 10px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 
 			.link-item-text {
 				font-family: $FilsonProBold;
@@ -679,7 +685,13 @@ ul.nav-menu-dashboard-small {
 				color: $greenColor;
 			}
 			.link-item-icon {
+				font-size: 16px;
 				color: $greenColor;
+				-webkit-transition: color 0.3s ease;
+				-moz-transition: color 0.3s ease;
+				-ms-transition: color 0.3s ease;
+				-o-transition: color 0.3s ease;
+				transition: color 0.3s ease;
 			}
 		}
 		a, .link-item {

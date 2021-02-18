@@ -46,6 +46,9 @@ body {
 .cursor-pointer {
 	cursor: pointer;
 }
+.cursor-default {
+	cursor: default;
+}
 *, *:before, *:after {
 	box-sizing: border-box;
 }
@@ -539,7 +542,7 @@ button {
 			margin-right: 12px;
 			flex: none; // TODO ?
 		}
-		i[class*='fa'] {
+		i.fa, i.fas, i.far, i.fab {
 			margin-right: 12px;
 		}
 		@media screen and (min-width: $tableWidth) {

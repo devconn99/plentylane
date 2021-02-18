@@ -22,6 +22,7 @@
                                 :active.sync="isSaving"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <form-wizard
                                 @on-complete="onCompleteWizard"

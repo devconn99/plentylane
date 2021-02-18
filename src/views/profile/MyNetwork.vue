@@ -37,6 +37,7 @@
                                 :active.sync="isLoadingConnections"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <template v-if="areConnectionsLoaded">
                             <div class="connection" v-if="connectionsFiltered && connectionsFiltered.length">
@@ -85,6 +86,7 @@
                                 :active.sync="isLoadingInvites"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <template v-if="areInvitesLoaded">
                             <div v-if="invites && invites.length">
@@ -123,6 +125,7 @@
                                 :active.sync="isLoadingUsers"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <template v-if="usersPagination.loaded">
                             <div class="connection" v-if="users && users.length">
@@ -234,11 +237,20 @@ export default {
         },
         loadConnections () {
             this.isLoadingConnections = true;
+            const _myNetwork = this.$store.getters.myNetwork;
+            if (_myNetwork && _myNetwork.length) {
+                this.connections = _myNetwork.map(user => user);
+                this.connectionsFiltered = this.connections.slice(0);
+                this.isLoadingConnections = false;
+                this.areConnectionsLoaded = true;
+                return;
+            }
             api.dashboard.follows.getMyConnections()
                 .then(result => {
                     if (result.following && result.following.length) {
                         this.connections = result.following.map(user => user);
                         this.connectionsFiltered = this.connections.slice(0);
+                        this.$store.commit('setMyNetwork', result.following);
                     }
                     this.isLoadingConnections = false;
                     this.areConnectionsLoaded = true;
@@ -287,10 +299,10 @@ export default {
             this.loadUsers();
         },
         followUser (user) {
-            // temp
             api.dashboard.follows.followUser(user.id)
                 .then(result => {
                     this.connections.push({ ...user });
+                    this.$store.commit('addUserToNetwork', { ...user });
                     this.filterConnections();
                 })
                 .catch(err => {
@@ -322,6 +334,7 @@ export default {
             api.dashboard.follows.unFollowUser(_id)
                 .then(() => {
                     this.connections = this.connections.filter(item => item.id !== Number(_id));
+                    this.$store.commit('removeUserFromNetwork', _id);
                     if (this.connectionsFiltered && this.connectionsFiltered.length) {
                         this.connectionsFiltered = this.connectionsFiltered.filter(item => item.id !== Number(_id));
                     }

@@ -17,6 +17,7 @@
                                 :active.sync="isLoadingMeals"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <div v-if="mealPagination.loaded">
                             <p>You have {{mealPagination.total}} meal{{mealPagination.total === 1 ? '' : 's'}}</p>
@@ -72,6 +73,7 @@
                                 :active.sync="isLoadingReservations"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <div v-if="dinesPagination.loaded">
                             <p>You have {{dinesPagination.total}} reservation{{dinesPagination.total === 1 ? '' : 's'}}</p>
@@ -102,6 +104,7 @@
                                 :active.sync="isLoadingOffers"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <div v-if="offersPagination.loaded">
                             <p>You have {{offersPagination.total}} offer{{offersPagination.total === 1 ? '' : 's'}}</p>

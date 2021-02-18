@@ -18,9 +18,11 @@
             <div class="container-fluid">
                 <div class="row mt-md-5 mt-md-3">
                     <div class="col-12 mx-auto" v-if="!isWizardCompleted">
-                        <loading :active.sync="isPosting"
+                        <loading
+                                :active.sync="isPosting"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <form-wizard
                                 @on-complete="onComplete"

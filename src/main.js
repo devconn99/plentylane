@@ -11,7 +11,6 @@ import JQuery from 'jquery'
 //global registration
 import VueFormWizard from 'vue-form-wizard'
 import '@fortawesome/fontawesome-free/css/all.css'
-import '@fortawesome/fontawesome-free/js/all.js'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';

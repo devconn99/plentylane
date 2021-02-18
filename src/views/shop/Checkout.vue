@@ -5,6 +5,7 @@
                     :active.sync="isLoading"
                     :is-full-page="loaderOptions.IS_FULL_PAGE"
                     :color="loaderOptions.COLOR"
+                    :background-color="loaderOptions.BACKGROUND_COLOR"
             ></loading>
             <router-link :to="{ path: '/dashboard/shop/basket' }" class="shop-back d-inline-flex align-items-center">
                 <SvgIcon icon="arrowLeft"></SvgIcon>

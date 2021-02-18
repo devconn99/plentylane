@@ -382,12 +382,9 @@ export default {
 <style scoped lang="scss">
 @import "../scss/utils/vars";
 .search-map-wrapper {
-    margin-left: -30px;
-    margin-right: -30px;
-
-    @media screen and (min-width: $desktopBigWidth + 1) {
-        margin-left: -80px;
-        margin-right: -80px;
+    @media screen and (min-width: $tableMinWidth + 1) {
+        margin-left: -30px;
+        margin-right: -30px;
     }
 
     .map-container {
