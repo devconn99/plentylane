@@ -12,7 +12,13 @@
                 <div class="dropzone-custom-content">
                     <!-- TODO: add correct icon -->
                     <img width="92px" height="90px" src="../../assets/icons/upload-to-cloud.svg" alt="">
-                    <h3 class="dropzone-custom-title">Drag & drop an image</h3>
+                    <h3 class="dropzone-custom-title">
+                        <div class="p-0 m-0">Drag & drop an image</div>
+                        <div class="p-0 mb-0 mt-2">or</div>
+                    </h3>
+                    <div class="dropzone-custom-btn mt-3">
+                        <span>Upload Image</span>
+                    </div>
                 </div>
             </vue-dropzone>
         </b-form-group>
@@ -84,13 +90,46 @@ export default {
     transform: translate(-50%, -50%);
     text-align: center;
 
-    .dropzone-custom-title {
+    .dropzone-custom-title, .dropzone-custom-btn span {
         color: #8A877D;
         font-family: $FilsonProBold;
         font-size: 18px;
         letter-spacing: 0.6px;
         line-height: 18px;
+    }
+    .dropzone-custom-title {
         margin-top: 10px;
+
+        @media screen and (max-width: $tableMinWidth) {
+            display: none;
+        };
+    }
+    .dropzone-custom-btn {
+        border: 3px solid #8A877D;
+        background-color: transparent;
+        color: #8A877D;
+        width: 200px;
+        margin: 0 auto;
+        padding: 18px 15px;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: #8A877D;
+            span {
+                color: $mainBackgroundColor;
+            }
+        }
+        span {
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -ms-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
     }
 }
 .new-meal-image-container {
