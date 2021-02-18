@@ -25,11 +25,32 @@ export default {
     bottom: -1px;
     left: -10px;
     width: calc(100% + 20px);
-    @media screen and (max-width: $phoneWidth) {
-        bottom: -3px;
+    overflow-x: hidden;
+
+    @media screen and (max-width: 343px) {
+        height: 21px;
     }
-    @media screen and (max-width: $mdphoneWidth) {
-        bottom: -4px;
+    @media screen and (min-width: 344px) and (max-width: 382px) {
+        height: 22px;
+    };
+    @media screen and (min-width: 383px) and (max-device-width: 420px) {
+        height: 23px;
+    }
+    @media screen and (min-width: 421px) and (max-width: 448px) {
+        height: 24px;
+    }
+    @media screen and (min-width: 449px) and (max-width: 468px) {
+        height: 25px;
+    }
+    @media screen and (min-width: 469px) and (max-width: 487px) {
+        height: 26px;
+    }
+    @media screen and (min-width: 488px) and (max-width: 497px) {
+        height: 27px;
+    }
+    @media screen and (max-width: $tableMinWidth) {
+        width: 100%;
+        left: 0;
     }
 }
 </style>

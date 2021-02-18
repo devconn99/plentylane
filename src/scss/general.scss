@@ -160,6 +160,10 @@ strong {
 .container {
 	max-width: $desktopWidth;
 	width: 100%;
+
+	@media screen and (max-width: $desktopWidth - 1) {
+		max-width: 100%;
+	}
 }
 p {
 	margin-bottom: 25px;

@@ -443,12 +443,24 @@ ul.nav-menu-dashboard {
 	padding: 0;
 	margin: 0;
 	li {
+		&.active {
+			.nav-link {
+				color: $mainBackgroundColor;
+			}
+		}
 		.nav-link {
 			display: flex;
 			align-items: center;
 			font-family: $LacaProSemiBold;
 			font-size: 24px;
 			padding: 12px 29px;
+			color: $greenColor;
+			cursor: pointer;
+			-webkit-transition: color 0.3s ease;
+			-moz-transition: color 0.3s ease;
+			-ms-transition: color 0.3s ease;
+			-o-transition: color 0.3s ease;
+			transition: color 0.3s ease;
 			&:hover, &:focus, &:active {
 				color: $mainBackgroundColor;
 				svg path {
@@ -507,6 +519,9 @@ ul.nav-menu-dashboard-small {
 			a, a:not([href]):not([class]) {
 				color: $mainBackgroundColor;
 			}
+		}
+		a.active {
+			color: $mainBackgroundColor;
 		}
 		&:first-child {
 			a, a:not([href]):not([class]) {

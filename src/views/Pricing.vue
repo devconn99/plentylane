@@ -77,8 +77,6 @@
                                             <ul class="price-benefits mb-3">
                                                 <li>$28.25 Signup Fee</li>
                                                 <li>Includes 4 containers</li>
-                                                <li>$28.25 Signup Fee</li>
-                                                <li>Includes 4 containers</li>
                                             </ul>
                                         </div>
                                         <div class="price-btn">
@@ -101,11 +99,6 @@
                                             <ul class="price-benefits mb-3">
                                                 <li>$28.25 Signup Fee</li>
                                                 <li>Includes 4 containers</li>
-                                                <li>$28.25 Signup Fee</li>
-                                                <li>$28.25 Signup Fee</li>
-                                                <li>Includes 4 containers</li>
-                                                <li>$28.25 Signup Fee</li>
-                                                <li>$28.25 Signup Fee</li>
                                             </ul>
                                         </div>
                                         <div class="price-btn">

@@ -282,7 +282,7 @@ export default {
                 });
         },
         redirectToMeal () {
-            this.$router.push({ path: `/dashboard/offers/${this.newOfferId}` });
+            this.$router.push({ path: `/dashboard/my-offers/${this.newOfferId}` });
         },
         createAnotherMeal () {
             // clear all steps of the wizard

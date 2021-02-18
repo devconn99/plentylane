@@ -94,11 +94,11 @@
                     <div class="dashboard-aside-box">
                         <nav id="nav-dashboard">
                             <ul class="nav-menu-dashboard">
-                                <li v-for="navItem in navMenuItems">
-                                    <router-link :to="{ path: navItem.path }" class="nav-link">
+                                <li v-for="navItem in navMenuItems" v-bind:class="{ 'active': navItem.isActive }">
+                                    <div class="nav-link" @click.stop.prevent="redirectToPath(navItem.path)">
                                         <SvgIcon :icon="navItem.iconName"></SvgIcon>
                                         <span>{{navItem.text}}</span>
-                                    </router-link>
+                                    </div>
                                 </li>
                             </ul>
                         </nav>
@@ -122,7 +122,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <router-link :to="{ path: '/dashboard/help' }">
+                                    <router-link :to="{ path: '/dashboard/help' }" :exact-active-class="'active'">
                                         <SvgIcon icon="help"></SvgIcon>
                                         <span>Help</span>
                                     </router-link>
@@ -348,6 +348,27 @@ export default {
                 return;
             }
             this.$router.push({ path: pathToProfile }).catch(() => {});
+        },
+        redirectToPath (path) {
+            if (this.$route.path === path) {
+                if (this.isMobileSidebarVisible) {
+                    this.hideMobileSideNav();
+                }
+                return;
+            }
+            if (!path || !path.length) return;
+            this.$router.push({ path: path }).catch(()=>{});
+        }
+    },
+    watch: {
+        '$route.path': {
+            handler: function(path) {
+                if (!this.navMenuItems || !this.navMenuItems.length) return;
+                this.navMenuItems.forEach(item => {
+                    item.isActive = item.path === path;
+                });
+            },
+            immediate: true
         }
     },
     beforeDestroy () {

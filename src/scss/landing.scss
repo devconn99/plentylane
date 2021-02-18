@@ -157,6 +157,7 @@ ul.nav-menu-landing {
 
 			@media screen and (max-width: $phoneBigWidth) {
 				display: none;
+				height: 0;
 			}
 		}
 	}
