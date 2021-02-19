@@ -332,6 +332,7 @@ export default {
             @media screen and (max-width: $phoneBigWidth) {
                 top: 14px;
                 left: 12px;
+                display: block;
             }
         }
         button {
@@ -415,6 +416,10 @@ export default {
     }
 
     .collapse-filter-toggle-btn {
+        &:active {
+            background-color: transparent;
+            border-color: inherit;
+        }
         &.collapsed {
             > .when-open {
                 display: none;

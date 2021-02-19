@@ -35,7 +35,7 @@
 import SearchFilters from './SearchFilters';
 import OfferInfoBlock from './OfferInfoBlock';
 import api from '../api';
-import MyMealInfo from './MyMealInfo';
+import MapInfoWindow from './MapInfoWindow';
 import Vue from 'vue';
 import helpers from '../helpers';
 export default {
@@ -82,19 +82,25 @@ export default {
         })
     },
     mounted () {
-        this._infoWindowComponent = Vue.extend(MyMealInfo);
+        this._infoWindowComponent = Vue.extend(MapInfoWindow);
         this._infoWindowComponentInstance = new this._infoWindowComponent({});
         this._infoWindowComponentInstance.$mount();
-        this.$eventHub.$on('marker-info-window-clicked', (id) => {
+        this.$eventHub.$on('marker-info-window_redirect-to-offer', (id) => {
             if (!id) return;
             this.closeInfoWindowById(id);
-            this.$router.push({ path: `/dashboard/offers/${id}` });
+            this.$router.push({ path: `/dashboard/offers/${id}` }).catch(() => {});
+        });
+        this.$eventHub.$on('marker-info-window_redirect-to-cook', (id, cookId) => {
+            if (!id || !cookId) return;
+            this.closeInfoWindowById(id);
+            this.$router.push({ path: `/dashboard/cook-profile/${cookId}` }).catch(() => {});
         });
     },
     beforeDestroy () {
         this.$eventHub.$off('browser-coordinates');
         this.$eventHub.$off('trigger-main-search');
-        this.$eventHub.$off('marker-info-window-clicked');
+        this.$eventHub.$off('marker-info-window_redirect-to-offer');
+        this.$eventHub.$off('marker-info-window_redirect-to-cook');
         this._infoWindowComponentInstance.$destroy();
         this._infoWindowComponentInstance = null;
         this._infoWindowComponent = null;
@@ -385,6 +391,10 @@ export default {
     @media screen and (min-width: $tableMinWidth + 1) {
         margin-left: -30px;
         margin-right: -30px;
+    }
+    @media screen and (min-width: $desktopBigWidth + 1) {
+        margin-left: -80px;
+        margin-right: -80px;
     }
 
     .map-container {

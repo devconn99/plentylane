@@ -893,7 +893,7 @@ h1, h2, h3, h4, h5, h6 {
 			}
 			button {
 				flex: none;
-				&.btnGreen {
+				&.btnGreen span {
 					padding-left: 15px;
 					padding-right: 15px;
 				}
@@ -1661,6 +1661,11 @@ body.mobile-menu-box-active .header {
 // hide bottom right info
 .gm-style-cc {
 	display: none;
+}
+.gm-style-iw.gm-style-iw-c {
+	@media screen and (max-width: $phoneBigWidth) {
+		max-width: 300px !important;
+	}
 }
 .map-container {
 	.marker-label-wrapper {

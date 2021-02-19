@@ -1,5 +1,5 @@
 <template>
-    <div class="my-meal-info-wrapper" v-if="itemData && itemData.id" v-bind:class="{ 'map-info-window': isMapInfoWindow }">
+    <div class="my-meal-info-wrapper" v-if="itemData && itemData.id">
         <div class="reserved-box p-2 p-xl-3">
             <div class="reserved-info">
                 <div class="reserved-img mr-2 mr-xl-3">
@@ -20,20 +20,14 @@
                 </div>
             </div>
             <div class="cook-box mt-3">
-                <div
-                        class="cook-info-additional pl-3 pl-sm-4 pl-md-5"
-                        v-bind:class="{ 'pr-3 pr-sm-4 pr-md-5': !isMapInfoWindow }"
-                >
+                <div class="cook-info-additional pl-3 pl-sm-4 pl-md-5 pr-3 pr-sm-4 pr-md-5">
                     <div class="cook-time">
                         <SvgIcon icon="clock"></SvgIcon>
                         <span class="ml-3">{{readyTimeStr}}</span>
                     </div>
                     <div class="cook-location mt-1 mt-md-2">
                         <SvgIcon icon="location"></SvgIcon>
-                        <span
-                                class="ml-3"
-                                v-bind:class="{ 'titleGreenLightColor text-underline': !isMapInfoWindow }"
-                        >{{itemData.place.address}}</span>
+                        <span class="ml-3 titleGreenLightColor text-underline'">{{itemData.place.address}}</span>
                     </div>
                 </div>
             </div>
@@ -47,16 +41,12 @@ import helpers from '../helpers';
 export default {
     name: "MyMealInfo",
     components: {SvgIcon},
-    props: ['itemData', 'isMapInfoWindow', 'isMyMeal'],
+    props: ['itemData', 'isMyMeal'],
     methods: {
         redirect () {
             if (!this.itemData || !this.itemData.id) return;
-            if (!this.isMapInfoWindow) {
-                const path = this.isMyMeal ? `/dashboard/my-offers/${this.itemData.id}` : `/dashboard/offers/${this.itemData.id}`;
-                this.$router.push({ path: path }).catch(()=>{});
-            } else {
-                this.$eventHub.$emit('marker-info-window-clicked', this.itemData.id);
-            }
+            const path = this.isMyMeal ? `/dashboard/my-offers/${this.itemData.id}` : `/dashboard/offers/${this.itemData.id}`;
+            this.$router.push({ path: path }).catch(()=>{});
         }
     },
     computed: {
@@ -78,9 +68,6 @@ export default {
 .my-meal-info-wrapper {
     + .my-meal-info-wrapper {
         margin-top: 20px;
-    }
-    &.map-info-window {
-        max-width: 240px;
     }
 }
 </style>
