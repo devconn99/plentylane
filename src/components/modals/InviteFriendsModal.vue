@@ -19,7 +19,7 @@
                 <div class="invite invite-aside" v-bind:class="{ 'aside_enabled': isAsideEnabled }">
                     <div class="invite-box" v-for="item in items" v-bind:key="item.type" @click="onClickItemHandler(item)">
                         <div class="invite-box-info">
-                            <div class="invite-icon mr-2 mr-md-3">
+                            <div class="invite-icon">
                                 <SvgIcon :icon="item.svgIcon"></SvgIcon>
                             </div>
                             <div class="invite-name">{{item.title}}</div>
@@ -440,7 +440,7 @@ export default {
     min-height: 310px;
 
     @media screen and (max-width: $phoneBigWidth) {
-        min-height: 232px;
+        min-height: 282px;
     }
 
     .invite {
@@ -465,7 +465,7 @@ export default {
             justify-content: space-between;
             padding: 17px;
             @media screen and (max-width: $phoneBigWidth) {
-                padding: 10px;
+                padding: 15px 10px;
             }
             .invite-box-info {
                 display: flex;
@@ -473,6 +473,11 @@ export default {
                 align-items: center;
                 .invite-icon {
                     flex: none;
+                    margin-right: 20px;
+
+                    @media screen and (max-width: $phoneBigWidth) {
+                        margin-right: 15px;
+                    }
                 }
                 .invite-name {
                     -webkit-user-select: none;
@@ -500,7 +505,7 @@ export default {
                         line-height: 22px;
                     }
                     @media screen and (max-width: $phoneBigWidth) {
-                        font-size: 16px;
+                        font-size: 18px;
                         line-height: 20px;
                         letter-spacing: 0.8px;
                     }
