@@ -832,6 +832,15 @@ a.reserved-box, .reserved-box {
 				object-fit: cover;
 				border-radius: 50%;
 			}
+			.questions-box-author-img-placeholder {
+				width: 40px;
+				height: 40px;
+
+				.user-icon {
+					font-size: 40px;
+					color: $grayColor;
+				}
+			}
 			.questions-box-author-title {
 				display: flex;
 				flex-direction: column;
@@ -853,6 +862,37 @@ a.reserved-box, .reserved-box {
 				margin-bottom: 0;
 				@media screen and (max-width: $phoneBigWidth) {
 					font-size: 16px;
+				}
+			}
+		}
+		.questions-box-stars {
+			height: 24px;
+			margin-bottom: 10px;
+
+			.b-rating {
+				height: 100%;
+				background-color: $mainBackgroundColor;
+				padding: 0;
+
+				.b-rating-star {
+					color: #131311;
+					&:first-of-type {
+						padding-left: 0;
+					}
+					&.b-rating-star-empty {
+						color: #B7B2A1;
+					}
+					&.b-rating-star-half {
+						.b-rating-icon {
+							.svg-icon-wrapper {
+								// TODO: it's temp
+								svg {
+									width: 17px;
+									height: 17px;
+								}
+							}
+						}
+					}
 				}
 			}
 		}

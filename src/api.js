@@ -574,6 +574,74 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response);
                     })
+            },
+            getReviews (userId) {
+                // temp
+                const _reviews = [
+                    {
+                        id: 1,
+                        rating: 4,
+                        title: 'Subject/Question',
+                        comment: `
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+                        `,
+                        from: {
+                            fullName: 'Martie G.',
+                            date: '2020-11-21'
+                        }
+                    },
+                    {
+                        id: 2,
+                        rating: 5,
+                        title: 'Delicious',
+                        comment: `
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+                        `,
+                        from: {
+                            fullName: 'Bobby T.',
+                            date: '2020-11-12'
+                        }
+                    },
+                    {
+                        id: 3,
+                        rating: 2.5,
+                        title: 'A little too spicy...',
+                        comment: `
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+                        `,
+                        from: {
+                            fullName: 'Joe P.',
+                            date: '2020-11-12'
+                        }
+                    },
+                    {
+                        id: 4,
+                        rating: 1,
+                        title: '-',
+                        comment: `
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+                        `,
+                        from: {
+                            fullName: 'Ben G.',
+                            date: '2020-12-01'
+                        }
+                    }
+                ];
+                return Promise.resolve({
+                    data: _reviews,
+                    total: _reviews.length,
+                    page: 1,
+                    pageCount: 1,
+                    isLastPage: true
+                });
             }
         },
         follows: {

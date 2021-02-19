@@ -108,6 +108,74 @@
                         </div>
                     </div>
                 </template>
+
+                <div class="row" v-if="reviewsPage.loaded">
+                    <template v-if="reviews && reviews.length">
+                        <div class="col-12">
+                            <div class="dashboard-title-box mb-3">
+                                <div class="title-size3 titleGreenNavyColor">{{numOfReviewsStr}}</div>
+                            </div>
+                            <div class="questions">
+                                <div class="questions-box" v-for="review in reviews" v-bind:key="review.id">
+                                    <div class="row">
+                                        <div class="col-sm-4 mb-2 mb-sm-0">
+                                            <div class="questions-box-author">
+                                                <div class="questions-box-author-img-placeholder mr-2 mr-xl-3">
+                                                    <i class="fas fa-user-circle user-icon"></i>
+                                                </div>
+                                                <div class="questions-box-author-title">
+                                                    {{review.from.fullName}}
+                                                    <span>{{review.from.date}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="questions-box-text">
+                                                <div class="questions-box-stars">
+                                                    <b-form-rating
+                                                            inline
+                                                            no-border
+                                                            v-model="review.rating"
+                                                            readonly
+                                                    >
+                                                        <template slot="icon-full">
+                                                            <SvgIcon icon="ratingStarFull"></SvgIcon>
+                                                        </template>
+                                                        <template slot="icon-half">
+                                                            <SvgIcon icon="ratingStarHalf"></SvgIcon>
+                                                        </template>
+                                                        <template slot="icon-empty">
+                                                            <SvgIcon icon="ratingStarEmpty"></SvgIcon>
+                                                        </template>
+                                                    </b-form-rating>
+                                                </div>
+                                                <p class="question mb-1">{{review.title}}</p>
+                                                <p>{{review.comment}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mx-auto mt-4" v-if="!reviewsPage.isLastPage">
+                            <div class="btn-box">
+                                <b-btn
+                                        class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-4"
+                                        @click="loadMoreReviews"
+                                >
+                                    <span>More Reviews</span>
+                                </b-btn>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="col-12">
+                            <div class="dashboard-title-box mb-3">
+                                <div class="title-size3 titleGreenNavyColor">No Reviews</div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
             </div>
 
             <!-- TODO: add review section when endpoint is ready -->
@@ -145,6 +213,14 @@ export default {
         isProcessing: false,
         confirmRemoveMsg: 'Are you sure you want to remove this person from your network?',
         modalId: 'confirm-remove-from-network',
+        reviewsPage: {
+            total: 0,
+            page: 1,
+            pageCount: 1,
+            loaded: false,
+            isLastPage: false
+        },
+        reviews: []
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -179,6 +255,14 @@ export default {
             this.totalOffers = 0;
             this.isCookInMyNetwork = false;
             this.isProcessing = false;
+            this.reviews = [];
+            this.reviewsPage = {
+                total: 0,
+                page: 1,
+                pageCount: 1,
+                loaded: false,
+                isLastPage: false
+            };
         },
         hideGlobalLoader () {
             if (this.$loader && this.$loader.hide) {
@@ -214,7 +298,8 @@ export default {
             // TODO: load reviews (api is not ready?)
             const requests = [
                 api.dashboard.users.getUserInfo(this.cookId),
-                api.dashboard.offers.getAvailableOffersFromUser(this.cookId)
+                api.dashboard.offers.getAvailableOffersFromUser(this.cookId),
+                api.dashboard.users.getReviews(this.cookId)
             ];
             const _myNetwork = this.$store.getters.myNetwork;
             if (_myNetwork && _myNetwork.length) {
@@ -239,6 +324,17 @@ export default {
                                 this.totalOffers = _offers.total;
                                 break;
                             case 2:
+                                // reviews
+                                // TODO: temp values
+                                const dataPage = { ...data };
+                                this.reviewsPage.total = dataPage.total;
+                                this.reviewsPage.page = dataPage.page;
+                                this.reviewsPage.pageCount = dataPage.pageCount;
+                                this.reviewsPage.isLastPage = dataPage.isLastPage;
+                                this.reviews = this.reviews.concat(dataPage.data);
+                                this.reviewsPage.loaded = true;
+                                break;
+                            case 3:
                                 // my network
                                 const _network = data['following'] || [];
                                 this.$nextTick(() => {
@@ -332,11 +428,17 @@ export default {
         },
         onConfirmedRemoveFromNetwork () {
             this.removeFromNetwork();
+        },
+        loadMoreReviews () {
+            // TODO
         }
     },
     computed: {
         numOfOffersStr: function () {
             return `${this.totalOffers} Meal${this.totalOffers === 1 ? '' : 's'}`;
+        },
+        numOfReviewsStr: function () {
+            return `${this.reviews.length} Review${this.reviews === 1 ? '' : 's'}`;
         }
     }
 }
