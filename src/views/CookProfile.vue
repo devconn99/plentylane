@@ -115,6 +115,7 @@
 
         <!-- modals -->
         <ContactCookModal :cook-id="this.cookId"></ContactCookModal>
+        <ConfirmModal :id="modalId" :message="confirmRemoveMsg" @confirmed="onConfirmedRemoveFromNetwork"></ConfirmModal>
     </div>
 </template>
 
@@ -125,9 +126,10 @@ import ContactCookModal from '../components/modals/ContactCookModal';
 import Loading from 'vue-loading-overlay';
 import OfferInfoBlock from '../components/OfferInfoBlock';
 import config from "../config";
+import ConfirmModal from '../components/modals/ConfirmModal';
 export default {
     name: "CookProfile",
-    components: {SvgIcon, ContactCookModal, Loading, OfferInfoBlock},
+    components: {SvgIcon, ContactCookModal, Loading, OfferInfoBlock, ConfirmModal},
     data: () => ({
         isLoaded: false,
         cookId: '',
@@ -140,7 +142,9 @@ export default {
         totalOffers: 0,
         loaderOptions: { ...config.LOADER_OPTIONS },
         isCookInMyNetwork: false,
-        isProcessing: false
+        isProcessing: false,
+        confirmRemoveMsg: 'Are you sure you want to remove this person from your network?',
+        modalId: 'confirm-remove-from-network',
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -269,7 +273,7 @@ export default {
         onClickNetworkBtn () {
             if (!this.cookId) return;
             if (this.isCookInMyNetwork) {
-                return this.removeFromNetwork();
+                return this.openConfirmModal();
             }
             return this.addToNetwork();
         },
@@ -322,6 +326,12 @@ export default {
                     this.areOffersLoading = false;
                     console.log('\n >> err load more offers:', err);
                 })
+        },
+        openConfirmModal () {
+            this.$bvModal.show(this.modalId);
+        },
+        onConfirmedRemoveFromNetwork () {
+            this.removeFromNetwork();
         }
     },
     computed: {
