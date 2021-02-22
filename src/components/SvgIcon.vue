@@ -372,12 +372,12 @@ export default {
                     </svg>
                 `
             },
-            email: function () {
+            email: function (params) {
                 return `
                     <svg width="26" height="24" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M25.408.124a.533.533 0 00-.546-.083L.329 10.174a.533.533 0 00.01.989l6.754 2.623a.533.533 0 00.5-.06l8.96-6.372a.533.533 0 01.679.819l-7.467 7.194a.533.533 0 00-.163.384v7.182a.533.533 0 00.993.27l3.378-5.788a.268.268 0 01.36-.099l6.214 3.414a.533.533 0 00.779-.355L25.593.642a.542.542 0 00-.185-.518z"
-                            fill="#009C90" fill-rule="nonzero" />
+                            fill="${params && params.fill ? params.fill : '#009C90'}" fill-rule="nonzero" />
                     </svg>
                 `
             },

@@ -41,21 +41,31 @@ const TEMP_NOTIFICATIONS = [
         id: 1
     },
     {
-        iconName: 'notificationType2',
-        content: 'Get your food handler certification',
+        iconName: 'notificationType4',
+        content: 'Response from Amy G.',
+        id: 2,
         shouldReply: true,
-        id: 2
+        userInfo: {
+            firstName: 'Amy',
+            lastName: 'GreenField',
+            id: 2
+        }
     },
     {
         iconName: 'notificationType4',
-        content: 'New order from new customer',
+        content: 'Response from Ben T.',
         shouldReply: true,
-        id: 3
+        id: 3,
+        userInfo: {
+            firstName: 'Ben',
+            lastName: 'Tattle',
+            id: 1
+        }
     },
     {
         iconName: 'notificationType3',
         content: 'New meal from Winifred P.',
-        id: 4
+        id: 4,
     },
     {
         iconName: 'notificationType1',

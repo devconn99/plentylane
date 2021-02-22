@@ -43,6 +43,52 @@ export default {
         }
         return `${timeStr} ${weekdayName}, ${monthName}. ${date.getUTCDate()}`;
     },
+    parseMessageDate: function (inputDateStr) {
+        if (typeof inputDateStr === 'string' && inputDateStr.slice(-1) === 'Z') {
+            const _split = inputDateStr.split(':');
+            if (_split && _split[3]) {
+                inputDateStr = inputDateStr.replace(`:${_split[3]}`, '');
+            }
+        }
+        const date = new Date(inputDateStr);
+        const today = new Date();
+        let isToday = false;
+        if (today.getUTCFullYear() === date.getUTCFullYear() && today.getUTCMonth() === date.getUTCMonth() && today.getUTCDate() === date.getUTCDate()) {
+            isToday = true;
+        }
+        const monthName = date.toLocaleDateString('en', { month: 'short' });
+        const day = date.getUTCDate();
+        let hours = date.getUTCHours();
+        const minutes = date.getUTCMinutes();
+        const minutesStr = (`0${minutes}`).slice(-2);
+        const isPM = hours >= 12;
+        const ampm = isPM ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        const timeStr = `${hours}:${minutesStr}${ampm}`;
+        return `${isToday ? 'today': `${monthName} ${day}`}, ${timeStr}`;
+    },
+    parseNewMessageDate (inputDateStr) {
+        const date = new Date(inputDateStr);
+        const today = new Date();
+        let isToday = false;
+        if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate()) {
+            isToday = true;
+        }
+        const monthName = date.toLocaleDateString('en', { month: 'short' });
+        const day = date.getDate();
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const minutesStr = (`0${minutes}`).slice(-2);
+        const isPM = hours >= 12;
+        // temp time str
+        let timeStr = '';
+        const ampm = isPM ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        timeStr = `${hours}:${minutesStr}${ampm}`;
+        return `${isToday ? 'today': `${monthName} ${day}`}, ${timeStr}`;
+    },
     userNameWithShortLastName: function (userInfo) {
         if (!userInfo || !userInfo.firstName) return ``;
         const lastName = userInfo.lastName && userInfo.lastName.length ? userInfo.lastName : userInfo.fullName.split(' ')[1];

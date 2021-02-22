@@ -38,7 +38,7 @@
                         <div class="dashboard-title-box mb-3">
                             <div class="title-size3 titleGreenNavyColor mb-3">Notifications</div>
                         </div>
-                        <NotificationsContent tempVisibleItems="3"></NotificationsContent>
+                        <NotificationsContent tempVisibleItems="3" @on-show-messages="showMessagesModal"></NotificationsContent>
                     </div>
                 </div>
             </div>
@@ -183,6 +183,9 @@ export default {
                     this.isLoaded = true;
                     this.hideGlobalLoader();
                 });
+        },
+        showMessagesModal (data) {
+            // TODO: open a modal with messages only
         }
     }
 }
