@@ -117,27 +117,31 @@ export default {
         const classNameTextTotal = `num-of-symbols_${item.quantity.toString().length}`;
 
         const markerLabelTemplate = `
-            <div class="marker-label-container">
-                <div class="marker-label-line"></div>
-                <div class="marker-label-text-wrapper">
-                    <span class="marker-label-available-num ${classNameTextAvailable}">${item.availableQuantity}</span>
-                    <span class="marker-label-total-num ${classNameTextTotal}">${item.quantity}</span>
+            <div class="marker-icon-holder"></div>
+            <div class="marker-label-holder">
+                <div class="marker-label-container">
+                    <div class="marker-label-line"></div>
+                    <div class="marker-label-text-wrapper">
+                        <span class="marker-label-available-num ${classNameTextAvailable}">${item.availableQuantity}</span>
+                        <span class="marker-label-total-num ${classNameTextTotal}">${item.quantity}</span>
+                    </div>
                 </div>
             </div>
         `;
+        // NOTE, markerIcon should be transparent, visible marker + label is inside .marker-label-wrapper
         const markerIcon = {
             path: 'M 0 -66 C 7.1888 -65.9916 13.6965 -63.0419 18.409 -58.2752 C 23.1174 -53.5127 26.0333 -46.936 26.0424 -39.6685 C 25.9554 -22 8.5476 -5.6884 3.1677 -1.1576 C 2.2488 -0.3855 1.123 0 -0.0024 0 C -1.1279 0 -2.2537 -0.3855 -3.1728 -1.1578 C -8.5601 -5.688 -26.0446 -21.8847 -26.0446 -39.667 C -26.0363 -46.9338 -23.1206 -53.5112 -18.4122 -58.2742 C -13.6997 -63.0415 -7.1915 -65.9916 0 -66 Z',
-            fillColor: "#009C90",
+            fillColor: "transparent",
             fillOpacity: 1,
             scale: 1,
-            strokeColor: "#FFFFFF",
+            strokeColor: "transparent",
             strokeWeight: 2,
             anchor: new google.maps.Point(0, 0)
         };
         return {
             icon: markerIcon,
             labelContent: markerLabelTemplate,
-            labelAnchor: new google.maps.Point(19, 59),
+            labelAnchor: new google.maps.Point(28, 68),
             labelClass: "marker-label-wrapper",
             labelInBackground: true
         }

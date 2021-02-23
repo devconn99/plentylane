@@ -1,6 +1,6 @@
 <template>
     <div class="map-info-window-wrapper" v-if="itemData && itemData.id">
-        <div class="reserved-box p-2 p-xl-3">
+        <div class="reserved-box">
             <div class="reserved-info">
                 <div class="reserved-img mr-3">
                     <img
@@ -98,6 +98,16 @@ export default {
 @import "../scss/utils/vars";
 .map-info-window-wrapper {
     max-width: 400px;
+    background-color: #FFFFFF;
+
+    .reserved-box {
+        box-shadow: none !important;
+        padding: 0 !important;
+
+        .reserved-title {
+            padding-right: 25px;
+        }
+    }
 
     @media screen and (max-width: $phoneBigWidth) {
         min-width: 250px;
