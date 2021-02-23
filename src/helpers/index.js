@@ -44,6 +44,7 @@ export default {
         return `${timeStr} ${weekdayName}, ${monthName}. ${date.getUTCDate()}`;
     },
     parseMessageDate: function (inputDateStr) {
+        // NOTE, time will be converted to local format, not UTC
         if (typeof inputDateStr === 'string' && inputDateStr.slice(-1) === 'Z') {
             const _split = inputDateStr.split(':');
             if (_split && _split[3]) {
@@ -53,13 +54,13 @@ export default {
         const date = new Date(inputDateStr);
         const today = new Date();
         let isToday = false;
-        if (today.getUTCFullYear() === date.getUTCFullYear() && today.getUTCMonth() === date.getUTCMonth() && today.getUTCDate() === date.getUTCDate()) {
+        if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate()) {
             isToday = true;
         }
         const monthName = date.toLocaleDateString('en', { month: 'short' });
-        const day = date.getUTCDate();
-        let hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
+        const day = date.getDate();
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
         const minutesStr = (`0${minutes}`).slice(-2);
         const isPM = hours >= 12;
         const ampm = isPM ? 'pm' : 'am';

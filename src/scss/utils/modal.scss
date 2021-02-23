@@ -11,22 +11,6 @@
 .modal .modal-scroll {
 	max-height: 320px;
 	overflow-y: auto;
-	padding-right: 20px;
-	@media screen and (max-width: $phoneBigWidth) {
-		padding-right: 10px;
-	}
-	&::-webkit-scrollbar {
-		width: 8px;
-	}
-	&::-webkit-scrollbar-track {
-		background: #f1f1f1;
-	}
-	&::-webkit-scrollbar-thumb {
-		background: rgba(24,24,22,0.11);
-	}
-	&::-webkit-scrollbar-thumb:hover {
-		background: rgba(24,24,22,0.4);
-	}
 }
 
 .modal-strong-title {
@@ -81,7 +65,8 @@
 	}
 
 	&.notifications-modal,
-	&.invite-friends-modal {
+	&.invite-friends-modal,
+	&.messages-modal {
 		.modal-body {
 			padding: 13px 40px 40px;
 			@media screen and (max-width: $tableWidth) {

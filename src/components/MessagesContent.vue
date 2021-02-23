@@ -1,12 +1,12 @@
 <template>
     <div class="msg-wrapper" v-if="isLoaded">
         <div class="msg-header">
-            <!-- TODO: refactor this block later -->
-            <div class="msg-line"></div>
-            <div class="msg-meal-info-wrapper">
-                <p class="m-0">You commented on Jimmy R.'s</p>
-                <p class="msg-meal-link m-0" @click="redirectToOffer">Baby Back Ribs</p>
+            <!-- TODO: use correct data as user name and meal name -->
+            <div class="part-one">
+                <div class="msg-hr"></div>
+                <p class="m-0 msg-txt-1">You commented on Jimmy R.'s</p>
             </div>
+            <div class="part-two" @click="redirectToOffer">Baby Back Ribs</div>
         </div>
         <div class="msg-content" ref="msgContent" v-if="messages && messages.length">
             <div
@@ -16,18 +16,10 @@
                     v-bind:class="{ 'your-msg': msg.isCurrentUserMsg }"
             >
                 <template v-if="msg.isCurrentUserMsg">
-                    <template v-if="index === 0">
-                        <div class="msg-time">{{msg.displayTime}}</div>
-                    </template>
-                    <template v-else-if="index - 1 > 0 && msg.displayTime !== messages[index - 1].displayTime">
-                        <div class="msg-time">{{msg.displayTime}}</div>
-                    </template>
+                    <div class="msg-time" v-if="isMsgInfoVisible(index, msg)">{{msg.displayTime}}</div>
                 </template>
                 <template v-else>
-                    <div
-                            class="msg-user-wrapper"
-                            v-if="index - 1 >= 0 && msg.displayTime !== messages[index - 1].displayTime"
-                    >
+                    <div class="msg-user-wrapper" v-if="isMsgInfoVisible(index, msg)">
                         <div class="msg-user-icon">
                             <i class="fas fa-user-circle"></i>
                         </div>
@@ -186,6 +178,12 @@ export default {
         redirectToOffer () {
             // TODO: send offer id via event below
             this.$emit('on-redirect-to-offer');
+        },
+        isMsgInfoVisible (msgIndex, msgItem) {
+            if (msgIndex === 0 || msgIndex - 1 <= 0) return true;
+            if (msgItem.isCurrentUserMsg && !this.messages[msgIndex].isCurrentUserMsg) return true;
+            if (!msgItem.isCurrentUserMsg && this.messages[msgIndex].isCurrentUserMsg) return true;
+            return msgItem.displayTime !== this.messages[msgIndex - 1].displayTime;
         }
     },
     created () {
@@ -216,47 +214,38 @@ export default {
         padding-left: 10px;
         padding-right: 10px;
         margin-bottom: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
 
-        .msg-line {
-            height: 2px;
-            min-width: 100px;
-            background-color: #EEE8D7;
-            flex: 1 1 auto;
-            margin-top: 10px;
-            margin-right: 20px;
-        }
-        .msg-meal-info-wrapper {
+        .part-one {
+            flex: 0 0 100%;
             display: flex;
             flex-direction: row;
-            flex: 0 0 auto;
-            max-width: 70%;
-            flex-wrap: wrap;
-            justify-content: flex-end;
 
-            @media screen and (max-width: $phoneBigWidth) {
-                flex-direction: column;
-                align-items: flex-end;
-            }
-
-            p {
+            .msg-txt-1 {
                 color: $textBlackColor;
                 font-family: $FilsonProRegular;
                 font-size: 14px;
                 letter-spacing: 0;
                 line-height: 24px;
-
-                &.msg-meal-link {
-                    cursor: pointer;
-                    font-family: $FilsonProBold;
-                    color: $greenColor;
-                    text-decoration: underline;
-                    padding-left: 10px;
-
-                    @media screen and (max-width: $phoneBigWidth) {
-                        padding-left: 0;
-                    }
-                }
+                flex: 0 0 auto;
             }
+            .msg-hr {
+                height: 2px;
+                background-color: #EEE8D7;
+                margin-right: 20px;
+                margin-top: 10px;
+                flex: 1 1 auto;
+            }
+        }
+        .part-two {
+            font-family: $FilsonProBold;
+            color: $greenColor;
+            font-size: 14px;
+            letter-spacing: 0;
+            line-height: 24px;
+            cursor: pointer;
+            text-decoration: underline;
         }
     }
 
@@ -278,7 +267,7 @@ export default {
             margin-bottom: 9px;
 
             &:last-of-type {
-                margin-bottom: 45px;
+                margin-bottom: 25px;
             }
 
             &:not(.your-msg) {
@@ -373,6 +362,7 @@ export default {
         }
     }
     .msg-bottom-control {
+        margin-top: 20px;
         .form {
             padding-left: 10px;
             padding-right: 10px;

@@ -42,7 +42,7 @@ export default {
             this.items = this.items.filter(i => Number(i.id) !== Number(item.id));
         },
         reply (item) {
-            // TODO, temp
+            // TODO, temp - send correct data via this event!
             this.$emit('on-show-messages', item.userInfo || {});
         },
         loadNotifications () {

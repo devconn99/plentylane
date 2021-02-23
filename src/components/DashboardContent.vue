@@ -127,6 +127,9 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modals -->
+        <MessagesModal :user-name="modalDataUserName" @on-hidden="onMessagesModalHidden"></MessagesModal>
     </div>
 </template>
 
@@ -138,15 +141,18 @@ import OfferInfoBlock from './OfferInfoBlock';
 import BookingInfoBlock from './BookingInfoBlock';
 import MyMealInfo from './MyMealInfo';
 import CarouselContainer from './CarouselContainer';
+import MessagesModal from './modals/MessagesModal';
+import helpers from '../helpers';
 export default {
     name: "DashboardContent",
-    components: {NotificationsContent, SvgIcon, OfferInfoBlock, BookingInfoBlock, MyMealInfo, CarouselContainer},
+    components: {NotificationsContent, SvgIcon, OfferInfoBlock, BookingInfoBlock, MyMealInfo, CarouselContainer, MessagesModal},
     data: () => ({
         offers: [],
         bookings: [],
         myOffers: [],
         isLoaded: false,
-        userId: ''
+        userId: '',
+        modalDataUserName: ''
     }),
     mounted () {
         this.userId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
@@ -186,6 +192,11 @@ export default {
         },
         showMessagesModal (data) {
             // TODO: open a modal with messages only
+            this.modalDataUserName = helpers.userNameWithShortLastName(data);
+            this.$bvModal.show('messages-modal');
+        },
+        onMessagesModalHidden () {
+            this.modalDataUserName = '';
         }
     }
 }
