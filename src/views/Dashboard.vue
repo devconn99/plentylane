@@ -158,17 +158,17 @@
 
         <!-- Modals -->
         <!-- TODO: insert NotificationsModal here if it's needed to be shown -->
-        <InviteFriendsModal></InviteFriendsModal>
+        <InviteFriendsViaCopyLinkModal></InviteFriendsViaCopyLinkModal>
     </div>
 </template>
 
 <script>
 import api from '../api';
 import SvgIcon from '../components/SvgIcon';
-import InviteFriendsModal from '../components/modals/InviteFriendsModal';
+import InviteFriendsViaCopyLinkModal from '../components/modals/InviteFriendsViaCopyLinkModal';
 export default {
     name: "Dashboard",
-    components: {SvgIcon, InviteFriendsModal},
+    components: {SvgIcon, InviteFriendsViaCopyLinkModal},
     data: () => ({
         user: null,
         // notificationsCount: 3,
@@ -335,7 +335,7 @@ export default {
             if (this.isMobileSidebarVisible) {
                 this.hideMobileSideNav();
             }
-            this.$bvModal.show('invite-friends-modal');
+            this.$bvModal.show('invite-friends-via-copy-link-modal');
         },
         /*
         showNotificationsModal () {
