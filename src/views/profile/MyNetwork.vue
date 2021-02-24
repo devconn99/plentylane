@@ -80,6 +80,8 @@
                     </div>
                 </b-tab>
 
+                <!-- invites are not included in current MVP -->
+                <!--
                 <b-tab title="Invites" :disabled="isLoadingUsers || isLoadingConnections">
                     <div class="tab-content-wrapper">
                         <loading
@@ -89,15 +91,14 @@
                                 :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <template v-if="areInvitesLoaded">
-                            <div v-if="invites && invites.length">
-                                <!-- TODO: display invites list -->
-                            </div>
+                            <div v-if="invites && invites.length"></div>
                             <div v-else>
                                 <p>No invites found.</p>
                             </div>
                         </template>
                     </div>
                 </b-tab>
+                -->
 
                 <b-tab title="Everybody" :disabled="isLoadingConnections || isLoadingInvites">
                     <div class="tab-content-wrapper">
@@ -221,12 +222,15 @@ export default {
                         return this.loadConnections();
                     }
                     break;
+                /* invites are not included in current MVP
                 case 1:
                     if (!this.areInvitesLoaded) {
                         return this.loadInvites();
                     }
                     break;
-                case 2:
+                */
+                case 1:
+                    // if invites will be included, there should be case 2 instead of 1
                     if (!this.usersPagination.loaded) {
                         return this.loadUsers();
                     }
