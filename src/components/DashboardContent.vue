@@ -33,6 +33,8 @@
                         </div>
                     </div>
                 </div>
+                <!-- notifications are not included in MVP -->
+                <!--
                 <div class="col-lg-6">
                     <div class="notification padl-25">
                         <div class="dashboard-title-box mb-3">
@@ -41,6 +43,7 @@
                         <NotificationsContent tempVisibleItems="3" @on-show-messages="showMessagesModal"></NotificationsContent>
                     </div>
                 </div>
+                -->
             </div>
             <div class="row pad-70b">
                 <div class="col-lg-6 mb-5 mb-lg-0">
@@ -129,23 +132,21 @@
         </div>
 
         <!-- Modals -->
-        <MessagesModal :user-name="modalDataUserName" @on-hidden="onMessagesModalHidden"></MessagesModal>
+        <!-- TODO: import MessagesModal component if it's needed to be shown -->
+        <!-- <MessagesModal :user-name="modalDataUserName" @on-hidden="onMessagesModalHidden"></MessagesModal> -->
     </div>
 </template>
 
 <script>
-import NotificationsContent from './NotificationsContent';
 import SvgIcon from './SvgIcon';
 import api from '../api';
 import OfferInfoBlock from './OfferInfoBlock';
 import BookingInfoBlock from './BookingInfoBlock';
 import MyMealInfo from './MyMealInfo';
 import CarouselContainer from './CarouselContainer';
-import MessagesModal from './modals/MessagesModal';
-import helpers from '../helpers';
 export default {
     name: "DashboardContent",
-    components: {NotificationsContent, SvgIcon, OfferInfoBlock, BookingInfoBlock, MyMealInfo, CarouselContainer, MessagesModal},
+    components: {SvgIcon, OfferInfoBlock, BookingInfoBlock, MyMealInfo, CarouselContainer},
     data: () => ({
         offers: [],
         bookings: [],
@@ -190,6 +191,7 @@ export default {
                     this.hideGlobalLoader();
                 });
         },
+        /*
         showMessagesModal (data) {
             // TODO: open a modal with messages only
             this.modalDataUserName = helpers.userNameWithShortLastName(data);
@@ -198,6 +200,7 @@ export default {
         onMessagesModalHidden () {
             this.modalDataUserName = '';
         }
+        */
     }
 }
 </script>

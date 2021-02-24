@@ -16,12 +16,14 @@
                                 <SvgIcon icon="close" :params="{ class: 'close-icon' }" v-else></SvgIcon>
                             </div>
                         </div>
+                        <!-- notifications are not included in MVP -->
+                        <!--
                         <div class="header-link-notify">
-                            <!--  TODO: refactor tag a later -->
                             <a v-b-modal.notifications-modal>
                                 <SvgIcon icon="bell"></SvgIcon>
                             </a>
                         </div>
+                        -->
                         <div class="header-link-nav">
                             <div class="mobile-button">
                                 <button type="button" id="mobile-menu-box-toggle" @click="toggleMobileSideNav">
@@ -107,13 +109,15 @@
                     <div class="dashboard-aside-box">
                         <nav id="nav-dashboard-small">
                             <ul class="nav-menu-dashboard-small">
+                                <!-- notifications are not included in MVP -->
+                                <!--
                                 <li class="linotifications">
-                                    <!-- TODO: refactor tag <a> later -->
                                     <a @click.stop.prevent="showNotificationsModal">
                                         <SvgIcon icon="bell"></SvgIcon>
                                         <span>Notifications</span>
                                     </a>
                                 </li>
+                                -->
                                 <li>
                                     <!-- TODO: refactor tag <a> later -->
                                     <a @click.stop.prevent="showInviteFriendsModal">
@@ -138,8 +142,10 @@
                                 <span class="dashboard-user-name" v-if="displayUserName && displayUserName.length">{{displayUserName}}</span>
                                 <span class="dashboard-user-name" v-else>Profile</span>
                             </div>
-                            <!-- TODO: refactor tag <a> later -->
+                            <!-- notifications are not included in MVP -->
+                            <!--
                             <a @click.stop.prevent="showNotificationsModal" class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
+                            -->
                         </div>
                     </div>
                 </div>
@@ -151,7 +157,7 @@
         </main>
 
         <!-- Modals -->
-        <NotificationsModal></NotificationsModal>
+        <!-- TODO: insert NotificationsModal here if it's needed to be shown -->
         <InviteFriendsModal></InviteFriendsModal>
     </div>
 </template>
@@ -159,14 +165,13 @@
 <script>
 import api from '../api';
 import SvgIcon from '../components/SvgIcon';
-import NotificationsModal from '../components/modals/NotificationsModal';
 import InviteFriendsModal from '../components/modals/InviteFriendsModal';
 export default {
     name: "Dashboard",
-    components: {SvgIcon, NotificationsModal, InviteFriendsModal},
+    components: {SvgIcon, InviteFriendsModal},
     data: () => ({
         user: null,
-        notificationsCount: 3, // TODO: temp value
+        // notificationsCount: 3,
         navMenuItems: [
             {
                 path: '/dashboard',
@@ -332,12 +337,14 @@ export default {
             }
             this.$bvModal.show('invite-friends-modal');
         },
+        /*
         showNotificationsModal () {
             if (this.isMobileSidebarVisible) {
                 this.hideMobileSideNav();
             }
             this.$bvModal.show('notifications-modal');
         },
+        */
         goToProfile () {
             const pathToProfile = '/dashboard/profile';
             if (this.$route.path === pathToProfile) {
