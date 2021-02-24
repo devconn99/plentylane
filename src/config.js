@@ -17,5 +17,18 @@ export default {
         COLOR: '#009C90',
         BACKGROUND_COLOR: '#FEF8E6',
         IS_FULL_PAGE: false
+    },
+    DIETARY_NOTES: {
+        DAIRY: 'Contains dairy',
+        EGGS: 'Contains eggs',
+        PEANUTS: 'Contains peanuts',
+        TREE_NUTS: 'Contains tree nuts',
+        FISH: 'Contains fish',
+        SHELLFISH: 'Contains shellfish',
+        SOY: 'Contains soy',
+        VEGETARIAN: 'Vegetarian',
+        VEGAN: 'Vegan',
+        GLUTEN_FREE: 'Gluten free',
+        GLUTEN_FREE_KITCHEN: 'Gluten free kitchen'
     }
 }

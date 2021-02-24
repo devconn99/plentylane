@@ -1,16 +1,6 @@
-const DIETARY_NOTES = {
-    DAIRY: 'Contains dairy',
-    EGGS: 'Contains eggs',
-    PEANUTS: 'Contains peanuts',
-    TREE_NUTS: 'Contains tree nuts',
-    FISH: 'Contains fish',
-    SHELLFISH: 'Contains shellfish',
-    // SOY: 'Contains soy', // TODO: uncomment out this value when it's supported on BE
-    VEGETARIAN: 'Vegetarian',
-    VEGAN: 'Vegan',
-    GLUTEN_FREE: 'Gluten free',
-    // GLUTEN_FREE_KITCHEN: 'Gluten free kitchen' // TODO: uncomment out this value when it's supported on BE
-};
+import config from '../config';
+const DIETARY_NOTES = { ...config.DIETARY_NOTES };
+
 export default {
     parseDate: function (inputDateStr, shouldCompareWithToday) {
         // should return date str in format: 5-6pm Tues, Feb. 1
