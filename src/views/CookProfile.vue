@@ -8,14 +8,14 @@
                     :background-color="loaderOptions.BACKGROUND_COLOR"
             ></loading>
             <div class="row mb-5 align-items-center">
-                <div class="col-sm-4 mb-4 mb-sm-0">
+                <div class="col-sm-4 mb-4 mb-sm-0" v-if="hasProfileImage()">
                     <div class="cook-box">
                         <div class="cook-box-bigimg">
-                            <img src="../assets/images/data/images/avatars/civ_30.png" alt="" class="img-fluid">
+                            <img :src="cookInfo.image.path || cookInfo.image.thumbnail" alt="" class="img-fluid">
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8">
+                <div v-bind:class="hasProfileImage() ? 'col-sm-8' : 'col-12'">
                     <div class="cook-profile">
                         <div class="title-size1 mb-3 text-center text-sm-left">{{cookInfo.fullName}}</div>
                         <div class="cook-box">
@@ -244,6 +244,12 @@ export default {
         this.loadPageData(cb);
     },
     methods: {
+        hasProfileImage () {
+            if (!this.cookInfo || !this.cookInfo.id) return false;
+            if (!this.cookInfo.image) return;
+            const _img = this.cookInfo.image;
+            return (_img.path && _img.path.length > 0) || (_img.thumbnail && _img.thumbnail.length);
+        },
         clearData () {
             this.isLoaded = false;
             this.cookInfo = null;

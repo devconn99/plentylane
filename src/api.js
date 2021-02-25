@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from './config';
 import router from './router';
+const FormData = require('form-data');
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
@@ -165,25 +166,58 @@ export default {
         }
     },
     dashboard: {
-        userInfo () {
-            const endpoint = `${config.API_ORIGIN}/api/me`;
-            return axios.get(endpoint)
-                .then((res) => {
-                    return Promise.resolve(res.data || {});
-                })
-                .catch((err) => {
-                    return checkErr(err.response);
-                })
-        },
-        updateProfile (data) {
-            const endpoint = `${config.API_ORIGIN}/api/me`;
-            return axios.patch(endpoint, data)
-                .then((res) => {
-                    return Promise.resolve(res.data || {});
-                })
-                .catch((err) => {
-                    return checkErr(err.response);
-                })
+        profile: {
+            userInfo () {
+                const endpoint = `${config.API_ORIGIN}/api/me`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    })
+            },
+            updateProfile (data) {
+                const endpoint = `${config.API_ORIGIN}/api/me`;
+                const _config = { headers: { 'Content-Type': 'multipart/form-data' } };
+                let form = new FormData();
+                const keys = Object.keys(data);
+                for (let key of keys) {
+                    if (key in data) {
+                        form.append(key, data[key]);
+                    }
+                }
+                return axios.patch(endpoint, form, { ..._config })
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            uploadImage (fileInfo) {
+                const endpoint = `${config.API_ORIGIN}/api/me`;
+                const _config = { headers: { 'Content-Type': 'multipart/form-data' } };
+                let form = new FormData();
+                form.append('image', fileInfo);
+                return axios.patch(endpoint, form, { ..._config })
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            deleteImage () {
+                const endpoint = `${config.API_ORIGIN}/api/me`;
+                return axios.patch(endpoint, { deleteImage: true })
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            }
         },
         meals: {
             addMeal (data) {
@@ -555,7 +589,7 @@ export default {
         },
         users: {
             getUserInfo (id) {
-                const endpoint = `${config.API_ORIGIN}/api/users/${id}`;
+                const endpoint = `${config.API_ORIGIN}/api/users/${id}?join=image`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -577,6 +611,7 @@ export default {
                 if (filterById.length) {
                     endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterById}`;
                 }
+                endpoint += `${endpoint.includes('?') ? '&' : '?'}join=image`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -656,6 +691,7 @@ export default {
         },
         follows: {
             getMyConnections () {
+                // TODO: how to get following users images?
                 const endpoint = `${config.API_ORIGIN}/api/me/follows`;
                 return axios.get(endpoint)
                     .then((res) => {
@@ -694,44 +730,6 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response);
                     });
-            }
-        },
-        network: {
-            getMyNetwork () {
-                // TODO: remove temp data when endpoint is ready
-                const tempData = [
-                    {
-                        id: 1,
-                        name: 'Eric Turner',
-                        img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696'
-                    },
-                    {
-                        id: 2,
-                        name: 'Luis Blair',
-                        img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696'
-                    },
-                    {
-                        id: 3,
-                        name: 'Lura Rodriquez',
-                        img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025'
-                    },
-                    {
-                        id: 4,
-                        name: 'Catherine Crawford',
-                        img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025'
-                    },
-                    {
-                        id: 5,
-                        name: 'Evan Carlson',
-                        img: 'https://media.istockphoto.com/photos/middle-age-handsome-man-wearing-casual-pink-shirt-standing-over-picture-id1185951696'
-                    },
-                    {
-                        id: 6,
-                        name: 'Lucille Reeves',
-                        img: 'https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025'
-                    }
-                ];
-                return Promise.resolve(tempData);
             }
         },
         notifications: {

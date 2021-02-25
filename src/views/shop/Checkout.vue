@@ -191,7 +191,7 @@ export default {
             }
             const _user = { ...this.$store.getters.userInfo };
             if (!_user || !_user.fullName) {
-                api.dashboard.userInfo()
+                api.dashboard.profile.userInfo()
                     .then((data) => {
                         this.$store.commit('userInfo', { ...data });
                         this.shippingInfo.fullName = data.fullName;

@@ -3,10 +3,10 @@ const initialState = () => {
         userInfo: {
             email: null,
             id: null,
-            uuid: null,
             firstName: null,
             lastName: null,
-            fullName: null
+            fullName: null,
+            image: null
         },
         browserCoordinates: {
             lat: null,
@@ -32,6 +32,16 @@ export default {
         },
         userInfo (state, value) {
           state.userInfo = { ...state.userInfo, ...value };
+        },
+        setUserImage (state, data) {
+          if (!state.userInfo.image) {
+              state.userInfo.image = {};
+          }
+          state.userInfo.image = { ...data };
+        },
+        deleteUserImage (state) {
+            if (!state.userInfo) return;
+            delete state.userInfo.image;
         },
         browserCoordinates (state, value) {
             state.browserCoordinates = { ...value };
@@ -107,7 +117,6 @@ export default {
     getters: {
         userInfo: (state) => (state.userInfo),
         email: (state) => (state.userInfo.email),
-        uuid: (state) => (state.userInfo.uuid),
         userId: (state) => (state.userInfo.id),
         fullName: (state) => (state.userInfo.fullName),
         firstName: (state) => (state.userInfo.firstName),

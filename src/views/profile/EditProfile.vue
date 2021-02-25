@@ -94,40 +94,37 @@
                     </div>
 
                     <div class="col-lg-6 col-xl-5 ml-auto">
-                        <!-- TODO: use vue-bootstrap b-form-file component instead or use vue-dropzone -->
                         <div class="form-group">
-                            <label for="">Profile Image</label>
-                            <div class="profile-img">
-                                <img
-                                        src="../../assets/images/data/images/avatars/avatar.jpg"
-                                        alt="Profile Image"
-                                        class="img-fluid"
-                                />
-                                <!-- TODO: get back to it later -->
-                                <!--
-                                <i
-                                        v-if="!prevAvatarUrl.length && !avatarUrlTemp.length"
-                                        class="fas fa-user-circle user-icon-placeholder"
-                                ></i>
-                                <img v-show="avatarUrlTemp && avatarUrlTemp.length" :src="avatarUrlTemp" />
-
-                                <input
-                                        class="d-none"
-                                        ref="fileInput"
-                                        type="file"
-                                        accept=".png, .jpg, .jpeg"
-                                        @change="onFileChange"
-                                />
-                                -->
+                            <label class="mb-0" for="profile_photo_input">Profile Image</label>
+                            <div
+                                    class="profile-img"
+                                    v-bind:class="{ 'no-image': !profilePhotoUrl || !profilePhotoUrl.length }"
+                            >
+                                <template v-show="profilePhotoUrl && profilePhotoUrl.length">
+                                    <img :src="profilePhotoUrl" ref="userPhoto" alt="Profile Image" class="img-fluid" />
+                                </template>
                             </div>
+                            <input
+                                    id="profile_photo_input"
+                                    class="d-none"
+                                    ref="fileInput"
+                                    type="file"
+                                    accept=".png, .jpg, .jpeg"
+                                    @change="onFileChange"
+                            />
                             <div class="box-btn mt-3 text-center">
                                 <b-btn
                                         class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-3"
+                                        ref="triggerSelectFileBtn"
                                         @click="triggerSelectNewAvatar"
                                 >
                                     <span>Upload Image</span>
                                 </b-btn>
-                                <p class="cursor-pointer delete-image-trigger" @click="deleteImage">Delete Image</p>
+                                <p
+                                        v-if="hasOriginalImage()"
+                                        class="cursor-pointer delete-image-trigger"
+                                        @click="showConfirmRemovePhotoModal"
+                                >Delete Image</p>
                             </div>
                         </div>
                     </div>
@@ -159,6 +156,9 @@
                 </div>
             </b-form>
         </div>
+
+        <!-- Modals -->
+        <ConfirmModal :id="modalId" :message="confirmRemovePhotoMsg" @confirmed="deleteImage"></ConfirmModal>
     </div>
 </template>
 
@@ -171,12 +171,15 @@ import parsePhoneNumberWithError from 'libphonenumber-js';
 import helpers from '../../helpers';
 import config from "../../config";
 import SvgIcon from '../../components/SvgIcon';
+import ConfirmModal from '../../components/modals/ConfirmModal';
 export default {
     name: "EditProfile",
     mixins: [validationMixin],
-    components: {Loading, SvgIcon},
+    components: {Loading, SvgIcon, ConfirmModal},
     data: () => ({
         isLoading: false,
+        modalId: 'confirm-remove-user-photo',
+        confirmRemovePhotoMsg: 'Are you sure you want to remove profile photo?',
         loaderOptions: { ...config.LOADER_OPTIONS },
         form: {
             firstName: '',
@@ -190,9 +193,9 @@ export default {
         errorMsg: '',
         submitted: false,
         userInfo: null,
-        prevAvatarUrl: '', // TODO
-        avatarUrlTemp: '',
-        isSubmitting: false
+        avatarDataContent: '',
+        isSubmitting: false,
+        profilePhotoUrl: ''
     }),
     validations: {
         form: {
@@ -243,11 +246,15 @@ export default {
             this.$v.form.$model.email = data.email;
             this.$v.form.$model.phone = data.phone;
             this.$v.form.$model.bio = data.bio;
-            // TODO: set this.prevAvatarUrl if exists
+            if (data.image && data.image.path && data.image.path.length > 0) {
+                this.profilePhotoUrl = data.image.path;
+            } else {
+                this.profilePhotoUrl = '';
+            }
         },
         loadUserInfo () {
             this.isLoading = true;
-            api.dashboard.userInfo()
+            api.dashboard.profile.userInfo()
                 .then((data) => {
                     this.userInfo = { ...data };
                     this.$store.commit('userInfo', { ...data });
@@ -274,6 +281,9 @@ export default {
             this.hideAlerts();
         },
         onSubmit () {
+            if (!this.$v.form.$anyDirty) {
+                return;
+            }
             this.$v.form.$touch();
             if (this.$v.form.$invalid) {
                 return;
@@ -288,11 +298,17 @@ export default {
                     }
                 } catch (error) {}
             }
-            api.dashboard.updateProfile(this.form)
+            api.dashboard.profile.updateProfile(this.form)
                 .then(response => {
+                    this.$eventHub.$emit('user-name-updated', { firstName: response.firstName, lastName: response.lastName });
+                    this.userInfo = { ...response };
                     this.$store.commit('userInfo', { ...response });
                     this.showSuccessAlert = true;
                     this.isSubmitting = false;
+                    this.$v.$reset();
+                    setTimeout(() => {
+                        this.hideAlerts();
+                    }, 2000);
                 })
                 .catch(err => {
                     console.log('\nerr update profile:', err);
@@ -309,33 +325,88 @@ export default {
                     }
                     this.showErrorAlert = true;
                     this.isSubmitting = false;
+                    this.$v.$reset();
+                    setTimeout(() => {
+                        this.hideAlerts();
+                    }, 2000);
                 })
         },
         triggerSelectNewAvatar () {
-            // TODO: get back to it later
-            // this.$refs.fileInput.click();
+            this.$refs.fileInput.click();
         },
         deleteImage () {
-            // TODO: get back to it later
-            /*
-            this.prevAvatarUrl = '';
-            this.avatarUrlTemp = '';
-            this.$refs.fileInput.value = null;
-            */
+            this.isSubmitting = true;
+
+            api.dashboard.profile.deleteImage()
+                .then(() => {
+                    this.$refs.fileInput.value = null;
+                    this.userInfo.image = null;
+                    this.profilePhotoUrl = '';
+                    this.$store.commit('deleteUserImage');
+                    this.$eventHub.$emit('user-image-removed');
+                    this.isSubmitting = false;
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.isSubmitting = false;
+                })
         },
-        onFileChange (e) {
-            // TODO: get back to it later
-            /*
-            const file = e.target.files[0];
-            const _url = URL.createObjectURL(file);
-            if (_url && _url.length) {
-                this.avatarUrlTemp = _url;
-                this.prevAvatarUrl = '';
+        onFileChange (event) {
+            this.$nextTick(() => {
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
+            });
+            if (!event || !event.target || !event.target.files || !event.target.files.length) {
+                this.isSubmitting = false;
+                return;
             }
-            */
+            const file = event.target.files[0];
+            this.isSubmitting = true;
+
+            const fr = new FileReader();
+            fr.onload = (e) => {
+                if (!e || !e.target || !e.target.result) {
+                    this.isSubmitting = false;
+                    return;
+                }
+                const tempData = e.target.result;
+                if (this.$refs.userPhoto) {
+                    this.$refs.userPhoto.setAttribute('src', tempData);
+                }
+                api.dashboard.profile.uploadImage(file)
+                    .then(result => {
+                        if (!result) {
+                            this.isSubmitting = false;
+                            return;
+                        }
+                        this.userInfo['image'] = { ...result.image };
+                        this.profilePhotoUrl = result.image.path;
+                        this.$store.commit('setUserImage', result.image);
+                        this.$eventHub.$emit('user-image-updated', { image: result.image, tempData: tempData });
+                        this.isSubmitting = false;
+                    })
+                    .catch(err => {
+                        console.log('\n >> err > ', err);
+                        this.isSubmitting = false;
+                    });
+            };
+            fr.readAsDataURL(file);
+            fr.onerror = () => {
+                this.isSubmitting = false;
+            };
         },
         showMobileAside () {
             this.$eventHub.$emit('show-mobile-profile-aside');
+        },
+        hasOriginalImage () {
+            if (!this.userInfo || !this.userInfo.id) return false;
+            if (!this.userInfo.image) return false;
+            return this.userInfo.image.path && this.userInfo.image.path.length > 0;
+        },
+        showConfirmRemovePhotoModal () {
+            if (this.isSubmitting) return;
+            this.$bvModal.show(this.modalId);
         }
     }
 }
@@ -362,6 +433,37 @@ export default {
                 text-decoration: none;
                 color: $greenColor;
             }
+        }
+    }
+    .profile-img {
+        margin: 16px auto 0;
+        width: 240px;
+        height: 240px;
+
+        &.no-image {
+            height: 0;
+            width: 0;
+            margin-top: 0;
+
+            img {
+                opacity: 0;
+                height: 0;
+                width: 0;
+            }
+        }
+        &:not(.no-image) {
+            @media screen and (max-width: $tableMinWidth) {
+                width: 180px;
+                height: 180px;
+                margin-top: 14px;
+            }
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
     }
 }

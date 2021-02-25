@@ -47,16 +47,23 @@
                                         v-bind:key="item.id"
                                 >
                                     <div class="connection-box-info">
-                                        <div
-                                                class="connection-box-info-img-placeholder mr-2 mr-xl-3"
-                                                @click="redirectToCookProfile(item.id)"
-                                        >
-                                            <i class="fas fa-user-circle user-icon"></i>
-                                        </div>
-                                        <!-- TODO: display real image if exists -->
-                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3" @click="redirectToCookProfile(item.id)">-->
-                                            <!--<img src="../../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">-->
-                                        <!--</div>-->
+                                        <template v-if="item.image && item.image.thumbnail && item.image.thumbnail.length">
+                                            <div
+                                                    class="connection-box-info-img mr-2 mr-xl-3"
+                                                    @click="redirectToCookProfile(item.id)"
+                                            >
+                                                <img :src="item.image.thumbnail" alt="" class="img-fluid">
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <div
+                                                    class="connection-box-info-img-placeholder mr-2 mr-xl-3"
+                                                    @click="redirectToCookProfile(item.id)"
+                                            >
+                                                <i class="fas fa-user-circle user-icon"></i>
+                                            </div>
+                                        </template>
+
                                         <div class="connection-box-info-name cursor-pointer">
                                             <span @click="redirectToCookProfile(item.id)">{{item.fullName}}</span>
                                         </div>
@@ -132,16 +139,23 @@
                             <div class="connection" v-if="users && users.length">
                                 <div class="connection-box" v-for="user in users">
                                     <div class="connection-box-info">
-                                        <div
-                                                class="connection-box-info-img-placeholder mr-2 mr-xl-3"
-                                                @click="redirectToCookProfile(user.id)"
-                                        >
-                                            <i class="fas fa-user-circle user-icon"></i>
-                                        </div>
-                                        <!-- TODO: display real image if exists -->
-                                        <!--<div class="connection-box-info-img mr-2 mr-xl-3" @click="redirectToCookProfile(user.id)">-->
-                                            <!--<img src="../../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">-->
-                                        <!--</div>-->
+                                        <template v-if="user.image && user.image.thumbnail && user.image.thumbnail.length">
+                                            <div
+                                                    class="connection-box-info-img mr-2 mr-xl-3"
+                                                    @click="redirectToCookProfile(user.id)"
+                                            >
+                                                <img :src="user.image.thumbnail" alt="" class="img-fluid">
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <div
+                                                    class="connection-box-info-img-placeholder mr-2 mr-xl-3"
+                                                    @click="redirectToCookProfile(user.id)"
+                                            >
+                                                <i class="fas fa-user-circle user-icon"></i>
+                                            </div>
+                                        </template>
+
                                         <div class="connection-box-info-name">
                                             <span @click="redirectToCookProfile(user.id)">{{user.fullName}}</span>
                                         </div>
@@ -281,9 +295,10 @@ export default {
             this.isLoadingUsers = true;
             api.dashboard.users.getAllUsers(this.usersPagination.page, search, this.currentUserId)
                 .then(result => {
+                    const shouldOverride = this.usersPagination.page === 1;
                     if (result && result.data && result.data.length) {
-                        this.users = result.data.slice(0);
-                    } else {
+                        this.users = shouldOverride ? result.data.slice(0) : this.users.concat(result.data.slice(0));
+                    } else if (shouldOverride) {
                         this.users = [];
                     }
                     this.usersPagination.total = result.total;

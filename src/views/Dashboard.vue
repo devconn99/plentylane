@@ -136,9 +136,16 @@
                     </div>
 
                     <div class="dashboard-aside-box">
-                        <div class="dashboard-user">
+                        <div class="dashboard-user" v-if="user && user.id">
                             <div class="dashboard-user-info" @click="goToProfile()">
-                                <img src="../assets/images/data/images/avatars/avatar.jpg" alt="" class="img-fluid">
+                                <template v-if="user.image && user.image.thumbnail && user.image.thumbnail.length">
+                                    <img :src="user.image.thumbnail" ref="asideUserPhoto" alt="" class="img-fluid">
+                                </template>
+                                <template v-else>
+                                    <div class="user-icon-placeholder">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                </template>
                                 <span class="dashboard-user-name" v-if="displayUserName && displayUserName.length">{{displayUserName}}</span>
                                 <span class="dashboard-user-name" v-else>Profile</span>
                             </div>
@@ -214,6 +221,26 @@ export default {
                 _inputRef.blur();
             }
         });
+        this.$eventHub.$on('user-image-updated', (data) => {
+            const { image, tempData } = data;
+            this.$nextTick(() => {
+                this.user.image = { ...image };
+                if (this.$refs.asideUserPhoto && tempData && tempData.length) {
+                    this.$refs.asideUserPhoto.setAttribute('src', tempData);
+                }
+            });
+        });
+        this.$eventHub.$on('user-image-removed', () => {
+            this.$nextTick(() => {
+                this.user.image = null;
+            });
+        });
+        this.$eventHub.$on('user-name-updated', (data) => {
+            if (!data) return;
+            if (!data.firstName || !data.lastName) return;
+            this.user.firstName = data.firstName;
+            this.user.lastName = data.lastName;
+        });
     },
     computed: {
         displayUserName: function () {
@@ -245,7 +272,7 @@ export default {
     },
     methods: {
         loadUserInfo () {
-            api.dashboard.userInfo()
+            api.dashboard.profile.userInfo()
                 .then((data) => {
                     this.user = { ...data };
                     this.$store.commit('userInfo', { ...data });
@@ -380,6 +407,9 @@ export default {
     },
     beforeDestroy () {
         this.$eventHub.$off('clear-global-search-value');
+        this.$eventHub.$off('user-image-updated');
+        this.$eventHub.$off('user-image-removed');
+        this.$eventHub.$off('user-name-updated');
     }
 }
 </script>

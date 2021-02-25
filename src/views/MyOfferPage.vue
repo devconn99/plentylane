@@ -84,7 +84,7 @@ export default {
                     this.currentUser = { ..._user };
                 } else {
                     // need to load current user data
-                    requests.push(api.dashboard.userInfo());
+                    requests.push(api.dashboard.profile.userInfo());
                 }
             }
             Promise.all(requests)

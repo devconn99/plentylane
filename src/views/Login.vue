@@ -152,7 +152,7 @@ export default {
                     if (response.accessToken) {
                         localStorage.setItem('plAccessToken', response.accessToken);
                     }
-                    api.dashboard.userInfo()
+                    api.dashboard.profile.userInfo()
                         .then((data) => {
                             this.$store.commit('userInfo', { ...data });
                             localStorage.setItem('plUserId', data.id);

@@ -221,27 +221,6 @@
 		width: 100%;
 	}
 }
-.profile-img {
-	text-align: center;
-	img {
-		border-radius: 50%;
-		width: 240px;
-		height: 240px;
-		object-fit: cover;
-		@media screen and (max-width: $tableMinWidth) {
-			width: 180px;
-			height: 180px;
-		}
-	}
-	.user-icon-placeholder {
-		font-size: 240px;
-		color: #b3b3b3;
-
-		@media screen and (max-width: $tableMinWidth) {
-			font-size: 180px;
-		}
-	}
-}
 .list-style-circle {
 	li {
 		list-style-type: square;
@@ -339,6 +318,22 @@
 							-webkit-transition: .3s all ease;
 							-o-transition: .3s all ease;
 							transition: .3s all ease;
+						}
+					}
+
+					.user-icon-placeholder {
+						width: 64px;
+						height: 64px;
+						border-radius: 50%;
+						border: 6px solid rgba(24, 24, 22, 0.19);
+						position: relative;
+
+						i {
+							font-size: 53px;
+							position: absolute;
+							top: 0;
+							left: 0;
+							color: rgba(0, 0, 0, 0.6);
 						}
 					}
 				}
@@ -560,7 +555,6 @@ ul.nav-menu-dashboard-small {
 			text-align: center;
 		}
 		img {
-			border-radius: 50%;
 			border-radius: 50%;
 			position: absolute;
 			max-width: 100%;
