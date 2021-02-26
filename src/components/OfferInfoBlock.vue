@@ -32,14 +32,18 @@
                 </div>
             </div>
             <div class="cook-box pb-2 pb-md-3">
-                <div class="cook-info p-2 p-sm-3">
+                <div class="cook-info p-2 p-sm-3" v-if="offerInfo.user && offerInfo.user.id && !hiddenUserBlock">
                     <div
-                            class="cook-info-img mr-2 mr-xl-3"
+                            class="cook-info-img"
                             v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
                             @click="redirectToCookProfile"
                     >
-                        <!-- TODO: use real user's avatar later -->
-                        <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
+                        <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail">
+                            <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
+                        </template>
+                        <template v-else>
+                            <i class="fas fa-user-circle icon-placeholder"></i>
+                        </template>
                     </div>
                     <div class="cook-info-part">
                         <div
@@ -68,7 +72,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="cook-info-additional pl-3 pr-3 pl-sm-4 pr-sm-4 pl-md-5 pr-md-5">
+                <div
+                        class="cook-info-additional pl-3 pr-3"
+                        v-bind:class="hiddenUserBlock || (!offerInfo.user || !offerInfo.user.id) ? 'pt-2 pt-sm-3' : 'pl-sm-4 pl-md-5'"
+                >
                     <div class="cook-time">
                         <SvgIcon icon="clock"></SvgIcon>
                         <span class="ml-3">Ready at {{readyTimeStr}}</span>
@@ -84,7 +91,7 @@ import helpers from '../helpers';
 import SvgIcon from './SvgIcon';
 export default {
     name: "OfferInfoBlock",
-    props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer'],
+    props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer', 'hiddenUserBlock'],
     components: {SvgIcon},
     data: () => ({
         placeholderImg: '../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg',
@@ -168,6 +175,17 @@ export default {
             left: 16px;
             z-index: 2;
             padding-right: 16px;
+        }
+    }
+    .cook-box {
+        .cook-info-additional {
+            @media screen and (max-width: $phoneBigWidth) {
+                padding-left: 25px !important;
+                margin-top: 6px;
+            }
+            @media screen and (min-width: $phoneBigWidth + 1) and (max-width: $tableMinWidth) {
+                padding-left: 35px !important;
+            }
         }
     }
 }

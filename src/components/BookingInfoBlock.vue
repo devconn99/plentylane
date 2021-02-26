@@ -1,9 +1,9 @@
 <template>
     <div class="reserved-box-wrapper" v-if="bookingInfo && bookingInfo.id">
-        <div class="reserved-box p-2 p-xl-3">
+        <div class="reserved-box">
             <template v-if="!isSmall">
                 <div class="reserved-info">
-                    <div class="reserved-img mr-2 mr-xl-3">
+                    <div class="reserved-img">
                         <img
                                 src="../assets/images/data/images/dashboard/reserved/meat.jpg"
                                 alt=""
@@ -41,8 +41,13 @@
                 </div>
                 <div class="cook-box">
                     <div class="cook-info p-2 p-sm-3">
-                        <div class="cook-info-img mr-2 mr-xl-3 cursor-pointer" @click="redirectToCookProfile">
-                            <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
+                        <div class="cook-info-img cursor-pointer" @click="redirectToCookProfile">
+                            <template v-if="bookingInfo.cook && bookingInfo.cook.image && bookingInfo.cook.image.thumbnail">
+                                <img :src="bookingInfo.cook.image.thumbnail" alt="" class="img-fluid">
+                            </template>
+                            <template v-else>
+                                <i class="fas fa-user-circle icon-placeholder"></i>
+                            </template>
                         </div>
                         <div class="cook-info-part">
                             <div class="cook-info-name mr-2 cursor-pointer" @click="redirectToCookProfile">{{userName}}</div>
@@ -63,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="cook-info-additional pl-3 pr-3 pl-sm-4 pr-sm-4 pl-md-5 pr-md-5">
+                    <div class="cook-info-additional pl-3 pl-sm-4 pl-md-5">
                         <div class="cook-time">
                             <SvgIcon icon="clock"></SvgIcon>
                             <span class="ml-3">{{readyTimeStr}}</span>
@@ -77,7 +82,7 @@
             </template>
             <template v-else>
                 <div class="reserved-info">
-                    <div class="reserved-img mr-2 mr-xl-3">
+                    <div class="reserved-img">
                         <img
                                 src="../assets/images/data/images/dashboard/reserved/meat.jpg"
                                 alt=""
@@ -165,9 +170,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../scss/utils/vars";
 .reserved-box-wrapper {
     + .reserved-box-wrapper {
         margin-top: 20px;
+    }
+    .cook-box {
+        .cook-info-additional {
+            @media screen and (max-width: $phoneBigWidth) {
+                padding-left: 25px !important;
+                margin-top: 6px;
+            }
+            @media screen and (min-width: $phoneBigWidth + 1) and (max-width: $tableMinWidth) {
+                padding-left: 35px !important;
+            }
+        }
+        .cook-info-part {
+            flex-wrap: wrap;
+        }
     }
 }
 </style>

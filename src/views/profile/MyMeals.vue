@@ -25,6 +25,7 @@
                                 <div class="my-meal-item p-2 p-xl-3" v-for="item in meals" v-bind:key="item.id">
                                     <div class="my-meal-item-info">
                                         <div class="my-meal-item-img-wrapper mr-2 mr-xl-3">
+                                            <!-- TODO: use real image if exists -->
                                             <img
                                                     src="../../assets/images/data/images/dashboard/reserved/meat.jpg"
                                                     alt=""
@@ -117,6 +118,7 @@
                                                 :show-action-menu="true"
                                                 :actions="offerActions"
                                                 :is-my-offer="true"
+                                                :hidden-user-block="true"
                                                 @on-action-edit="onActionEditOffer"
                                                 @on-action-remove="onActionRemoveOffer"
                                         ></OfferInfoBlock>
@@ -465,6 +467,7 @@ export default {
             .my-meal-title-wrapper {
                 width: 100%;
                 margin-right: 5px;
+                align-self: center;
 
                 .my-meal-title {
                     display: flex;
@@ -475,14 +478,7 @@ export default {
                         font-family: $LacaProSemiBold;
                         letter-spacing: 0;
                     }
-                    .reserved-time {
-                        flex: none;
-                        margin-left: 16px;
-                    }
                 }
-            }
-            .my-meal-action-wrapper {
-
             }
         }
     }

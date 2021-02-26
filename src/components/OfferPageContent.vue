@@ -5,10 +5,19 @@
                 <div class="row">
                     <div class="col-12 text-center">
                         <div class="title-size1 titleLightColor mb-2">{{offerInfo.meal.name}}</div>
-                        <router-link class="cook-box" :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }">
+                        <router-link
+                                class="cook-box"
+                                :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }"
+                                v-if="offerInfo.user && offerInfo.user.id"
+                        >
                             <div class="cook-info justify-content-center">
-                                <div class="cook-info-img mr-3">
-                                    <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
+                                <div class="cook-info-img">
+                                    <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail && offerInfo.user.image.thumbnail.length">
+                                        <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
+                                    </template>
+                                    <template v-else>
+                                        <i class="fas fa-user-circle icon-placeholder"></i>
+                                    </template>
                                 </div>
                                 <div class="cook-info-part">
                                     <div class="cook-info-name titleLightColor mr-2">{{userName}}</div>

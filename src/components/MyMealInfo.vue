@@ -1,8 +1,8 @@
 <template>
     <div class="my-meal-info-wrapper" v-if="itemData && itemData.id">
-        <div class="reserved-box p-2 p-xl-3">
+        <div class="reserved-box">
             <div class="reserved-info">
-                <div class="reserved-img mr-2 mr-xl-3">
+                <div class="reserved-img">
                     <img
                             src="../assets/images/data/images/dashboard/reserved/soup.jpg"
                             alt=""
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="cook-box mt-3">
-                <div class="cook-info-additional pl-3 pl-sm-4 pl-md-5 pr-3 pr-sm-4 pr-md-5">
+                <div class="cook-info-additional pl-3 pl-sm-4 pl-md-5">
                     <div class="cook-time">
                         <SvgIcon icon="clock"></SvgIcon>
                         <span class="ml-3">{{readyTimeStr}}</span>
@@ -65,9 +65,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../scss/utils/vars";
 .my-meal-info-wrapper {
     + .my-meal-info-wrapper {
         margin-top: 20px;
+    }
+    .cook-box {
+        .cook-info-additional {
+            @media screen and (max-width: $phoneBigWidth) {
+                padding-left: 25px !important;
+                margin-top: 6px;
+            }
+            @media screen and (min-width: $phoneBigWidth + 1) and (max-width: $tableMinWidth) {
+                padding-left: 35px !important;
+            }
+        }
     }
 }
 </style>

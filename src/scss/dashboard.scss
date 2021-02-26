@@ -576,6 +576,12 @@ ul.nav-menu-dashboard-small {
 	}
 	.cook-info-img {
 		flex: none;
+		margin-right: 16px;
+
+		@media screen and (max-width: $phoneWidth) {
+			margin-right: 12px;
+		}
+
 		img {
 			width: 48px !important; // owl-carousel inner styles could change this width to 100%
 			height: 48px;
@@ -584,6 +590,14 @@ ul.nav-menu-dashboard-small {
 			@media screen and (max-width: $tableMinWidth) {
 				width: 34px !important;
 				height: 34px;
+			}
+		}
+		i.icon-placeholder {
+			font-size: 48px;
+			color: $grayColor;
+
+			@media screen and (max-width: $tableMinWidth) {
+				font-size: 34px;
 			}
 		}
 	}
@@ -717,6 +731,7 @@ a.reserved-box, .reserved-box {
 	margin-bottom: 16px;
 	display: block;
 	font-family: $FilsonProRegular;
+	padding: 16px;
 	&:last-child {
 		margin-bottom: 0;
 	}
@@ -732,8 +747,15 @@ a.reserved-box, .reserved-box {
 		flex-direction: row;
 		align-items: flex-start;
 		justify-content: space-between;
+
 		.reserved-img {
 			flex: none;
+			margin-right: 16px;
+
+			@media screen and (max-width: $phoneWidth) {
+				margin-right: 12px;
+			}
+
 			img {
 				width: 64px;
 				height: 64px;

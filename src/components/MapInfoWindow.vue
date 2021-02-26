@@ -2,7 +2,7 @@
     <div class="map-info-window-wrapper" v-if="itemData && itemData.id">
         <div class="reserved-box">
             <div class="reserved-info">
-                <div class="reserved-img mr-3">
+                <div class="reserved-img">
                     <img
                             src="../assets/images/data/images/dashboard/reserved/soup.jpg"
                             alt=""
@@ -20,14 +20,18 @@
                 </div>
             </div>
             <div class="cook-box mt-3">
-                <div class="cook-info pl-2 pr-2 pb-2 pl-sm-3 pr-sm-3 pb-sm-3 pt-1">
-                    <div class="cook-info-img mr-2 cursor-pointer" @click="redirectToCookProfile">
-                        <!-- TODO: use real user's avatar later -->
-                        <img src="../assets/images/data/images/avatars/cook2.jpg" alt="" class="img-fluid">
+                <div class="cook-info pl-2 pr-2 pb-2 pl-sm-3 pr-sm-3 pb-sm-3 pt-1" v-if="itemData.user && itemData.user.id">
+                    <div class="cook-info-img cursor-pointer" @click="redirectToCookProfile">
+                        <template v-if="itemData.user.image && itemData.user.image.thumbnail">
+                            <img :src="itemData.user.image.thumbnail" alt="" class="img-fluid">
+                        </template>
+                        <template v-else>
+                            <i class="fas fa-user-circle icon-placeholder"></i>
+                        </template>
                     </div>
                     <div class="cook-info-part">
-                        <div class="cook-info-name cursor-pointer pl-2" @click="redirectToCookProfile">{{userName}}</div>
-                        <div class="cook-info-benefits ml-2 cursor-pointer" @click="redirectToCookProfile">
+                        <div class="cook-info-name cursor-pointer pr-2" @click="redirectToCookProfile">{{userName}}</div>
+                        <div class="cook-info-benefits cursor-pointer" @click="redirectToCookProfile">
                             <div class="cook-info-benefits-box">
                                 <SvgIcon icon="benefit3"></SvgIcon>
                             </div>
