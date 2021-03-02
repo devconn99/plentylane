@@ -1,5 +1,5 @@
 <template>
-    <b-form class="new-meal-image-container" @submit.stop.prevent @dragover.prevent @drop.prevent>
+    <b-form class="new-meal-image-container" @submit.stop.prevent>
         <b-form-group>
             <legend class="custom-legend">
                 <span>Add an image</span>
@@ -28,11 +28,11 @@
 
             <div
                     class="upload-image-area"
+                    v-bind:class="{ 'area-disabled': shouldDisableInput, 'is-dragging': isDragging }"
                     @click="triggerSelectFile"
                     @drop="handleDrop"
                     @dragleave="fileDragOut"
                     @dragover="fileDragIn"
-                    v-bind:style="{ 'background-color': bg }"
             >
                 <!-- TODO: use correct icon -->
                 <img class="upload-icon" width="92px" height="90px" src="../../assets/icons/upload-to-cloud.svg" alt="">
@@ -63,10 +63,9 @@ export default {
         shouldDisableInput: false,
         imageUrl: '',
         file: null,
-        defaultBg: '#FEF8E6',
-        bg: '#FEF8E6',
         modalId: 'confirm-remove-meal-image',
-        confirmRemoveMsg: 'Are you sure you want to remove this image?'
+        confirmRemoveMsg: 'Are you sure you want to remove this image?',
+        isDragging: false
     }),
     methods: {
         enableEditField () {
@@ -80,7 +79,7 @@ export default {
             this.$refs.mealFileInput.click();
         },
         handleDrop (e) {
-            this.bg = this.defaultBg;
+            if (this.shouldDisableInput) return;
             let droppedFiles = e.dataTransfer.files;
             if(!droppedFiles) return;
             const file = droppedFiles[0];
@@ -89,12 +88,15 @@ export default {
             if (_url && _url.length) {
                 this.imageUrl = _url;
             }
+            this.isDragging = false;
         },
         fileDragIn () {
-            this.bg = '#E5E5E5';
+            if (this.shouldDisableInput) return;
+            this.isDragging = true;
         },
         fileDragOut () {
-            this.bg = this.defaultBg;
+            if (this.shouldDisableInput) return;
+            this.isDragging = false;
         },
         onFileChange (e) {
             this.$nextTick(() => {
@@ -175,7 +177,30 @@ export default {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
+        background-color: $mainBackgroundColor;
+
+        &.area-disabled {
+            background-color: #e9ecef;
+        }
+        &:not(.area-disabled) {
+            cursor: pointer;
+
+            &.is-dragging {
+                background-color: #E5E5E5;
+            }
+            .upload-image-area-btn-wrapper {
+                cursor: pointer;
+
+                @media screen and (min-width: $tableMinWidth + 1) {
+                    &:hover {
+                        background-color: #8A877D;
+                        span {
+                            color: $mainBackgroundColor;
+                        }
+                    }
+                }
+            }
+        }
 
         @media screen and (max-width: $tableMinWidth) {
             min-height: auto;
@@ -209,7 +234,11 @@ export default {
             margin: 20px auto 0;
             padding: 18px 15px;
             text-align: center;
-            cursor: pointer;
+            cursor: default;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             -webkit-transition: all 0.3s ease;
             -moz-transition: all 0.3s ease;
             -ms-transition: all 0.3s ease;
@@ -221,12 +250,6 @@ export default {
                 width: 100%;
             }
             @media screen and (min-width: $tableMinWidth + 1) {
-                &:hover {
-                    background-color: #8A877D;
-                    span {
-                        color: $mainBackgroundColor;
-                    }
-                }
                 span {
                     -webkit-transition: all 0.3s ease;
                     -moz-transition: all 0.3s ease;

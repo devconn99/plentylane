@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @dragover.prevent @drop.prevent>
         <div class="dashboard-hero dashboard-cook-bg">
             <div class="container-fluid">
                 <div class="row">
