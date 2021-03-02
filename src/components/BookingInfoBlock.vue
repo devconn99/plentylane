@@ -4,12 +4,18 @@
             <template v-if="!isSmall">
                 <div class="reserved-info">
                     <div class="reserved-img">
-                        <img
-                                src="../assets/images/data/images/dashboard/reserved/meat.jpg"
-                                alt=""
-                                class="img-fluid cursor-pointer"
-                                @click="redirectToBookingPage"
-                        >
+                        <template v-if="hasMealImage()">
+                            <img :src="getMealImageThumbnail()" alt="" class="img-fluid cursor-pointer" @click="redirectToBookingPage">
+                        </template>
+                        <template v-else>
+                            <!-- meal image placeholder -->
+                            <img
+                                    src="../assets/images/data/images/dashboard/recepts/meal-placeholder_rect.png"
+                                    alt=""
+                                    class="img-fluid cursor-pointer"
+                                    @click="redirectToBookingPage"
+                            >
+                        </template>
                     </div>
                     <div class="reserved-boxtitle">
                         <div class="reserved-title">
@@ -83,12 +89,18 @@
             <template v-else>
                 <div class="reserved-info">
                     <div class="reserved-img">
-                        <img
-                                src="../assets/images/data/images/dashboard/reserved/meat.jpg"
-                                alt=""
-                                class="img-fluid cursor-pointer"
-                                @click="redirectToBookingPage"
-                        >
+                        <template v-if="hasMealImage()">
+                            <img :src="getMealImageThumbnail()" alt="" class="img-fluid cursor-pointer" @click="redirectToBookingPage">
+                        </template>
+                        <template v-else>
+                            <!-- meal image placeholder -->
+                            <img
+                                    src="../assets/images/data/images/dashboard/recepts/meal-placeholder_rect.png"
+                                    alt=""
+                                    class="img-fluid cursor-pointer"
+                                    @click="redirectToBookingPage"
+                            >
+                        </template>
                     </div>
                     <div class="reserved-boxtitle">
                         <div class="reserved-title">
@@ -164,6 +176,20 @@ export default {
         },
         emitAction (name) {
             this.$emit(`on-action-${name}`, this.bookingInfo.id);
+        },
+        hasMealImage () {
+            if (!this.bookingInfo || !this.bookingInfo.id) return false;
+            if (!this.bookingInfo.offer || !this.bookingInfo.offer.meal) return false;
+            const images = this.bookingInfo.offer.meal.images;
+            if (!images || !images.length) return false;
+            const _image = images[0];
+            return _image && _image.thumbnail && _image.thumbnail.length > 0;
+        },
+        getMealImageThumbnail () {
+            if (!this.hasMealImage()) return '';
+            const images = this.bookingInfo.offer.meal.images;
+            if (!images || !images.length) return '';
+            return images[0].thumbnail || '';
         }
     }
 }

@@ -7,8 +7,12 @@
                     <EditBtn @on-clicked="emitGoToStepEvent(1)"></EditBtn>
                 </div>
                 <div class="meal-preview-field-item-image-holder">
-                    <!-- TODO: use real image when it's ready -->
-                    <img src="../../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="">
+                    <template v-if="mealInfo.imageUrl && mealInfo.imageUrl.length">
+                        <img :src="mealInfo.imageUrl" alt="">
+                    </template>
+                    <template v-else>
+                        <img src="../../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="">
+                    </template>
                 </div>
             </div>
             <div class="meal-preview-field-item">

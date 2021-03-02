@@ -25,13 +25,23 @@
                                 <div class="my-meal-item p-2 p-xl-3" v-for="item in meals" v-bind:key="item.id">
                                     <div class="my-meal-item-info">
                                         <div class="my-meal-item-img-wrapper mr-2 mr-xl-3">
-                                            <!-- TODO: use real image if exists -->
-                                            <img
-                                                    src="../../assets/images/data/images/dashboard/reserved/meat.jpg"
-                                                    alt=""
-                                                    class="img-fluid cursor-pointer"
-                                                    @click="redirectToEditMealPage(item.id)"
-                                            >
+                                            <template v-if="hasMealImage(item)">
+                                                <img
+                                                        :src="getMealImageThumbnail(item)"
+                                                        alt=""
+                                                        class="img-fluid cursor-pointer"
+                                                        @click="redirectToEditMealPage(item.id)"
+                                                >
+                                            </template>
+                                            <template v-else>
+                                                <!-- meal image placeholder -->
+                                                <img
+                                                        src="../../assets/images/data/images/dashboard/recepts/meal-placeholder_rect.png"
+                                                        alt=""
+                                                        class="img-fluid cursor-pointer"
+                                                        @click="redirectToEditMealPage(item.id)"
+                                                >
+                                            </template>
                                         </div>
                                         <div class="my-meal-title-wrapper">
                                             <div class="my-meal-title">
@@ -416,6 +426,16 @@ export default {
         },
         showMobileAside () {
             this.$eventHub.$emit('show-mobile-profile-aside');
+        },
+        hasMealImage (item) {
+            if (!item || !item.id) return false;
+            const images = item.images;
+            if (!images || !images.length) return false;
+            return images[0].thumbnail && images[0].thumbnail.length > 0;
+        },
+        getMealImageThumbnail (item) {
+            if (!this.hasMealImage(item)) return '';
+            return item.images[0].thumbnail || '';
         }
     }
 }

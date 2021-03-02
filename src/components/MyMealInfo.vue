@@ -3,12 +3,17 @@
         <div class="reserved-box">
             <div class="reserved-info">
                 <div class="reserved-img">
-                    <img
-                            src="../assets/images/data/images/dashboard/reserved/soup.jpg"
-                            alt=""
-                            class="img-fluid cursor-pointer"
-                            @click="redirect"
-                    >
+                    <template v-if="hasMealImage()">
+                        <img :src="getMealImageThumbnail()" alt="" class="img-fluid cursor-pointer" @click="redirect">
+                    </template>
+                    <template v-else>
+                        <img
+                                src="../assets/images/data/images/dashboard/recepts/meal-placeholder_rect.png"
+                                alt=""
+                                class="img-fluid cursor-pointer"
+                                @click="redirect"
+                        >
+                    </template>
                 </div>
                 <div class="reserved-boxtitle">
                     <div class="reserved-title">
@@ -47,6 +52,18 @@ export default {
             if (!this.itemData || !this.itemData.id) return;
             const path = this.isMyMeal ? `/dashboard/my-offers/${this.itemData.id}` : `/dashboard/offers/${this.itemData.id}`;
             this.$router.push({ path: path }).catch(()=>{});
+        },
+        hasMealImage () {
+            if (!this.itemData || !this.itemData.id) return false;
+            if (!this.itemData.meal) return false;
+            const images = this.itemData.meal.images;
+            if (!images || !images.length) return false;
+            const _image = images[0];
+            return _image.thumbnail && _image.thumbnail.length > 0;
+        },
+        getMealImageThumbnail () {
+            if (!this.hasMealImage()) return '';
+            return this.itemData.meal.images[0].thumbnail || '';
         }
     },
     computed: {

@@ -12,8 +12,6 @@ import JQuery from 'jquery'
 import VueFormWizard from 'vue-form-wizard'
 import '@fortawesome/fontawesome-free/css/all.css'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
-import vue2Dropzone from 'vue2-dropzone';
-import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import { directive as onClickaway } from 'vue-clickaway';

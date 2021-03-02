@@ -222,7 +222,25 @@ export default {
         meals: {
             addMeal (data) {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals`;
-                return axios.post(endpoint, data)
+                const _config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+                let form = new FormData();
+                const keys = Object.keys(data);
+                for (let key of keys) {
+                    if (key in data) {
+                        switch (key) {
+                            case 'dietaryNotes':
+                                form.append(key, JSON.stringify(data[key]));
+                                break;
+                            default:
+                                // no need to make JSON.stringify(data.images) here
+                                form.append(key, data[key]);
+                                break;
+                        }
+                    }
+                }
+
+                return axios.post(endpoint, form, _config)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
                     })
@@ -241,7 +259,7 @@ export default {
                     })
             },
             getMealById (id) {
-                const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}`;
+                const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}?join=images`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -251,9 +269,9 @@ export default {
                     })
             },
             getMyMeals (page) {
-                let endpoint = `${config.API_ORIGIN}/api/me/meals`;
+                let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images`;
                 if (page) {
-                    endpoint += `?page=${page}`;
+                    endpoint += `&page=${page}`;
                 }
                 return axios.get(endpoint)
                     .then((res) => {
@@ -361,6 +379,7 @@ export default {
         },
         offers: {
             getOffers (query) {
+                // no need to add join=meal.images
                 let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
                 const sortByPickupTime = 'sort=pickupTime,ASC';
 
@@ -387,6 +406,7 @@ export default {
                     })
             },
             getAvailableOffers (excludeUserId) {
+                // no need to add join=meal.images
                 let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
                 const _filterHideInPast = getDefaultPickupTimeNotInPastFilter();
                 const _filterAvailableQuantity = 'filter=availableQuantity||$gte||1';
@@ -407,6 +427,7 @@ export default {
                     })
             },
             getMyOffers (shouldHidePastOffers, page) {
+                // no need to add join=meal.images
                 let endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`;
                 if (shouldHidePastOffers) {
                     endpoint += `&${getDefaultPickupTimeNotInPastFilter()}`;
@@ -425,6 +446,7 @@ export default {
                     })
             },
             getOfferById (id) {
+                // no need to add join=meal.images
                 const endpoint = `${config.API_ORIGIN}/api/offers/${id}?join=meal&join=place&join=user`;
                 return axios.get(endpoint)
                     .then((res) => {
@@ -445,6 +467,7 @@ export default {
                     });
             },
             getMyOfferById (id) {
+                // no need to add join=meal.images
                 const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}?join=place&join=meal`;
                 return axios.get(endpoint)
                     .then((res) => {
@@ -455,6 +478,7 @@ export default {
                     });
             },
             getAvailableOffersFromUser (userId, exceptionId, page) {
+                // no need to add join=meal.images
                 let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
                 const _filterByUserId = `filter=user.id||$eq||${userId}`;
                 const _filterAvailableServings = 'filter=availableQuantity||$gte||1';
@@ -543,6 +567,7 @@ export default {
                     })
             },
             getMyDines (shouldHidePastReservations, page) {
+                // no need to add join=meal.images
                 let endpoint = `${config.API_ORIGIN}/api/me/bookings/dine`;
                 const _sortPickupTimeAsc = 'sort=offer.pickupTime,ASC';
                 let _filterAndSortStr = '';
@@ -577,6 +602,7 @@ export default {
             getBookingInfo (id) {
                 // NOTE: offer.availableServings equals to offer.quantity,
                 // so if need actual booking.offer info, please use another endpoint
+                // no need to add join=meal.images
                 const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine/${id}`;
                 return axios.get(endpoint)
                     .then((res) => {

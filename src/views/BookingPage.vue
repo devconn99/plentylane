@@ -93,6 +93,7 @@ export default {
                     const _offerId = this.bookingInfo.offerId || this.bookingInfo.offer.id;
                     const _cookId = this.bookingInfo.cookId || this.bookingInfo.cook.id;
 
+                    // TODO: get back to it later, make sure it's not a redundant api call (api.dashboard.offers.getOfferById(_offerId))
                     offerRequests.push(api.dashboard.offers.getOfferById(_offerId));
                     offerRequests.push(api.dashboard.offers.getOfferQuestions(_offerId));
                     offerRequests.push(api.dashboard.offers.getAvailableOffersFromUser(_cookId, _offerId));

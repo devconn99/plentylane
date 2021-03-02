@@ -43,10 +43,11 @@
                                         @should-allow-edit-meal-copy="onShouldAllowEditMealCopy"
                                 ></NewMealStep1>
                             </tab-content>
-                            <tab-content title="" :before-change="beforeSecondTabSwitch">
+                            <tab-content title="" :before-change="()=>validateStep('step2')">
                                 <NewMealImage
                                         ref="step2"
                                         :disabled-fields="disabledFields"
+                                        @on-validate="beforeSecondTabSwitch"
                                         @should-allow-edit-meal-copy="onShouldAllowEditMealCopy"
                                 ></NewMealImage>
                             </tab-content>
@@ -208,8 +209,15 @@ export default {
             this.newOffer.quantity = Number(model.quantity);
             return true;
         },
-        beforeSecondTabSwitch () {
-            // load image step
+        beforeSecondTabSwitch (model, isValid) {
+            if (!isValid) return false;
+            const { file = null, imageUrl = '' } = model;
+            this.mealInfo['imageUrl'] = imageUrl;
+            if (file) {
+                this.postMeal['images'] = file;
+            } else {
+                delete this.postMeal['images'];
+            }
             return true;
         },
         beforeThirdTabSwitch (model, isValid) {
@@ -221,6 +229,7 @@ export default {
             return true;
         },
         hasMealInfoChanged () {
+            // TODO: check `images` field when copy meal later (when meal.images update/delete is ready)
             if (this.postMeal.name !== this.copyMealInfo.name.trim()) return true;
             if (this.postMeal.description !== this.copyMealInfo.description.trim()) return true;
             // TODO: check if new image was uploaded (when uploading is ready)

@@ -1,6 +1,9 @@
 <template>
     <div v-if="offerInfo && offerInfo.id">
-        <div class="dashboard-hero hero-img-overlay" :style="{ backgroundImage: 'url(' + imageUrl + ')' }">
+        <div
+                class="dashboard-hero hero-img-overlay offer-page-content-header"
+                :style="{ backgroundImage: 'url(' + getHeaderBgImageUrl() + ')' }"
+        >
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12 text-center">
@@ -182,8 +185,6 @@ export default {
     components: {ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock, SvgIcon, ConfirmModal},
     props: ['offerInfo', 'hiddenButtons', 'isMealReservedOnInit', 'questions', 'moreOffers', 'bookingId', 'bookedServingsNum'],
     data: () => ({
-        // TODO: temp image url
-        imageUrl: "https://cdn.pixabay.com/photo/2017/09/28/18/13/bread-2796393_960_720.jpg",
         wasReserved: false,
         reservationId: '',
         numberOfServingsReserved: 0,
@@ -219,6 +220,16 @@ export default {
                 .catch(err => {
                     console.log('\n >> err cancel reservation:', err);
                 })
+        },
+        getHeaderBgImageUrl () {
+            let _url = '';
+            if (!this.offerInfo || !this.offerInfo.meal) return _url;
+            const images = this.offerInfo.meal.images;
+            if (!images || !images.length) return _url;
+            if (images[0] && images[0].path && images[0].path.length > 0) {
+                _url = images[0].path;
+            }
+            return _url;
         }
     },
     computed: {
@@ -246,6 +257,9 @@ export default {
 
 <style scoped lang="scss">
 @import "../scss/utils/vars";
+.offer-page-content-header {
+    background-color: #b7b7b7;
+}
 .meal-reserved-info {
     height: 64px;
     background-color: $yellowColor;

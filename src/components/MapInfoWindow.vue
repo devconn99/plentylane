@@ -3,12 +3,17 @@
         <div class="reserved-box">
             <div class="reserved-info">
                 <div class="reserved-img">
-                    <img
-                            src="../assets/images/data/images/dashboard/reserved/soup.jpg"
-                            alt=""
-                            class="img-fluid cursor-pointer"
-                            @click="redirectToOffer"
-                    >
+                    <template v-if="hasMealImage()">
+                        <img :src="getMealImageThumbnail()" alt="" class="img-fluid cursor-pointer" @click="redirectToOffer">
+                    </template>
+                    <template v-else>
+                        <img
+                                src="../assets/images/data/images/dashboard/recepts/meal-placeholder_rect.png"
+                                alt=""
+                                class="img-fluid cursor-pointer"
+                                @click="redirectToOffer"
+                        >
+                    </template>
                 </div>
                 <div class="reserved-boxtitle">
                     <div class="reserved-title">
@@ -78,6 +83,17 @@ export default {
         redirectToCookProfile () {
             if (!this.itemData || !this.itemData.id) return;
             this.$eventHub.$emit('marker-info-window_redirect-to-cook', this.itemData.id, this.itemData.user.id);
+        },
+        hasMealImage () {
+            if (!this.itemData || !this.itemData.id) return false;
+            if (!this.itemData.meal) return false;
+            const images = this.itemData.meal.images;
+            if (!images || !images.length) return false;
+            return images[0] && images[0].thumbnail && images[0].thumbnail.length > 0;
+        },
+        getMealImageThumbnail () {
+            if (!this.hasMealImage()) return '';
+            return this.itemData.meal.images[0].thumbnail || '';
         }
     },
     computed: {

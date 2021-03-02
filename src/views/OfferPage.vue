@@ -4,7 +4,6 @@
                 :offer-info="offerInfo"
                 :more-offers="moreOffers"
                 :questions="questions"
-                :hidden-buttons="isMyOffer"
         ></OfferPageContent>
     </div>
 </template>
@@ -21,8 +20,7 @@ export default {
         offerInfo: {},
         isLoaded: false,
         questions: [],
-        moreOffers: [],
-        isMyOffer: false // TODO: get back to this value later - possibly it's redundant on this page
+        moreOffers: []
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -52,7 +50,6 @@ export default {
             this.offerId = '';
             this.questions = [];
             this.moreOffers = [];
-            this.isMyOffer = false;
         },
         errLoadingDataHandler (cb, err) {
             if (err) {
@@ -89,11 +86,6 @@ export default {
                             offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
                         }
                         this.offerInfo = { ...offer };
-                        let _userId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
-                        if (typeof _userId === 'string') {
-                            _userId = Number(_userId);
-                        }
-                        this.isMyOffer = _userId === this.offerInfo.user.id;
                     }
                     if (result && result[1] && result[1].length) {
                         // transform questions, temp
@@ -106,12 +98,6 @@ export default {
                     return true;
                 })
                 .then(() => {
-                    if (this.isMyOffer) {
-                        this.isLoaded = true;
-                        this.hideGlobalLoader();
-                        if (cb) cb();
-                        return true;
-                    }
                     // load more offers
                     return api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerId)
                         .then(res => {

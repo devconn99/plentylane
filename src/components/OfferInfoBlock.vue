@@ -2,11 +2,17 @@
     <div v-if="offerInfo && offerInfo.id" class="offer-link">
         <div class="recept-box">
             <div class="recept-box-img recept-box-img-overlay">
-                <!-- TODO: use meal's image later -->
-                <img src="../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="" class="img-fluid">
+                <template v-if="hasMealImage()">
+                    <img :src="getMealImagePath()" alt="" class="img-fluid">
+                </template>
+                <template v-else>
+                    <!-- meal image placeholder -->
+                    <SvgIcon icon="mealPlaceholder"></SvgIcon>
+                </template>
+
                 <div class="recept-box-title">
                     <div
-                            class="title-size3 titleLightColor cursor-pointer"
+                            class="meal-name title-size3 titleLightColor cursor-pointer"
                             @click="redirectToOffer"
                     >{{offerInfo.meal.name}}</div>
                     <div class="serving-number mt-1 titleLightColor">
@@ -93,9 +99,6 @@ export default {
     name: "OfferInfoBlock",
     props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer', 'hiddenUserBlock'],
     components: {SvgIcon},
-    data: () => ({
-        placeholderImg: '../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg',
-    }),
     computed: {
         readyTimeStr: function () {
             return helpers.parseDate(this.offerInfo.pickupTime, true);
@@ -119,6 +122,18 @@ export default {
         },
         emitAction (name) {
             this.$emit(`on-action-${name}`, this.offerInfo.id);
+        },
+        hasMealImage () {
+            if (!this.offerInfo || !this.offerInfo.id) return false;
+            if (!this.offerInfo.meal) return false;
+            const images = this.offerInfo.meal.images;
+            if (!images || !images.length) return false;
+            const _image = images[0];
+            return _image.path && _image.path.length > 0;
+        },
+        getMealImagePath () {
+            if (!this.hasMealImage()) return '';
+            return this.offerInfo.meal.images[0].path || '';
         }
     }
 }
@@ -156,8 +171,16 @@ export default {
     }
     .recept-box-img {
         position: relative;
+        max-height: 204px;
+        overflow-y: hidden;
         img {
             width: 100%;
+            min-height: 204px;
+            object-fit: cover;
+        }
+        i.svg-icon-wrapper {
+            width: 100%;
+            height: 100%;
         }
         &.recept-box-img-overlay:after {
             position: absolute;
@@ -175,6 +198,18 @@ export default {
             left: 16px;
             z-index: 2;
             padding-right: 16px;
+
+            .meal-name {
+                max-height: 144px;
+                overflow-y: hidden;
+
+                @media screen and (max-width: $tableWidth) {
+                    max-height: 153px;
+                }
+                @media screen and (max-width: $phoneBigWidth) {
+                    max-height: 140px;
+                }
+            }
         }
     }
     .cook-box {
