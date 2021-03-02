@@ -1,12 +1,12 @@
 <template>
     <b-form class="form new-meal-wizard-form">
         <b-form-group>
-            <legend class="custom-legend">
+            <div class="custom-legend">
                 <span>Meal Name</span>
                 <template v-if="allowEnableEditFields">
                     <EditBtn @on-clicked="enableEditFields"></EditBtn>
                 </template>
-            </legend>
+            </div>
             <b-form-input
                     name="name"
                     v-model.trim="$v.form.name.$model"
@@ -17,12 +17,12 @@
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.name.$dirty && !$v.form.name.required">This is a required field.</small>
         </b-form-group>
         <b-form-group>
-            <legend class="custom-legend">
+            <div class="custom-legend">
                 <span>Meal Description</span>
                 <template v-if="allowEnableEditFields">
                     <EditBtn @on-clicked="enableEditFields"></EditBtn>
                 </template>
-            </legend>
+            </div>
             <textarea
                     name="description"
                     v-model.trim="$v.form.description.$model"
@@ -156,6 +156,24 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 16px;
+            @media screen and (max-width: $tableMinWidth) {
+                margin-bottom: 14px;
+            }
+
+            span {
+                font-size: 18px;
+                line-height: 18px;
+                letter-spacing: 0.6px;
+                padding: 0;
+                margin: 0;
+                font-family: $FilsonProBold;
+                @media screen and (max-width: $tableMinWidth) {
+                    font-size: 16px;
+                    line-height: 17px;
+                    letter-spacing: 0.53px;
+                }
+            }
         }
     }
 }

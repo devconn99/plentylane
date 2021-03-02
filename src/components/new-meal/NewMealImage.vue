@@ -1,12 +1,12 @@
 <template>
     <b-form class="new-meal-image-container" @submit.stop.prevent>
         <b-form-group>
-            <legend class="custom-legend">
+            <div class="custom-legend">
                 <span>Add an image</span>
                 <template v-if="allowEnableEditField">
                     <EditBtn @on-clicked="enableEditField"></EditBtn>
                 </template>
-            </legend>
+            </div>
             <p class="mb-4 text-muted">You don’t need an image right now, you can always add this later…</p>
 
             <input
@@ -164,6 +164,20 @@ export default {
             justify-content: space-between;
             line-height: 24px !important;
             margin-bottom: 6px !important;
+
+            span {
+                font-size: 18px;
+                line-height: 18px;
+                letter-spacing: 0.6px;
+                padding: 0;
+                margin: 0;
+                font-family: $FilsonProBold;
+                @media screen and (max-width: $tableMinWidth) {
+                    font-size: 16px;
+                    line-height: 17px;
+                    letter-spacing: 0.53px;
+                }
+            }
         }
     }
 

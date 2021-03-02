@@ -2,12 +2,12 @@
     <div class="new-meal-step-3">
         <b-form class="form">
             <b-form-group class="dietary-notes">
-                <legend class="custom-legend">
+                <div class="custom-legend">
                     <span>Critical dietary notes</span>
                     <template v-if="allowEnableEditNotes">
                         <EditBtn @on-clicked="enableEditNotes"></EditBtn>
                     </template>
-                </legend>
+                </div>
                 <p class="mb-3 mt-0">Select as many apply</p>
                 <b-form-checkbox-group
                         class="dietary-notes-group"
@@ -217,6 +217,20 @@ export default {
         justify-content: space-between;
         line-height: 24px !important;
         margin-bottom: 6px !important;
+
+        span {
+            font-size: 18px;
+            line-height: 18px;
+            letter-spacing: 0.6px;
+            padding: 0;
+            margin: 0;
+            font-family: $FilsonProBold;
+            @media screen and (max-width: $tableMinWidth) {
+                font-size: 16px;
+                line-height: 17px;
+                letter-spacing: 0.53px;
+            }
+        }
     }
 }
 .meal-time-container {
