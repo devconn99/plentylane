@@ -11,7 +11,9 @@
                         <img :src="mealInfo.imageUrl" alt="">
                     </template>
                     <template v-else>
-                        <img src="../../assets/images/data/images/dashboard/recepts/card__img-placeholder.svg" alt="">
+                        <div class="empty-image-wrapper">
+                            <span class="empty-image-wrapper-text">No image selected</span>
+                        </div>
                     </template>
                 </div>
             </div>
@@ -190,13 +192,23 @@ export default {
             }
 
             .meal-preview-field-item-image-holder {
-                // temp
                 width: 204px;
-                height: 180px;
+                height: auto;
 
                 img {
                     width: 100%;
                     height: auto;
+                }
+
+                .empty-image-wrapper {
+                    width: 100%;
+                    background-color: #fff;
+                    color: #181816;
+                    padding: 16px;
+                    font-size: 16px;
+                    line-height: 24px;
+                    font-family: $FilsonProRegular;
+                    letter-spacing: 0;
                 }
             }
 

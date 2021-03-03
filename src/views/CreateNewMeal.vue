@@ -47,6 +47,7 @@
                                 <NewMealImage
                                         ref="step2"
                                         :disabled-fields="disabledFields"
+                                        :prev-image="prevImage"
                                         @on-validate="beforeSecondTabSwitch"
                                         @should-allow-edit-meal-copy="onShouldAllowEditMealCopy"
                                 ></NewMealImage>
@@ -145,7 +146,9 @@ export default {
         loaderOptions: { ...config.LOADER_OPTIONS },
         isPosting: false,
         copyMealInfo: {},
-        disabledFields: []
+        disabledFields: [],
+        prevImage: {},
+        keepPrevImageOnCopyMeal: true
     }),
     computed: {
         // save it for later
@@ -211,12 +214,18 @@ export default {
         },
         beforeSecondTabSwitch (model, isValid) {
             if (!isValid) return false;
-            const { file = null, imageUrl = '' } = model;
+            const { file = null, imageUrl = '', imageIdToDelete = '' } = model;
             this.mealInfo['imageUrl'] = imageUrl;
             if (file) {
                 this.postMeal['images'] = file;
             } else {
                 delete this.postMeal['images'];
+            }
+            if (this.prevImage && this.prevImage.id && this.prevImage.path) {
+                this.keepPrevImageOnCopyMeal = !Boolean(imageIdToDelete);
+                if (this.keepPrevImageOnCopyMeal && !this.mealInfo['imageUrl']) {
+                    this.mealInfo['imageUrl'] = this.prevImage.path; // to display prev image on review screen
+                }
             }
             return true;
         },
@@ -229,10 +238,8 @@ export default {
             return true;
         },
         hasMealInfoChanged () {
-            // TODO: check `images` field when copy meal later (when meal.images update/delete is ready)
             if (this.postMeal.name !== this.copyMealInfo.name.trim()) return true;
             if (this.postMeal.description !== this.copyMealInfo.description.trim()) return true;
-            // TODO: check if new image was uploaded (when uploading is ready)
             const _prevNotes =
                 this.copyMealInfo.dietaryNotes && this.copyMealInfo.dietaryNotes.length
                     ? this.copyMealInfo.dietaryNotes.map(note => note.label)
@@ -245,7 +252,13 @@ export default {
             if (!_newNotes.length && _prevNotes.length) return true;
             const _prevNotesValueStr = _prevNotes.sort().join(',');
             const _newNotesValueStr = _newNotes.sort().join(',');
-            return _prevNotesValueStr !== _newNotesValueStr;
+            if (_prevNotesValueStr !== _newNotesValueStr) return true;
+            // compare images
+            if (this.prevImage && this.prevImage.id) {
+                return !this.keepPrevImageOnCopyMeal;
+            } else {
+                return this.postMeal.hasOwnProperty('images');
+            }
         },
         beforeLastTabSwitch () {
             this.isPosting = true;
@@ -310,6 +323,8 @@ export default {
             this.isWizardCompleted = false;
             this.copyMealInfo = Object.assign({});
             this.disabledFields = [];
+            this.prevImage = {};
+            this.keepPrevImageOnCopyMeal = true;
             setTimeout(() => {
                 this.goToStep(0);
             }, 0);
@@ -326,6 +341,11 @@ export default {
             const _copiedInfo = { ...this.$store.getters.copiedMealInfo };
             if (!_copiedInfo || !_copiedInfo.id || !_copiedInfo.name) return;
             this.copyMealInfo = { ..._copiedInfo };
+            if (_copiedInfo.images && _copiedInfo.images.length) {
+                this.prevImage = { ..._copiedInfo.images[0] };
+            } else {
+                this.prevImage = {};
+            }
             // reset $store value
             this.$store.commit('copiedMealInfo', {});
             this.disabledFields = ['name', 'description', 'image', 'dietaryNotes'];

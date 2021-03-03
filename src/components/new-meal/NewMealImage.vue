@@ -19,6 +19,13 @@
                     @change="onFileChange"
             />
 
+            <template v-if="hasPrevImage()">
+                <div class="image-preview-wrapper" v-bind:style="{ 'background-image': 'url(' + previousImageData.path + ')' }"></div>
+                <div class="image-delete-wrapper">
+                    <span v-if="!shouldDisableInput" @click="showConfirmDeleteImage">Delete Image</span>
+                </div>
+            </template>
+
             <template v-if="imageUrl && imageUrl.length">
                 <div class="image-preview-wrapper" v-bind:style="{ 'background-image': 'url(' + imageUrl + ')' }"></div>
                 <div class="image-delete-wrapper">
@@ -57,7 +64,7 @@ import ConfirmModal from '../modals/ConfirmModal';
 export default {
     name: "NewMealImage",
     components: {EditBtn, ConfirmModal},
-    props: ['disabledFields', 'prevImageUrl'],
+    props: ['disabledFields', 'prevImage'],
     data: () => ({
         allowEnableEditField: false,
         shouldDisableInput: false,
@@ -65,7 +72,9 @@ export default {
         file: null,
         modalId: 'confirm-remove-meal-image',
         confirmRemoveMsg: 'Are you sure you want to remove this image?',
-        isDragging: false
+        isDragging: false,
+        imageIdToDelete: '',
+        previousImageData: null
     }),
     methods: {
         enableEditField () {
@@ -109,16 +118,21 @@ export default {
             this.file = file;
             const _url = URL.createObjectURL(file);
             if (_url && _url.length) {
+                if (this.hasPrevImage()) {
+                    this.onConfirmedRemove();
+                }
                 this.imageUrl = _url;
             }
         },
+        hasPrevImage () {
+            if (!this.previousImageData || !this.previousImageData.id) return false;
+            return this.previousImageData.path && this.previousImageData.path.length > 0;
+        },
         clearImage () {
-            // show confirm if previous value exists
-            if (this.prevImageUrl && this.prevImageUrl.length) {
-                this.$bvModal.show(this.modalId);
-            } else {
-                this.clearValue();
-            }
+            this.clearValue();
+        },
+        showConfirmDeleteImage () {
+            this.$bvModal.show(this.modalId);
         },
         clearValue () {
             this.$refs.mealFileInput.value = null;
@@ -126,12 +140,16 @@ export default {
             this.file = null;
         },
         validate () {
-            // TODO: need to send some flag in case the image needs to be removed at all
-            this.$emit('on-validate', { file: this.file, imageUrl: this.imageUrl }, true);
+            this.$emit('on-validate', {
+                file: this.file,
+                imageUrl: this.imageUrl,
+                imageIdToDelete: this.imageIdToDelete
+            }, true);
             return true;
         },
         onConfirmedRemove () {
-            this.clearValue();
+            this.imageIdToDelete = this.previousImageData['id'] || '';
+            this.previousImageData = null;
         }
     },
     watch: {
@@ -146,6 +164,13 @@ export default {
                 this.allowEnableEditField = _shouldDisableField;
                 this.shouldDisableInput = !!_shouldDisableField;
             });
+        },
+        prevImage: function (newVal) {
+            if (newVal && newVal.id) {
+                this.previousImageData = { ...newVal };
+            } else {
+                this.previousImageData = null;
+            }
         }
     }
 }
@@ -282,7 +307,7 @@ export default {
         // NOTE, no need to combine background properties into one
         background-repeat: no-repeat;
         background-position: center;
-        background-size: contain;
+        background-size: cover;
 
         @media screen and (max-width: $tableMinWidth) {
             min-height: 200px;

@@ -139,8 +139,8 @@ export default {
             this.closeModal();
             if (this.selectedMeal && this.selectedMeal.id) {
                 // redirect to new-meal page
-                const { id = '', name = '', description = '', dietaryNotes = [] } = this.selectedMeal;
-                this.$store.commit('copiedMealInfo', { id, name, description, dietaryNotes });
+                const { id = '', name = '', description = '', dietaryNotes = [], images = [] } = this.selectedMeal;
+                this.$store.commit('copiedMealInfo', { id, name, description, dietaryNotes, images });
                 this.$router.push({ path: '/dashboard/cook/new-meal' }).catch(() => {});
             }
         },

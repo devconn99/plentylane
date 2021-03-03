@@ -130,6 +130,9 @@ export default {
                     if (!item) return label;
                     return item.text;
                 });
+            } else {
+                data.dietaryNotes = [];
+                data['dietaryNotesText'] = [];
             }
             if (this.$data.form.pickupDate && this.$data.form.pickupTime) {
                 data['pickupTime'] = `${this.$data.form.pickupDate}T${this.$data.form.pickupTime}Z`; // TODO ?

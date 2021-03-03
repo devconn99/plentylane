@@ -256,7 +256,7 @@ export default {
                     })
                     .catch((err) => {
                         return checkErr(err.response);
-                    })
+                    });
             },
             getMealById (id) {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}?join=images`;
@@ -282,9 +282,9 @@ export default {
                     })
             },
             searchMyMeals (name) {
-                let endpoint = `${config.API_ORIGIN}/api/me/meals`;
+                let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images`;
                 if (name && name.length) {
-                    endpoint += `?filter=name||$contL||${name}`;
+                    endpoint += `&filter=name||$contL||${name}`;
                 }
                 return axios.get(endpoint)
                     .then((res) => {
@@ -298,7 +298,16 @@ export default {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}`;
                 return axios.delete(endpoint)
                     .then((res) => {
-                        console.log('\n >> res > ', res);
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            removeImage (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/mealImages/${id}`;
+                return axios.delete(endpoint)
+                    .then((res) => {
                         return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {

@@ -34,6 +34,12 @@ export default {
     cursor: pointer;
     height: 24px;
 
+    &:active, &.active {
+        border-color: transparent !important;
+        background-color: transparent !important;
+        color: $greenColor !important;
+    }
+
     .edit-btn-text {
         font-family: $LacaProSemiBold;
         font-size: 18px;
