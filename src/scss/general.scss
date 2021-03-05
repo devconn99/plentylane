@@ -1658,6 +1658,11 @@ body.mobile-menu-box-active .header {
 		}
 	}
 }
+.b-form-datepicker {
+	&.has-error {
+		border: 1px solid #E34425;
+	}
+}
 
 /********************
 *   GOOGLE MAPS  *

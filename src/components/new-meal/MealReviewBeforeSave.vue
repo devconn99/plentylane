@@ -41,9 +41,16 @@
                     <span class="text-muted">Availability</span>
                     <EditBtn @on-clicked="emitGoToStepEvent(2)"></EditBtn>
                 </div>
-                <div class="meal-preview-field-item-bg-block">
+                <div
+                        class="meal-preview-field-item-bg-block"
+                        v-bind:class="{ 'has-error': shouldShowMinPickupDateError }"
+                >
                     <p>{{formattedPickupTime}}</p>
                 </div>
+                <small
+                        class="text-danger d-block mt-2"
+                        v-if="shouldShowMinPickupDateError"
+                >Pickup time cannot be in the past</small>
             </div>
             <div
                     class="meal-preview-field-item location-field-container"
@@ -84,6 +91,9 @@ export default {
     name: "MealReviewBeforeSave",
     components: {EditBtn},
     props: ['mealInfo', 'hiddenFields', 'hideQuantity'],
+    data: () => ({
+        shouldShowMinPickupDateError: false
+    }),
     methods: {
         emitGoToStepEvent (stepIndex) {
             this.$emit('go-to-step', stepIndex);
@@ -103,6 +113,18 @@ export default {
             }
             return `${num} Serving${num === 1 ? '' : 's'}`;
         }
+    },
+    created () {
+        this.$eventHub.$on('show-min-pickup-date-error-on-review', () => {
+            this.shouldShowMinPickupDateError = true;
+        });
+        this.$eventHub.$on('hide-min-pickup-date-error-on-review', () => {
+            this.shouldShowMinPickupDateError = false;
+        });
+    },
+    beforeDestroy () {
+        this.$eventHub.$off('show-min-pickup-date-error-on-review');
+        this.$eventHub.$off('hide-min-pickup-date-error-on-review');
     }
 }
 </script>
@@ -189,6 +211,10 @@ export default {
                 line-height: 24px;
                 font-family: $FilsonProRegular;
                 letter-spacing: 0;
+
+                &.has-error {
+                    border: 1px solid #E34425;
+                }
             }
 
             .meal-preview-field-item-image-holder {

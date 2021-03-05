@@ -48,7 +48,13 @@
                                 hide-header
                                 dropleft
                                 menu-class="offer-pickup-date override-datepicker-dropdown"
+                                v-bind:class="shouldShowMinPickupDateError ? 'has-error': ''"
+                                @input="onDateChanged"
                         ></b-form-datepicker>
+                        <small
+                                class="text-danger d-flex mt-2 text-left"
+                                v-if="$v.form.pickupDate && shouldShowMinPickupDateError"
+                        >Pickup time cannot be in the past</small>
                     </b-form-group>
                 </div>
             </div>
@@ -92,12 +98,13 @@ export default {
             pickupDate: '',
             placeId: null
         },
-        minDate: new Date(),
+        minDate: new Date(new Date().setHours(0, 0, 0, 0)),
         locationOptions: [
             { value: null, text: 'Please select a location' }
         ],
         allowEnableEditNotes: false,
-        limitPlaces: 100
+        limitPlaces: 100,
+        shouldShowMinPickupDateError: false
     }),
     validations () {
         const form = {
@@ -160,6 +167,12 @@ export default {
             this.allowEnableEditNotes = false;
             this.updateExistingDietaryNotesOptions(false);
             this.$emit('should-allow-edit-meal-copy');
+        },
+        onDateChanged () {
+            if (this.shouldShowMinPickupDateError) {
+                this.shouldShowMinPickupDateError = false;
+                this.$eventHub.$emit('hide-min-pickup-date-error-on-review');
+            }
         }
     },
     mounted () {
@@ -173,7 +186,16 @@ export default {
             })
             .catch(err => {
                 console.log('\n >> err > ', err);
-            })
+            });
+
+    },
+    created () {
+        this.$eventHub.$on('show-min-pickup-date-error-on-step-3', () => {
+            this.shouldShowMinPickupDateError = true;
+        });
+        this.$eventHub.$on('hide-min-pickup-date-error-on-step-3', () => {
+            this.shouldShowMinPickupDateError = false;
+        });
     },
     watch: {
         prevValues: function (newVal) {
@@ -204,6 +226,10 @@ export default {
                 this.updateExistingDietaryNotesOptions(_shouldDisableNotes);
             });
         }
+    },
+    beforeDestroy () {
+        this.$eventHub.$off('show-min-pickup-date-error-on-step-3');
+        this.$eventHub.$off('hide-min-pickup-date-error-on-step-3');
     }
 }
 </script>

@@ -41,8 +41,12 @@
                                         @on-validate="beforeFirstTabSwitch"
                                 ></NewMealStep1>
                             </tab-content>
-                            <tab-content title="" :before-change="beforeSecondTabSwitch">
-                                <NewMealImage ref="step2"></NewMealImage>
+                            <tab-content title="" :before-change="()=>validateStep('step2')">
+                                <NewMealImage
+                                        :prev-image="prevImage"
+                                        ref="step2"
+                                        @on-validate="beforeSecondTabSwitch"
+                                ></NewMealImage>
                             </tab-content>
                             <tab-content title="" :before-change="()=>validateStep('step3')">
                                 <NewMealStep3
@@ -129,7 +133,10 @@ export default {
         offerToPatch: {},
         mealToPatch: {},
         currentData: null,
-        dataReview: {}
+        dataReview: {},
+        prevImage: {},
+        imageIdToDelete: '',
+        newImageData: null
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -162,6 +169,9 @@ export default {
             this.isWizardCompleted = false;
             this.offerToPatch = {};
             this.mealToPatch = {};
+            this.prevImage = {};
+            this.imageIdToDelete = '';
+            this.newImageData = null;
         },
         hideGlobalLoader () {
             if (this.$loader && this.$loader.hide) {
@@ -203,13 +213,17 @@ export default {
         parseOfferData (offerInfo) {
             this.mealId = offerInfo.mealId;
             let _data = {};
-            if (offerInfo['meal'] && offerInfo['meal']['name']) {
+            if (offerInfo['meal'] && offerInfo['meal']['id']) {
+                const _meal = offerInfo['meal'];
                 if (!this.mealId) {
-                    this.mealId = offerInfo.meal.id;
+                    this.mealId = _meal.id;
                 }
-                _data['name'] = offerInfo.meal.name;
-                _data['description'] = offerInfo.meal.description;
-                _data['dietaryNotes'] = offerInfo.meal.dietaryNotes;
+                _data['name'] = _meal.name;
+                _data['description'] = _meal.description;
+                _data['dietaryNotes'] = _meal.dietaryNotes;
+                if (_meal.images && _meal.images.length) {
+                    this.prevImage = { ..._meal.images[0] };
+                }
             }
             _data['quantity'] = offerInfo.quantity;
             _data['pickupTime'] = offerInfo.pickupTime;
@@ -254,8 +268,13 @@ export default {
             this.offerToPatch = { quantity: Number(model.quantity) };
             return true;
         },
-        beforeSecondTabSwitch () {
-            // load image step
+        beforeSecondTabSwitch (model, isValid) {
+            if (!isValid) return false;
+            const { file = null, imageUrl = '', imageIdToDelete = '' } = model;
+            this.dataReview = Object.assign({}, this.dataReview, { imageUrl: imageUrl });
+            // no need to add "images" field to `this.mealToPatch`
+            this.newImageData = file ? file : null;
+            this.imageIdToDelete = imageIdToDelete;
             return true;
         },
         beforeThirdTabSwitch (model, isValid) {
@@ -268,6 +287,8 @@ export default {
         },
         beforeLastTabSwitch () {
             this.isSaving = true;
+            this.$eventHub.$emit('hide-min-pickup-date-error-on-step-3');
+            this.$eventHub.$emit('hide-min-pickup-date-error-on-review');
             if (typeof this.offerToPatch.quantity !== 'number') {
                 this.offerToPatch.quantity = Number(this.offerToPatch.quantity);
             }
@@ -279,11 +300,31 @@ export default {
                     return api.dashboard.meals.updateMeal(this.mealId, this.mealToPatch)
                 })
                 .then(() => {
+                    if (this.newImageData) {
+                        return api.dashboard.meals.addImage(this.mealId, this.newImageData)
+                    }
+                    return Promise.resolve();
+                })
+                .then(() => {
+                    if (this.imageIdToDelete) {
+                        return api.dashboard.meals.removeImage(this.imageIdToDelete)
+                    }
+                    return Promise.resolve();
+                })
+                .then(() => {
                     this.isSaving = false;
                     return true;
                 })
                 .catch(err => {
                     console.log('\n >> err patch offer/meal > ', err);
+                    let { message = '' } = err && err.data ? err.data : {};
+                    if (message && message.length) {
+                        message = message.toLowerCase();
+                        if (message === 'pickup time cannot be in the past' || message.includes('pickup') || message.includes('pickuptime')) {
+                            this.$eventHub.$emit('show-min-pickup-date-error-on-step-3');
+                            this.$eventHub.$emit('show-min-pickup-date-error-on-review');
+                        }
+                    }
                     this.isSaving = false;
                     return false;
                 });
