@@ -222,25 +222,29 @@ export default {
         meals: {
             addMeal (data) {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals`;
-                const _config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-                let form = new FormData();
-                const keys = Object.keys(data);
-                for (let key of keys) {
-                    if (key in data) {
-                        switch (key) {
-                            case 'dietaryNotes':
-                                form.append(key, JSON.stringify(data[key]));
-                                break;
-                            default:
-                                // no need to make JSON.stringify(data.images) here
-                                form.append(key, data[key]);
-                                break;
+                let _request;
+                if (data['images']) {
+                    const _config = { headers: { 'Content-Type': 'multipart/form-data' } };
+                    let form = new FormData();
+                    const keys = Object.keys(data);
+                    for (let key of keys) {
+                        if (key in data) {
+                            switch (key) {
+                                case 'dietaryNotes':
+                                    form.append(key, JSON.stringify(data[key]));
+                                    break;
+                                default:
+                                    // no need to make JSON.stringify(data.images) here
+                                    form.append(key, data[key]);
+                                    break;
+                            }
                         }
                     }
+                    _request = axios.post(endpoint, form, _config);
+                } else {
+                    _request = axios.post(endpoint, data);
                 }
-
-                return axios.post(endpoint, form, _config)
+                return _request
                     .then((res) => {
                         return Promise.resolve(res.data || {});
                     })
@@ -249,7 +253,11 @@ export default {
                     });
             },
             updateMeal (mealId, data) {
+                // NOTE, this endpoint allows to update any field except "images"
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${mealId}`;
+                if (data['images']) {
+                    delete data['images'];
+                }
                 return axios.patch(endpoint, data)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -307,6 +315,21 @@ export default {
             removeImage (id) {
                 const endpoint = `${config.API_ORIGIN}/api/me/mealImages/${id}`;
                 return axios.delete(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            addImage (mealId, imageData) {
+                const endpoint = `${config.API_ORIGIN}/api/me/mealImages`;
+                const _config = { headers: { 'Content-Type': 'multipart/form-data' } };
+                let form = new FormData();
+                form.append('image', imageData);
+                form.append('meal', mealId);
+
+                return axios.post(endpoint, form, _config)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
                     })

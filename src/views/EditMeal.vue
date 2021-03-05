@@ -42,8 +42,12 @@
                                         @on-validate="beforeFirstTabSwitch"
                                 ></NewMealStep1>
                             </tab-content>
-                            <tab-content title="" :before-change="beforeSecondTabSwitch">
-                                <NewMealImage ref="step2"></NewMealImage>
+                            <tab-content title="" :before-change="()=>validateStep('step2')">
+                                <NewMealImage
+                                        :prev-image="prevImage"
+                                        ref="step2"
+                                        @on-validate="beforeSecondTabSwitch"
+                                ></NewMealImage>
                             </tab-content>
                             <tab-content title="" :before-change="()=>validateStep('step3')">
                                 <NewMealStep3
@@ -135,7 +139,10 @@ export default {
         isWizardCompleted: false,
         mealToPatch: {},
         loaderOptions: { ...config.LOADER_OPTIONS },
-        isSaving: false
+        isSaving: false,
+        prevImage: {},
+        imageIdToDelete: '',
+        newImageData: null
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -166,6 +173,9 @@ export default {
             this.mealInfo = {};
             this.currentStep = 0;
             this.isSaving = false;
+            this.prevImage = {};
+            this.imageIdToDelete = '';
+            this.newImageData = null;
         },
         hideGlobalLoader () {
             if (this.$loader && this.$loader.hide) {
@@ -197,6 +207,9 @@ export default {
             api.dashboard.meals.getMealById(this.mealId)
                 .then(result => {
                     this.mealOriginalInfo = { ...result };
+                    if (result.images && result.images.length) {
+                        this.prevImage = { ...result.images[0] };
+                    }
                     this.hideGlobalLoader();
                     if (cb) cb();
                 })
@@ -236,8 +249,13 @@ export default {
             this.mealToPatch = { name: model.name, description: model.description, dietaryNotes: [] };
             return true;
         },
-        beforeSecondTabSwitch () {
-            // load image step
+        beforeSecondTabSwitch (model, isValid) {
+            if (!isValid) return false;
+            const { file = null, imageUrl = '', imageIdToDelete = '' } = model;
+            this.mealInfo['imageUrl'] = imageUrl;
+            // no need to add "images" field to `this.mealToPatch`
+            this.newImageData = file ? file : null;
+            this.imageIdToDelete = imageIdToDelete;
             return true;
         },
         beforeThirdTabSwitch (model, isValid) {
@@ -250,6 +268,18 @@ export default {
             this.isSaving = true;
             return api.dashboard.meals.updateMeal(this.mealId, this.mealToPatch)
                 .then(() => {
+                    if (this.newImageData) {
+                        return api.dashboard.meals.addImage(this.mealId, this.newImageData)
+                    }
+                    return Promise.resolve();
+                })
+                .then(() => {
+                    if (this.imageIdToDelete) {
+                        return api.dashboard.meals.removeImage(this.imageIdToDelete)
+                    }
+                    return Promise.resolve();
+                })
+                .then(() => {
                     this.isSaving = false;
                     return true;
                 })
@@ -258,7 +288,7 @@ export default {
                     this.isSaving = false;
                     return false;
                 });
-        },
+        }
     }
 }
 </script>
