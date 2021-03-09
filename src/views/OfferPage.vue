@@ -4,6 +4,7 @@
                 :offer-info="offerInfo"
                 :more-offers="moreOffers"
                 :questions="questions"
+                :should-allow-ask-question="true"
         ></OfferPageContent>
     </div>
 </template>
@@ -73,9 +74,32 @@ export default {
                 this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
+            api.dashboard.offers.getOfferById(this.offerId)
+                .then(offer => {
+                    if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
+                        offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
+                    }
+                    this.offerInfo = { ...offer };
+                    // TODO: maybe it's better to move loading more offers from same user to the OfferPageContent component?
+                    return api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerId);
+                })
+                .then(offersResponse => {
+                    if (offersResponse && offersResponse.data) {
+                        this.moreOffers = offersResponse.data;
+                    }
+                    this.isLoaded = true;
+                    this.hideGlobalLoader();
+                    if (cb) cb();
+                    return true;
+                })
+                .catch(error => {
+                    this.errLoadingDataHandler(cb, error);
+                });
+
+            /*
             const requests = [
                 api.dashboard.offers.getOfferById(this.offerId),
-                api.dashboard.offers.getOfferQuestions(this.offerId)
+                api.dashboard.meals.getMyMealQuestions(this.offerId)
             ];
             Promise.all(requests)
                 .then(result => {
@@ -116,6 +140,7 @@ export default {
                 .catch(err => {
                     this.errLoadingDataHandler(cb, err);
                 })
+            */
         },
         hideGlobalLoader () {
             if (this.$loader && this.$loader.hide) {

@@ -155,5 +155,16 @@ export default {
         if (isNaN(value)) return '$0.00';
         const val = (value/1).toFixed(2).replace('.', ',');
         return `$${val.toString().replace(/B(?=(d{3})+(?!d))/g, ".")}`;
+    },
+    convertQuestionsDataResponse (responseData) {
+        return responseData.map(item => this.convertQuestion(item));
+    },
+    convertQuestion (question) {
+        const _date = new Date(question.createdAt);
+        question['createdAtDisplayDate'] = `${_date.toLocaleDateString('en', { month: 'short' })} ${_date.getUTCDate()}`;
+        if (question.askedBy && question.askedBy.id) {
+            question.askedBy['displayName'] = this.userNameWithShortLastName(question.askedBy);
+        }
+        return question;
     }
 }

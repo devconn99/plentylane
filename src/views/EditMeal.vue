@@ -204,7 +204,7 @@ export default {
                 this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
-            api.dashboard.meals.getMealById(this.mealId)
+            api.dashboard.meals.getMyMealById(this.mealId)
                 .then(result => {
                     this.mealOriginalInfo = { ...result };
                     if (result.images && result.images.length) {

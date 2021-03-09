@@ -112,6 +112,24 @@ const routes = [
                         }
                     },
                     {
+                        path: 'my-answers',
+                        name: 'My Answers',
+                        component: () => import("../views/profile/MyAnswers.vue"),
+                        meta: {
+                            title: `${TITLE} - My Answers`,
+                            noLoader: true
+                        }
+                    },
+                    {
+                        path: 'my-questions',
+                        name: 'My Questions',
+                        component: () => import("../views/profile/MyQuestions.vue"),
+                        meta: {
+                            title: `${TITLE} - My Questions`,
+                            noLoader: true
+                        }
+                    },
+                    {
                         path: 'certifications',
                         name: 'Certifications',
                         component: () => import("../views/profile/Certifications.vue"),
@@ -237,6 +255,24 @@ const routes = [
                 component: () => import("../views/MyOfferPage.vue"),
                 meta: {
                     title: `${TITLE} - Offer Info`,
+                    skipHidingLoader: true
+                }
+            },
+            {
+                path: 'my-meals/:id',
+                name: 'My Meal Info',
+                component: () => import("../views/MyMealPage.vue"),
+                meta: {
+                    title: `${TITLE} - Meal Info`,
+                    skipHidingLoader: true
+                }
+            },
+            {
+                path: 'meals/:id',
+                name: 'Meal Info',
+                component: () => import("../views/MealPage.vue"),
+                meta: {
+                    title: `${TITLE} - Meal Info`,
                     skipHidingLoader: true
                 }
             },

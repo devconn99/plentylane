@@ -219,7 +219,7 @@ export default {
                 return `
                     <svg width="17px" height="17px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17">
                         <g fill="none" fill-rule="evenodd">
-                            <g fill="#FCDBD0" fill-rule="nonzero">
+                            <g class="possible-change-on-hover" fill="#FCDBD0" fill-rule="nonzero">
                                 <path
                                         d="M12.512 2.31L8.499 6.32 4.487 2.31a1.75 1.75 0 00-2.474 0l-.114.124a1.75 1.75 0 00.113 2.35l4.012 4.013-4.012 4.013a1.75 1.75 0 00.786 2.927l.151.034a1.75 1.75 0 001.539-.487l4.011-4.013 4.013 4.013a1.75 1.75 0 002.475 0l.113-.124a1.75 1.75 0 00-.113-2.35l-4.012-4.013 4.013-4.012a1.75 1.75 0 10-2.476-2.475z" />
                             </g>

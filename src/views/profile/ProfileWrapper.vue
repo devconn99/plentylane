@@ -49,6 +49,14 @@ export default {
                 path: '/dashboard/profile/my-network'
             },
             {
+                title: 'My Answers',
+                path: '/dashboard/profile/my-answers'
+            },
+            {
+                title: 'My Questions',
+                path: '/dashboard/profile/my-questions'
+            },
+            {
                 title: 'Certifications',
                 path: '/dashboard/profile/certifications'
             },

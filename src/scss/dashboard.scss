@@ -860,11 +860,11 @@ a.reserved-box, .reserved-box {
 				border-radius: 50%;
 			}
 			.questions-box-author-img-placeholder {
-				width: 40px;
-				height: 40px;
+				width: 48px;
+				height: 48px;
 
 				.user-icon {
-					font-size: 40px;
+					font-size: 48px;
 					color: $grayColor;
 				}
 			}
@@ -921,6 +921,21 @@ a.reserved-box, .reserved-box {
 						}
 					}
 				}
+			}
+		}
+		.remove-answer {
+			position: absolute;
+			top: 20px;
+			right: 0;
+			cursor: pointer;
+
+			&:hover .svg-icon-wrapper svg > g > g.possible-change-on-hover {
+				fill: red;
+				-webkit-transition: all 0.3s ease;
+				-moz-transition: all 0.3s ease;
+				-ms-transition: all 0.3s ease;
+				-o-transition: all 0.3s ease;
+				transition: all 0.3s ease;
 			}
 		}
 	}

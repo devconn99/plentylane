@@ -5,6 +5,7 @@
                 :more-offers="[]"
                 :questions="questions"
                 :hidden-buttons="true"
+                :is-my-offer="true"
         ></OfferPageContent>
     </div>
 </template>

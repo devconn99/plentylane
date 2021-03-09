@@ -266,15 +266,18 @@ export default {
                         return checkErr(err.response);
                     });
             },
-            getMealById (id) {
-                const endpoint = `${config.API_ORIGIN}/api/me/meals/${id}?join=images`;
+            getMyMealById (id, shouldJoinQuestions) {
+                let endpoint = `${config.API_ORIGIN}/api/me/meals/${id}?join=images`;
+                if (shouldJoinQuestions) {
+                    endpoint += '&join=mealQuestions';
+                }
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {
                         return checkErr(err.response);
-                    })
+                    });
             },
             getMyMeals (page) {
                 let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images`;
@@ -287,7 +290,7 @@ export default {
                     })
                     .catch((err) => {
                         return checkErr(err.response);
-                    })
+                    });
             },
             searchMyMeals (name) {
                 let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images`;
@@ -331,6 +334,46 @@ export default {
 
                 return axios.post(endpoint, form, _config)
                     .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMealQuestions (mealId, showOnlyAnswered) {
+                const endpoint = `${config.API_ORIGIN}/api/meals/${mealId}?join=mealQuestions`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        if (showOnlyAnswered && res.data.mealQuestions && res.data.mealQuestions.length) {
+                            res.data.mealQuestions = res.data.mealQuestions.filter(item => item.answer && item.answer.length > 0);
+                        }
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMyMealQuestions (mealId) {
+                const endpoint = `${config.API_ORIGIN}/api/me/meals/${mealId}?join=mealQuestions`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMealById (id, shouldJoinQuestions) {
+                // TODO: join user.images?
+                let endpoint = `${config.API_ORIGIN}/api/meals/${id}?join=images`;
+                if (shouldJoinQuestions) {
+                    endpoint += '&join=mealQuestions';
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        if (shouldJoinQuestions && res.mealQuestions && res.mealQuestions.length) {
+                            res.mealQuestions = res.mealQuestions.filter(item => item.answer && item.answer.length > 0);
+                        }
                         return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {
@@ -811,6 +854,110 @@ export default {
                     return Promise.resolve(_item);
                 }
                 return Promise.reject({ data: { statusCode: 404 } });
+            }
+        },
+        mealQuestions: {
+            postQuestion (data) {
+                const endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask`;
+                return axios.post(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMyAnsweredQuestions (page) {
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$notnull`;
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMyUnAnsweredQuestions (page) {
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$isnull`;
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMyQuestionById (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask/${id}`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getUnAnsweredQuestionsForCook (page) {
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$isnull`;
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getAnsweredQuestionsForCook (page) {
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$notnull`;
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            deleteMyAnswer (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer/${id}`;
+                return axios.delete(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            updateMyAnswer (id, data) {
+                const endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer/${id}`;
+                return axios.patch(endpoint, data)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getMyAnswerById (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer/${id}`;
+                return axios.delete(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
             }
         }
     }
