@@ -175,12 +175,12 @@ export default {
                 return;
             }
             api.dashboard.meals.getMyMealById(this.mealId, true)
-                .then(result => {
-                    if (result.dietaryNotes && result.dietaryNotes.length) {
-                        result.dietaryNotes = helpers.retrieveDietaryNotes(result.dietaryNotes);
+                .then(meal => {
+                    if (meal.dietaryNotes && meal.dietaryNotes.length) {
+                        meal.dietaryNotes = helpers.retrieveDietaryNotes(meal.dietaryNotes);
                     }
-                    if (result.images && result.images.length) {
-                        const _images = result.images;
+                    if (meal.images && meal.images.length) {
+                        const _images = meal.images;
                         if (_images[0] && _images[0].path && _images[0].path.length > 0) {
                             this.bgImageUrl = _images[0].path;
                         } else {
@@ -189,10 +189,19 @@ export default {
                     } else {
                         this.bgImageUrl = '';
                     }
-                    if (result.mealQuestions && result.mealQuestions.length) {
-                        result.mealQuestions = helpers.convertQuestionsDataResponse(result.mealQuestions);
+                    if (meal.mealQuestions && meal.mealQuestions.length) {
+                        meal.mealQuestions = helpers.convertQuestionsDataResponse(meal.mealQuestions);
                     }
-                    this.mealInfo = { ...result };
+                    this.mealInfo = { ...meal };
+                    if (meal.user && !meal.user.hasOwnProperty('image')) {
+                        return api.dashboard.users.getUserInfo(meal.user.id);
+                    }
+                    return Promise.resolve(null);
+                })
+                .then(userInfo => {
+                    if (userInfo && userInfo.hasOwnProperty('image')) {
+                        this.mealInfo.user['image'] = { ...userInfo.image };
+                    }
                     this.isLoaded = true;
                     this.hideGlobalLoader();
                     if (cb) cb();

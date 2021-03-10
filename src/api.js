@@ -364,7 +364,6 @@ export default {
                     });
             },
             getMealById (id, shouldJoinQuestions) {
-                // TODO: join user.images?
                 let endpoint = `${config.API_ORIGIN}/api/meals/${id}?join=images`;
                 if (shouldJoinQuestions) {
                     endpoint += '&join=mealQuestions';
