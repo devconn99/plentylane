@@ -6,8 +6,8 @@
                     :booking-id="bookingInfo.id"
                     :is-meal-reserved-on-init="true"
                     :booked-servings-num="bookingInfo.servings"
-                    :questions="questions"
-                    :more-offers="moreOffers"
+                    :should-load-more-offers="true"
+                    :should-allow-ask-question="true"
             ></OfferPageContent>
         </template>
     </div>
@@ -86,43 +86,18 @@ export default {
                 this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
-            const offerRequests = [];
             api.dashboard.bookings.getBookingInfo(this.bookingId)
                 .then(result => {
                     this.bookingInfo = result;
                     const _offerId = this.bookingInfo.offerId || this.bookingInfo.offer.id;
-                    const _cookId = this.bookingInfo.cookId || this.bookingInfo.cook.id;
-
-                    // TODO: get back to it later, make sure it's not a redundant api call (api.dashboard.offers.getOfferById(_offerId))
-                    offerRequests.push(api.dashboard.offers.getOfferById(_offerId));
-                    offerRequests.push(api.dashboard.offers.getOfferQuestions(_offerId));
-                    offerRequests.push(api.dashboard.offers.getAvailableOffersFromUser(_cookId, _offerId));
-                    return Promise.all(offerRequests);
+                    return api.dashboard.offers.getOfferById(_offerId);
                 })
-                .then((result) => {
-                    if (!result || !result.length) {
-                        this.isLoaded = true;
-                        this.hideGlobalLoader();
-                        if (cb) cb();
-                        return true;
-                    }
-                    if (result[0]) {
-                        const offer = result[0];
-                        if (offer.meal && offer.meal.dietaryNotes && offer.meal.dietaryNotes.length) {
-                            offer.meal.dietaryNotes = helpers.retrieveDietaryNotes(offer.meal.dietaryNotes);
+                .then((offerInfo) => {
+                    if (offerInfo) {
+                        if (offerInfo.meal && offerInfo.meal.dietaryNotes && offerInfo.meal.dietaryNotes.length) {
+                            offerInfo.meal.dietaryNotes = helpers.retrieveDietaryNotes(offerInfo.meal.dietaryNotes);
                         }
-                        this.offerInfo = { ...offer };
-                    }
-                    if (result[1] && result[1].length) {
-                        // transform questions, temp
-                        this.questions = result[1].map(item => {
-                            const _date = new Date(item.date);
-                            item.date = `${_date.toLocaleDateString('en', { month: 'short' })} ${_date.getUTCDate()}`;
-                            return item;
-                        });
-                    }
-                    if (result[2] && result[2].data && result[2].data.length) {
-                        this.moreOffers = result[2].data;
+                        this.offerInfo = { ...offerInfo };
                     }
                     this.isLoaded = true;
                     this.hideGlobalLoader();

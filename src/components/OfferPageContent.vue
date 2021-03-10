@@ -111,64 +111,72 @@
                     </div>
                 </div>
 
-                <div class="row mb-5" v-if="mealQuestions && mealQuestions.length">
-                    <div class="col-md-12">
-                        <div class="dashboard-title-box mb-3">
-                            <div class="title-size3 titleGreenNavyColor">
-                                {{mealQuestions.length}} Question{{mealQuestions.length !== 1 ? 's' : ''}}
+                <div class="row mb-5 meal-questions-row" v-bind:class="{ 'is-loading': isLoadingMealQuestions }">
+                    <loading
+                            :active.sync="isLoadingMealQuestions"
+                            :is-full-page="loaderOptions.IS_FULL_PAGE"
+                            :color="loaderOptions.COLOR"
+                            :background-color="loaderOptions.BACKGROUND_COLOR"
+                    ></loading>
+                    <template v-if="mealQuestions && mealQuestions.length">
+                        <div class="col-md-12">
+                            <div class="dashboard-title-box mb-3">
+                                <div class="title-size3 titleGreenNavyColor">
+                                    {{mealQuestions.length}} Question{{mealQuestions.length !== 1 ? 's' : ''}}
+                                </div>
                             </div>
-                        </div>
-                        <div class="questions">
-                            <div class="questions-box" v-for="item in mealQuestions">
-                                <div class="row">
-                                    <div class="col-sm-4 mb-2 mb-sm-0">
-                                        <div class="questions-box-author">
-                                            <template v-if="item.askedBy && item.askedBy.image && item.askedBy.image.thumbnail && item.askedBy.image.thumbnail.length">
-                                                <div class="questions-box-author-img mr-2 mr-xl-3">
-                                                    <img :src="item.askedBy.image.thumbnail" alt="" class="img-fluid">
-                                                </div>
-                                            </template>
-                                            <template v-else>
-                                                <div class="questions-box-author-img-placeholder mr-2 mr-xl-3">
-                                                    <i class="fas fa-user-circle user-icon"></i>
-                                                </div>
-                                            </template>
-                                            <div class="questions-box-author-title">
-                                                <template v-if="item.askedBy && item.askedBy.displayName">
-                                                    {{item.askedBy.displayName}}
-                                                </template>
-                                                <template v-else>User-{{ item.askedById }}</template>
-                                                <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <div class="questions-box-text">
-                                            <p class="question mb-1">Q: {{item.question}}</p>
-                                            <template v-if="isMyOffer">
-                                                <template v-if="item.answer && item.answer.length">
-                                                    <p>You: {{item.answer}}</p>
+                            <div class="questions">
+                                <div class="questions-box" v-for="item in mealQuestions">
+                                    <div class="row">
+                                        <div class="col-sm-4 mb-2 mb-sm-0">
+                                            <div class="questions-box-author">
+                                                <template v-if="item.askedBy && item.askedBy.image && item.askedBy.image.thumbnail && item.askedBy.image.thumbnail.length">
+                                                    <div class="questions-box-author-img mr-2 mr-xl-3">
+                                                        <img :src="item.askedBy.image.thumbnail" alt="" class="img-fluid">
+                                                    </div>
                                                 </template>
                                                 <template v-else>
-                                                    <b-btn
-                                                            class="btnGreenTransparent btnSmallSize hover-slide-left"
-                                                            @click="showModalToAnswerQuestion(item)"
-                                                    >
-                                                        <span>Answer</span>
-                                                    </b-btn>
+                                                    <div class="questions-box-author-img-placeholder mr-2 mr-xl-3">
+                                                        <i class="fas fa-user-circle user-icon"></i>
+                                                    </div>
                                                 </template>
-                                            </template>
-                                            <template v-else-if="item.answer && item.answer.length">
-                                                <p>{{offerInfo.user.firstName}}: {{item.answer}}</p>
-                                            </template>
+                                                <div class="questions-box-author-title">
+                                                    <template v-if="item.askedBy && item.askedBy.displayName">
+                                                        {{item.askedBy.displayName}}
+                                                    </template>
+                                                    <template v-else>User-{{ item.askedById }}</template>
+                                                    <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="questions-box-text">
+                                                <p class="question mb-1">Q: {{item.question}}</p>
+                                                <template v-if="isMyOffer">
+                                                    <template v-if="item.answer && item.answer.length">
+                                                        <p>You: {{item.answer}}</p>
+                                                    </template>
+                                                    <template v-else>
+                                                        <b-btn
+                                                                class="btnGreenTransparent btnSmallSize hover-slide-left"
+                                                                @click="showModalToAnswerQuestion(item)"
+                                                        >
+                                                            <span>Answer</span>
+                                                        </b-btn>
+                                                    </template>
+                                                </template>
+                                                <template v-else-if="item.answer && item.answer.length">
+                                                    <p>{{offerInfo.user.firstName}}: {{item.answer}}</p>
+                                                </template>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
-                <div class="row mb-5 d-flex justify-content-end" v-if="shouldAllowAskQuestion">
+                <div class="row mb-5 d-flex justify-content-end" v-if="shouldAllowAskQuestion && !isLoadingMealQuestions">
                     <div class="col-12 col-lg-4">
                         <b-btn class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-4" @click="showAskQuestionModal">
                             <span>Ask question</span>
@@ -176,23 +184,33 @@
                     </div>
                 </div>
 
-                <div class="row" v-if="moreOffers && moreOffers.length">
-                    <div class="col-12">
-                        <div class="reserved">
-                            <div class="dashboard-title-box mb-3 ">
-                                <div class="title-size3 titleGreenNavyColor mb-3">More from {{userName}}</div>
+                <template v-if="shouldLoadMoreOffers">
+                    <div class="row more-offers-row" v-bind:class="{ 'is-loading': isLoadingMoreOffers }">
+                        <loading
+                                :active.sync="isLoadingMoreOffers"
+                                :is-full-page="loaderOptions.IS_FULL_PAGE"
+                                :color="loaderOptions.COLOR"
+                                :background-color="loaderOptions.BACKGROUND_COLOR"
+                        ></loading>
+                        <template v-if="moreOffersFromSameCook && moreOffersFromSameCook.length">
+                            <div class="col-12">
+                                <div class="reserved">
+                                    <div class="dashboard-title-box mb-3 ">
+                                        <div class="title-size3 titleGreenNavyColor mb-3">More from {{userName}}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="col-12">
-                        <div class="carousel-reserved">
-                            <CarouselContainer>
-                                <OfferInfoBlock v-for="item in moreOffers" :offer-info="item"></OfferInfoBlock>
-                            </CarouselContainer>
-                        </div>
+                            <div class="col-12">
+                                <div class="carousel-reserved">
+                                    <CarouselContainer>
+                                        <OfferInfoBlock v-for="item in moreOffersFromSameCook" :offer-info="item"></OfferInfoBlock>
+                                    </CarouselContainer>
+                                </div>
+                            </div>
+                        </template>
                     </div>
-                </div>
+                </template>
             </div>
         </div>
 
@@ -221,15 +239,17 @@ import SvgIcon from './SvgIcon';
 import ConfirmModal from './modals/ConfirmModal';
 import AskQuestionAboutMeal from './modals/AskQuestionAboutMeal';
 import AnswerQuestionModal from '../components/modals/AnswerQuestionModal';
+import Loading from 'vue-loading-overlay';
+import config from "../config";
 export default {
     name: "OfferPageContent",
     components: {
         ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock, SvgIcon, ConfirmModal,
-        AskQuestionAboutMeal, AnswerQuestionModal
+        AskQuestionAboutMeal, AnswerQuestionModal, Loading
     },
     props: [
-        'offerInfo', 'hiddenButtons', 'isMealReservedOnInit', 'questions', 'moreOffers', 'bookingId',
-        'bookedServingsNum', 'shouldAllowAskQuestion', 'isMyOffer'
+        'offerInfo', 'hiddenButtons', 'isMealReservedOnInit', 'bookingId', 'bookedServingsNum',
+        'shouldAllowAskQuestion', 'isMyOffer', 'shouldLoadMoreOffers'
     ],
     data: () => ({
         wasReserved: false,
@@ -238,7 +258,11 @@ export default {
         confirmCancelReservationMsg: 'Are you sure you want to cancel reservation?',
         modalId: 'confirm-cancel-reservation',
         mealQuestions: [],
-        questionToAnswer: null
+        questionToAnswer: null,
+        moreOffersFromSameCook: [],
+        isLoadingMoreOffers: false,
+        loaderOptions: { ...config.LOADER_OPTIONS },
+        isLoadingMealQuestions: false
     }),
     methods: {
         showReserveMealModal () {
@@ -296,6 +320,37 @@ export default {
                 _question['answer'] = result.answer;
             }
             this.questionToAnswer = null;
+        },
+        loadMoreOffersFromSameCook () {
+            this.isLoadingMoreOffers = true;
+            api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerInfo.id)
+                .then(result => {
+                    if (result && result.data) {
+                        this.moreOffersFromSameCook = result.data.slice(0);
+                    }
+                    this.isLoadingMoreOffers = false;
+                })
+                .catch(err => {
+                    console.log('\n >> err load more offers > ', err);
+                    this.isLoadingMoreOffers = false;
+                });
+        },
+        loadMealQuestions () {
+            this.isLoadingMealQuestions = true;
+            const _endpoint = this.isMyOffer
+                ? api.dashboard.meals.getMyMealQuestions(this.offerInfo.meal.id)
+                : api.dashboard.meals.getMealQuestions(this.offerInfo.meal.id, true);
+            _endpoint
+                .then(res => {
+                    if (res && res.mealQuestions) {
+                        this.mealQuestions = helpers.convertQuestionsDataResponse(res.mealQuestions);
+                    }
+                    this.isLoadingMealQuestions = false;
+                })
+                .catch(err => {
+                    console.log('\n >> err load meal questions > ', err);
+                    this.isLoadingMealQuestions = false;
+                });
         }
     },
     computed: {
@@ -318,21 +373,10 @@ export default {
             this.numberOfServingsReserved = this.bookedServingsNum;
         }
         if (this.offerInfo && this.offerInfo.meal && this.offerInfo.meal.id) {
-            // load meal questions
-            const _endpoint = this.isMyOffer
-                ? api.dashboard.meals.getMyMealQuestions(this.offerInfo.meal.id)
-                : api.dashboard.meals.getMealQuestions(this.offerInfo.meal.id, true);
-            _endpoint
-                .then(res => {
-                    if (res && res.mealQuestions) {
-                        this.mealQuestions = helpers.convertQuestionsDataResponse(res.mealQuestions);
-                    } else {
-                        this.mealQuestions = [];
-                    }
-                })
-                .catch(err => {
-                    console.log('\n >> err > ', err);
-                })
+            this.loadMealQuestions();
+        }
+        if (this.shouldLoadMoreOffers && this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
+            this.loadMoreOffersFromSameCook();
         }
     }
 }
@@ -355,5 +399,12 @@ export default {
     letter-spacing: 1.15px;
     line-height: 26px;
     text-transform: uppercase;
+}
+.more-offers-row, .meal-questions-row {
+    position: relative;
+    &.is-loading {
+        min-height: 200px;
+        width: 100%;
+    }
 }
 </style>

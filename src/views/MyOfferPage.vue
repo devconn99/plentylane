@@ -2,8 +2,7 @@
     <div v-if="isLoaded && offerInfo && offerInfo.id">
         <OfferPageContent
                 :offer-info="offerInfo"
-                :more-offers="[]"
-                :questions="questions"
+                :should-load-more-offers="false"
                 :hidden-buttons="true"
                 :is-my-offer="true"
         ></OfferPageContent>
@@ -21,7 +20,6 @@ export default {
         offerId: '',
         offerInfo: {},
         isLoaded: false,
-        questions: [],
         currentUser: {}
     }),
     beforeRouteEnter (to, from, next) {
@@ -50,7 +48,6 @@ export default {
             this.isLoaded = false;
             this.offerInfo = {};
             this.offerId = '';
-            this.questions = [];
             // no need to clear this.currentUser
         },
         errLoadingDataHandler (cb, err) {
@@ -77,7 +74,6 @@ export default {
             }
             const requests = [
                 api.dashboard.offers.getMyOfferById(this.offerId),
-                api.dashboard.offers.getOfferQuestions(this.offerId)
             ];
             if (!this.currentUser || !this.currentUser.id) {
                 const _user = this.$store.getters.userInfo;
@@ -99,16 +95,8 @@ export default {
                         // NOTE, offer response doesn't have user data here (/api/me/offers/${id})
                         this.offerInfo = { ...offer };
                     }
-                    if (result && result[1] && result[1].length) {
-                        // transform questions, temp
-                        this.questions = result[1].map(item => {
-                            const _date = new Date(item.date);
-                            item.date = `${_date.toLocaleDateString('en', { month: 'short' })} ${_date.getUTCDate()}`;
-                            return item;
-                        });
-                    }
-                    if (result && result[2]) {
-                        const user = { ...result[2] };
+                    if (result && result[1]) {
+                        const user = { ...result[1] };
                         this.currentUser = { ...user };
                         this.$store.commit('userInfo', { ...user });
                         this.offerInfo['user'] = { ...user };

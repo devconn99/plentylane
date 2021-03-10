@@ -263,6 +263,11 @@ export default {
         loadMoreMeals () {
             if (this.mealPagination.isLastPage) return;
             this.mealPagination.page++;
+            this.$nextTick(() => {
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
+            });
             this.loadMeals();
         },
         loadReservations () {
@@ -286,6 +291,11 @@ export default {
         loadMoreReservations () {
             if (this.dinesPagination.isLastPage) return;
             this.dinesPagination.page++;
+            this.$nextTick(() => {
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
+            });
             this.loadReservations();
         },
         onTabSwitched (tabIndex) {
@@ -390,6 +400,11 @@ export default {
         loadMoreOffers () {
             if (this.offersPagination.isLastPage) return;
             this.offersPagination.page++;
+            this.$nextTick(() => {
+                if (document.activeElement) {
+                    document.activeElement.blur();
+                }
+            });
             this.loadOffers();
         },
         openConfirmRemoveOfferModal (id) {

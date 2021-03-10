@@ -273,6 +273,7 @@ export default {
                 }
                 return axios.get(endpoint)
                     .then((res) => {
+                        // TODO: sorting mealQuestions?
                         return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {
@@ -344,10 +345,12 @@ export default {
                 const endpoint = `${config.API_ORIGIN}/api/meals/${mealId}?join=mealQuestions`;
                 return axios.get(endpoint)
                     .then((res) => {
-                        if (showOnlyAnswered && res.data.mealQuestions && res.data.mealQuestions.length) {
-                            res.data.mealQuestions = res.data.mealQuestions.filter(item => item.answer && item.answer.length > 0);
+                        const _result = res.data || {};
+                        // TODO: sorting mealQuestions?
+                        if (showOnlyAnswered && _result.mealQuestions && _result.mealQuestions.length) {
+                            _result.mealQuestions = _result.mealQuestions.filter(item => item.answer && item.answer.length > 0);
                         }
-                        return Promise.resolve(res.data || {});
+                        return Promise.resolve(_result);
                     })
                     .catch((err) => {
                         return checkErr(err.response);
@@ -357,6 +360,7 @@ export default {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${mealId}?join=mealQuestions`;
                 return axios.get(endpoint)
                     .then((res) => {
+                        // TODO: sorting mealQuestions?
                         return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {
@@ -370,10 +374,12 @@ export default {
                 }
                 return axios.get(endpoint)
                     .then((res) => {
-                        if (shouldJoinQuestions && res.mealQuestions && res.mealQuestions.length) {
-                            res.mealQuestions = res.mealQuestions.filter(item => item.answer && item.answer.length > 0);
+                        const _result = res.data || {};
+                        if (shouldJoinQuestions && _result.mealQuestions && _result.mealQuestions.length) {
+                            // TODO: sorting mealQuestions?
+                            _result.mealQuestions = _result.mealQuestions.filter(item => item.answer && item.answer.length > 0);
                         }
-                        return Promise.resolve(res.data || {});
+                        return Promise.resolve(_result);
                     })
                     .catch((err) => {
                         return checkErr(err.response);
@@ -867,6 +873,7 @@ export default {
                     });
             },
             getMyAnsweredQuestions (page) {
+                // TODO: check sorting
                 let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$notnull`;
                 if (page) {
                     endpoint += `&page=${page}`;
@@ -880,6 +887,7 @@ export default {
                     });
             },
             getMyUnAnsweredQuestions (page) {
+                // TODO: check sorting
                 let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$isnull`;
                 if (page) {
                     endpoint += `&page=${page}`;
@@ -903,6 +911,7 @@ export default {
                     });
             },
             getUnAnsweredQuestionsForCook (page) {
+                // TODO: check sorting
                 let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$isnull`;
                 if (page) {
                     endpoint += `&page=${page}`;
@@ -916,6 +925,7 @@ export default {
                     });
             },
             getAnsweredQuestionsForCook (page) {
+                // TODO: check sorting
                 let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$notnull`;
                 if (page) {
                     endpoint += `&page=${page}`;
