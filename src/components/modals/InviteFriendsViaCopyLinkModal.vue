@@ -7,6 +7,7 @@
             modal-class="invite-friends-via-copy-link-modal"
             centered
             @hidden="onHidden"
+            @shown="onShown"
             :return-focus="{}"
     >
         <div slot="default">
@@ -47,16 +48,22 @@ export default {
     components: {SvgIcon},
     data: () => ({
         linkToCopy: location.origin, // TODO: check the link later
-        isLinkCopied: false
+        isLinkCopied: false,
+        closeTimeout: null
     }),
     methods: {
         onHidden () {
             this.isLinkCopied = false;
         },
+        onShown () {
+            if (this.closeTimeout) {
+                clearTimeout(this.closeTimeout);
+            }
+        },
         onCopySuccessHandler () {
             if (this.isLinkCopied) return;
             this.isLinkCopied = true;
-            setTimeout(() => {
+            this.closeTimeout = setTimeout(() => {
                 this.isLinkCopied = false;
             }, 3000);
         }

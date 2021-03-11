@@ -346,7 +346,6 @@ export default {
                 return axios.get(endpoint)
                     .then((res) => {
                         const _result = res.data || {};
-                        // TODO: sorting mealQuestions?
                         if (showOnlyAnswered && _result.mealQuestions && _result.mealQuestions.length) {
                             _result.mealQuestions = _result.mealQuestions.filter(item => item.answer && item.answer.length > 0);
                         }
@@ -360,7 +359,6 @@ export default {
                 const endpoint = `${config.API_ORIGIN}/api/me/meals/${mealId}?join=mealQuestions`;
                 return axios.get(endpoint)
                     .then((res) => {
-                        // TODO: sorting mealQuestions?
                         return Promise.resolve(res.data || {});
                     })
                     .catch((err) => {
@@ -873,8 +871,7 @@ export default {
                     });
             },
             getMyAnsweredQuestions (page) {
-                // TODO: check sorting
-                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$notnull`;
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$notnull&sort=mealId,ASC&sort=createdAt,DESC`;
                 if (page) {
                     endpoint += `&page=${page}`;
                 }
@@ -887,8 +884,7 @@ export default {
                     });
             },
             getMyUnAnsweredQuestions (page) {
-                // TODO: check sorting
-                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$isnull`;
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/ask?filter=answer||$isnull&sort=mealId,ASC&sort=createdAt,DESC`;
                 if (page) {
                     endpoint += `&page=${page}`;
                 }
@@ -911,8 +907,7 @@ export default {
                     });
             },
             getUnAnsweredQuestionsForCook (page) {
-                // TODO: check sorting
-                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$isnull`;
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$isnull&sort=mealId,ASC&sort=createdAt,DESC`;
                 if (page) {
                     endpoint += `&page=${page}`;
                 }
@@ -925,8 +920,7 @@ export default {
                     });
             },
             getAnsweredQuestionsForCook (page) {
-                // TODO: check sorting
-                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$notnull`;
+                let endpoint = `${config.API_ORIGIN}/api/me/mealQuestions/answer?filter=answer||$notnull&sort=mealId,ASC&sort=createdAt,DESC`;
                 if (page) {
                     endpoint += `&page=${page}`;
                 }

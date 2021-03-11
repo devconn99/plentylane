@@ -7,6 +7,7 @@
             centered
             modal-class="ask-question-modal"
             @hidden="onHidden"
+            @shown="onShown"
             centered
             :return-focus="{}"
     >
@@ -68,7 +69,8 @@ export default {
             question: null
         },
         loaderOptions: { ...config.LOADER_OPTIONS },
-        showLoading: false
+        showLoading: false,
+        closeTimeout: null
     }),
     validations: {
         form: {
@@ -88,6 +90,11 @@ export default {
             this.form.question = null;
             this.showLoading = false;
         },
+        onShown () {
+            if (this.closeTimeout) {
+                clearTimeout(this.closeTimeout);
+            }
+        },
         onSubmit () {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
@@ -103,7 +110,7 @@ export default {
                     this.$emit('question-sent', result);
                     this.showLoading = false;
                     this.isSubmitted = true;
-                    setTimeout(() => {
+                    this.closeTimeout = setTimeout(() => {
                         this.closeModal();
                     }, 2000);
                 })

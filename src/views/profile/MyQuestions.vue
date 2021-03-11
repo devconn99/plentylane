@@ -21,22 +21,31 @@
                         ></loading>
                         <template v-if="answeredPagination.loaded">
                             <div class="questions" v-if="answeredQuestions && answeredQuestions.length">
-                                <div class="questions-box" v-for="item in answeredQuestions" v-bind:key="item.id">
+                                <div class="questions-box" v-for="(item, index) in answeredQuestions" v-bind:key="item.id">
+                                    <div class="row" v-if="shouldShowGroupMealInfo(item, index, answeredQuestions)">
+                                        <div class="col-12 mb-3" v-bind:class="{ 'mt-2': index !== 0 }">
+                                            <span class="pr-2">About</span>
+                                            <router-link
+                                                    :to="{ path: '/dashboard/meals/' + item.mealId }"
+                                                    v-slot="{ href }"
+                                            >
+                                                <a :href="href" target="_blank">{{item.meal.name}}</a>
+                                            </router-link>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-4 mb-2 mb-sm-0">
-                                            <div class="questions-box-author right-padding">
-                                                <div class="questions-box-author-img mr-2 mr-xl-3">
-                                                    <template v-if="item.askedBy.image && item.askedBy.image.thumbnail">
-                                                        <div class="questions-box-author-img mr-2 mr-xl-3">
-                                                            <img :src="item.askedBy.image.thumbnail" alt="" class="img-fluid">
-                                                        </div>
-                                                    </template>
-                                                    <template v-else>
-                                                        <div class="questions-box-author-img-placeholder mr-2 mr-xl-3">
-                                                            <i class="fas fa-user-circle user-icon"></i>
-                                                        </div>
-                                                    </template>
-                                                </div>
+                                            <div class="questions-box-author">
+                                                <template v-if="item.askedBy.image && item.askedBy.image.thumbnail">
+                                                    <div class="questions-box-author-img mr-2 mr-xl-3">
+                                                        <img :src="item.askedBy.image.thumbnail" alt="" class="img-fluid">
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <div class="questions-box-author-img-placeholder mr-2 mr-xl-3">
+                                                        <i class="fas fa-user-circle user-icon"></i>
+                                                    </div>
+                                                </template>
                                                 <div class="questions-box-author-title">
                                                     {{ item.askedBy.displayName }}
                                                     <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
@@ -44,17 +53,8 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <div class="questions-box-text right-padding">
+                                            <div class="questions-box-text">
                                                 <p class="question mb-1">Q: {{item.question}}</p>
-                                                <div class="mb-1">
-                                                    <span class="pr-2">About</span>
-                                                    <router-link
-                                                            :to="{ path: '/dashboard/meals/' + item.mealId }"
-                                                            v-slot="{ href }"
-                                                    >
-                                                        <a :href="href" target="_blank">{{item.meal.name}}</a>
-                                                    </router-link>
-                                                </div>
                                                 <p>{{item.meal.user.firstName}}: {{item.answer}}</p>
                                             </div>
                                         </div>
@@ -83,7 +83,18 @@
                         ></loading>
                         <template v-if="unAnsweredPagination.loaded">
                             <div class="questions" v-if="unAnsweredQuestions && unAnsweredQuestions.length">
-                                <div class="questions-box" v-for="item in unAnsweredQuestions" v-bind:key="item.id">
+                                <div class="questions-box" v-for="(item, index) in unAnsweredQuestions" v-bind:key="item.id">
+                                    <div class="row" v-if="shouldShowGroupMealInfo(item, index, unAnsweredQuestions)">
+                                        <div class="col-12 mb-3" v-bind:class="{ 'mt-2': index !== 0 }">
+                                            <span class="pr-2">About</span>
+                                            <router-link
+                                                    :to="{ path: '/dashboard/meals/' + item.mealId }"
+                                                    v-slot="{ href }"
+                                            >
+                                                <a :href="href" target="_blank">{{item.meal.name}}</a>
+                                            </router-link>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-4 mb-2 mb-sm-0">
                                             <div class="questions-box-author">
@@ -106,15 +117,6 @@
                                         <div class="col-sm-8">
                                             <div class="questions-box-text">
                                                 <p class="question mb-1">Q: {{item.question}}</p>
-                                                <div>
-                                                    <span class="pr-2">About</span>
-                                                    <router-link
-                                                            :to="{ path: '/dashboard/meals/' + item.mealId }"
-                                                            v-slot="{ href }"
-                                                    >
-                                                        <a :href="href" target="_blank">{{item.meal.name}}</a>
-                                                    </router-link>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -249,6 +251,10 @@ export default {
             if (this.answeredPagination.isLastPage) return;
             this.answeredPagination.page++;
             this.loadAnsweredQuestions();
+        },
+        shouldShowGroupMealInfo (item, index, collection) {
+            if (index === 0) return true;
+            return !!(collection[index - 1] && item.mealId !== collection[index - 1].mealId);
         }
     }
 }

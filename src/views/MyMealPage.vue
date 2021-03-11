@@ -190,7 +190,7 @@ export default {
                         this.bgImageUrl = '';
                     }
                     if (meal.mealQuestions && meal.mealQuestions.length) {
-                        meal.mealQuestions = helpers.convertQuestionsDataResponse(meal.mealQuestions);
+                        meal.mealQuestions = helpers.convertQuestionsDataResponse(meal.mealQuestions, { key: 'question', isDesc: false });
                     }
                     this.mealInfo = { ...meal };
                     if (meal.user && !meal.user.hasOwnProperty('image')) {

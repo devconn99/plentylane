@@ -156,8 +156,43 @@ export default {
         const val = (value/1).toFixed(2).replace('.', ',');
         return `$${val.toString().replace(/B(?=(d{3})+(?!d))/g, ".")}`;
     },
-    convertQuestionsDataResponse (responseData) {
-        return responseData.map(item => this.convertQuestion(item));
+    convertQuestionsDataResponse (responseData, sorting) {
+        responseData = responseData.map(item => this.convertQuestion(item));
+        if (sorting && sorting.key) {
+            switch (sorting.key) {
+                case 'createdAt':
+                    responseData.sort((a, b) => {
+                        const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
+                        const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
+                        if (sorting.isDesc) {
+                            if (dateA > dateB) return -1;
+                            if (dateA < dateB) return 1;
+                            return 0;
+                        } else {
+                            if (dateA > dateB) return 1;
+                            if (dateA < dateB) return -1;
+                            return 0;
+                        }
+                    });
+                    break;
+                case 'question':
+                    responseData.sort((a, b) => {
+                        if (sorting.isDesc) {
+                            if (a.question > b.question) return -1;
+                            if (a.question < b.question) return 1;
+                            return 0;
+                        } else {
+                            if (a.question > b.question) return 1;
+                            if (a.question < b.question) return -1;
+                            return 0;
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+        return responseData;
     },
     convertQuestion (question) {
         const _date = new Date(question.createdAt);

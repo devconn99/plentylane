@@ -21,7 +21,18 @@
                         ></loading>
                         <template v-if="unAnsweredPagination.loaded">
                             <div class="questions" v-if="unAnsweredQuestions && unAnsweredQuestions.length">
-                                <div class="questions-box" v-for="item in unAnsweredQuestions" v-bind:key="item.id">
+                                <div class="questions-box" v-for="(item, index) in unAnsweredQuestions" v-bind:key="item.id">
+                                    <div class="row" v-if="shouldShowGroupMealInfo(item, index, unAnsweredQuestions)">
+                                        <div class="col-12 mb-3" v-bind:class="{ 'mt-2': index !== 0 }">
+                                            <span class="pr-2">About</span>
+                                            <router-link
+                                                    :to="{ path: '/dashboard/my-meals/' + item.mealId }"
+                                                    v-slot="{ href }"
+                                            >
+                                                <a :href="href" target="_blank">{{item.meal.name}}</a>
+                                            </router-link>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-4 mb-2 mb-sm-0">
                                             <div class="questions-box-author">
@@ -43,16 +54,7 @@
                                         </div>
                                         <div class="col-sm-8">
                                             <div class="questions-box-text">
-                                                <p class="question mb-1">Q: {{item.question}}</p>
-                                                <div class="mb-2">
-                                                    <span class="pr-2">About</span>
-                                                    <router-link
-                                                            :to="{ path: '/dashboard/my-meals/' + item.mealId }"
-                                                            v-slot="{ href }"
-                                                    >
-                                                        <a :href="href" target="_blank">{{item.meal.name}}</a>
-                                                    </router-link>
-                                                </div>
+                                                <p class="question mb-2">Q: {{item.question}}</p>
                                                 <b-btn
                                                         class="btnGreenTransparent btnSmallSize hover-slide-left"
                                                         @click="showModalToAnswerQuestion(item)"
@@ -93,11 +95,21 @@
                         ></loading>
                         <template v-if="answeredPagination.loaded">
                             <div class="questions" v-if="answeredQuestions && answeredQuestions.length">
-                                <div class="questions-box" v-for="item in answeredQuestions" v-bind:key="item.id">
-                                    <div class="row">
+                                <div class="questions-box" v-for="(item, index) in answeredQuestions" v-bind:key="item.id">
+                                    <div class="row" v-if="shouldShowGroupMealInfo(item, index, answeredQuestions)">
+                                        <div class="col-12 mb-3" v-bind:class="{ 'mt-2': index !== 0 }">
+                                            <span class="pr-2">About</span>
+                                            <router-link
+                                                    :to="{ path: '/dashboard/my-meals/' + item.mealId }"
+                                                    v-slot="{ href }"
+                                            >
+                                                <a :href="href" target="_blank">{{item.meal.name}}</a>
+                                            </router-link>
+                                        </div>
+                                    </div>
+                                    <div class="row position-relative">
                                         <div class="col-sm-4 mb-2 mb-sm-0">
-                                            <!-- TODO: add class "right-padding" if remove-answer block is enabled -->
-                                            <div class="questions-box-author">
+                                            <div class="questions-box-author right-padding">
                                                 <template v-if="item.askedBy.image && item.askedBy.image.thumbnail">
                                                     <div class="questions-box-author-img mr-2 mr-xl-3">
                                                         <img :src="item.askedBy.image.thumbnail" alt="" class="img-fluid">
@@ -115,26 +127,21 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <!-- TODO: add class "right-padding" if remove-answer block is enabled -->
-                                            <div class="questions-box-text">
-                                                <p class="question mb-1">Q: {{item.question}}</p>
-                                                <div class="mb-2">
-                                                    <span class="pr-2">About</span>
-                                                    <router-link
-                                                            :to="{ path: '/dashboard/my-meals/' + item.mealId }"
-                                                            v-slot="{ href }"
-                                                    >
-                                                        <a :href="href" target="_blank">{{item.meal.name}}</a>
-                                                    </router-link>
-                                                </div>
-                                                <p>You: {{item.answer}}</p>
+                                            <div class="questions-box-text right-padding">
+                                                <p class="question mb-2">Q: {{item.question}}</p>
+                                                <p class="mb-2">You: {{item.answer}}</p>
+                                                <b-btn
+                                                        class="btnGreenTransparent btnSmallSize hover-slide-left"
+                                                        @click="showModalToAnswerQuestion(item, true)"
+                                                >
+                                                    <span>Edit</span>
+                                                </b-btn>
                                             </div>
                                         </div>
+                                        <div class="remove-answer" @click="showConfirmRemoveAnswerModal(item)">
+                                            <SvgIcon icon="notificationClose"></SvgIcon>
+                                        </div>
                                     </div>
-                                    <!-- TODO: check if it's needed -->
-                                    <!--<div class="remove-answer" @click="showConfirmRemoveAnswerModal(item)">-->
-                                        <!--<SvgIcon icon="notificationClose"></SvgIcon>-->
-                                    <!--</div>-->
                                 </div>
                                 <b-btn
                                         v-if="!answeredPagination.isLastPage"
@@ -155,6 +162,7 @@
         <!-- Modals -->
         <AnswerQuestionModal
                 :question-info="questionToAnswer"
+                :is-edit="isEditAnswer"
                 @answer-sent="onAnswerSent"
                 @modal-hidden="onAnswerQuestionModalHidden"
         ></AnswerQuestionModal>
@@ -201,9 +209,10 @@ export default {
         isLoadingAnsweredQuestions: false,
         questionToAnswer: null,
         confirmRemoveAnswerModalId: 'confirm-remove-answer',
-        confirmRemoveAnswerMessage: 'Are you sure you want to remove this answer?',
+        confirmRemoveAnswerMessage: 'Are you sure you want to remove this question?',
         answerIdToRemove: null,
-        isRemovingAnswer: false
+        isRemovingAnswer: false,
+        isEditAnswer: false
     }),
     created () {
         this.loadUnAnsweredQuestions();
@@ -286,23 +295,32 @@ export default {
         showMobileAside () {
             this.$eventHub.$emit('show-mobile-profile-aside');
         },
-        showModalToAnswerQuestion (item) {
+        showModalToAnswerQuestion (item, isEdit) {
+            this.isEditAnswer = isEdit;
             this.questionToAnswer = { ...item };
             this.$bvModal.show('answer-question-modal');
         },
         onAnswerSent (result) {
-            let _prevQuestionInfo = {};
-            this.unAnsweredQuestions = this.unAnsweredQuestions.filter(item => {
-                if (Number(item.id) === Number(result.id)) {
-                    _prevQuestionInfo = { ...item };
-                    return false;
+            if (this.isEditAnswer) {
+                const _found = this.answeredQuestions.find(item => Number(item.id) === Number(result.id));
+                if (_found) {
+                    _found['answer'] = result.answer;
                 }
-                return true;
-            });
-            _prevQuestionInfo['answer'] = result.answer;
-            this.answeredQuestions.push(_prevQuestionInfo);
+            } else {
+                let _prevQuestionInfo = {};
+                this.unAnsweredQuestions = this.unAnsweredQuestions.filter(item => {
+                    if (Number(item.id) === Number(result.id)) {
+                        _prevQuestionInfo = { ...item };
+                        return false;
+                    }
+                    return true;
+                });
+                _prevQuestionInfo['answer'] = result.answer;
+                this.answeredQuestions.push(_prevQuestionInfo);
+            }
         },
         onAnswerQuestionModalHidden () {
+            this.isEditAnswer = false;
             this.questionToAnswer = null;
         },
         showConfirmRemoveAnswerModal (item) {
@@ -325,6 +343,10 @@ export default {
         },
         onCanceledRemoveAnswer () {
             this.answerIdToRemove = null;
+        },
+        shouldShowGroupMealInfo (item, index, collection) {
+            if (index === 0) return true;
+            return !!(collection[index - 1] && item.mealId !== collection[index - 1].mealId);
         }
     }
 }
@@ -339,8 +361,6 @@ export default {
 }
 .questions {
     .questions-box {
-        position: relative;
-
         @media screen and (min-width: $phoneBigWidth + 1) {
             .questions-box-text.right-padding {
                 padding-right: 25px;

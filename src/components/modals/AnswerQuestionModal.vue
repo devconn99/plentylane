@@ -7,6 +7,7 @@
             centered
             modal-class="answer-question-modal"
             @hidden="onHidden"
+            @shown="onShown"
             centered
             :return-focus="{}"
     >
@@ -72,7 +73,7 @@ export default {
     name: "AnswerQuestionModal",
     mixins: [validationMixin],
     components: {SvgIcon, Loading},
-    props: ['questionInfo'],
+    props: ['questionInfo', 'isEdit'],
     data: () => ({
         isSubmitted: false,
         answerMaxLength: config.TEXT_AREA_MAX_LENGTH,
@@ -80,7 +81,8 @@ export default {
             answer: null
         },
         loaderOptions: { ...config.LOADER_OPTIONS },
-        showLoading: false
+        showLoading: false,
+        closeTimeout: null
     }),
     validations: {
         form: {
@@ -101,6 +103,14 @@ export default {
             this.showLoading = false;
             this.$emit('modal-hidden');
         },
+        onShown () {
+            if (this.closeTimeout) {
+                clearTimeout(this.closeTimeout);
+            }
+            if (this.isEdit && this.questionInfo && this.questionInfo.answer) {
+                this.$v.form.$model.answer = this.questionInfo.answer;
+            }
+        },
         onSubmit () {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
@@ -113,7 +123,7 @@ export default {
                     this.$emit('answer-sent', { ...this.questionInfo, ..._dataToPatch });
                     this.showLoading = false;
                     this.isSubmitted = true;
-                    setTimeout(() => {
+                    this.closeTimeout = setTimeout(() => {
                         this.closeModal();
                     }, 2000);
                 })

@@ -343,7 +343,7 @@ export default {
             _endpoint
                 .then(res => {
                     if (res && res.mealQuestions) {
-                        this.mealQuestions = helpers.convertQuestionsDataResponse(res.mealQuestions);
+                        this.mealQuestions = helpers.convertQuestionsDataResponse(res.mealQuestions, { key: 'createdAt', isDesc: true });
                     }
                     this.isLoadingMealQuestions = false;
                 })

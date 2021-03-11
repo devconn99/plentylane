@@ -925,8 +925,8 @@ a.reserved-box, .reserved-box {
 		}
 		.remove-answer {
 			position: absolute;
-			top: 20px;
-			right: 0;
+			top: 0;
+			right: 15px;
 			cursor: pointer;
 
 			&:hover .svg-icon-wrapper svg > g > g.possible-change-on-hover {

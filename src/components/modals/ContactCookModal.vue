@@ -7,6 +7,7 @@
             centered
             modal-class="contact-cook-modal"
             @hidden="onHidden"
+            @shown="onShown"
             centered
             :return-focus="{}"
     >
@@ -70,6 +71,7 @@ export default {
             subject: null,
             message: null
         },
+        closeTimeout: null
     }),
     validations: {
         form: {
@@ -93,6 +95,11 @@ export default {
             this.form.subject = null;
             this.form.message = null;
         },
+        onShown () {
+            if (this.closeTimeout) {
+                clearTimeout(this.closeTimeout);
+            }
+        },
         onSubmit () {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
@@ -104,7 +111,7 @@ export default {
             };
             // TODO: add api method for this POST request
             this.isContacted = true;
-            setTimeout(() => {
+            this.closeTimeout = setTimeout(() => {
                 this.closeModal();
             }, 3000);
         }
