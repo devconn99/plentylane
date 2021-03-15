@@ -11,10 +11,22 @@
                 </template>
 
                 <div class="recept-box-title">
-                    <div
-                            class="meal-name title-size3 titleLightColor cursor-pointer"
-                            @click="redirectToOffer"
-                    >{{offerInfo.meal.name}}</div>
+                    <template v-if="isMyOffer">
+                        <router-link
+                                :to="{ path: '/dashboard/my-offers/' + offerInfo.id }"
+                                class="meal-name title-size3 titleLightColor cursor-pointer"
+                        >
+                            {{offerInfo.meal.name}}
+                        </router-link>
+                    </template>
+                    <template v-else>
+                        <router-link
+                                :to="{ path: '/dashboard/offers/' + offerInfo.id }"
+                                class="meal-name title-size3 titleLightColor cursor-pointer"
+                        >
+                            {{offerInfo.meal.name}}
+                        </router-link>
+                    </template>
                     <div class="serving-number mt-1 titleLightColor">
                         <span class="titleLightColor">{{offerInfo.availableQuantity}}</span>
                         {{offerInfo.availableQuantity !== 1 ? 'servings' : 'serving'}}
@@ -39,44 +51,71 @@
             </div>
             <div class="cook-box pb-2 pb-md-3">
                 <div class="cook-info p-2 p-sm-3" v-if="offerInfo.user && offerInfo.user.id && !hiddenUserBlock">
-                    <div
-                            class="cook-info-img"
-                            v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
-                            @click="redirectToCookProfile"
-                    >
-                        <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail">
-                            <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
-                        </template>
-                        <template v-else>
-                            <i class="fas fa-user-circle icon-placeholder"></i>
-                        </template>
-                    </div>
-                    <div class="cook-info-part">
-                        <div
-                                class="cook-info-name mr-2"
-                                v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
-                                @click="redirectToCookProfile"
-                        >{{userName}}</div>
-                        <div
-                                class="cook-info-benefits mt-1"
-                                v-bind:class="{ 'cursor-pointer': !avoidRedirectToCookProfile }"
-                                @click="redirectToCookProfile"
-                        >
-                            <div class="cook-info-benefits-box">
-                                <SvgIcon icon="benefit3"></SvgIcon>
-                            </div>
-                            <div class="cook-info-benefits-box">
-                                <SvgIcon icon="benefit2"></SvgIcon>
-                            </div>
-                            <div class="cook-info-benefits-box">
-                                <SvgIcon icon="benefit1"></SvgIcon>
-                            </div>
-                            <div class="cook-info-benefits-box longbox">
-                                <SvgIcon icon="star"></SvgIcon>
-                                <span>4.3</span>
+                    <template v-if="!avoidRedirectToCookProfile && offerInfo.user && offerInfo.user.id">
+                        <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
+                            <a :href="href" class="cook-info-img">
+                                <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail">
+                                    <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
+                                </template>
+                                <template v-else>
+                                    <i class="fas fa-user-circle icon-placeholder"></i>
+                                </template>
+                            </a>
+                        </router-link>
+                        <div class="cook-info-part">
+                            <router-link
+                                    :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }"
+                                    class="cook-info-name mr-2"
+                            >{{userName}}</router-link>
+
+                            <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
+                                <a :href="href" class="cook-info-benefits mt-1">
+                                    <div class="cook-info-benefits-box">
+                                        <SvgIcon icon="benefit3"></SvgIcon>
+                                    </div>
+                                    <div class="cook-info-benefits-box">
+                                        <SvgIcon icon="benefit2"></SvgIcon>
+                                    </div>
+                                    <div class="cook-info-benefits-box">
+                                        <SvgIcon icon="benefit1"></SvgIcon>
+                                    </div>
+                                    <div class="cook-info-benefits-box longbox">
+                                        <SvgIcon icon="star"></SvgIcon>
+                                        <span>4.3</span>
+                                    </div>
+                                </a>
+                            </router-link>
+                        </div>
+                    </template>
+
+                    <template v-else>
+                        <div class="cook-info-img">
+                            <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail">
+                                <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
+                            </template>
+                            <template v-else>
+                                <i class="fas fa-user-circle icon-placeholder"></i>
+                            </template>
+                        </div>
+                        <div class="cook-info-part">
+                            <div class="cook-info-name mr-2">{{userName}}</div>
+                            <div class="cook-info-benefits mt-1">
+                                <div class="cook-info-benefits-box">
+                                    <SvgIcon icon="benefit3"></SvgIcon>
+                                </div>
+                                <div class="cook-info-benefits-box">
+                                    <SvgIcon icon="benefit2"></SvgIcon>
+                                </div>
+                                <div class="cook-info-benefits-box">
+                                    <SvgIcon icon="benefit1"></SvgIcon>
+                                </div>
+                                <div class="cook-info-benefits-box longbox">
+                                    <SvgIcon icon="star"></SvgIcon>
+                                    <span>4.3</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
                 <div
                         class="cook-info-additional pl-3 pr-3"
@@ -108,19 +147,8 @@ export default {
         }
     },
     methods: {
-        redirectToOffer () {
-            if (this.offerInfo && this.offerInfo.id) {
-                const path = this.isMyOffer ? `/dashboard/my-offers/${this.offerInfo.id}` : `/dashboard/offers/${this.offerInfo.id}`;
-                this.$router.push({ path: path }).catch(()=>{});
-            }
-        },
-        redirectToCookProfile () {
-            if (this.avoidRedirectToCookProfile) return;
-            if (this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
-                this.$router.push({ path: `/dashboard/cook-profile/${this.offerInfo.user.id}` }).catch(()=>{});
-            }
-        },
         emitAction (name) {
+            // NOTE: this method may not work if OfferInfoBlock is a part of owl-carousel
             this.$emit(`on-action-${name}`, this.offerInfo.id);
         },
         hasMealImage () {

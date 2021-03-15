@@ -19,7 +19,7 @@ export default {
     components: {carousel},
     data: () => ({
         options: {
-            loop: false,
+            loop: true,
             items: 1,
             margin: 30,
             stagePadding: 0,
