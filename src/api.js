@@ -269,7 +269,7 @@ export default {
             getMyMealById (id, shouldJoinQuestions) {
                 let endpoint = `${config.API_ORIGIN}/api/me/meals/${id}?join=images`;
                 if (shouldJoinQuestions) {
-                    endpoint += '&join=mealQuestions';
+                    endpoint += '&join=mealQuestions&join=mealQuestions.askedBy&join=mealQuestions.askedBy.image';
                 }
                 return axios.get(endpoint)
                     .then((res) => {
@@ -342,7 +342,7 @@ export default {
                     });
             },
             getMealQuestions (mealId, showOnlyAnswered) {
-                const endpoint = `${config.API_ORIGIN}/api/meals/${mealId}?join=mealQuestions`;
+                const endpoint = `${config.API_ORIGIN}/api/meals/${mealId}?join=mealQuestions&join=mealQuestions.askedBy&join=mealQuestions.askedBy.image`;
                 return axios.get(endpoint)
                     .then((res) => {
                         const _result = res.data || {};
@@ -356,7 +356,7 @@ export default {
                     });
             },
             getMyMealQuestions (mealId) {
-                const endpoint = `${config.API_ORIGIN}/api/me/meals/${mealId}?join=mealQuestions`;
+                const endpoint = `${config.API_ORIGIN}/api/me/meals/${mealId}?join=mealQuestions&join=mealQuestions.askedBy&join=mealQuestions.askedBy.image`;
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -368,7 +368,7 @@ export default {
             getMealById (id, shouldJoinQuestions) {
                 let endpoint = `${config.API_ORIGIN}/api/meals/${id}?join=images`;
                 if (shouldJoinQuestions) {
-                    endpoint += '&join=mealQuestions';
+                    endpoint += '&join=mealQuestions&join=mealQuestions.askedBy&join=mealQuestions.askedBy.image';
                 }
                 return axios.get(endpoint)
                     .then((res) => {
