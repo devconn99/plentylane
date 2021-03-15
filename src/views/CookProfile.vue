@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="cook-info-links">
+                            <div class="cook-info-links" v-if="!isCurrentUserCookPage()">
                                 <div class="mr-2 mr-md-3 link-item" @click="openContactCookModal">
                                     <SvgIcon icon="message"></SvgIcon>
                                     <span class="ml-1 link-item-text">Message</span>
@@ -220,7 +220,8 @@ export default {
             loaded: false,
             isLastPage: false
         },
-        reviews: []
+        reviews: [],
+        currentUserId: ''
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -270,6 +271,10 @@ export default {
                 isLastPage: false
             };
         },
+        isCurrentUserCookPage () {
+            if (!this.currentUserId || !this.cookId) return false;
+            return Number(this.currentUserId) === Number(this.cookId);
+        },
         hideGlobalLoader () {
             if (this.$loader && this.$loader.hide) {
                 setTimeout(() => {
@@ -301,17 +306,20 @@ export default {
                 this.errLoadingDataHandler(cb, { data: { statusCode: 404 } });
                 return;
             }
+            this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
             // TODO: load reviews (api is not ready?)
             const requests = [
                 api.dashboard.users.getUserInfo(this.cookId),
                 api.dashboard.offers.getAvailableOffersFromUser(this.cookId),
                 api.dashboard.users.getReviews(this.cookId)
             ];
-            const _myNetwork = this.$store.getters.myNetwork;
-            if (_myNetwork && _myNetwork.length) {
-                this.isCookInMyNetwork = this.$store.getters.isUserInMyNetwork(this.cookId);
-            } else {
-                requests.push(api.dashboard.follows.getMyConnections());
+            if (!this.isCurrentUserCookPage()) {
+                const _myNetwork = this.$store.getters.myNetwork;
+                if (_myNetwork && _myNetwork.length) {
+                    this.isCookInMyNetwork = this.$store.getters.isUserInMyNetwork(this.cookId);
+                } else {
+                    requests.push(api.dashboard.follows.getMyConnections());
+                }
             }
             Promise.all(requests)
                 .then(results => {
