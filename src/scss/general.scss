@@ -1342,6 +1342,38 @@ body.mobile-menu-box-active .header {
 		}
 	}
 }
+// checkbox switch styles
+.custom-control.custom-switch {
+	.custom-control-input {
+		&:checked~.custom-control-label::before {
+			color: #fff;
+			background-color: $greenColor;
+			border-color: $greenColor;
+		}
+		&:focus~.custom-control-label::before {
+			box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+		}
+		&:focus:not(:checked)~.custom-control-label::before {
+			border-color: rgba(0, 156, 144, 0.3);
+		}
+	}
+	.custom-control-label {
+		 .switch-text {
+			 -webkit-user-select: none;
+			 -moz-user-select: none;
+			 -ms-user-select: none;
+			 user-select: none;
+			 position: relative;
+			 top: 2px;
+			 padding-left: 10px;
+			 font-size: 18px;
+
+			 @media screen and (max-width: $tableMinWidth) {
+				 font-size: 16px;
+			 }
+		 }
+	}
+}
 
 /********************
 *   DIETARY NOTES CHECKBOXES (two columns on desktop, one column on mobile)  *

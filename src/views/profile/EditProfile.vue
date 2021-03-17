@@ -1,6 +1,6 @@
 <template>
     <div class="row edit-profile-wrapper">
-        <div class="col-12 position-relative">
+        <div class="col-12 position-relative edit-profile-wrapper-col">
             <loading
                     :active.sync="isLoading"
                     :is-full-page="loaderOptions.IS_FULL_PAGE"
@@ -23,7 +23,7 @@
                 <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">Edit Profile</div>
             </div>
 
-            <b-form class="form" @submit.stop.prevent="onSubmit">
+            <b-form class="form" @submit.stop.prevent="onSubmit" v-if="!isLoading">
                 <div class="row">
                     <div class="col-12">
                         <b-alert
@@ -45,6 +45,11 @@
                     </div>
 
                     <div class="col-lg-6">
+                        <b-form-group class="notifications-form-group">
+                            <b-form-checkbox switch v-model="$v.form.receiveNotifications.$model">
+                                <span class="switch-text">Notifications are {{$v.form.receiveNotifications.$model ? 'On' : 'Off'}}</span>
+                            </b-form-checkbox>
+                        </b-form-group>
                         <b-form-group label="First Name">
                             <b-form-input
                                     name="firstName"
@@ -186,7 +191,8 @@ export default {
             lastName: '',
             email: '',
             phone: '',
-            bio: ''
+            bio: '',
+            receiveNotifications: null
         },
         showSuccessAlert: false,
         showErrorAlert: false,
@@ -224,7 +230,8 @@ export default {
                     }
                 }
             },
-            bio: {}
+            bio: {},
+            receiveNotifications: {}
         }
     },
     created () {
@@ -246,6 +253,7 @@ export default {
             this.$v.form.$model.email = data.email;
             this.$v.form.$model.phone = data.phone;
             this.$v.form.$model.bio = data.bio;
+            this.$v.form.$model.receiveNotifications = data.receiveNotifications;
             if (data.image && data.image.path && data.image.path.length > 0) {
                 this.profilePhotoUrl = data.image.path;
             } else {
@@ -415,7 +423,19 @@ export default {
 <style lang="scss">
 @import "../../scss/utils/vars";
 .edit-profile-wrapper {
+    .edit-profile-wrapper-col {
+        min-height: 400px;
+
+        @media screen and (max-width: $phoneBigWidth) {
+            min-height: 200px;
+        }
+    }
     .form-group {
+        &.notifications-form-group {
+            @media screen and (min-width: $tableWidth + 1) {
+                margin-top: -5px;
+            }
+        }
         legend {
             font-weight: bold;
         }

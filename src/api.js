@@ -178,16 +178,9 @@ export default {
                     })
             },
             updateProfile (data) {
+                // NOTE, no need to use FormData and send image here
                 const endpoint = `${config.API_ORIGIN}/api/me`;
-                const _config = { headers: { 'Content-Type': 'multipart/form-data' } };
-                let form = new FormData();
-                const keys = Object.keys(data);
-                for (let key of keys) {
-                    if (key in data) {
-                        form.append(key, data[key]);
-                    }
-                }
-                return axios.patch(endpoint, form, { ..._config })
+                return axios.patch(endpoint, data)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
                     })

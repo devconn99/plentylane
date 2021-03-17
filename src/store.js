@@ -6,7 +6,8 @@ const initialState = () => {
             firstName: null,
             lastName: null,
             fullName: null,
-            image: null
+            image: null,
+            receiveNotifications: null
         },
         browserCoordinates: {
             lat: null,
