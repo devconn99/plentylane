@@ -182,7 +182,7 @@
         </div>
 
         <!-- modals -->
-        <ContactCookModal :cook-id="this.cookId"></ContactCookModal>
+        <ContactCookModal></ContactCookModal>
         <ConfirmModal :id="modalId" :message="confirmRemoveMsg" @confirmed="onConfirmedRemoveFromNetwork"></ConfirmModal>
     </div>
 </template>
@@ -369,7 +369,8 @@ export default {
                 });
         },
         openContactCookModal () {
-            this.$bvModal.show('contact-cook-modal');
+            // TODO: open a modal when BE is ready
+            // this.$bvModal.show('contact-cook-modal');
         },
         toggleFavorite () {
             if (this.isProcessing) return;

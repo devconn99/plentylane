@@ -12,26 +12,27 @@
             :return-focus="{}"
     >
         <div slot="default">
-            <div class="title-size3 titleGreenNavyColor mb-4 text-center">
-                <template v-if="!isContacted">Contact the cook</template>
-                <template v-else>Your message has been sent to the cook.</template>
+            <div class="title-size3 mb-4 text-center" v-bind:class="failedSendMessage ? 'text-danger' : 'titleGreenNavyColor'">
+                <template v-if="!isContacted && !failedSendMessage">Contact the cook</template>
+                <template v-else-if="isContacted && !failedSendMessage">Your message has been sent to the cook.</template>
+                <template v-else>Failed to send message to the cook. Please try again later.</template>
             </div>
 
-            <b-form class="form" @submit.stop.prevent="onSubmit" v-if="!isContacted">
-                <b-form-group label="Subject/Question">
-                    <b-form-input
-                            name="subject"
-                            v-model="$v.form.subject.$model"
-                            placeholder=""
-                            autocomplete="off"
-                    ></b-form-input>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.subject.$dirty && !$v.form.subject.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.subject.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>
-                </b-form-group>
-                <b-form-group label="Notes for cook">
+            <b-form class="form" @submit.stop.prevent="onSubmit" v-if="!isContacted && !failedSendMessage">
+                <!--<b-form-group label="Subject/Question">-->
+                    <!--<b-form-input-->
+                            <!--name="subject"-->
+                            <!--v-model.trim="$v.form.subject.$model"-->
+                            <!--placeholder=""-->
+                            <!--autocomplete="off"-->
+                    <!--&gt;</b-form-input>-->
+                    <!--<small class="text-danger d-flex mt-2 text-left" v-if="$v.form.subject.$dirty && !$v.form.subject.required">This is a required field.</small>-->
+                    <!--<small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.subject.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>-->
+                <!--</b-form-group>-->
+                <b-form-group label="Message">
                     <textarea
                             name="message"
-                            v-model="$v.form.message.$model"
+                            v-model.trim="$v.form.message.$model"
                             placeholder=""
                             autocomplete="off"
                     ></textarea>
@@ -59,26 +60,28 @@ import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
 import config from '../../config';
 import SvgIcon from '../SvgIcon';
+import api from "../../api";
 export default {
     name: "ContactCookModal",
     mixins: [validationMixin],
     components: {SvgIcon},
-    props: ['cookId', 'offerId'],
+    props: ['mealId'], // TODO: check of cookId is needed there
     data: () => ({
         isContacted: false,
         messageMaxLength: config.TEXT_AREA_MAX_LENGTH,
         form: {
-            subject: null,
+            // subject: null,
             message: null
         },
-        closeTimeout: null
+        closeTimeout: null,
+        failedSendMessage: false
     }),
     validations: {
         form: {
-            subject: {
-                required,
-                maxLength: maxLength(config.TEXT_AREA_MAX_LENGTH)
-            },
+            // subject: {
+            //     required,
+            //     maxLength: maxLength(config.TEXT_AREA_MAX_LENGTH)
+            // },
             message: {
                 required,
                 maxLength: maxLength(config.TEXT_AREA_MAX_LENGTH)
@@ -91,8 +94,9 @@ export default {
         },
         onHidden () {
             this.isContacted = false;
+            this.failedSendMessage = false;
             this.$v.$reset();
-            this.form.subject = null;
+            // this.form.subject = null;
             this.form.message = null;
         },
         onShown () {
@@ -105,16 +109,26 @@ export default {
             if (this.$v.form.$anyError) {
                 return;
             }
-            const dataToPost = {
-                subject: this.$v.form.$model.subject.trim(),
-                message: this.$v.form.$model.message.trim(),
-            };
-            // TODO: add api method for this POST request
-            this.isContacted = true;
-            this.closeTimeout = setTimeout(() => {
-                this.closeModal();
-            }, 3000);
-        }
+            if (this.mealId) {
+                api.dashboard.meals.contactCookByMealId(this.mealId, { body: this.$v.form.$model.message })
+                    .then(() => {
+                        this.isContacted = true;
+                        this.closeTimeout = setTimeout(() => {
+                            this.closeModal();
+                        }, 3000);
+                    })
+                    .catch(err => {
+                        console.log('\n >> err sending message > ', err);
+                        this.failedSendMessage = true;
+                        this.closeTimeout = setTimeout(() => {
+                            this.closeModal();
+                        }, 3000);
+                    });
+            } else {
+                // TODO: contact cook from cook-profile page ??
+                this.closeModal(); // temp
+            }
+        },
     }
 }
 </script>

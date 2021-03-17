@@ -216,7 +216,7 @@
 
         <!-- Modals -->
         <ReserveMealModal :offer-info="{ ...this.offerInfo }" @onReserved="onReserved"></ReserveMealModal>
-        <ContactCookModal :cook-id="this.offerInfo.user.id" :offer-id="this.offerInfo.id"></ContactCookModal>
+        <ContactCookModal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id"></ContactCookModal>
         <ConfirmModal :id="modalId" :message="confirmCancelReservationMsg" @confirmed="onConfirmedCancelReservation"></ConfirmModal>
         <AskQuestionAboutMeal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id"></AskQuestionAboutMeal>
         <AnswerQuestionModal
