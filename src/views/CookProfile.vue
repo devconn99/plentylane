@@ -37,19 +37,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- should be hidden at the moment -->
+                                <!--
                                 <div class="cook-info-additional ml-2 ml-md-3">
                                     <div class="cook-location">
                                         <SvgIcon icon="location"></SvgIcon>
-                                        <!-- TODO: where to get the location? -->
                                         <span class="ml-2">Austin, TX</span>
                                     </div>
                                 </div>
+                                -->
                             </div>
                             <div class="cook-info-links" v-if="!isCurrentUserCookPage()">
+                                <!-- should be hidden at the moment  -->
+                                <!--
                                 <div class="mr-2 mr-md-3 link-item" @click="openContactCookModal">
                                     <SvgIcon icon="message"></SvgIcon>
                                     <span class="ml-1 link-item-text">Message</span>
                                 </div>
+                                -->
                                 <div class="mr-2 mr-md-3 link-item" @click="toggleFavorite">
                                      <i class="fa-heart link-item-icon" v-bind:class="{ fas: isFavorite, far: !isFavorite }"></i>
                                     <span class="ml-1 link-item-text">Favorite</span>
@@ -182,7 +187,7 @@
         </div>
 
         <!-- modals -->
-        <ContactCookModal></ContactCookModal>
+        <!--<ContactCookModal></ContactCookModal>-->
         <ConfirmModal :id="modalId" :message="confirmRemoveMsg" @confirmed="onConfirmedRemoveFromNetwork"></ConfirmModal>
     </div>
 </template>
@@ -368,10 +373,11 @@ export default {
                     this.errLoadingDataHandler(cb, err);
                 });
         },
+        /*
         openContactCookModal () {
-            // TODO: open a modal when BE is ready
-            // this.$bvModal.show('contact-cook-modal');
+            this.$bvModal.show('contact-cook-modal');
         },
+        */
         toggleFavorite () {
             if (this.isProcessing) return;
             // TODO: it's temp

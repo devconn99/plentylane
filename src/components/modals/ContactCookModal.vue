@@ -19,25 +19,25 @@
             </div>
 
             <b-form class="form" @submit.stop.prevent="onSubmit" v-if="!isContacted && !failedSendMessage">
-                <!--<b-form-group label="Subject/Question">-->
-                    <!--<b-form-input-->
-                            <!--name="subject"-->
-                            <!--v-model.trim="$v.form.subject.$model"-->
-                            <!--placeholder=""-->
-                            <!--autocomplete="off"-->
-                    <!--&gt;</b-form-input>-->
-                    <!--<small class="text-danger d-flex mt-2 text-left" v-if="$v.form.subject.$dirty && !$v.form.subject.required">This is a required field.</small>-->
-                    <!--<small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.subject.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>-->
-                <!--</b-form-group>-->
+                <b-form-group label="Subject/Question">
+                    <b-form-input
+                            name="subject"
+                            v-model.trim="$v.form.subject.$model"
+                            placeholder=""
+                            autocomplete="off"
+                    ></b-form-input>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.subject.$dirty && !$v.form.subject.required">This is a required field.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.subject.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>
+                </b-form-group>
                 <b-form-group label="Message">
                     <textarea
                             name="message"
-                            v-model.trim="$v.form.message.$model"
+                            v-model.trim="$v.form.body.$model"
                             placeholder=""
                             autocomplete="off"
                     ></textarea>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.message.$dirty && !$v.form.message.required">This is a required field.</small>
-                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.message.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.body.$dirty && !$v.form.body.required">This is a required field.</small>
+                    <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.body.maxLength">This field must be shorter than or equal to {{messageMaxLength}} characters.</small>
                 </b-form-group>
                 <div class="btn-box">
                     <b-button type="submit" :disabled="$v.$invalid" class="btnGreen btnBigSize btn100 text-uppercase hover-slide-left">
@@ -70,19 +70,19 @@ export default {
         isContacted: false,
         messageMaxLength: config.TEXT_AREA_MAX_LENGTH,
         form: {
-            // subject: null,
-            message: null
+            subject: null,
+            body: null
         },
         closeTimeout: null,
         failedSendMessage: false
     }),
     validations: {
         form: {
-            // subject: {
-            //     required,
-            //     maxLength: maxLength(config.TEXT_AREA_MAX_LENGTH)
-            // },
-            message: {
+            subject: {
+                required,
+                maxLength: maxLength(config.TEXT_AREA_MAX_LENGTH)
+            },
+            body: {
                 required,
                 maxLength: maxLength(config.TEXT_AREA_MAX_LENGTH)
             }
@@ -96,8 +96,8 @@ export default {
             this.isContacted = false;
             this.failedSendMessage = false;
             this.$v.$reset();
-            // this.form.subject = null;
-            this.form.message = null;
+            this.form.subject = null;
+            this.form.body = null;
         },
         onShown () {
             if (this.closeTimeout) {
@@ -110,7 +110,11 @@ export default {
                 return;
             }
             if (this.mealId) {
-                api.dashboard.meals.contactCookByMealId(this.mealId, { body: this.$v.form.$model.message })
+                const dataToSend = {
+                    subject: this.$v.form.$model.subject,
+                    body: this.$v.form.$model.body
+                };
+                api.dashboard.meals.contactCookByMealId(this.mealId, dataToSend)
                     .then(() => {
                         this.isContacted = true;
                         this.closeTimeout = setTimeout(() => {
