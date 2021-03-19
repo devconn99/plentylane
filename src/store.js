@@ -17,8 +17,7 @@ const initialState = () => {
         copiedMealInfo: null,
         basket: [],
         shippingInfo: null,
-        myOffersActiveTabIndexOnInit: 0,
-        myNetwork: []
+        myOffersActiveTabIndexOnInit: 0
     }
 };
 export default {
@@ -92,27 +91,6 @@ export default {
         },
         myOffersActiveTabIndexOnInit (state, value) {
             state.myOffersActiveTabIndexOnInit = value;
-        },
-        setMyNetwork (state, data) {
-            if (!state.myNetwork || !state.myNetwork.length) {
-                state.myNetwork = [];
-            }
-            if (data && data.length) {
-                state.myNetwork = data.slice(0);
-            }
-        },
-        addUserToNetwork (state, user) {
-            if (!state.myNetwork || !state.myNetwork.length) {
-                state.myNetwork = [];
-            }
-            state.myNetwork.push({ ...user });
-        },
-        removeUserFromNetwork (state, userId) {
-            if (!state.myNetwork || !state.myNetwork) return;
-            state.myNetwork = state.myNetwork.filter(user => Number(user.id) !== Number(userId));
-        },
-        clearMyNetwork (state) {
-            state.myNetwork = [];
         }
     },
     getters: {
@@ -135,12 +113,6 @@ export default {
             return _price;
         },
         shippingInfo: (state) => (state.shippingInfo),
-        myOffersActiveTabIndexOnInit: (state) => (state.myOffersActiveTabIndexOnInit),
-        myNetwork: (state) => (state.myNetwork),
-        isUserInMyNetwork: state => id => {
-            if (!state.myNetwork || !state.myNetwork) return false;
-            const _found = state.myNetwork.find(user => Number(user.id) === Number(id));
-            return _found && _found.id;
-        }
+        myOffersActiveTabIndexOnInit: (state) => (state.myOffersActiveTabIndexOnInit)
     }
 }

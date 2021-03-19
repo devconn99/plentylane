@@ -62,7 +62,7 @@
                                 <div class="link-item" @click="onClickNetworkBtn">
                                     <SvgIcon icon="network"></SvgIcon>
                                     <span class="ml-1 link-item-text">
-                                        <template v-if="!isCookInMyNetwork">
+                                        <template v-if="!isFriend">
                                             Add to Network
                                         </template>
                                         <template v-else>Remove from Network</template>
@@ -188,7 +188,8 @@
 
         <!-- modals -->
         <!--<ContactCookModal></ContactCookModal>-->
-        <ConfirmModal :id="modalId" :message="confirmRemoveMsg" @confirmed="onConfirmedRemoveFromNetwork"></ConfirmModal>
+        <ConfirmModal :id="modalIdNetwork" :message="confirmRemoveFromNtwMsg" @confirmed="onConfirmedRemoveFromNetwork"></ConfirmModal>
+        <ConfirmModal :id="modalIdFavorite" :message="confirmRemoveFromFvrMsg" @confirmed="onConfirmedRemoveFromFavorite"></ConfirmModal>
     </div>
 </template>
 
@@ -214,10 +215,11 @@ export default {
         currentPage: 1,
         totalOffers: 0,
         loaderOptions: { ...config.LOADER_OPTIONS },
-        isCookInMyNetwork: false,
         isProcessing: false,
-        confirmRemoveMsg: 'Are you sure you want to remove this person from your network?',
-        modalId: 'confirm-remove-from-network',
+        confirmRemoveFromNtwMsg: 'Are you sure you want to remove this person from your network?',
+        modalIdNetwork: 'confirm-remove-from-network',
+        confirmRemoveFromFvrMsg: 'Are you sure you want to remove this person from your favorite list?',
+        modalIdFavorite: 'confirm-remove-from-favorite-list',
         reviewsPage: {
             total: 0,
             page: 1,
@@ -226,7 +228,8 @@ export default {
             isLastPage: false
         },
         reviews: [],
-        currentUserId: ''
+        currentUserId: '',
+        isFriend: false
     }),
     beforeRouteEnter (to, from, next) {
         next(vm => {
@@ -265,7 +268,7 @@ export default {
             this.isLastPage = false;
             this.currentPage = 1;
             this.totalOffers = 0;
-            this.isCookInMyNetwork = false;
+            this.isFriend = false;
             this.isProcessing = false;
             this.reviews = [];
             this.reviewsPage = {
@@ -319,12 +322,7 @@ export default {
                 api.dashboard.users.getReviews(this.cookId)
             ];
             if (!this.isCurrentUserCookPage()) {
-                const _myNetwork = this.$store.getters.myNetwork;
-                if (_myNetwork && _myNetwork.length) {
-                    this.isCookInMyNetwork = this.$store.getters.isUserInMyNetwork(this.cookId);
-                } else {
-                    requests.push(api.dashboard.follows.getMyConnections());
-                }
+                requests.push(api.dashboard.follows.getUserConnection(this.cookId));
             }
             Promise.all(requests)
                 .then(results => {
@@ -354,11 +352,11 @@ export default {
                                 this.reviewsPage.loaded = true;
                                 break;
                             case 3:
-                                // my network
-                                const _network = data['following'] || [];
+                                // user connection
+                                const { isFriend = false, isFavorite = false } = data;
                                 this.$nextTick(() => {
-                                    this.$store.commit('setMyNetwork', _network);
-                                    this.isCookInMyNetwork = this.$store.getters.isUserInMyNetwork(this.cookId);
+                                    this.isFriend = isFriend;
+                                    this.isFavorite = isFavorite;
                                 });
                                 break;
                         }
@@ -380,47 +378,62 @@ export default {
         */
         toggleFavorite () {
             if (this.isProcessing) return;
-            // TODO: it's temp
+            if (this.isFavorite) {
+                this.openConfirmRemoveFromFvrModal();
+            } else {
+                this.addToFavorites();
+            }
+        },
+        addToFavorites () {
             this.isProcessing = true;
-            setTimeout(() => {
-                this.isFavorite = !this.isFavorite;
-                this.isProcessing = false;
-            }, 500);
+            api.dashboard.follows.addUserToFavorites(this.cookId)
+                .then(() => {
+                    this.isFavorite = true;
+                    this.isProcessing = false;
+                })
+                .catch(() => {
+                    this.isProcessing = false;
+                });
+        },
+        removeFromFavorites () {
+            this.isProcessing = true;
+            api.dashboard.follows.removeUserFromFavorites(this.cookId)
+                .then(() => {
+                    this.isFavorite = false;
+                    this.isProcessing = false;
+                })
+                .catch(() => {
+                    this.isProcessing = false;
+                });
         },
         onClickNetworkBtn () {
             if (!this.cookId) return;
-            if (this.isCookInMyNetwork) {
-                return this.openConfirmModal();
+            if (this.isFriend) {
+                return this.openConfirmRemoveFromNtwModal();
             }
             return this.addToNetwork();
         },
         addToNetwork () {
             this.isProcessing = true;
             api.dashboard.follows.followUser(this.cookId)
-                .then(result => {
-                    if (result && result.following && result.following.length) {
-                        this.$store.commit('setMyNetwork', result.following.slice(0));
-                    }
+                .then(() => {
                     this.isProcessing = false;
-                    this.isCookInMyNetwork = true;
+                    this.isFriend = true;
                 })
-                .catch(err => {
-                    console.log('\n >> err > ', err);
+                .catch(() => {
                     this.isProcessing = false;
-                })
+                });
         },
         removeFromNetwork () {
             this.isProcessing = true;
             api.dashboard.follows.unFollowUser(this.cookId)
                 .then(() => {
                     this.isProcessing = false;
-                    this.isCookInMyNetwork = false;
-                    this.$store.commit('removeUserFromNetwork', this.cookId)
+                    this.isFriend = false;
                 })
-                .catch(err => {
-                    console.log('\n >> err > ', err);
+                .catch(() => {
                     this.isProcessing = false;
-                })
+                });
         },
         loadMoreOffers () {
             if (this.$refs['moreOffersBtn']) {
@@ -444,11 +457,17 @@ export default {
                     console.log('\n >> err load more offers:', err);
                 })
         },
-        openConfirmModal () {
-            this.$bvModal.show(this.modalId);
+        openConfirmRemoveFromNtwModal () {
+            this.$bvModal.show(this.modalIdNetwork);
         },
         onConfirmedRemoveFromNetwork () {
             this.removeFromNetwork();
+        },
+        openConfirmRemoveFromFvrModal () {
+            this.$bvModal.show(this.modalIdFavorite);
+        },
+        onConfirmedRemoveFromFavorite () {
+            this.removeFromFavorites();
         },
         loadMoreReviews () {
             // TODO

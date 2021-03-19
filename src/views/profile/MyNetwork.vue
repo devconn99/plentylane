@@ -11,74 +11,51 @@
             </div>
 
             <b-tabs nav-class="custom-tabs" content-class="profile-item mt-4" v-model="activeTabIndex" @input="onTabSwitched">
-                <b-tab title="My Connections" :disabled="isLoadingUsers || isLoadingInvites">
+                <b-tab title="My Connections" :disabled="isLoadingUsers || isLoadingFavorite">
                     <div class="tab-content-wrapper">
                         <b-form class="form searchFormNormal">
                             <b-form-group class="position-relative">
                                 <b-form-input
-                                        v-model.trim="searchStrConnections"
+                                        v-model.trim="searchStrFriends"
                                         placeholder="Search my connections"
                                         class="form-control search-form-control"
                                         autocomplete="off"
                                         debounce="500"
-                                        @update="triggerFilterConnections"
+                                        @update="triggerSearchFriends"
                                 >
                                 </b-form-input>
                                 <div
                                         class="clear-icon-wrapper cursor-pointer"
-                                        v-if="searchStrConnections && searchStrConnections.length"
-                                        @click="clearSearchStrConnections"
+                                        v-if="searchStrFriends && searchStrFriends.length"
+                                        @click="clearSearchStrFriends"
                                 >
                                     <SvgIcon icon="close"></SvgIcon>
                                 </div>
                             </b-form-group>
                         </b-form>
                         <loading
-                                :active.sync="isLoadingConnections"
+                                :active.sync="isLoadingFriends"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
                                 :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
-                        <template v-if="areConnectionsLoaded">
-                            <div class="connection" v-if="connectionsFiltered && connectionsFiltered.length">
-                                <div
-                                        class="connection-box has-action-button"
-                                        v-for="item in connectionsFiltered"
+                        <template v-if="friendsPagination.loaded">
+                            <div class="connection" v-if="listOfFriends && listOfFriends.length">
+                                <UserInfoLine
+                                        v-for="item in listOfFriends"
                                         v-bind:key="item.id"
-                                >
-                                    <div class="connection-box-info">
-                                        <template v-if="item.image && item.image.thumbnail && item.image.thumbnail.length">
-                                            <div
-                                                    class="connection-box-info-img mr-2 mr-xl-3"
-                                                    @click="redirectToCookProfile(item.id)"
-                                            >
-                                                <img :src="item.image.thumbnail" alt="" class="img-fluid">
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <div
-                                                    class="connection-box-info-img-placeholder mr-2 mr-xl-3"
-                                                    @click="redirectToCookProfile(item.id)"
-                                            >
-                                                <i class="fas fa-user-circle user-icon"></i>
-                                            </div>
-                                        </template>
-
-                                        <div class="connection-box-info-name cursor-pointer">
-                                            <span @click="redirectToCookProfile(item.id)">{{item.fullName}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="box-btn">
-                                        <b-btn
-                                                class="action-button btnNavyRedTransparent btnSmallSize hover-slide-left"
-                                                v-bind:class="{ btnDisabled: connectionToRemove && connectionToRemove.id === item.id }"
-                                                @click="removeItemFromMyNetwork(item)"
-                                        >
-                                            <span class="pending" v-if="connectionToRemove && connectionToRemove.id === item.id">Pending</span>
-                                            <span v-else>Remove</span>
-                                        </b-btn>
-                                    </div>
-                                </div>
+                                        :user="item"
+                                        :has-remove-action="true"
+                                        :user-to-remove="friendToRemove"
+                                        @redirect-to-cook-profile="redirectToCookProfile(item.id)"
+                                        @remove-user="removeItemFromMyNetwork(item)"
+                                ></UserInfoLine>
+                                <b-btn
+                                        v-if="!friendsPagination.isLastPage"
+                                        class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
+                                        @click="loadMoreFriends">
+                                    <span>Load more</span>
+                                </b-btn>
                             </div>
                             <div v-else>
                                 <p>No connections found.</p>
@@ -87,27 +64,60 @@
                     </div>
                 </b-tab>
 
-                <!-- invites are not included in current MVP -->
-                <!--
-                <b-tab title="Invites" :disabled="isLoadingUsers || isLoadingConnections">
+                <b-tab title="Favorites" :disabled="isLoadingUsers || isLoadingFriends">
                     <div class="tab-content-wrapper">
+                        <b-form class="form searchFormNormal">
+                            <b-form-group class="position-relative">
+                                <b-form-input
+                                        v-model.trim="searchStrFavorite"
+                                        placeholder="Search favorite cooks"
+                                        class="form-control search-form-control"
+                                        autocomplete="off"
+                                        debounce="500"
+                                        @update="triggerSearchFavorite"
+                                >
+                                </b-form-input>
+                                <div
+                                        class="clear-icon-wrapper cursor-pointer"
+                                        v-if="searchStrFavorite && searchStrFavorite.length"
+                                        @click="clearSearchStrFavorite"
+                                >
+                                    <SvgIcon icon="close"></SvgIcon>
+                                </div>
+                            </b-form-group>
+                        </b-form>
                         <loading
-                                :active.sync="isLoadingInvites"
+                                :active.sync="isLoadingFavorite"
                                 :is-full-page="loaderOptions.IS_FULL_PAGE"
                                 :color="loaderOptions.COLOR"
                                 :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
-                        <template v-if="areInvitesLoaded">
-                            <div v-if="invites && invites.length"></div>
+                        <template v-if="favoritePagination.loaded">
+                            <div class="connection" v-if="listOfFavorites && listOfFavorites.length">
+                                <UserInfoLine
+                                        v-for="item in listOfFavorites"
+                                        v-bind:key="item.id"
+                                        :user="item"
+                                        :has-remove-action="true"
+                                        :user-to-remove="favoriteToRemove"
+                                        @redirect-to-cook-profile="redirectToCookProfile(item.id)"
+                                        @remove-user="removeItemFromListOfFavorite(item)"
+                                ></UserInfoLine>
+                                <b-btn
+                                        v-if="!favoritePagination.isLastPage"
+                                        class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
+                                        @click="loadMoreFavorite">
+                                    <span>Load more</span>
+                                </b-btn>
+                            </div>
                             <div v-else>
-                                <p>No invites found.</p>
+                                <p>No favorite cooks found.</p>
                             </div>
                         </template>
                     </div>
                 </b-tab>
-                -->
 
-                <b-tab title="Everybody" :disabled="isLoadingConnections || isLoadingInvites">
+                <b-tab title="Everybody" :disabled="isLoadingFriends || isLoadingFavorite">
                     <div class="tab-content-wrapper">
                         <b-form class="form searchFormNormal">
                             <b-form-group class="position-relative">
@@ -137,30 +147,13 @@
                         ></loading>
                         <template v-if="usersPagination.loaded">
                             <div class="connection" v-if="users && users.length">
-                                <div class="connection-box" v-for="user in users">
-                                    <div class="connection-box-info">
-                                        <template v-if="user.image && user.image.thumbnail && user.image.thumbnail.length">
-                                            <div
-                                                    class="connection-box-info-img mr-2 mr-xl-3"
-                                                    @click="redirectToCookProfile(user.id)"
-                                            >
-                                                <img :src="user.image.thumbnail" alt="" class="img-fluid">
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <div
-                                                    class="connection-box-info-img-placeholder mr-2 mr-xl-3"
-                                                    @click="redirectToCookProfile(user.id)"
-                                            >
-                                                <i class="fas fa-user-circle user-icon"></i>
-                                            </div>
-                                        </template>
-
-                                        <div class="connection-box-info-name">
-                                            <span @click="redirectToCookProfile(user.id)">{{user.fullName}}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <UserInfoLine
+                                        v-for="user in users"
+                                        v-bind:key="user.id"
+                                        :user="user"
+                                        :has-remove-action="false"
+                                        @redirect-to-cook-profile="redirectToCookProfile(user.id)"
+                                ></UserInfoLine>
                                 <b-btn
                                         v-if="!usersPagination.isLastPage"
                                         class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
@@ -179,10 +172,16 @@
 
         <!-- Modals -->
         <ConfirmModal
-                :id="modalId"
-                :message="confirmRemoveMsg"
-                @confirmed="onConfirmedRemove"
-                @canceled="onCanceledRemove"
+                :id="modalIdFriend"
+                :message="confirmRemoveFriendMsg"
+                @confirmed="onConfirmedRemoveFriend"
+                @canceled="onCanceledRemoveFriend"
+        ></ConfirmModal>
+        <ConfirmModal
+                :id="modalIdFavorite"
+                :message="confirmRemoveFavoriteMsg"
+                @confirmed="onConfirmedRemoveFavorite"
+                @canceled="onCanceledRemoveFavorite"
         ></ConfirmModal>
     </div>
 </template>
@@ -193,25 +192,23 @@ import api from '../../api';
 import ConfirmModal from '../../components/modals/ConfirmModal';
 import config from "../../config";
 import SvgIcon from '../../components/SvgIcon';
+import UserInfoLine from '../../components/UserInfoLine';
 export default {
     name: "MyNetwork",
-    components: {Loading, ConfirmModal, SvgIcon},
+    components: {Loading, ConfirmModal, SvgIcon, UserInfoLine},
     data: () => ({
         loaderOptions: { ...config.LOADER_OPTIONS },
         activeTabIndex: 0,
-        confirmRemoveMsg: 'Are you sure you want to remove this person from your network?',
-        connectionToRemove: null,
-        modalId: 'confirm-remove',
-        searchStrConnections: '',
-        connections: [],
-        connectionsFiltered: [],
-        isLoadingConnections: false,
-        areConnectionsLoaded: false,
-        isRemovingConnection: false,
-        invites: [],
-        invitesFiltered: [],
-        isLoadingInvites: false,
-        areInvitesLoaded: false,
+        confirmRemoveFriendMsg: 'Are you sure you want to remove this person from your network?',
+        friendToRemove: null,
+        modalIdFriend: 'confirm-remove-friend',
+        confirmRemoveFavoriteMsg: 'Are you sure you want to remove this person from your favorite list?',
+        favoriteToRemove: null,
+        modalIdFavorite: 'confirm-remove-favorite',
+        searchStrFriends: '',
+        searchStrFavorite: '',
+        isRemovingFriend: false,
+        isRemovingFavorite: false,
         users: [],
         usersPagination: {
             total: 0,
@@ -222,29 +219,44 @@ export default {
         },
         isLoadingUsers: false,
         searchStrUsers: '',
-        currentUserId: ''
+        currentUserId: '',
+        friendsPagination: {
+            total: 0,
+            page: 1,
+            pageCount: 1,
+            loaded: false,
+            isLastPage: false
+        },
+        isLoadingFriends: false,
+        listOfFriends: [],
+        favoritePagination: {
+            total: 0,
+            page: 1,
+            pageCount: 1,
+            loaded: false,
+            isLastPage: false
+        },
+        isLoadingFavorite: false,
+        listOfFavorites: []
     }),
     created () {
         this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
-        this.loadConnections();
+        this.loadFriends();
     },
     methods: {
         onTabSwitched (tabIndex) {
             switch (tabIndex) {
                 case 0:
-                    if (!this.areConnectionsLoaded) {
-                        return this.loadConnections();
+                    if (!this.friendsPagination.loaded) {
+                        this.loadFriends();
                     }
                     break;
-                /* invites are not included in current MVP
                 case 1:
-                    if (!this.areInvitesLoaded) {
-                        return this.loadInvites();
+                    if (!this.favoritePagination.loaded) {
+                        return this.loadFavorite();
                     }
                     break;
-                */
-                case 1:
-                    // if invites will be included, there should be case 2 instead of 1
+                case 2:
                     if (!this.usersPagination.loaded) {
                         return this.loadUsers();
                     }
@@ -253,43 +265,34 @@ export default {
                     break;
             }
         },
-        loadConnections () {
-            this.isLoadingConnections = true;
-            const _myNetwork = this.$store.getters.myNetwork;
-            if (_myNetwork && _myNetwork.length) {
-                this.connections = _myNetwork.map(user => user);
-                this.connectionsFiltered = this.connections.slice(0);
-                this.isLoadingConnections = false;
-                this.areConnectionsLoaded = true;
-                return;
-            }
-            api.dashboard.follows.getMyConnections()
+        loadFriends (search) {
+            this.isLoadingFriends = true;
+            api.dashboard.follows.getMyFriends(this.friendsPagination.page, search)
                 .then(result => {
-                    if (result.following && result.following.length) {
-                        this.connections = result.following.map(user => user);
-                        this.connectionsFiltered = this.connections.slice(0);
-                        this.$store.commit('setMyNetwork', result.following);
+                    const shouldOverride = this.friendsPagination.page === 1;
+                    if (result && result.data && result.data.length) {
+                        const _data = result.data.map(item => {
+                            return item.following;
+                        });
+                        this.listOfFriends = shouldOverride ? _data.slice(0) : this.listOfFriends.concat(_data.slice(0));
+                    } else if (shouldOverride) {
+                        this.listOfFriends = [];
                     }
-                    this.isLoadingConnections = false;
-                    this.areConnectionsLoaded = true;
+                    this.friendsPagination.total = result.total;
+                    this.friendsPagination.pageCount = result.pageCount;
+                    this.friendsPagination.isLastPage = result.page === result.pageCount;
+                    this.friendsPagination.loaded = true;
+                    this.isLoadingFriends = false;
                 })
                 .catch(err => {
                     console.log('\n >> err > ', err);
-                    this.isLoadingConnections = false;
-                })
+                    this.isLoadingFriends = false;
+                });
         },
-        loadInvites () {
-            this.isLoadingInvites = true;
-            api.dashboard.follows.getMyInvites()
-                .then(result => {
-                    // TODO: parse the result
-                    this.isLoadingInvites = false;
-                    this.areInvitesLoaded = true;
-                })
-                .catch(err => {
-                    console.log('\n >> err > ', err);
-                    this.isLoadingInvites = false;
-                })
+        loadMoreFriends () {
+            if (this.friendsPagination.isLastPage) return;
+            this.friendsPagination.page++;
+            this.loadFriends();
         },
         loadUsers (search) {
             this.isLoadingUsers = true;
@@ -317,23 +320,12 @@ export default {
             this.usersPagination.page++;
             this.loadUsers();
         },
-        followUser (user) {
-            api.dashboard.follows.followUser(user.id)
-                .then(result => {
-                    this.connections.push({ ...user });
-                    this.$store.commit('addUserToNetwork', { ...user });
-                    this.filterConnections();
-                })
-                .catch(err => {
-                    console.log('\n >> err > ', err);
-                })
-        },
         triggerSearchUsers () {
             this.usersPagination.total = 0;
             this.usersPagination.page = 1;
             this.usersPagination.pageCount = 1;
             this.usersPagination.loaded = false;
-            this.usersPagination.loaisLastPageded = false;
+            this.usersPagination.isLastPage = false;
             this.users = [];
             this.loadUsers(this.searchStrUsers);
         },
@@ -342,52 +334,78 @@ export default {
             this.triggerSearchUsers();
         },
         removeItemFromMyNetwork (item) {
-            if (this.isRemovingConnection) return;
-            this.connectionToRemove = { ...item };
-            this.$bvModal.show(this.modalId);
+            if (this.isRemovingFriend) return;
+            this.friendToRemove = { ...item };
+            this.$bvModal.show(this.modalIdFriend);
         },
-        onConfirmedRemove () {
-            if (!this.connectionToRemove || !this.connectionToRemove.id) return;
-            this.isRemovingConnection = true;
-            const _id = this.connectionToRemove.id;
+        onConfirmedRemoveFriend () {
+            if (!this.friendToRemove || !this.friendToRemove.id) return;
+            this.isRemovingFriend = true;
+            const _id = this.friendToRemove.id;
             api.dashboard.follows.unFollowUser(_id)
                 .then(() => {
-                    this.connections = this.connections.filter(item => item.id !== Number(_id));
-                    this.$store.commit('removeUserFromNetwork', _id);
-                    if (this.connectionsFiltered && this.connectionsFiltered.length) {
-                        this.connectionsFiltered = this.connectionsFiltered.filter(item => item.id !== Number(_id));
-                    }
-                    this.connectionToRemove = null;
-                    this.isRemovingConnection = false;
+                    this.listOfFriends = this.listOfFriends.filter(item => item.id !== Number(_id));
+                    this.friendToRemove = null;
+                    this.isRemovingFriend = false;
                 })
                 .catch(err => {
                     console.log('\nerr unfollow user:', err);
-                    this.connectionToRemove = null;
-                    this.isRemovingConnection = false;
+                    this.friendToRemove = null;
+                    this.isRemovingFriend = false;
                 });
         },
-        onCanceledRemove () {
-            this.connectionToRemove = null;
+        onCanceledRemoveFriend () {
+            this.friendToRemove = null;
         },
-        clearSearchStrConnections () {
-            this.searchStrConnections = '';
-            this.triggerFilterConnections();
+        removeItemFromListOfFavorite (item) {
+            if (this.isRemovingFavorite) return;
+            this.favoriteToRemove = { ...item };
+            this.$bvModal.show(this.modalIdFavorite);
         },
-        triggerFilterConnections () {
-            this.filterConnections();
+        onConfirmedRemoveFavorite () {
+            if (!this.favoriteToRemove || !this.favoriteToRemove.id) return;
+            this.isRemovingFavorite = true;
+            const _id = this.favoriteToRemove.id;
+            api.dashboard.follows.removeUserFromFavorites(_id)
+                .then(() => {
+                    this.listOfFavorites = this.listOfFavorites.filter(item => item.id !== Number(_id));
+                    this.favoriteToRemove = null;
+                    this.isRemovingFavorite = false;
+                })
+                .catch(err => {
+                    console.log('\nerr remove from favorite list:', err);
+                    this.favoriteToRemove = null;
+                    this.isRemovingFavorite = false;
+                });
         },
-        filterConnections () {
-            if (!this.searchStrConnections || !this.searchStrConnections.length) {
-                if (!this.connections || !this.connections.length) {
-                    this.connectionsFiltered = [];
-                    return;
-                }
-                this.connectionsFiltered = this.connections.slice(0);
-                return;
-            }
-            this.connectionsFiltered = this.connections.filter(item => {
-                return item.fullName.toLowerCase().includes(this.searchStrConnections);
-            });
+        onCanceledRemoveFavorite () {
+            this.favoriteToRemove = null;
+        },
+        clearSearchStrFriends () {
+            this.searchStrFriends = '';
+            this.triggerSearchFriends();
+        },
+        triggerSearchFriends () {
+            this.friendsPagination.total = 0;
+            this.friendsPagination.page = 1;
+            this.friendsPagination.pageCount = 1;
+            this.friendsPagination.loaded = false;
+            this.friendsPagination.isLastPage = false;
+            this.listOfFriends = [];
+            this.loadFriends(this.searchStrFriends);
+        },
+        clearSearchStrFavorite () {
+            this.searchStrFavorite = '';
+            this.triggerSearchFavorite();
+        },
+        triggerSearchFavorite () {
+            this.favoritePagination.total = 0;
+            this.favoritePagination.page = 1;
+            this.favoritePagination.pageCount = 1;
+            this.favoritePagination.loaded = false;
+            this.favoritePagination.isLastPage = false;
+            this.listOfFavorites = [];
+            this.loadFavorite(this.searchStrFavorite);
         },
         showMobileAside () {
             this.$eventHub.$emit('show-mobile-profile-aside');
@@ -395,6 +413,35 @@ export default {
         redirectToCookProfile (id) {
             if (!id) return;
             this.$router.push({ path: `/dashboard/cook-profile/${id}` }).catch(()=>{});
+        },
+        loadFavorite (search) {
+            this.isLoadingFavorite = true;
+            api.dashboard.follows.getMyFavorites(this.favoritePagination.page, search)
+                .then(result => {
+                    const shouldOverride = this.favoritePagination.page === 1;
+                    if (result && result.data && result.data.length) {
+                        const _data = result.data.map(item => {
+                            return item.following;
+                        });
+                        this.listOfFavorites = shouldOverride ? _data.slice(0) : this.listOfFavorites.concat(_data.slice(0));
+                    } else if (shouldOverride) {
+                        this.listOfFavorites = [];
+                    }
+                    this.favoritePagination.total = result.total;
+                    this.favoritePagination.pageCount = result.pageCount;
+                    this.favoritePagination.isLastPage = result.page === result.pageCount;
+                    this.favoritePagination.loaded = true;
+                    this.isLoadingFavorite = false;
+                })
+                .catch(err => {
+                    console.log('\n >> err > ', err);
+                    this.isLoadingFavorite = false;
+                });
+        },
+        loadMoreFavorite () {
+            if (this.favoritePagination.isLastPage) return;
+            this.favoritePagination.page++;
+            this.loadFavorite();
         }
     }
 }

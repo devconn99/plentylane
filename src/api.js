@@ -797,9 +797,15 @@ export default {
             }
         },
         follows: {
-            getMyConnections () {
-                // TODO: how to get following users images?
-                const endpoint = `${config.API_ORIGIN}/api/me/follows`;
+            getMyFriends (page, search) {
+                let endpoint = `${config.API_ORIGIN}/api/me/follows?filter=connectionType||$eq||friend`;
+                const filterByFullName = search && search.length ? `filter=following.fullName||$contL||${search}` : '';
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
+                if (filterByFullName.length) {
+                    endpoint += `&${filterByFullName}`;
+                }
                 return axios.get(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
@@ -808,16 +814,53 @@ export default {
                         return checkErr(err.response);
                     });
             },
-            getMyInvites () {
-                // TODO: use real endpoint when it's ready
-                return new Promise(resolve => setTimeout(resolve, 1000));
+            getMyFavorites (page, search) {
+                let endpoint = `${config.API_ORIGIN}/api/me/follows?filter=connectionType||$eq||favorite`;
+                const filterByFullName = search && search.length ? `filter=following.fullName||$contL||${search}` : '';
+                if (page) {
+                    endpoint += `&page=${page}`;
+                }
+                if (filterByFullName.length) {
+                    endpoint += `&${filterByFullName}`;
+                }
+                return axios.get(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            getUserConnection (id) {
+                let endpoint = `${config.API_ORIGIN}/api/me/follows/`;
+                const filterFavorite = 'connectionType||$eq||favorite';
+                const filterFriend = 'connectionType||$eq||friend';
+                const filterFollowingId = `followingId||$eq||${id}`;
+                endpoint += `?filter=${filterFavorite}&filter=${filterFollowingId}&or=${filterFriend}&or=${filterFollowingId}`;
+                return axios.get(endpoint)
+                    .then((res) => {
+                        let _data = { isFriend: false, isFavorite: false };
+                        if (res && res.data && res.data.count > 0 && res.data.data) {
+                            res.data.data.forEach(connection => {
+                                if (connection.connectionType === 'friend') {
+                                    _data.isFriend = true;
+                                } else if (connection.connectionType === 'favorite') {
+                                    _data.isFavorite = true;
+                                }
+                            });
+                        }
+                        return Promise.resolve(_data);
+                    })
+                    .catch((err) => {
+                        if (err.response && err.response.data && err.response.data.statusCode === 404) {
+                            return Promise.resolve({ isFriend: false, isFavorite: false });
+                        }
+                        return checkErr(err.response);
+                    });
             },
             followUser (id) {
-                if (typeof id !== 'number') {
-                    id = Number(id);
-                }
                 const endpoint = `${config.API_ORIGIN}/api/me/follows`;
-                return axios.post(endpoint, { action: 'add', followingId: id })
+                return axios.post(endpoint, { followingId: Number(id), connectionType: 'friend' })
                     .then((res) => {
                         return Promise.resolve(res.data || {});
                     })
@@ -826,11 +869,28 @@ export default {
                     });
             },
             unFollowUser (id) {
-                if (typeof id !== 'number') {
-                    id = Number(id);
-                }
+                const endpoint = `${config.API_ORIGIN}/api/me/follows/${id}/friend`;
+                return axios.delete(endpoint)
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            addUserToFavorites (id) {
                 const endpoint = `${config.API_ORIGIN}/api/me/follows`;
-                return axios.post(endpoint, { action: 'remove', followingId: id })
+                return axios.post(endpoint, { followingId: Number(id), connectionType: 'favorite' })
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
+            },
+            removeUserFromFavorites (id) {
+                const endpoint = `${config.API_ORIGIN}/api/me/follows/${id}/favorite`;
+                return axios.delete(endpoint)
                     .then((res) => {
                         return Promise.resolve(res.data || {});
                     })
