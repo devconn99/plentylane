@@ -46,10 +46,7 @@
                             <div class="cook-info-benefits-box">
                                 <SvgIcon icon="benefit1"></SvgIcon>
                             </div>
-                            <div class="cook-info-benefits-box longbox">
-                                <SvgIcon icon="star"></SvgIcon>
-                                <span>4.3</span>
-                            </div>
+                            <UserRating :rating="itemData.user.rating"></UserRating>
                         </div>
                     </div>
                 </div>
@@ -71,10 +68,11 @@
 <script>
 import SvgIcon from './SvgIcon';
 import helpers from '../helpers';
+import UserRating from './UserRating';
 export default {
     name: "MapInfoWindow",
     props: ['itemData'],
-    components: {SvgIcon},
+    components: {SvgIcon, UserRating},
     methods: {
         redirectToOffer () {
             if (!this.itemData || !this.itemData.id) return;

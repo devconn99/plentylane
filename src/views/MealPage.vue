@@ -34,10 +34,7 @@
                                         <div class="cook-info-benefits-box">
                                             <SvgIcon icon="benefit1"></SvgIcon>
                                         </div>
-                                        <div class="cook-info-benefits-box longbox">
-                                            <SvgIcon icon="star"></SvgIcon>
-                                            <span>4.3</span>
-                                        </div>
+                                        <UserRating :rating="mealInfo.user.rating"></UserRating>
                                     </div>
                                 </div>
                             </div>
@@ -135,9 +132,10 @@ import helpers from "../helpers";
 import HeroWave from '../components/HeroWave';
 import SvgIcon from '../components/SvgIcon';
 import AskQuestionAboutMeal from '../components/modals/AskQuestionAboutMeal';
+import UserRating from '../components/UserRating';
 export default {
     name: "MealPage",
-    components: {HeroWave, SvgIcon, AskQuestionAboutMeal},
+    components: {HeroWave, SvgIcon, AskQuestionAboutMeal, UserRating},
     data: () => ({
         isLoaded: false,
         mealId: '',

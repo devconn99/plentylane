@@ -67,10 +67,7 @@
                                 <div class="cook-info-benefits-box">
                                     <SvgIcon icon="benefit1"></SvgIcon>
                                 </div>
-                                <div class="cook-info-benefits-box longbox">
-                                    <SvgIcon icon="star"></SvgIcon>
-                                    <span>4.3</span>
-                                </div>
+                                <UserRating :rating="bookingInfo.cook.rating"></UserRating>
                             </div>
                         </div>
                     </div>
@@ -138,9 +135,10 @@
 <script>
 import SvgIcon from './SvgIcon';
 import helpers from '../helpers';
+import UserRating from './UserRating';
 export default {
     name: "BookingInfoBlock",
-    components: {SvgIcon},
+    components: {SvgIcon, UserRating},
     props: ['isSmall', 'bookingInfo', 'showActionMenu', 'actions'],
     computed: {
         readyTimeStr: function () {

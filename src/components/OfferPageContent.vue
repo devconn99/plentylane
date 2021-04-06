@@ -34,10 +34,7 @@
                                         <div class="cook-info-benefits-box">
                                             <SvgIcon icon="benefit1"></SvgIcon>
                                         </div>
-                                        <div class="cook-info-benefits-box longbox">
-                                            <SvgIcon icon="star"></SvgIcon>
-                                            <span>4.3</span>
-                                        </div>
+                                        <UserRating :rating="offerInfo.user.rating"></UserRating>
                                     </div>
                                 </div>
                             </div>
@@ -72,6 +69,23 @@
                             >
                                 <span>Cancel reservation</span>
                             </b-btn>
+                        </div>
+
+                        <div v-if="reservationId && !hiddenButtons" class="rating-wrapper mb-4">
+                            <b-form-rating
+                                    inline
+                                    no-border
+                                    v-model="bookingRatingValue"
+                                    :disabled="isUpdatingRating"
+                                    @change="onBookingRatingChange"
+                            >
+                                <template slot="icon-full">
+                                    <SvgIcon icon="ratingStarFull"></SvgIcon>
+                                </template>
+                                <template slot="icon-empty">
+                                    <SvgIcon icon="ratingStarEmpty"></SvgIcon>
+                                </template>
+                            </b-form-rating>
                         </div>
 
                         <div class="cook-box">
@@ -215,7 +229,11 @@
         </div>
 
         <!-- Modals -->
-        <ReserveMealModal :offer-info="{ ...this.offerInfo }" @onReserved="onReserved"></ReserveMealModal>
+        <ReserveMealModal
+                :offer-info="{ ...this.offerInfo }"
+                @onReserved="onReserved"
+                @onModalHidden="onReserveMealModalHidden"
+        ></ReserveMealModal>
         <ContactCookModal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id"></ContactCookModal>
         <ConfirmModal :id="modalId" :message="confirmCancelReservationMsg" @confirmed="onConfirmedCancelReservation"></ConfirmModal>
         <AskQuestionAboutMeal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id"></AskQuestionAboutMeal>
@@ -241,15 +259,16 @@ import AskQuestionAboutMeal from './modals/AskQuestionAboutMeal';
 import AnswerQuestionModal from '../components/modals/AnswerQuestionModal';
 import Loading from 'vue-loading-overlay';
 import config from "../config";
+import UserRating from '../components/UserRating';
 export default {
     name: "OfferPageContent",
     components: {
         ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock, SvgIcon, ConfirmModal,
-        AskQuestionAboutMeal, AnswerQuestionModal, Loading
+        AskQuestionAboutMeal, AnswerQuestionModal, Loading, UserRating
     },
     props: [
         'offerInfo', 'hiddenButtons', 'isMealReservedOnInit', 'bookingId', 'bookedServingsNum',
-        'shouldAllowAskQuestion', 'isMyOffer', 'shouldLoadMoreOffers'
+        'shouldAllowAskQuestion', 'isMyOffer', 'shouldLoadMoreOffers', 'bookingRating'
     ],
     data: () => ({
         wasReserved: false,
@@ -262,7 +281,10 @@ export default {
         moreOffersFromSameCook: [],
         isLoadingMoreOffers: false,
         loaderOptions: { ...config.LOADER_OPTIONS },
-        isLoadingMealQuestions: false
+        isLoadingMealQuestions: false,
+        isUpdatingRating: false,
+        bookingRatingValue: 0,
+        shouldRedirectToBookingPage: false
     }),
     methods: {
         showReserveMealModal () {
@@ -274,9 +296,21 @@ export default {
         onReserved (id, numOfServings) {
             this.wasReserved = true;
             this.reservationId = id;
+            this.bookingRatingValue = 0;
             this.numberOfServingsReserved = numOfServings;
             if (this.offerInfo['availableQuantity']) {
                 this.offerInfo['availableQuantity'] -= this.numberOfServingsReserved;
+            }
+            if (!this.bookingId || !this.$route.path.includes('/booking/')) return;
+            if (Number(this.bookingId) !== Number(this.reservationId)) {
+                console.log('should redirect to new booking page later');
+                this.shouldRedirectToBookingPage = true;
+            }
+        },
+        onReserveMealModalHidden () {
+            if (!this.reservationId || !this.$route.path.includes('/booking/')) return;
+            if (this.shouldRedirectToBookingPage) {
+                this.$router.push({ path: `/dashboard/booking/${this.reservationId}` }).catch(() => {});
             }
         },
         openConfirmCancelReservation () {
@@ -289,6 +323,7 @@ export default {
                     this.wasReserved = false;
                     this.reservationId = '';
                     this.numberOfServingsReserved = 0;
+                    this.bookingRatingValue = 0;
                 })
                 .catch(err => {
                     console.log('\n >> err cancel reservation:', err);
@@ -351,6 +386,18 @@ export default {
                     console.log('\n >> err load meal questions > ', err);
                     this.isLoadingMealQuestions = false;
                 });
+        },
+        onBookingRatingChange (e) {
+            if (!this.reservationId) return;
+            this.isUpdatingRating = true;
+            api.dashboard.bookings.changeRating(this.reservationId, e)
+                .then(result => {
+                    this.isUpdatingRating = false;
+                })
+                .catch(err => {
+                    console.log('Failed to update rating: ', err);
+                    this.isUpdatingRating = false;
+                });
         }
     },
     computed: {
@@ -368,6 +415,9 @@ export default {
         }
         if (this.bookingId) {
             this.reservationId = this.bookingId;
+            if (this.bookingRating) {
+                this.bookingRatingValue = this.bookingRating;
+            }
         }
         if (this.bookedServingsNum) {
             this.numberOfServingsReserved = this.bookedServingsNum;
@@ -405,6 +455,24 @@ export default {
     &.is-loading {
         min-height: 200px;
         width: 100%;
+    }
+}
+.rating-wrapper {
+    .b-rating {
+        height: 100%;
+        background-color: $mainBackgroundColor;
+        padding: 0;
+        width: 100%;
+
+        .b-rating-star {
+            color: #131311;
+            &:first-of-type {
+                padding-left: 0;
+            }
+            &.b-rating-star-empty {
+                color: #B7B2A1;
+            }
+        }
     }
 }
 </style>

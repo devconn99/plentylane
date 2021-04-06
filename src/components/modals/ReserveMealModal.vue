@@ -132,6 +132,7 @@ export default {
             this.$v.$reset();
             this.form.notes = null;
             this.form.servings = null;
+            this.$emit('onModalHidden');
         },
         onSubmit () {
             this.$v.form.$touch();

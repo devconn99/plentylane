@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" v-if="offers && offers.length">
                 <div class="col-12">
                     <div class="dashboard-title-box mb-3">
                         <div class="title-additional mb-1">Hungry?</div>

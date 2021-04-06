@@ -79,10 +79,7 @@
                                     <div class="cook-info-benefits-box">
                                         <SvgIcon icon="benefit1"></SvgIcon>
                                     </div>
-                                    <div class="cook-info-benefits-box longbox">
-                                        <SvgIcon icon="star"></SvgIcon>
-                                        <span>4.3</span>
-                                    </div>
+                                    <UserRating :rating="offerInfo.user.rating"></UserRating>
                                 </a>
                             </router-link>
                         </div>
@@ -109,10 +106,7 @@
                                 <div class="cook-info-benefits-box">
                                     <SvgIcon icon="benefit1"></SvgIcon>
                                 </div>
-                                <div class="cook-info-benefits-box longbox">
-                                    <SvgIcon icon="star"></SvgIcon>
-                                    <span>4.3</span>
-                                </div>
+                                <UserRating :rating="rating || offerInfo.user.rating"></UserRating>
                             </div>
                         </div>
                     </template>
@@ -134,10 +128,14 @@
 <script>
 import helpers from '../helpers';
 import SvgIcon from './SvgIcon';
+import UserRating from './UserRating';
 export default {
     name: "OfferInfoBlock",
-    props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer', 'hiddenUserBlock'],
-    components: {SvgIcon},
+    props: [
+        'offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer',
+        'hiddenUserBlock', 'rating'
+    ],
+    components: {SvgIcon, UserRating},
     computed: {
         readyTimeStr: function () {
             return helpers.parseDate(this.offerInfo.pickupTime, true);

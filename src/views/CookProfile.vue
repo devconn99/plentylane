@@ -31,10 +31,7 @@
                                         <div class="cook-info-benefits-box">
                                             <SvgIcon icon="benefit1"></SvgIcon>
                                         </div>
-                                        <div class="cook-info-benefits-box longbox">
-                                            <SvgIcon icon="star"></SvgIcon>
-                                            <span>4.3</span>
-                                        </div>
+                                        <UserRating :rating="cookInfo.rating"></UserRating>
                                     </div>
                                 </div>
                                 <!-- should be hidden at the moment -->
@@ -95,7 +92,11 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-xl-4 mb-4" v-for="item in offers">
-                            <OfferInfoBlock :offer-info="item" :avoid-redirect-to-cook-profile="true"></OfferInfoBlock>
+                            <OfferInfoBlock
+                                    :rating="cookInfo.rating"
+                                    :offer-info="item"
+                                    :avoid-redirect-to-cook-profile="true"
+                            ></OfferInfoBlock>
                         </div>
                     </div>
 
@@ -114,6 +115,8 @@
                     </div>
                 </template>
 
+                <!-- Reviews sections should be hidden -->
+                <!--
                 <div class="row" v-if="reviewsPage.loaded">
                     <template v-if="reviews && reviews.length">
                         <div class="col-12">
@@ -181,9 +184,8 @@
                         </div>
                     </template>
                 </div>
+                -->
             </div>
-
-            <!-- TODO: add review section when endpoint is ready -->
         </div>
 
         <!-- modals -->
@@ -201,9 +203,10 @@ import Loading from 'vue-loading-overlay';
 import OfferInfoBlock from '../components/OfferInfoBlock';
 import config from "../config";
 import ConfirmModal from '../components/modals/ConfirmModal';
+import UserRating from '../components/UserRating';
 export default {
     name: "CookProfile",
-    components: {SvgIcon, ContactCookModal, Loading, OfferInfoBlock, ConfirmModal},
+    components: {SvgIcon, ContactCookModal, Loading, OfferInfoBlock, ConfirmModal, UserRating},
     data: () => ({
         isLoaded: false,
         cookId: '',
@@ -315,11 +318,9 @@ export default {
                 return;
             }
             this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
-            // TODO: load reviews (api is not ready?)
             const requests = [
                 api.dashboard.users.getUserInfo(this.cookId),
-                api.dashboard.offers.getAvailableOffersFromUser(this.cookId),
-                api.dashboard.users.getReviews(this.cookId)
+                api.dashboard.offers.getAvailableOffersFromUser(this.cookId)
             ];
             if (!this.isCurrentUserCookPage()) {
                 requests.push(api.dashboard.follows.getUserConnection(this.cookId));
@@ -341,17 +342,6 @@ export default {
                                 this.totalOffers = _offers.total;
                                 break;
                             case 2:
-                                // reviews
-                                // TODO: temp values
-                                const dataPage = { ...data };
-                                this.reviewsPage.total = dataPage.total;
-                                this.reviewsPage.page = dataPage.page;
-                                this.reviewsPage.pageCount = dataPage.pageCount;
-                                this.reviewsPage.isLastPage = dataPage.isLastPage;
-                                this.reviews = this.reviews.concat(dataPage.data);
-                                this.reviewsPage.loaded = true;
-                                break;
-                            case 3:
                                 // user connection
                                 const { isFriend = false, isFavorite = false } = data;
                                 this.$nextTick(() => {

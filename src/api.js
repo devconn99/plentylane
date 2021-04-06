@@ -692,6 +692,16 @@ export default {
                     .catch((err) => {
                         return checkErr(err.response)
                     })
+            },
+            changeRating (id, rating) {
+                const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine/${id}/rate`;
+                return axios.patch(endpoint, { rating: Number(rating) })
+                    .then((res) => {
+                        return Promise.resolve(res.data || {});
+                    })
+                    .catch((err) => {
+                        return checkErr(err.response);
+                    });
             }
         },
         users: {
@@ -727,6 +737,7 @@ export default {
                         return checkErr(err.response);
                     })
             },
+            // temp method
             getReviews (userId) {
                 // temp
                 const _reviews = [

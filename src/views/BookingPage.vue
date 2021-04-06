@@ -4,6 +4,7 @@
             <OfferPageContent
                     :offer-info="offerInfo"
                     :booking-id="bookingInfo.id"
+                    :booking-rating="bookingInfo.rating"
                     :is-meal-reserved-on-init="true"
                     :booked-servings-num="bookingInfo.servings"
                     :should-load-more-offers="true"
