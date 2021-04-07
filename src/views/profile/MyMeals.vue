@@ -95,8 +95,11 @@
                                         :booking-info="item"
                                         :actions="dineActions"
                                         :show-action-menu="true"
+                                        :should-allow-rate="shouldShowRatingForm(item)"
+                                        :rating-value="item.rating"
                                         @on-action-view="onActionView"
                                         @on-action-cancel="onActionCancel"
+                                        @on-rating-changed="onBookingRatingChanged($event, item.id)"
                                 ></BookingInfoBlock>
                             </div>
                             <b-btn
@@ -272,7 +275,8 @@ export default {
         },
         loadReservations () {
             this.isLoadingReservations = true;
-            api.dashboard.bookings.getMyDines(this.dinesPagination.page)
+            // need to include all bookings, even in past (first argument of `getMyDines` should be false)
+            api.dashboard.bookings.getMyDines(false, this.dinesPagination.page)
                 .then(result => {
                     if (result && result.data && result.data.length) {
                         this.reservations = this.reservations.concat(result.data);
@@ -451,6 +455,27 @@ export default {
         getMealImageThumbnail (item) {
             if (!this.hasMealImage(item)) return '';
             return item.images[0].thumbnail || '';
+        },
+        shouldShowRatingForm (booking) {
+            if (!booking || !booking.id) return false;
+            if (!booking.offer || !booking.offer.pickupTime) return false;
+            return new Date(booking.offer.pickupTime).getTime() < new Date().getTime();
+        },
+        onBookingRatingChanged (ratingValue, bookingId) {
+            api.dashboard.bookings.changeRating(bookingId, ratingValue)
+                .then(result => {
+                    this.$eventHub.$emit('booking-rating-saved', bookingId);
+                    if (result && result.cook && result.cook.id) {
+                        this.$eventHub.$emit('booking-need-to-update-cook-rating', {
+                            cookId: result.cook.id,
+                            rating: result.cook.rating
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log('\nFailed to update rating, error: ', err);
+                    this.$eventHub.$emit('booking-rating-failed-saving', bookingId);
+                });
         }
     }
 }

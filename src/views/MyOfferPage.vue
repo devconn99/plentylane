@@ -5,6 +5,7 @@
                 :should-load-more-offers="false"
                 :hidden-buttons="true"
                 :is-my-offer="true"
+                :cook-rating="currentUser.rating"
         ></OfferPageContent>
     </div>
 </template>

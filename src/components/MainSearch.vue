@@ -249,6 +249,13 @@ export default {
                     condition: '$gte',
                     value: form['availableServings']
                 })
+            } else {
+                query.push({
+                    type: defaultType,
+                    field: `${fieldPrefix}availableQuantity`,
+                    condition: '$gte',
+                    value: 1
+                })
             }
             if (form['dietaryNotes'] && form['dietaryNotes'].length) {
                 query.push({

@@ -106,7 +106,7 @@
                                 <div class="cook-info-benefits-box">
                                     <SvgIcon icon="benefit1"></SvgIcon>
                                 </div>
-                                <UserRating :rating="rating || offerInfo.user.rating"></UserRating>
+                                <UserRating :rating="offerInfo.user.rating"></UserRating>
                             </div>
                         </div>
                     </template>
@@ -131,10 +131,7 @@ import SvgIcon from './SvgIcon';
 import UserRating from './UserRating';
 export default {
     name: "OfferInfoBlock",
-    props: [
-        'offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer',
-        'hiddenUserBlock', 'rating'
-    ],
+    props: ['offerInfo', 'avoidRedirectToCookProfile', 'showActionMenu', 'actions', 'isMyOffer', 'hiddenUserBlock'],
     components: {SvgIcon, UserRating},
     computed: {
         readyTimeStr: function () {

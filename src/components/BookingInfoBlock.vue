@@ -27,6 +27,22 @@
                             <!--<div class="reserved-time title-size3 titleGreenLightColor">222h</div>-->
                         </div>
                         <div class="serving-number mt-1" v-html="numOfServingsHtml"></div>
+                        <div class="rating-wrapper mt-2" v-if="shouldAllowRate">
+                            <b-form-rating
+                                    inline
+                                    no-border
+                                    v-model="rating"
+                                    :disabled="isSavingRating"
+                                    @change="onChangeRating"
+                            >
+                                <template slot="icon-full">
+                                    <SvgIcon icon="ratingStarFull"></SvgIcon>
+                                </template>
+                                <template slot="icon-empty">
+                                    <SvgIcon icon="ratingStarEmpty"></SvgIcon>
+                                </template>
+                            </b-form-rating>
+                        </div>
                     </div>
                     <div class="reserved-action-wrapper" v-if="showActionMenu && actions && actions.length">
                         <b-dropdown
@@ -139,7 +155,11 @@ import UserRating from './UserRating';
 export default {
     name: "BookingInfoBlock",
     components: {SvgIcon, UserRating},
-    props: ['isSmall', 'bookingInfo', 'showActionMenu', 'actions'],
+    props: ['isSmall', 'bookingInfo', 'showActionMenu', 'actions', 'shouldAllowRate', 'ratingValue'],
+    data: () => ({
+        rating: 0,
+        isSavingRating: false
+    }),
     computed: {
         readyTimeStr: function () {
             return `Ready at ${helpers.parseDate(this.bookingInfo.offer.pickupTime, true)}`;
@@ -154,6 +174,14 @@ export default {
             }
             return `<span>${num}</span> serving${num === 1 ? '' : 's'}`;
         }
+    },
+    created () {
+        if (this.ratingValue) {
+            this.rating = this.ratingValue;
+        }
+        this.$eventHub.$on('booking-rating-saved', bookingId => this.enableRatingForm(bookingId));
+        this.$eventHub.$on('booking-rating-failed-saving', bookingId => this.enableRatingForm(bookingId));
+        this.$eventHub.$on('booking-need-to-update-cook-rating', eventData => this.updateCookRating(eventData));
     },
     methods: {
         redirectToCookProfile () {
@@ -188,7 +216,31 @@ export default {
             const images = this.bookingInfo.offer.meal.images;
             if (!images || !images.length) return '';
             return images[0].thumbnail || '';
+        },
+        onChangeRating (val) {
+            this.isSavingRating = true;
+            this.$emit('on-rating-changed', val);
+        },
+        enableRatingForm (bookingId) {
+            if (!this.shouldAllowRate) return;
+            if (bookingId !== this.bookingInfo.id) return;
+            this.isSavingRating = false;
+        },
+        updateCookRating (eventData) {
+            if (!this.bookingInfo || !this.bookingInfo.id || !this.bookingInfo.cook) return;
+            const { cookId, rating } = eventData;
+            if (Number(this.bookingInfo.cook.id) !== Number(cookId)) return;
+            if (Number(this.bookingInfo.cook.rating) !== Number(rating)) {
+                this.$nextTick(() => {
+                    this.bookingInfo.cook.rating = rating;
+                });
+            }
         }
+    },
+    beforeDestroy () {
+        this.$eventHub.$off('booking-rating-saved');
+        this.$eventHub.$off('booking-rating-failed-saving');
+        this.$eventHub.$off('booking-need-to-update-cook-rating');
     }
 }
 </script>
@@ -211,6 +263,23 @@ export default {
         }
         .cook-info-part {
             flex-wrap: wrap;
+        }
+    }
+}
+.rating-wrapper {
+    .b-rating {
+        height: 100%;
+        background-color: #FFFFFF;
+        padding: 0;
+
+        .b-rating-star {
+            color: #131311;
+            &:first-of-type {
+                padding-left: 0;
+            }
+            &.b-rating-star-empty {
+                color: #B7B2A1;
+            }
         }
     }
 }

@@ -494,7 +494,7 @@ export default {
                 return `
                     <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                         <g fill="none" fill-rule="evenodd">
-                            <path fill="#FEF8E6" d="M590-1261H-450V930H590z"/>
+                            <path fill="transparent" d="M590-1261H-450V930H590z"/>
                             <g transform="translate(-66)" filter="">
                                 <path
                                     d="M80.994 5.714a.958.958 0 00-.894-.639h-3.868a.318.318 0 01-.3-.218L74.545.817a.954.954 0 00-.893-.636.954.954 0 00-.892.636l-.004.01-1.385 4.03a.318.318 0 01-.299.218h-3.87a.955.955 0 00-.896.644.996.996 0 00.285 1.086l3.294 2.805c.1.086.14.227.099.354l-1.384 4.261a.994.994 0 00.342 1.1c.336.252.79.251 1.125 0l3.397-2.558a.311.311 0 01.376 0l3.396 2.556a.933.933 0 001.125.003.994.994 0 00.344-1.1L77.32 9.961a.332.332 0 01.098-.355l3.3-2.809a.996.996 0 00.276-1.084z"
@@ -506,11 +506,10 @@ export default {
                 `
             },
             ratingStarEmpty: function () {
-                // TODO: ask designers to prepare correct icon
                 return `
                     <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                         <g fill="none" fill-rule="evenodd">
-                            <path fill="#FEF8E6" d="M590-1261H-450V930H590z"/>
+                            <path fill="transparent" d="M590-1261H-450V930H590z"/>
                             <g transform="translate(-66)" filter="">
                                 <path
                                     d="M80.994 5.714a.958.958 0 00-.894-.639h-3.868a.318.318 0 01-.3-.218L74.545.817a.954.954 0 00-.893-.636.954.954 0 00-.892.636l-.004.01-1.385 4.03a.318.318 0 01-.299.218h-3.87a.955.955 0 00-.896.644.996.996 0 00.285 1.086l3.294 2.805c.1.086.14.227.099.354l-1.384 4.261a.994.994 0 00.342 1.1c.336.252.79.251 1.125 0l3.397-2.558a.311.311 0 01.376 0l3.396 2.556a.933.933 0 001.125.003.994.994 0 00.344-1.1L77.32 9.961a.332.332 0 01.098-.355l3.3-2.809a.996.996 0 00.276-1.084z"
@@ -522,6 +521,7 @@ export default {
                 `
             },
             ratingStarHalf: function () {
+                // TODO: ask designers to prepare correct icon if half-star icon should be shown
                 return `
                     <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32">
                         <g>

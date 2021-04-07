@@ -92,11 +92,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-xl-4 mb-4" v-for="item in offers">
-                            <OfferInfoBlock
-                                    :rating="cookInfo.rating"
-                                    :offer-info="item"
-                                    :avoid-redirect-to-cook-profile="true"
-                            ></OfferInfoBlock>
+                            <OfferInfoBlock :offer-info="item" :avoid-redirect-to-cook-profile="true"></OfferInfoBlock>
                         </div>
                     </div>
 
@@ -332,6 +328,10 @@ export default {
                             case 0:
                                 // cook info
                                 this.cookInfo = { ...data };
+                                if (this.isCurrentUserCookPage()) {
+                                    // update current user info in $store
+                                    this.$store.commit('userInfo', { ...data });
+                                }
                                 break;
                             case 1:
                                 // offers
