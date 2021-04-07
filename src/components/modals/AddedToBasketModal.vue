@@ -22,7 +22,7 @@
         </div>
         <template slot="modal-footer">
             <b-btn class="btnGreenTransparent btnNormalSize hover-slide-left" @click="redirectTo('basket')">
-                <span>View you basket</span>
+                <span>View your basket</span>
             </b-btn>
             <b-btn class="btnGreen btnNormalSize hover-slide-left" @click="redirectTo('checkout')">
                 <span>Checkout</span>

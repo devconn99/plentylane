@@ -153,7 +153,7 @@ export default {
     },
     convertCurrency (value) {
         if (isNaN(value)) return '$0.00';
-        const val = (value/1).toFixed(2).replace('.', ',');
+        const val = (value/1).toFixed(2);
         return `$${val.toString().replace(/B(?=(d{3})+(?!d))/g, ".")}`;
     },
     convertQuestionsDataResponse (responseData, sorting) {
