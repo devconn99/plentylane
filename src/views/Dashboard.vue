@@ -126,9 +126,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <router-link :to="{ path: '/dashboard/help' }" :exact-active-class="'active'">
+                                    <router-link :to="{ path: '/dashboard/contact-us' }" :exact-active-class="'active'">
                                         <SvgIcon icon="help"></SvgIcon>
-                                        <span>Help</span>
+                                        <span>Contact Us</span>
                                     </router-link>
                                 </li>
                             </ul>

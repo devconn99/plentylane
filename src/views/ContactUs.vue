@@ -1,10 +1,10 @@
 <template>
-    <p>Help page goes here...</p>
+    <p>Contact Us page goes here...</p>
 </template>
 
 <script>
 export default {
-    name: "Help"
+    name: "ContactUs"
 }
 </script>
 

@@ -280,11 +280,11 @@ const routes = [
                 }
             },
             {
-                path: "help",
-                name: "Help",
-                component: () => import("../views/Help.vue"),
+                path: "contact-us",
+                name: "Contact Us",
+                component: () => import("../views/ContactUs.vue"),
                 meta: {
-                    title: `${TITLE} - Help`,
+                    title: `${TITLE} - Contact Us`,
                     noLoader: true // possibly temp
                 }
             },
