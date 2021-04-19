@@ -57,10 +57,6 @@ export default {
                 path: '/dashboard/profile/my-questions'
             },
             {
-                title: 'Certifications',
-                path: '/dashboard/profile/certifications'
-            },
-            {
                 title: 'Tokens',
                 path: '/dashboard/profile/tokens'
             },

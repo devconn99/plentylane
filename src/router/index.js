@@ -142,15 +142,6 @@ const routes = [
                         }
                     },
                     {
-                        path: 'certifications',
-                        name: 'Certifications',
-                        component: () => import("../views/profile/Certifications.vue"),
-                        meta: {
-                            title: `${TITLE} - Certifications`,
-                            noLoader: true
-                        }
-                    },
-                    {
                         path: 'tokens',
                         name: 'Tokens',
                         component: () => import("../views/profile/Tokens.vue"),
