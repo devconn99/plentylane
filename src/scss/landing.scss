@@ -391,6 +391,7 @@ ul.nav-menu-landing {
 		a {
 			position: relative;
 			display: block;
+			padding-right: 35px;
 			&:hover, &:active, &:focus {
 				color: $greenNavyColor;
 			}
