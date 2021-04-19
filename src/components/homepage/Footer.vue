@@ -21,6 +21,12 @@
                                     <li>
                                         <router-link to="/food-safety">Food Safety</router-link>
                                     </li>
+                                    <li>
+                                        <router-link to="/terms">Terms</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="/privacy">Privacy</router-link>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>

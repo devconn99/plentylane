@@ -96,8 +96,8 @@
                         <div class="authorization-box-info">
                             <p>
                                 By signing up you agree to our
-                                <a href="https://www.plentylane.com/" target="_blank">Privacy</a> and
-                                <a href="https://www.plentylane.com/" target="_blank">Terms policies</a>.
+                                <router-link to="/privacy">Privacy</router-link> and
+                                <router-link to="/terms">Terms</router-link> policies.
                             <p>
                                 Already have an account?
                                 <router-link to="/login">Login here</router-link>

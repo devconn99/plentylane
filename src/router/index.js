@@ -44,6 +44,18 @@ const routes = [
         meta: { title: `${TITLE} - Food safety`, hideLoaderWithDelay: true }
     },
     {
+        path: "/privacy",
+        name: "Privacy",
+        component: () => import("../views/Privacy.vue"),
+        meta: { title: `${TITLE} - Privacy`, hideLoaderWithDelay: true }
+    },
+    {
+        path: "/terms",
+        name: "Terms",
+        component: () => import("../views/Terms.vue"),
+        meta: { title: `${TITLE} - Terms`, hideLoaderWithDelay: true }
+    },
+    {
         path: "/login",
         name: "Login",
         component: () => import("../views/Login.vue"),
