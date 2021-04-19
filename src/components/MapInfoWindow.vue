@@ -37,6 +37,8 @@
                     <div class="cook-info-part">
                         <div class="cook-info-name cursor-pointer pr-2" @click="redirectToCookProfile">{{userName}}</div>
                         <div class="cook-info-benefits cursor-pointer" @click="redirectToCookProfile">
+                            <!-- hardcoded symbols should be hidden -->
+                            <!--
                             <div class="cook-info-benefits-box">
                                 <SvgIcon icon="benefit3"></SvgIcon>
                             </div>
@@ -46,6 +48,7 @@
                             <div class="cook-info-benefits-box">
                                 <SvgIcon icon="benefit1"></SvgIcon>
                             </div>
+                            -->
                             <UserRating :rating="itemData.user.rating"></UserRating>
                         </div>
                     </div>

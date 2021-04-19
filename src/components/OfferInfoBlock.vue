@@ -70,6 +70,8 @@
 
                             <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
                                 <a :href="href" class="cook-info-benefits mt-1">
+                                    <!-- hardcoded symbols should be hidden -->
+                                    <!--
                                     <div class="cook-info-benefits-box">
                                         <SvgIcon icon="benefit3"></SvgIcon>
                                     </div>
@@ -79,6 +81,7 @@
                                     <div class="cook-info-benefits-box">
                                         <SvgIcon icon="benefit1"></SvgIcon>
                                     </div>
+                                    -->
                                     <UserRating :rating="offerInfo.user.rating"></UserRating>
                                 </a>
                             </router-link>
@@ -97,6 +100,8 @@
                         <div class="cook-info-part">
                             <div class="cook-info-name mr-2">{{userName}}</div>
                             <div class="cook-info-benefits mt-1">
+                                <!-- hardcoded symbols should be hidden -->
+                                <!--
                                 <div class="cook-info-benefits-box">
                                     <SvgIcon icon="benefit3"></SvgIcon>
                                 </div>
@@ -106,6 +111,7 @@
                                 <div class="cook-info-benefits-box">
                                     <SvgIcon icon="benefit1"></SvgIcon>
                                 </div>
+                                -->
                                 <UserRating :rating="offerInfo.user.rating"></UserRating>
                             </div>
                         </div>

@@ -25,6 +25,8 @@
                                 <div class="cook-info-part">
                                     <div class="cook-info-name titleLightColor mr-2">{{userName}}</div>
                                     <div class="cook-info-benefits">
+                                        <!-- hardcoded symbols should be hidden -->
+                                        <!--
                                         <div class="cook-info-benefits-box">
                                             <SvgIcon icon="benefit3"></SvgIcon>
                                         </div>
@@ -34,6 +36,7 @@
                                         <div class="cook-info-benefits-box">
                                             <SvgIcon icon="benefit1"></SvgIcon>
                                         </div>
+                                        -->
                                         <UserRating :rating="mealInfo.user.rating"></UserRating>
                                     </div>
                                 </div>
