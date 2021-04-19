@@ -123,15 +123,7 @@
                 </div>
             </section>
 
-            <section class="promo lightGreen-bg pad-40">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <img src="../assets/images/landing/plenty-to-share.svg" alt="" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <PromoLogo></PromoLogo>
         </main>
 
         <Footer></Footer>
@@ -145,9 +137,11 @@ import Footer from "../components/homepage/Footer";
 import Header from "../components/homepage/Header";
 import BackToTop from '../components/BackToTop';
 import HeroWave from '../components/HeroWave';
+import PromoLogo from '../components/homepage/PromoLogo';
+
 export default {
     name: "Pricing",
-    components: {Footer, Header, BackToTop, HeroWave},
+    components: {Footer, Header, BackToTop, HeroWave, PromoLogo},
     mounted () {
         window.scrollTo(0, 0); // temp
         this.$eventHub.$emit('mobile-side-nav-closed');

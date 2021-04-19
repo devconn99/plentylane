@@ -810,6 +810,8 @@
                     </div>
                 </div>
             </section>
+
+            <PromoLogo></PromoLogo>
         </main>
 
         <Footer></Footer>
@@ -823,10 +825,11 @@ import Footer from '../components/homepage/Footer';
 import Header from '../components/homepage/Header';
 import BackToTop from '../components/BackToTop';
 import HeroWave from '../components/HeroWave';
+import PromoLogo from '../components/homepage/PromoLogo';
 
 export default {
     name: "Terms",
-    components: {Footer, Header, BackToTop, HeroWave},
+    components: {Footer, Header, BackToTop, HeroWave, PromoLogo},
 }
 </script>
 

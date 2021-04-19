@@ -305,24 +305,6 @@ ul.nav-menu-landing {
 }
 
 /********************
-*   CTA BLOCK STYLES *
-********************/
-
-.promo {
-	img {
-		@media screen and (min-width: $tableWidth + 1) {
-			max-width: 320px;
-		}
-		@media screen and (max-width: $tableWidth) {
-			max-width: 280px;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
-			max-width: 190px;
-		}
-	}
-}
-
-/********************
 *   PRICING STYLES *
 ********************/
 
