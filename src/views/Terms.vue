@@ -829,7 +829,7 @@ import PromoLogo from '../components/homepage/PromoLogo';
 
 export default {
     name: "Terms",
-    components: {Footer, Header, BackToTop, HeroWave, PromoLogo},
+    components: {Footer, Header, BackToTop, HeroWave, PromoLogo}
 }
 </script>
 
