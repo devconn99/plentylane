@@ -151,11 +151,11 @@ const routes = [
                         }
                     },
                     {
-                        path: 'credits',
-                        name: 'Credits',
-                        component: () => import("../views/profile/Credits.vue"),
+                        path: 'tokens',
+                        name: 'Tokens',
+                        component: () => import("../views/profile/Tokens.vue"),
                         meta: {
-                            title: `${TITLE} - Credits`,
+                            title: `${TITLE} - Tokens`,
                             noLoader: true
                         }
                     },

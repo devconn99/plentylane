@@ -7,11 +7,11 @@
                         <SvgIcon icon="arrowLeft"></SvgIcon>
                     </div>
                 </div>
-                <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">Credits</div>
+                <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">Tokens</div>
             </div>
 
             <!-- temp -->
-            <p>Credits page content goes here...</p>
+            <p>Tokens page content goes here...</p>
         </div>
     </div>
 </template>
@@ -19,7 +19,7 @@
 <script>
 import SvgIcon from '../../components/SvgIcon';
 export default {
-    name: "Credits",
+    name: "Tokens",
     components: {SvgIcon},
     methods: {
         showMobileAside () {

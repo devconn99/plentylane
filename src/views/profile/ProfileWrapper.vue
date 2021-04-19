@@ -61,8 +61,8 @@ export default {
                 path: '/dashboard/profile/certifications'
             },
             {
-                title: 'Credits',
-                path: '/dashboard/profile/credits'
+                title: 'Tokens',
+                path: '/dashboard/profile/tokens'
             },
             {
                 title: 'Orders',
