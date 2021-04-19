@@ -117,28 +117,10 @@ const checkErr = (errResponse) => {
 // temp data
 const TEMP_SHOP_ITEMS = [
     {
-        title: 'Medium Container',
-        price: 10,
-        currency: '$',
-        id: 1
-    },
-    {
-        title: 'Assorted pack',
-        price: 20,
-        currency: '$',
-        id: 2
-    },
-    {
-        title: 'Container 5pk with long name inside title',
+        title: 'Container 4pk',
         price: 35,
         currency: '$',
-        id: 3
-    },
-    {
-        title: 'Medium Container 2',
-        price: 10,
-        currency: '$',
-        id: 4
+        id: 1
     }
 ];
 

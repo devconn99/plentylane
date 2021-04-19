@@ -12,8 +12,7 @@
                 <div class="col-sm-6 col-xl-4 mb-4" v-for="item in items">
                     <div class="shop-box">
                         <div class="shop-box-img">
-                            <!-- TODO: use correct image for each item -->
-                            <img src="../../assets/images/data/images/dashboard/shop/img-1.svg" alt=""
+                            <img src="../../assets/images/data/images/dashboard/shop/container-4pk.jpg" alt=""
                                  class="img-fluid">
                         </div>
                         <div class="shop-box-info">

@@ -10,7 +10,7 @@
             <div class="title-size3 titleGreenNavyColor mb-4 mb-md-5 text-center">Item added to your basket!</div>
             <div class="shop-box">
                 <div class="shop-box-img">
-                    <img src="../../assets/images/data/images/dashboard/shop/img-1.svg" alt="" class="img-fluid">
+                    <img src="../../assets/images/data/images/dashboard/shop/container-4pk.jpg" alt="" class="img-fluid">
                 </div>
             </div>
         </div>

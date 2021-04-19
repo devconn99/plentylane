@@ -6,7 +6,7 @@
                     <div class="col-7 col-sm-7 col-md-7 col-lg-8 col-xl-8">
                         <div class="shop-order-box">
                             <div class="shop-order-box-image mr-3 mr-md-4">
-                                <img src="../../assets/images/data/images/dashboard/shop/img-1.svg" alt="" class="img-fluid">
+                                <img src="../../assets/images/data/images/dashboard/shop/container-4pk.jpg" alt="" class="img-fluid">
                             </div>
                             <div class="shop-order-box-info">
                                 <div class="shop-order-box-info-title mb-1">{{item.title}}</div>
