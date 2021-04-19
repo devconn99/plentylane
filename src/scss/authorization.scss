@@ -5,6 +5,7 @@
 #authorization-page .header {
 	position: absolute;
 	padding: 30px 0 0 0;
+	background-color: transparent;
 	@media screen and (max-width: $tableWidth) {
 		padding: 15px 0 0;
 	}
