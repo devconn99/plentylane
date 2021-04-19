@@ -41,7 +41,7 @@ export default {
                 path: '/dashboard/profile'
             },
             {
-                title: 'My Meals',
+                title: 'My Dishes',
                 path: '/dashboard/profile/my-meals'
             },
             {

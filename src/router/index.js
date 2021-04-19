@@ -107,10 +107,10 @@ const routes = [
                     },
                     {
                         path: 'my-meals',
-                        name: 'My Meals',
+                        name: 'My Dishes',
                         component: () => import("../views/profile/MyMeals.vue"),
                         meta: {
-                            title: `${TITLE} - My Meals`,
+                            title: `${TITLE} - My Dishes`,
                             noLoader: true
                         }
                     },

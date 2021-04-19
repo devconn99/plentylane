@@ -7,11 +7,11 @@
                         <SvgIcon icon="arrowLeft"></SvgIcon>
                     </div>
                 </div>
-                <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">My Meals</div>
+                <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">My Dishes</div>
             </div>
 
             <b-tabs nav-class="custom-tabs" content-class="mt-4" v-model="activeTabIndex" @input="onTabSwitched">
-                <b-tab title="Meals" :disabled="isLoadingReservations || isLoadingOffers">
+                <b-tab title="Dishes" :disabled="isLoadingReservations || isLoadingOffers">
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingMeals"
@@ -20,7 +20,7 @@
                                 :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <div v-if="mealPagination.loaded">
-                            <p>You have {{mealPagination.total}} meal{{mealPagination.total === 1 ? '' : 's'}}</p>
+                            <p>You have {{mealPagination.total}} dish{{mealPagination.total === 1 ? '' : 'es'}}</p>
                             <div class="my-meal-wrapper" v-if="meals && meals.length">
                                 <div class="my-meal-item p-2 p-xl-3" v-for="item in meals" v-bind:key="item.id">
                                     <div class="my-meal-item-info">
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                 </b-tab>
-                <b-tab title="Offers" :disabled="isLoadingMeals || isLoadingReservations">
+                <b-tab title="Meals" :disabled="isLoadingMeals || isLoadingReservations">
                     <div class="tab-content-wrapper">
                         <loading
                                 :active.sync="isLoadingOffers"
@@ -121,7 +121,7 @@
                                 :background-color="loaderOptions.BACKGROUND_COLOR"
                         ></loading>
                         <div v-if="offersPagination.loaded">
-                            <p>You have {{offersPagination.total}} offer{{offersPagination.total === 1 ? '' : 's'}}</p>
+                            <p>You have {{offersPagination.total}} meal{{offersPagination.total === 1 ? '' : 's'}}</p>
 
                             <div class="row">
                                 <template v-if="offers && offers.length">
