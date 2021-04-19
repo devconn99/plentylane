@@ -744,7 +744,7 @@
                                     or by calling 1-800-778-7879. A party who wishes to start arbitration must submit a
                                     written Demand for Arbitration to AAA and give notice to the other party as
                                     specified in the AAA Rules. The AAA provides a form Demand for Arbitration at
-                                    <a href="https://www.adr.org/aaa/ShowPDF?doc=ADRSTG_004175" target="_blank">www.adr.org</a>.
+                                    <a class="text-underline" href="https://www.adr.org/aaa/ShowPDF?doc=ADRSTG_004175" target="_blank">www.adr.org</a>.
                                     <p class="mt-2">
                                         If your claim is for U.S. $10,000 or less, you may choose whether the
                                         arbitration will be conducted solely on the basis of documents submitted to the
