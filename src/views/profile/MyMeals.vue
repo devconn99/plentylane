@@ -276,7 +276,7 @@ export default {
         loadReservations () {
             this.isLoadingReservations = true;
             // need to include all bookings, even in past (first argument of `getMyDines` should be false)
-            api.dashboard.bookings.getMyDines(false, this.dinesPagination.page)
+            api.dashboard.bookings.getMyDines(false, false, this.dinesPagination.page)
                 .then(result => {
                     if (result && result.data && result.data.length) {
                         this.reservations = this.reservations.concat(result.data);
@@ -385,7 +385,7 @@ export default {
         },
         loadOffers () {
             this.isLoadingOffers = true;
-            api.dashboard.offers.getMyOffers(false, this.offersPagination.page)
+            api.dashboard.offers.getMyOffers(false, false, this.offersPagination.page)
                 .then(result => {
                     if (result && result.data && result.data.length) {
                         this.offers = this.offers.concat(result.data);

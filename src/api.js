@@ -489,13 +489,13 @@ export default {
                         return checkErr(err.response);
                     })
             },
-            getMyOffers (shouldHidePastOffers, page) {
+            getMyOffers (shouldHidePastOffers, isPickupTimeSortingAsc = true, page) {
                 // no need to add join=meal.images
                 let endpoint = `${config.API_ORIGIN}/api/me/offers?join=place&join=meal`;
                 if (shouldHidePastOffers) {
                     endpoint += `&${getDefaultPickupTimeNotInPastFilter()}`;
                 }
-                endpoint += '&sort=pickupTime,ASC';
+                endpoint += `&sort=pickupTime,${isPickupTimeSortingAsc ? 'ASC' : 'DESC'}`;
                 if (page) {
                     endpoint += `&page=${page}`;
                 }
@@ -629,10 +629,10 @@ export default {
                         return checkErr(err.response)
                     })
             },
-            getMyDines (shouldHidePastReservations, page) {
+            getMyDines (shouldHidePastReservations, isPickupTimeSortingAsc = true, page) {
                 // no need to add join=meal.images
                 let endpoint = `${config.API_ORIGIN}/api/me/bookings/dine`;
-                const _sortPickupTimeAsc = 'sort=offer.pickupTime,ASC';
+                const _sortPickupTimeAsc = `sort=offer.pickupTime,${isPickupTimeSortingAsc ? 'ASC' : 'DESC'}`;
                 let _filterAndSortStr = '';
                 if (shouldHidePastReservations) {
                     _filterAndSortStr = `?${getDefaultPickupTimeNotInPastFilter('offer.')}&${_sortPickupTimeAsc}`;
