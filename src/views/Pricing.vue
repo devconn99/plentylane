@@ -114,11 +114,7 @@
                     </div>
                     <div class="row mt-3 mt-lg-5">
                         <div class="col-lg-7 col-md-10 mx-auto text-center">
-                            <p>Additional text here about discounts or other pricing info… Lorem ipsum dolor sit amet,
-                                consectetur adipiscing elit.
-                                Duis sed vehicula massa, vitae semper ante. Proin tincidunt et nunc sed iaculis.
-                                Pellentesque posuere molestie risus, at
-                                tempus orci molestie non. Nulla ut cursus est.</p>
+                            <p>Plan discounts are available if you sign up for a year of Plenty Lane instead of paying monthly.</p>
                         </div>
                     </div>
                 </div>

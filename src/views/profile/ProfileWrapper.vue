@@ -61,10 +61,6 @@ export default {
                 path: '/dashboard/profile/tokens'
             },
             {
-                title: 'Orders',
-                path: '/dashboard/profile/orders'
-            },
-            {
                 title: 'Account',
                 path: '/dashboard/profile/account'
             }

@@ -1018,6 +1018,23 @@ export default {
                         return checkErr(err.response);
                     });
             }
+        },
+        tokens: {
+            getTokens () {
+                // TODO: use real endpoint when it's ready
+                const _tempTokens = {
+                    available: 100,
+                    isDiner: true,
+                    isCook: false,
+                    data: [
+                        { date: '2020-03-01', meal: { id: 1, name: 'Meal 1' }, tokens: 1 },
+                        { date: '2020-03-05', meal: { id: 1, name: 'Meal 2' }, tokens: 2 },
+                        { date: '2020-03-10', meal: { id: 1, name: 'Meal 3' }, tokens: 10 },
+                        { date: '2020-03-21', meal: { id: 1, name: 'Meal 4' }, tokens: 5 }
+                    ]
+                };
+                return Promise.resolve(_tempTokens);
+            }
         }
     }
 }

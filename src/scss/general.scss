@@ -2055,3 +2055,14 @@ body.mobile-menu-box-active .header {
 		}
 	}
 }
+
+/*********************
+*  BOOTSTRAP TABLE    *
+**********************/
+.b-table {
+	&.table-bordered.table-custom-border {
+		tbody tr, tbody tr td, thead tr, thead tr th {
+			border-color: #d1cdbe;
+		}
+	}
+}

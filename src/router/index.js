@@ -151,15 +151,6 @@ const routes = [
                         }
                     },
                     {
-                        path: 'orders',
-                        name: 'Orders',
-                        component: () => import("../views/profile/Orders.vue"),
-                        meta: {
-                            title: `${TITLE} - Orders`,
-                            noLoader: true
-                        }
-                    },
-                    {
                         path: 'account',
                         name: 'Account',
                         component: () => import("../views/profile/Account.vue"),
