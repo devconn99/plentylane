@@ -509,6 +509,10 @@ ul.nav-menu-dashboard-small {
 				padding-top: 4px;
 				margin-left: 22px;
 			}
+			.temp-icon-placeholder {
+				width: 24px;
+				height: 24px;
+			}
 		}
 		&.active {
 			a, a:not([href]):not([class]) {

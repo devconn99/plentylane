@@ -325,6 +325,24 @@ const routes = [
                 }
             },
             {
+                path: "privacy",
+                name: "Privacy Policy",
+                component: () => import("../views/PrivacyPolicyDashboard.vue"),
+                meta: {
+                    title: `${TITLE} - Privacy Policy`,
+                    noLoader: true
+                }
+            },
+            {
+                path: "terms",
+                name: "Terms of Use",
+                component: () => import("../views/TermsOfUseDashboard.vue"),
+                meta: {
+                    title: `${TITLE} - Terms`,
+                    noLoader: true
+                }
+            },
+            {
                 path: 'not-found',
                 name: "NotFound",
                 component: () => import("../views/NotFound.vue"),

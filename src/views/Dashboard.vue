@@ -131,6 +131,18 @@
                                         <span>Contact Us</span>
                                     </router-link>
                                 </li>
+                                <li>
+                                    <router-link :to="{ path: '/dashboard/privacy' }" :exact-active-class="'active'">
+                                        <div class="temp-icon-placeholder"></div>
+                                        <span>Privacy Policy</span>
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{ path: '/dashboard/terms' }" :exact-active-class="'active'">
+                                        <div class="temp-icon-placeholder"></div>
+                                        <span>Terms of Use</span>
+                                    </router-link>
+                                </li>
                             </ul>
                         </nav>
                     </div>
