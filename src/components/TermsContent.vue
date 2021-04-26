@@ -786,7 +786,6 @@
             relating to the Website should be directed to:
             <a class="href-mailto" href="mailto:info@plentylane.com">info@plentylane.com</a>
         </p>
-        <small class="mt-0">1 = 11, 1 = "1"  1) 1 = 1 113329401.v3 113329401.v3</small>
     </div>
 </template>
 
