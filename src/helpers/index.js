@@ -201,5 +201,18 @@ export default {
             question.askedBy['displayName'] = this.userNameWithShortLastName(question.askedBy);
         }
         return question;
+    },
+    parseDateForTokensTable (inputDateStr) {
+        const date = new Date(inputDateStr);
+        const year = date.getUTCFullYear();
+        const monthStr = (`0${date.getUTCMonth() + 1}`).slice(-2);
+        const dayStr = (`0${date.getUTCDate()}`).slice(-2);
+        let hours = date.getUTCHours();
+        const minutesStr = (`0${date.getUTCMinutes()}`).slice(-2);
+        const isPM = hours >= 12;
+        const ampm = isPM ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        return `${monthStr}/${dayStr}/${year} ${hours}:${minutesStr} ${ampm}`;
     }
 }
