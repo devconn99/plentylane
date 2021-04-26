@@ -122,9 +122,8 @@
                                             role="tabpanel"
                                             @shown="onShown('accordion-3')"
                                     >
-                                        <!-- TODO: update the answer! -->
                                         <div class="faq-text">
-                                            The answer will be added soon...
+                                            TBD
                                         </div>
                                     </b-collapse>
                                 </div>
@@ -186,9 +185,8 @@
                                             role="tabpanel"
                                             @shown="onShown('accordion-5')"
                                     >
-                                        <!-- TODO: update the answer! -->
                                         <div class="faq-text">
-                                            The answer will be added soon...
+                                            TBD
                                         </div>
                                     </b-collapse>
                                 </div>
@@ -241,9 +239,8 @@
                                             role="tabpanel"
                                             @shown="onShown('accordion-7')"
                                     >
-                                        <!-- TODO: update the answer! -->
                                         <div class="faq-text">
-                                            The answer will be added soon...
+                                            TBD
                                         </div>
                                     </b-collapse>
                                 </div>
