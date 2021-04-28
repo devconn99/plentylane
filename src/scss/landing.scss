@@ -194,6 +194,63 @@ ul.nav-menu-landing {
 			}
 		}
 	}
+	.cook-snap-share-img {
+		&.cook-img {
+			max-height: 419px;
+		}
+		&.snap-img {
+			max-height: 350px;
+		}
+		&.share-img {
+			max-height: 405px;
+		}
+		@media screen and (min-width: 992px) and (max-width: 1145px) {
+			&.cook-img {
+				max-height: 358px;
+			}
+			&.snap-img {
+				max-height: 320px;
+			}
+			&.share-img {
+				max-height: 346px;
+			}
+		}
+		@media screen and (min-width: 700px) and (max-width: 991px) {
+			&.cook-img {
+				max-height: 298px;
+			}
+			&.snap-img {
+				max-height: 250px;
+			}
+			&.share-img {
+				max-height: 289px;
+			}
+		}
+		@media screen and (max-width: 699px) {
+			&.cook-img, &.share-img {
+				max-height: 280px;
+			}
+			&.snap-img {
+				max-height: 230px;
+			}
+		}
+		@media screen and (max-width: 475px) {
+			&.cook-img, &.share-img {
+				max-height: 320px;
+			}
+			&.snap-img {
+				max-height: 280px;
+			}
+		}
+		@media screen and (max-width: 345px) {
+			&.cook-img, &.share-img {
+				max-height: 270px;
+			}
+			&.snap-img {
+				max-height: 225px;
+			}
+		}
+	}
 }
 
 /********************

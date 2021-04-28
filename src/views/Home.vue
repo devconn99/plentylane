@@ -111,7 +111,7 @@
                 a few extra servings to give away.</p>
             </div>
             <div class="col-lg-5 col-sm-6 mr-auto text-center mt-4 mt-sm-0">
-              <img src="../assets/images/landing/img-cook.png" alt="" class="img-fluid">
+              <img src="../assets/images/landing/img-cook.png" alt="" class="img-fluid cook-snap-share-img cook-img">
             </div>
           </div>
 
@@ -123,7 +123,7 @@
                 just sit back and relax while your neighbors claim your delicious grub!</p>
             </div>
             <div class="col-lg-5 col-sm-6 order-sm-1 ml-auto text-center mt-4 mt-sm-0">
-              <img src="../assets/images/landing/img-snap.svg" alt="" class="img-fluid">
+              <img src="../assets/images/landing/img-snap.svg" alt="" class="img-fluid cook-snap-share-img snap-img">
             </div>
           </div>
 
@@ -136,7 +136,7 @@
                 cooking!</p>
             </div>
             <div class="col-lg-5 col-sm-6 mr-auto text-center mt-4 mt-sm-0">
-              <img src="../assets/images/landing/img-share.png" alt="" class="img-fluid">
+              <img src="../assets/images/landing/img-share.png" alt="" class="img-fluid cook-snap-share-img share-img">
             </div>
           </div>
 
