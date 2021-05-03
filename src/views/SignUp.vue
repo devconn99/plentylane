@@ -65,13 +65,15 @@
                             </b-form-group>
                             <b-form-group>
                                 <b-form-input
-                                        v-model="$v.form.username.$model"
+                                        v-model.trim="$v.form.username.$model"
                                         type="text"
                                         @focus="focusHandler"
                                         @input="resetError"
                                         placeholder="User Name"
                                 ></b-form-input>
                                 <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.username.$dirty && !$v.form.username.required">This is a required field.</small>
+                                <small class="text-danger d-flex mt-2" v-if="!$v.form.username.minLength">This field must be at least {{userNameMinLength}} characters long.</small>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.username.maxLength">This field must be shorter than or equal to {{userNameMaxLength}} characters.</small>
                             </b-form-group>
                             <b-form-group>
                                 <b-form-input
@@ -137,6 +139,8 @@ export default {
         showErrorAlert: false,
         pwdMinLength: config.PWD_MIN_LENGTH,
         pwdMaxLength: config.PWD_MAX_LENGTH,
+        userNameMinLength: config.USER_NAME_MIN_LENGTH,
+        userNameMaxLength: config.USER_NAME_MAX_LENGTH,
         submitted: false,
         form: {
             fullName: '',
@@ -159,7 +163,9 @@ export default {
                 required
             },
             username: {
-                required
+                required,
+                minLength: minLength(config.USER_NAME_MIN_LENGTH),
+                maxLength: maxLength(config.USER_NAME_MAX_LENGTH)
             },
             password: {
                 required,

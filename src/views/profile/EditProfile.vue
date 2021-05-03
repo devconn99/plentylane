@@ -85,13 +85,15 @@
                         </b-form-group>
                         <b-form-group label="User Name">
                             <b-form-input
-                                    v-model="$v.form.username.$model"
+                                    v-model.trim="$v.form.username.$model"
                                     type="text"
                                     @focus="focusHandler"
                                     @input="hideAlerts"
                                     placeholder="User Name"
                             ></b-form-input>
                             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.username.$dirty && !$v.form.username.required">This is a required field.</small>
+                            <small class="text-danger d-flex mt-2" v-if="!$v.form.username.minLength">This field must be at least {{userNameMinLength}} characters long.</small>
+                            <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.username.maxLength">This field must be shorter than or equal to {{userNameMaxLength}} characters.</small>
                         </b-form-group>
                         <b-form-group label="Phone">
                             <b-form-input
@@ -178,7 +180,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email } from "vuelidate/lib/validators";
+import { required, email, minLength, maxLength } from "vuelidate/lib/validators";
 import Loading from 'vue-loading-overlay';
 import api from '../../api';
 import parsePhoneNumberWithError from 'libphonenumber-js';
@@ -211,7 +213,9 @@ export default {
         userInfo: null,
         avatarDataContent: '',
         isSubmitting: false,
-        profilePhotoUrl: ''
+        profilePhotoUrl: '',
+        userNameMinLength: config.USER_NAME_MIN_LENGTH,
+        userNameMaxLength: config.USER_NAME_MAX_LENGTH
     }),
     validations: {
         form: {
@@ -220,7 +224,9 @@ export default {
                 email
             },
             username: {
-                required
+                required,
+                minLength: minLength(config.USER_NAME_MIN_LENGTH),
+                maxLength: maxLength(config.USER_NAME_MAX_LENGTH)
             },
             firstName: {
                 required
