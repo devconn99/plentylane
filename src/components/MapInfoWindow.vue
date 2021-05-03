@@ -35,7 +35,7 @@
                         </template>
                     </div>
                     <div class="cook-info-part">
-                        <div class="cook-info-name cursor-pointer pr-2" @click="redirectToCookProfile">{{userName}}</div>
+                        <div class="cook-info-name cursor-pointer pr-2" @click="redirectToCookProfile">{{itemData.user.username}}</div>
                         <div class="cook-info-benefits cursor-pointer" @click="redirectToCookProfile">
                             <!-- hardcoded symbols should be hidden -->
                             <!--
@@ -107,9 +107,6 @@ export default {
                 num = this.itemData.quantity;
             }
             return `<span>${num}</span> serving${num === 1 ? '' : 's'}`;
-        },
-        userName: function () {
-            return helpers.userNameWithShortLastName(this.itemData.user);
         }
     }
 }

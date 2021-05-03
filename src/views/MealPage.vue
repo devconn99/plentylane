@@ -23,7 +23,7 @@
                                     </template>
                                 </div>
                                 <div class="cook-info-part">
-                                    <div class="cook-info-name titleLightColor mr-2">{{userName}}</div>
+                                    <div class="cook-info-name titleLightColor mr-2">{{mealInfo.user.username}}</div>
                                     <div class="cook-info-benefits">
                                         <!-- hardcoded symbols should be hidden -->
                                         <!--
@@ -95,10 +95,12 @@
                                                 </div>
                                             </template>
                                             <div class="questions-box-author-title">
-                                                <template v-if="item.askedBy && item.askedBy.displayName">
-                                                    {{item.askedBy.displayName}}
-                                                </template>
-                                                <template v-else>User-{{ item.askedById }}</template>
+                                                <span class="username">
+                                                    <template v-if="item.askedBy && item.askedBy.username">
+                                                        {{item.askedBy.username}}
+                                                    </template>
+                                                    <template v-else>User-{{ item.askedById }}</template>
+                                                </span>
                                                 <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
                                             </div>
                                         </div>
@@ -106,7 +108,7 @@
                                     <div class="col-sm-8">
                                         <div class="questions-box-text">
                                             <p class="question mb-1">Q: {{item.question}}</p>
-                                            <p>{{mealInfo.user.firstName}}: {{item.answer}}</p>
+                                            <p>{{mealInfo.user.username}}: {{item.answer}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -165,11 +167,6 @@ export default {
             }
         };
         this.loadPageData(cb);
-    },
-    computed: {
-        userName: function () {
-            return helpers.userNameWithShortLastName(this.mealInfo['user']);
-        }
     },
     methods: {
         clearData () {

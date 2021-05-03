@@ -73,7 +73,7 @@ export default {
             // TODO
             this.msgIdFrom = userInfo.id;
             this.msgIdTo = this.currentUserId;
-            this.messagesTitle = `Message ${userInfo.firstName} ${userInfo.lastName.slice(0, 1)}.`;
+            this.messagesTitle = `Message ${userInfo.username}.`;
             this.shouldShowMessages = true;
             this.isLoadingMessages = true;
         },

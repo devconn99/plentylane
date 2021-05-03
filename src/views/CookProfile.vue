@@ -16,8 +16,8 @@
                     </div>
                 </div>
                 <div v-bind:class="hasProfileImage() ? 'col-sm-8' : 'col-12'">
-                    <div class="cook-profile">
-                        <div class="title-size1 mb-3 text-center text-sm-left">{{cookInfo.fullName}}</div>
+                    <div class="cook-profile cook-profile-top-info">
+                        <div class="title-size1 mb-3 text-center text-sm-left cook-profile-username">{{cookInfo.username}}</div>
                         <div class="cook-box">
                             <div class="cook-info mb-3">
                                 <div class="cook-info-part">
@@ -485,6 +485,16 @@ export default {
 
     @media screen and (max-width: $phoneBigWidth) {
         min-height: 300px;
+    }
+}
+.cook-profile.cook-profile-top-info {
+    max-width: 100%;
+
+    .cook-profile-username {
+        max-width: 100%;
+        overflow: hidden;
+        // NOTE: text-overflow: ellipsis; is adding "...", but dots appear at the top right corner because of the font -
+        // typically these dots are placed at the bottom right
     }
 }
 

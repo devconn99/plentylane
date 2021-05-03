@@ -23,7 +23,7 @@
                                     </template>
                                 </div>
                                 <div class="cook-info-part">
-                                    <div class="cook-info-name titleLightColor mr-2">{{userName}}</div>
+                                    <div class="cook-info-name titleLightColor mr-2">{{offerInfo.user.username}}</div>
                                     <div class="cook-info-benefits">
                                         <!-- hardcoded symbols should be hidden -->
                                         <!--
@@ -141,10 +141,12 @@
                                                     </div>
                                                 </template>
                                                 <div class="questions-box-author-title">
-                                                    <template v-if="item.askedBy && item.askedBy.displayName">
-                                                        {{item.askedBy.displayName}}
-                                                    </template>
-                                                    <template v-else>User-{{ item.askedById }}</template>
+                                                    <span class="username">
+                                                        <template v-if="item.askedBy && item.askedBy.username">
+                                                            {{item.askedBy.username}}
+                                                        </template>
+                                                        <template v-else>User-{{ item.askedById }}</template>
+                                                    </span>
                                                     <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
                                                 </div>
                                             </div>
@@ -166,7 +168,7 @@
                                                     </template>
                                                 </template>
                                                 <template v-else-if="item.answer && item.answer.length">
-                                                    <p>{{offerInfo.user.firstName}}: {{item.answer}}</p>
+                                                    <p>{{offerInfo.user.username}}: {{item.answer}}</p>
                                                 </template>
                                             </div>
                                         </div>
@@ -196,7 +198,7 @@
                             <div class="col-12">
                                 <div class="reserved">
                                     <div class="dashboard-title-box mb-3 ">
-                                        <div class="title-size3 titleGreenNavyColor mb-3">More from {{userName}}</div>
+                                        <div class="title-size3 titleGreenNavyColor mb-3">More from {{offerInfo.user.username}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -371,9 +373,6 @@ export default {
         }
     },
     computed: {
-        userName: function () {
-            return helpers.userNameWithShortLastName(this.offerInfo['user']);
-        },
         readyTimeStr: function () {
             if (!this.offerInfo || !this.offerInfo.pickupTime) return '';
             return `Ready at ${helpers.parseDate(this.offerInfo.pickupTime, true)}`;

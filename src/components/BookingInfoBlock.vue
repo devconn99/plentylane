@@ -72,7 +72,7 @@
                             </template>
                         </div>
                         <div class="cook-info-part">
-                            <div class="cook-info-name mr-2 cursor-pointer" @click="redirectToCookProfile">{{userName}}</div>
+                            <div class="cook-info-name mr-2 cursor-pointer" @click="redirectToCookProfile">{{bookingInfo.cook.username}}</div>
                             <div class="cook-info-benefits cursor-pointer" @click="redirectToCookProfile">
                                 <!-- hardcoded symbols should be hidden -->
                                 <!--
@@ -166,9 +166,6 @@ export default {
     computed: {
         readyTimeStr: function () {
             return `Ready at ${helpers.parseDate(this.bookingInfo.offer.pickupTime, true)}`;
-        },
-        userName: function () {
-            return helpers.userNameWithShortLastName(this.bookingInfo.cook);
         },
         numOfServingsHtml: function () {
             let num = 0;
@@ -266,6 +263,13 @@ export default {
         }
         .cook-info-part {
             flex-wrap: wrap;
+            max-width: 100%;
+
+            .cook-info-name {
+                max-width: calc(100% - 50px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
     }
 }

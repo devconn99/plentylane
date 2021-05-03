@@ -1,5 +1,5 @@
 <template>
-    <div v-if="user && user.id" class="connection-box" v-bind:class="{ 'has-action-button' : hasRemoveAction }">
+    <div v-if="user && user.id" class="connection-box user-info-line" v-bind:class="{ 'has-action-button' : hasRemoveAction }">
         <div class="connection-box-info">
             <template v-if="user.image && user.image.thumbnail && user.image.thumbnail.length">
                 <div
@@ -19,7 +19,7 @@
             </template>
 
             <div class="connection-box-info-name cursor-pointer">
-                <span @click="emitRedirectToCookProfile">{{user.fullName}}</span>
+                <span @click="emitRedirectToCookProfile">{{user.username}}</span>
             </div>
         </div>
         <div class="box-btn" v-if="hasRemoveAction">
@@ -50,6 +50,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "../scss/utils/vars";
+.connection-box.user-info-line {
+    max-width: 100%;
 
+    .connection-box-info {
+        max-width: 100%;
+
+        .connection-box-info-name {
+            max-width: calc(100% - 60px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            @media screen and (max-width: $tableMinWidth) {
+                max-width: calc(100% - 50px);
+            }
+        }
+    }
+}
 </style>

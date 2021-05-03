@@ -66,7 +66,7 @@
                             <router-link
                                     :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }"
                                     class="cook-info-name mr-2"
-                            >{{userName}}</router-link>
+                            >{{offerInfo.user.username}}</router-link>
 
                             <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
                                 <a :href="href" class="cook-info-benefits mt-1">
@@ -98,7 +98,7 @@
                             </template>
                         </div>
                         <div class="cook-info-part">
-                            <div class="cook-info-name mr-2">{{userName}}</div>
+                            <div class="cook-info-name mr-2">{{offerInfo.user.username}}</div>
                             <div class="cook-info-benefits mt-1">
                                 <!-- hardcoded symbols should be hidden -->
                                 <!--
@@ -142,9 +142,6 @@ export default {
     computed: {
         readyTimeStr: function () {
             return helpers.parseDate(this.offerInfo.pickupTime, true);
-        },
-        userName: function () {
-            return helpers.userNameWithShortLastName(this.offerInfo.user);
         }
     },
     methods: {

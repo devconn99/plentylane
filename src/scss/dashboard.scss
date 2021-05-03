@@ -308,6 +308,10 @@
 						color: $greenColor;
 						font-family: $LacaProSemiBold;
 						margin-left: 8px;
+						width: 125px;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
 						-webkit-transition: .3s all ease;
 						-o-transition: .3s all ease;
 						transition: .3s all ease;
@@ -608,7 +612,8 @@ ul.nav-menu-dashboard-small {
 	.cook-info-part {
 		display: flex;
 		align-items: center;
-		@media screen and (max-width: $smPhoneWidth) {
+		max-width: calc(100% - 48px - 16px);
+		@media screen and (max-width: $smPhoneWidth - 1px) {
 			flex-direction: column;
 			align-items: flex-start;
 		}
@@ -617,6 +622,9 @@ ul.nav-menu-dashboard-small {
 		font-family: $FilsonProBold;
 		padding-top: 3px;
 		color: $textBlackColor;
+		max-width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	.cook-info-benefits {
 		display: flex;
@@ -876,6 +884,12 @@ a.reserved-box, .reserved-box {
 				display: flex;
 				flex-direction: column;
 				font-family: $FilsonProBold;
+				max-width: calc(100% - 60px);
+				word-break: break-all;
+
+				.username {
+					font-family: $FilsonProBold;
+				}
 				span {
 					font-family: $FilsonProRegular;
 				}
@@ -894,6 +908,9 @@ a.reserved-box, .reserved-box {
 				@media screen and (max-width: $phoneBigWidth) {
 					font-size: 16px;
 				}
+			}
+			p {
+				word-break: break-all;
 			}
 		}
 		.questions-box-stars {

@@ -700,12 +700,12 @@ export default {
             getAllUsers (page, search, exceptionId) {
                 let endpoint = `${config.API_ORIGIN}/api/users`;
                 const filterById = exceptionId ? `filter=id||$ne||${exceptionId}` : '';
-                const filterByFullName = search && search.length ? `filter=fullName||$contL||${search}` : '';
+                const filterByUserName = search && search.length ? `filter=username||$contL||${search}` : '';
                 if (page) {
                     endpoint += `?page=${page}`;
                 }
-                if (filterByFullName.length) {
-                    endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterByFullName}`;
+                if (filterByUserName.length) {
+                    endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterByUserName}`;
                 }
                 if (filterById.length) {
                     endpoint += `${endpoint.includes('?') ? '&' : '?'}${filterById}`;
@@ -792,12 +792,12 @@ export default {
         follows: {
             getMyFriends (page, search) {
                 let endpoint = `${config.API_ORIGIN}/api/me/follows?filter=connectionType||$eq||friend`;
-                const filterByFullName = search && search.length ? `filter=following.fullName||$contL||${search}` : '';
+                const filterByUserName = search && search.length ? `filter=following.username||$contL||${search}` : '';
                 if (page) {
                     endpoint += `&page=${page}`;
                 }
-                if (filterByFullName.length) {
-                    endpoint += `&${filterByFullName}`;
+                if (filterByUserName.length) {
+                    endpoint += `&${filterByUserName}`;
                 }
                 return axios.get(endpoint)
                     .then((res) => {
@@ -809,12 +809,12 @@ export default {
             },
             getMyFavorites (page, search) {
                 let endpoint = `${config.API_ORIGIN}/api/me/follows?filter=connectionType||$eq||favorite`;
-                const filterByFullName = search && search.length ? `filter=following.fullName||$contL||${search}` : '';
+                const filterByUserName = search && search.length ? `filter=following.username||$contL||${search}` : '';
                 if (page) {
                     endpoint += `&page=${page}`;
                 }
-                if (filterByFullName.length) {
-                    endpoint += `&${filterByFullName}`;
+                if (filterByUserName.length) {
+                    endpoint += `&${filterByUserName}`;
                 }
                 return axios.get(endpoint)
                     .then((res) => {

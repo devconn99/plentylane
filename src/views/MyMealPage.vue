@@ -61,10 +61,12 @@
                                                 </div>
                                             </template>
                                             <div class="questions-box-author-title">
-                                                <template v-if="item.askedBy && item.askedBy.displayName">
-                                                    {{item.askedBy.displayName}}
-                                                </template>
-                                                <template v-else>User-{{ item.askedById }}</template>
+                                                <span class="username">
+                                                    <template v-if="item.askedBy && item.askedBy.username">
+                                                        {{item.askedBy.username}}
+                                                    </template>
+                                                    <template v-else>User-{{ item.askedById }}</template>
+                                                </span>
                                                 <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
                                             </div>
                                         </div>

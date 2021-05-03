@@ -47,7 +47,7 @@
                                                     </div>
                                                 </template>
                                                 <div class="questions-box-author-title">
-                                                    {{ item.askedBy.displayName }}
+                                                    <span class="username">{{ item.askedBy.username }}</span>
                                                     <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
                                                 </div>
                                             </div>
@@ -121,7 +121,7 @@
                                                     </div>
                                                 </template>
                                                 <div class="questions-box-author-title">
-                                                    {{ item.askedBy.displayName }}
+                                                    <span class="username">{{ item.askedBy.username }}</span>
                                                     <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
                                                 </div>
                                             </div>

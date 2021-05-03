@@ -47,7 +47,7 @@
                                                     </div>
                                                 </template>
                                                 <div class="questions-box-author-title">
-                                                    {{ item.askedBy.displayName }}
+                                                    <span class="username">{{ item.askedBy.username }}</span>
                                                     <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
                                                 </div>
                                             </div>
@@ -55,7 +55,7 @@
                                         <div class="col-sm-8">
                                             <div class="questions-box-text">
                                                 <p class="question mb-1">Q: {{item.question}}</p>
-                                                <p>{{item.meal.user.firstName}}: {{item.answer}}</p>
+                                                <p>{{item.meal.user.username}}: {{item.answer}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                                     </div>
                                                 </template>
                                                 <div class="questions-box-author-title">
-                                                    {{ item.askedBy.displayName }}
+                                                    <span class="username">{{ item.askedBy.username }}</span>
                                                     <span v-if="item.createdAtDisplayDate">{{item.createdAtDisplayDate}}</span>
                                                 </div>
                                             </div>

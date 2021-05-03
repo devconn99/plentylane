@@ -194,7 +194,7 @@ export default {
         /*
         showMessagesModal (data) {
             // TODO: open a modal with messages only
-            this.modalDataUserName = helpers.userNameWithShortLastName(data);
+            this.modalDataUserName = data.username;
             this.$bvModal.show('messages-modal');
         },
         onMessagesModalHidden () {

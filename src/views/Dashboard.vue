@@ -248,23 +248,16 @@ export default {
             });
         });
         this.$eventHub.$on('user-name-updated', (data) => {
-            if (!data) return;
-            if (!data.firstName || !data.lastName) return;
-            this.user.firstName = data.firstName;
-            this.user.lastName = data.lastName;
+            if (!data || !data.username) return;
+            this.user.username = data.username;
         });
     },
     computed: {
         displayUserName: function () {
-            if (!this.user || !this.user.firstName) {
+            if (!this.user || !this.user.username) {
                 return '';
             }
-            const hasLastName = this.user.lastName && this.user.lastName.length;
-            let nameStr = this.user.firstName;
-            if (hasLastName) {
-                nameStr += ` ${this.user.lastName.slice(0,1)}.`;
-            }
-            return nameStr;
+            return this.user.username;
         },
         isDashboardPage: function () {
             return this.$route.path === '/dashboard';

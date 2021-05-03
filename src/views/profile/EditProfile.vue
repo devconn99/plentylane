@@ -83,7 +83,16 @@
                             <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
                             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
                         </b-form-group>
-
+                        <b-form-group label="User Name">
+                            <b-form-input
+                                    v-model="$v.form.username.$model"
+                                    type="text"
+                                    @focus="focusHandler"
+                                    @input="hideAlerts"
+                                    placeholder="User Name"
+                            ></b-form-input>
+                            <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.username.$dirty && !$v.form.username.required">This is a required field.</small>
+                        </b-form-group>
                         <b-form-group label="Phone">
                             <b-form-input
                                     name="phone"
@@ -190,6 +199,7 @@ export default {
             firstName: '',
             lastName: '',
             email: '',
+            username: '',
             phone: '',
             bio: '',
             receiveNotifications: null
@@ -208,6 +218,9 @@ export default {
             email: {
                 required,
                 email
+            },
+            username: {
+                required
             },
             firstName: {
                 required
@@ -251,6 +264,7 @@ export default {
             this.$v.form.$model.firstName = data.firstName;
             this.$v.form.$model.lastName = data.lastName;
             this.$v.form.$model.email = data.email;
+            this.$v.form.$model.username = data.username;
             this.$v.form.$model.phone = data.phone;
             this.$v.form.$model.bio = data.bio;
             this.$v.form.$model.receiveNotifications = data.receiveNotifications;
@@ -308,7 +322,7 @@ export default {
             }
             api.dashboard.profile.updateProfile(this.form)
                 .then(response => {
-                    this.$eventHub.$emit('user-name-updated', { firstName: response.firstName, lastName: response.lastName });
+                    this.$eventHub.$emit('user-name-updated', { username: response.username });
                     this.userInfo = { ...response };
                     this.$store.commit('userInfo', { ...response });
                     this.showSuccessAlert = true;

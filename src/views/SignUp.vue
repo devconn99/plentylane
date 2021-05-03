@@ -65,6 +65,16 @@
                             </b-form-group>
                             <b-form-group>
                                 <b-form-input
+                                        v-model="$v.form.username.$model"
+                                        type="text"
+                                        @focus="focusHandler"
+                                        @input="resetError"
+                                        placeholder="User Name"
+                                ></b-form-input>
+                                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.username.$dirty && !$v.form.username.required">This is a required field.</small>
+                            </b-form-group>
+                            <b-form-group>
+                                <b-form-input
                                         v-model="$v.form.password.$model"
                                         type="password"
                                         @focus="focusHandler"
@@ -131,6 +141,7 @@ export default {
         form: {
             fullName: '',
             email: '',
+            username: '',
             password: '',
             passwordConfirm: ''
         },
@@ -145,6 +156,9 @@ export default {
                 email
             },
             fullName: {
+                required
+            },
+            username: {
                 required
             },
             password: {
@@ -199,7 +213,8 @@ export default {
                 email: this.$v.form.$model.email,
                 password: this.$v.form.$model.password,
                 firstName,
-                lastName: lastName || ' '
+                lastName: lastName || ' ',
+                username: this.$v.form.$model.username
             };
             api.auth.signUp(userData)
                 .then(() => {

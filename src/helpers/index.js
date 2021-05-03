@@ -80,11 +80,6 @@ export default {
         timeStr = `${hours}:${minutesStr}${ampm}`;
         return `${isToday ? 'today': `${monthName} ${day}`}, ${timeStr}`;
     },
-    userNameWithShortLastName: function (userInfo) {
-        if (!userInfo || !userInfo.firstName) return ``;
-        const lastName = userInfo.lastName && userInfo.lastName.length ? userInfo.lastName : userInfo.fullName.split(' ')[1];
-        return `${userInfo.firstName} ${lastName.slice(0, 1)}.`;
-    },
     retrieveDietaryNotes: function (data) {
         const notes = { ...DIETARY_NOTES };
         return data.map(item => {
@@ -197,9 +192,6 @@ export default {
     convertQuestion (question) {
         const _date = new Date(question.createdAt);
         question['createdAtDisplayDate'] = `${_date.toLocaleDateString('en', { month: 'short' })} ${_date.getUTCDate()}`;
-        if (question.askedBy && question.askedBy.id) {
-            question.askedBy['displayName'] = this.userNameWithShortLastName(question.askedBy);
-        }
         return question;
     },
     parseDateForTokensTable (inputDateStr) {

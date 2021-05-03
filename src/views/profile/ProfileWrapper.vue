@@ -127,9 +127,12 @@ export default {
 <style scoped lang="scss">
 @import "../../scss/utils/vars";
 
+$profileAsideWidth: 240px;
+$profileAsideWidthMin: 220px;
+
 .dashboard-profile-aside {
-    min-width: 240px;
-    max-width: 240px;
+    min-width: $profileAsideWidth;
+    max-width: $profileAsideWidth;
     padding: 65px 0 0;
     box-shadow: 2px 0 rgba(24,24,22,0.07);
     display: flex;
@@ -137,8 +140,8 @@ export default {
     min-height: 100vh; // TODO: get back to it later - possibly need to avoid unnecessary scroll on mobile view
     /*height: 100%; */
     @media screen and (max-width: $desktopWidth) {
-        min-width: 220px;
-        max-width: 220px;
+        min-width: $profileAsideWidthMin;
+        max-width: $profileAsideWidthMin;
         padding-top: 40px;
     }
     @media screen and (max-width: $tableMinWidth) {
@@ -211,6 +214,16 @@ export default {
                     border-bottom: 2px solid #EEE8D7;
                 }
             }
+        }
+    }
+}
+.profile-page-wrapper {
+    .dashboard-content {
+        @media screen and (min-width: $tableMinWidth + 1px) and (max-width: $desktopWidth) {
+            max-width: calc(100% - #{$profileAsideWidthMin});
+        }
+        @media screen and (min-width: $desktopWidth + 1px) {
+            max-width: calc(100% - #{$profileAsideWidth});
         }
     }
 }

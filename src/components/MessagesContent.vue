@@ -126,7 +126,7 @@ export default {
                 _data['displayTime'] = this.displayTime(_data.date);
                 // TODO: temp
                 if (!_data.isCurrentUserMsg && _data.from) {
-                    _data['displayUserName'] = this.displayUserName(_data.from);
+                    _data['displayUserName'] = _data.from['username'] || '';
                 }
                 return _data;
             });
@@ -138,9 +138,6 @@ export default {
         },
         displayTime (val) {
             return helpers.parseMessageDate(val);
-        },
-        displayUserName (userInfo) {
-            return helpers.userNameWithShortLastName(userInfo);
         },
         sendMessage () {
             if (this.isSendingMessage || !this.newMessage || !this.newMessage.length) return;
