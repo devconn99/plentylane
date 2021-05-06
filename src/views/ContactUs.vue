@@ -1,5 +1,14 @@
 <template>
-    <p>Contact Us page goes here...</p>
+    <div class="contact-us-page-wrapper">
+        <div class="dashboard-content">
+            <div class="container-fluid position-relative">
+                <p>
+                    If you have questions or concerns, please email us at
+                    <a class="href-mailto" href="mailto:info@plentylane.com">info@plentylane.com</a>.
+                </p>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>

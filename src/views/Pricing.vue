@@ -54,7 +54,7 @@
                                             </div>
                                             <div class="price-plan mb-4">$0/mo</div>
                                             <ul class="price-benefits mb-3">
-                                                <li>$28.25 Signup Fee</li>
+                                                <li>$29.50 Signup Fee</li>
                                                 <li>Includes 4 containers</li>
                                             </ul>
                                         </div>
@@ -76,7 +76,7 @@
                                             </div>
                                             <div class="price-plan mb-4">$4.95/mo</div>
                                             <ul class="price-benefits mb-3">
-                                                <li>$28.25 Signup Fee</li>
+                                                <li>$29.50 Signup Fee</li>
                                                 <li>Includes 4 containers</li>
                                             </ul>
                                         </div>
@@ -98,7 +98,7 @@
                                             </div>
                                             <div class="price-plan mb-4">$8.95/mo</div>
                                             <ul class="price-benefits mb-3">
-                                                <li>$28.25 Signup Fee</li>
+                                                <li>$29.50 Signup Fee</li>
                                                 <li>Includes 4 containers</li>
                                             </ul>
                                         </div>

@@ -776,7 +776,7 @@
             regarding the Website.
         </p>
         <p class="text-bold text-underline no-hover">Your Comments and Concerns</p>
-        <p>This website is operated by MOP Enterprises, Inc.</p>
+        <p>This website is operated by MOC Enterprises, Inc.</p>
         <p>
             All notices of copyright infringement claims should be sent to the copyright agent
             designated in the “Copyright Infringement” section above.
