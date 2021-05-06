@@ -1,5 +1,13 @@
 <template>
     <div class="row">
+        <!-- TODO: temp message -->
+        <div class="col-12 mx-auto">
+            <p class="mb-4">
+                Please email us at
+                <a class="href-mailto" href="mailto:info@plentylane.com">info@plentylane.com</a> if you need
+                to purchase additional containers.
+            </p>
+        </div>
         <div class="col-12 col-lg-10 mx-auto" v-if="!isBasketEmpty && items && items.length">
             <div class="shop-order pt-3 pb-3" v-for="item in items" v-bind:key="item.id">
                 <div class="row shop-order-wrapper">

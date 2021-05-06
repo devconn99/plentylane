@@ -1,5 +1,14 @@
 <template>
     <div class="row">
+        <!-- TODO: temp message -->
+        <div class="col-12 mx-auto">
+            <p class="mb-4">
+                Please email us at
+                <a class="href-mailto" href="mailto:info@plentylane.com">info@plentylane.com</a> if you need
+                to purchase additional containers.
+            </p>
+        </div>
+
         <div class="col-12 col-lg-10 mx-auto position-relative" v-if="!isBasketEmpty">
             <loading
                     :active.sync="isLoading"

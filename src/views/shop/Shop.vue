@@ -3,6 +3,12 @@
         <div class="row mb-4">
             <div class="col-12">
                 <div class="dashboard-title-box">
+                    <!-- TODO: temp message -->
+                    <p>
+                        Please email us at
+                        <a class="href-mailto" href="mailto:info@plentylane.com">info@plentylane.com</a> if you need
+                        to purchase additional containers.
+                    </p>
                     <div class="title-size3 titleGreenNavyColor">Shop containers</div>
                 </div>
             </div>
