@@ -91,12 +91,23 @@ export default {
         },
         placeChangedHandler () {
             const place = this.autocomplete.getPlace();
+            if (!place || !place['geometry'] || !place['geometry']['location']) {
+                this.form.selectedPlace = null;
+                return;
+            }
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
+            if (!lat || !lng) {
+                this.form.selectedPlace = null;
+                return;
+            }
+
             this.form.selectedPlace = {
                 address: place.formatted_address,
                 googleMapsIdentifier: place.place_id,
                 location: {
                     type: 'Point',
-                    coordinates: [place.geometry.location.lat(), place.geometry.location.lng()]
+                    coordinates: [lat, lng]
                 },
                 components: place.address_components
             };
