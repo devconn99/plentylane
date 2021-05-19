@@ -20,29 +20,7 @@ export default {
             if ($body.hasClass('mobile-menu-box-active')) {
                 $body.removeClass('mobile-menu-box-active');
             }
-        },
-        prepareBrowserLocation () {
-            let vm = this;
-            const _options = {
-                enableHighAccuracy: true,
-                timeout: 4000,
-                maximumAge: 0
-            };
-            let errCounter = 0;
-            function _successHandler (pos) {
-                if (!pos || !pos.coords) return;
-                const data = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-                vm.$store.commit('browserCoordinates', data);
-                vm.$eventHub.$emit('browser-coordinates', data);
-            }
-            function _errorHandler (err) {
-                if (errCounter === 0) {
-                    navigator.geolocation.getCurrentPosition(_successHandler, _errorHandler, _options);
-                }
-                errCounter++;
-            }
-            navigator.geolocation.getCurrentPosition(_successHandler, _errorHandler, _options);
-        },
+        }
     },
     mounted () {
         $(window).scroll(function () {
@@ -66,7 +44,6 @@ export default {
         });
     },
     created () {
-        this.prepareBrowserLocation();
         this.$eventHub.$on('mobile-search-opened', () => {
             this.addClassToBodyOnMobile();
         });

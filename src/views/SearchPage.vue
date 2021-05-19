@@ -69,13 +69,54 @@ export default {
             this.isLoading = false;
             this.wasSearched = false;
         },
+        prepareBrowserLocation (additionalEventData) {
+            let vm = this;
+            vm.isLoading = true;
+            const crd = vm.$store.getters.browserCoordinates;
+            if (crd && crd.lat && crd.lng) {
+                vm.$eventHub.$emit('browser-coordinates', crd, additionalEventData);
+                return;
+            }
+            const _options = {
+                enableHighAccuracy: false,
+                timeout: 4000,
+                maximumAge: 0
+            };
+            function _successHandler (pos) {
+                if (!pos || !pos.coords) return;
+                const data = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                vm.$store.commit('browserCoordinates', data);
+                vm.$eventHub.$emit('browser-coordinates', data, additionalEventData);
+            }
+            function _errorHandler (err) {
+                // error codes:
+                // 0: unknown error
+                // 1: permission denied
+                // 2: position unavailable (error response from location provider)
+                // 3: timed out
+                switch (err.code) {
+                    case 0:
+                    case 2:
+                    case 3:
+                        // ask user's location again in 2 seconds
+                        setTimeout(() => {
+                            navigator.geolocation.getCurrentPosition(_successHandler, _errorHandler, _options);
+                        }, 2000);
+                        break;
+                    default:
+                        vm.$eventHub.$emit('error-browser-coordinates', additionalEventData);
+                        break;
+                }
+            }
+            navigator.geolocation.getCurrentPosition(_successHandler, _errorHandler, _options);
+        },
         initPage (cb) {
             this.$eventHub.$emit('clear-global-search-value');
             this.clearPageData();
             if (this.queryName && this.queryName.length) {
                 this.searchStr = this.queryName;
             }
-            this.$eventHub.$emit('trigger-main-search', this.searchStr, cb);
+            this.prepareBrowserLocation({ name: this.searchStr, cb: cb });
         },
         onSearchStarted (searchStr) {
             this.isLoading = true;

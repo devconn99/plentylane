@@ -285,7 +285,8 @@ const routes = [
                 props: true,
                 component: () => import('../views/SearchPage.vue'),
                 meta: {
-                    title: `${TITLE} - Search Results`
+                    title: `${TITLE} - Search Results`,
+                    noLoader: true // possibly temp
                 }
             },
             {

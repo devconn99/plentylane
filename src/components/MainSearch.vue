@@ -61,30 +61,15 @@ export default {
         _infoWindowComponentInstance: null
     }),
     created () {
-        this.getBrowserLocationFromStore();
-
-        this.$eventHub.$on('browser-coordinates', (crd) => {
-            this.userCoordinates.lat = crd.lat;
-            this.userCoordinates.lng = crd.lng;
-
-            // center the map to user's location
-            if (this.isMapInitialized && (!this.mapMarkers || !this.mapMarkers.length)) {
-                this.centerMapToUsersLocation();
-            }
+        this.$eventHub.$on('browser-coordinates', (coordinates, additionalData) => {
+            this.userCoordinates.lat = coordinates.lat;
+            this.userCoordinates.lng = coordinates.lng;
+            this.handleInitSearch(additionalData);
         });
 
-        this.$eventHub.$on('trigger-main-search', (name, cb) => {
-            if (name && name.length) {
-                this.searchStr = name;
-            }
-            this.searchOffers({ name: this.searchStr })
-                .then(() => {
-                    if (cb) cb();
-                })
-                .catch(() => {
-                    if (cb) cb();
-                });
-        })
+        this.$eventHub.$on('error-browser-coordinates', (additionalData) => {
+            this.handleInitSearch(additionalData);
+        });
     },
     mounted () {
         this._infoWindowComponent = Vue.extend(MapInfoWindow);
@@ -103,7 +88,7 @@ export default {
     },
     beforeDestroy () {
         this.$eventHub.$off('browser-coordinates');
-        this.$eventHub.$off('trigger-main-search');
+        this.$eventHub.$off('error-browser-coordinates');
         this.$eventHub.$off('marker-info-window_redirect-to-offer');
         this.$eventHub.$off('marker-info-window_redirect-to-cook');
         this._infoWindowComponentInstance.$destroy();
@@ -115,12 +100,26 @@ export default {
         this.mapInfoWindows = {};
     },
     methods: {
-        getBrowserLocationFromStore () {
-            const crd = this.$store.getters.browserCoordinates;
-            if (crd && crd.lat && crd.lng) {
-                this.userCoordinates.lat = crd.lat;
-                this.userCoordinates.lng = crd.lng;
+        handleInitSearch (additionalData) {
+            const _form = this.currentForm ? this.currentForm : {};
+            let _cb = null;
+
+            if (additionalData) {
+                if (additionalData.name && additionalData.name.length) {
+                    this.searchStr = additionalData.name;
+                    _form['name'] = additionalData.name;
+                }
+                if (additionalData.cb) {
+                    _cb = additionalData.cb;
+                }
             }
+            this.searchOffers(_form)
+                .then(() => {
+                    if (_cb) _cb();
+                })
+                .catch(() => {
+                    if (_cb) _cb();
+                });
         },
         onFiltersChanged (model) {
             this.searchStr = model['name'] || '';
@@ -210,14 +209,15 @@ export default {
             const defaultType = 'filter';
             const currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
 
-            if (form['proximity'] && this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
+            if (this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
                 fieldPrefix = 'offers.';
                 shouldUseLocationEndpoint = true;
+                const proximity = form['proximity'] ? form['proximity'] : '0,10';
                 query.push({
                     type: defaultType,
                     field: 'location',
                     condition: '$between',
-                    value: `${this.userCoordinates.lat},${this.userCoordinates.lng},${form['proximity']}`
+                    value: `${this.userCoordinates.lat},${this.userCoordinates.lng},${proximity}`
                 })
             }
             if (form['date']) {
@@ -317,6 +317,7 @@ export default {
                 this.closeInfoWindows();
             });
             this.isMapInitialized = true;
+            this.centerMapToUsersLocation();
             this.addMarkers();
         },
         centerMapToUsersLocation () {
@@ -367,7 +368,9 @@ export default {
                 this.mapMarkers.push(marker);
             });
             // pan map to the first marker
-            this.map.panTo(this.mapMarkers[0].position);
+            setTimeout(() => {
+                this.map.panTo(this.mapMarkers[0].position);
+            }, 0, false);
             if (this.map.zoom < this.defaultMapZoom) {
                 this.map.setZoom(this.defaultMapZoom);
             }
