@@ -52,7 +52,7 @@ export default {
         },
         currentForm: null,
         isMapInitialized: false,
-        shouldShowMap: false,
+        shouldShowMap: false, // indicates that "Map" tab is selected
         map: null,
         mapMarkers: [],
         mapInfoWindows: {},
@@ -66,6 +66,11 @@ export default {
         this.$eventHub.$on('browser-coordinates', (crd) => {
             this.userCoordinates.lat = crd.lat;
             this.userCoordinates.lng = crd.lng;
+
+            // center the map to user's location
+            if (this.isMapInitialized && (!this.mapMarkers || !this.mapMarkers.length)) {
+                this.centerMapToUsersLocation();
+            }
         });
 
         this.$eventHub.$on('trigger-main-search', (name, cb) => {
@@ -191,6 +196,10 @@ export default {
             console.log('\n search error:', error);
             this.$emit('search-finished');
             this.isSubmitting = false;
+            if (this.shouldShowMap) {
+                // center the map to user's location if available
+                this.centerMapToUsersLocation();
+            }
         },
         prepareRequestFilters (form) {
             let query = [];
@@ -310,6 +319,12 @@ export default {
             this.isMapInitialized = true;
             this.addMarkers();
         },
+        centerMapToUsersLocation () {
+            if (!this.map || !this.isMapInitialized) return;
+            if (this.userCoordinates && this.userCoordinates.lat && this.userCoordinates.lng) {
+                this.map.setCenter(new google.maps.LatLng(this.userCoordinates.lat, this.userCoordinates.lng));
+            }
+        },
         clearMarkers () {
             if (this.mapMarkers && this.mapMarkers.length) {
                 this.mapMarkers.forEach(marker => {
@@ -319,7 +334,12 @@ export default {
             }
         },
         addMarkers () {
-            if (!this.map || !this.results || !this.results.length) return;
+            if (!this.map) return;
+            if (!this.results || !this.results.length) {
+                // center the map to user's location if available
+                this.centerMapToUsersLocation();
+                return;
+            }
             let hasMarkersCollision = false;
             this.results.forEach(item => {
                 const pos = {
@@ -334,9 +354,11 @@ export default {
                     pos.lat = pos.lat * (Math.random() * (max - min) + min);
                     pos.lng = pos.lng * (Math.random() * (max - min) + min);
                 }
+
+                const markerOffset = 0.00025; // marker's coordinates will be shifted to avoid showing actual address
                 const marker = new MarkerWithLabel({
                     map: this.map,
-                    position: { ...pos },
+                    position: { lat: pos.lat + markerOffset, lng: pos.lng + markerOffset },
                     ...helpers.getMarkerTemplate(item)
                 });
                 marker.addListener('click', () => {
@@ -344,7 +366,7 @@ export default {
                 });
                 this.mapMarkers.push(marker);
             });
-            // temp -> pan map to the first marker
+            // pan map to the first marker
             this.map.panTo(this.mapMarkers[0].position);
             if (this.map.zoom < this.defaultMapZoom) {
                 this.map.setZoom(this.defaultMapZoom);

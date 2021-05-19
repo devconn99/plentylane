@@ -83,7 +83,8 @@
                                     <SvgIcon icon="clock"></SvgIcon>
                                     <span class="ml-2">{{readyTimeStr}}</span>
                                 </div>
-                                <div class="cook-location mt-2">
+                                <!-- address is visible only if it's my offer or if user've just reserved this meal for privacy concerns  -->
+                                <div v-if="isMyOffer || wasReserved" class="cook-location mt-2">
                                     <SvgIcon icon="location"></SvgIcon>
                                     <span class="ml-2">{{offerInfo.place.address}}</span>
                                 </div>

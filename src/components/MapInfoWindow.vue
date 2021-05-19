@@ -58,10 +58,13 @@
                         <SvgIcon icon="clock"></SvgIcon>
                         <span class="ml-3">{{readyTimeStr}}</span>
                     </div>
+                    <!-- address is hidden for privacy concerns -->
+                    <!--
                     <div class="cook-location mt-1 mt-md-2">
                         <SvgIcon icon="location"></SvgIcon>
                         <span class="ml-3">{{itemData.place.address}}</span>
                     </div>
+                    -->
                 </div>
             </div>
         </div>
