@@ -1,75 +1,98 @@
 <template>
     <div v-if="offerInfo && offerInfo.id" class="offer-link">
-        <div class="recept-box">
-            <div class="recept-box-img recept-box-img-overlay">
-                <template v-if="hasMealImage()">
-                    <img :src="getMealImagePath()" alt="" class="img-fluid">
-                </template>
-                <template v-else>
-                    <!-- meal image placeholder -->
-                    <SvgIcon icon="mealPlaceholder"></SvgIcon>
-                </template>
-
-                <div class="recept-box-title">
-                    <template v-if="isMyOffer">
-                        <router-link
-                                :to="{ path: '/dashboard/my-offers/' + offerInfo.id }"
-                                class="meal-name title-size3 titleLightColor cursor-pointer"
-                        >
-                            {{offerInfo.meal.name}}
-                        </router-link>
+        <router-link :to="{ path: isMyOffer ? '/dashboard/my-offers/': '/dashboard/offers/' + offerInfo.id }">
+            <div class="recept-box">
+                <div class="recept-box-img recept-box-img-overlay">
+                    <template v-if="hasMealImage()">
+                        <img :src="getMealImagePath()" alt="" class="img-fluid">
                     </template>
                     <template v-else>
-                        <router-link
-                                :to="{ path: '/dashboard/offers/' + offerInfo.id }"
-                                class="meal-name title-size3 titleLightColor cursor-pointer"
-                        >
-                            {{offerInfo.meal.name}}
-                        </router-link>
+                        <!-- meal image placeholder -->
+                        <SvgIcon icon="mealPlaceholder"></SvgIcon>
                     </template>
-                    <div class="serving-number mt-1 titleLightColor">
-                        <span class="titleLightColor">{{offerInfo.availableQuantity}}</span>
-                        {{offerInfo.availableQuantity !== 1 ? 'servings' : 'serving'}}
+
+                    <div class="recept-box-title">
+                        <div class="meal-name title-size3 titleLightColor cursor-pointer">
+                            {{offerInfo.meal.name}}
+                        </div>
+                        <div class="serving-number mt-1 titleLightColor">
+                            <span class="titleLightColor">{{offerInfo.availableQuantity}}</span>
+                            {{offerInfo.availableQuantity !== 1 ? 'servings' : 'serving'}}
+                        </div>
                     </div>
-                </div>
-                <div class="recept-box-action-wrapper" v-if="showActionMenu && actions && actions.length">
-                    <b-dropdown
+                    <div class="recept-box-action-wrapper" v-if="showActionMenu && actions && actions.length">
+                        <b-dropdown
                             size="sm"
                             menu-class="recept-box-action-menu"
                             toggle-class="recept-box-action-toggle text-decoration-none"
                             no-caret
                             variant="outline-secondary"
-                    >
-                        <template #button-content>
-                            <i class="fas fa-ellipsis-v"></i>
-                        </template>
-                        <template v-for="action in actions">
-                            <b-dropdown-item @click="emitAction(action.name)">{{action.title}}</b-dropdown-item>
-                        </template>
-                    </b-dropdown>
+                        >
+                            <template #button-content>
+                                <i class="fas fa-ellipsis-v"></i>
+                            </template>
+                            <template v-for="action in actions">
+                                <b-dropdown-item
+                                    v-bind:key="action.name"
+                                    @click="emitAction(action.name)"
+                                >
+                                    {{action.title}}
+                                </b-dropdown-item>
+                            </template>
+                        </b-dropdown>
+                    </div>
                 </div>
-            </div>
-            <div class="cook-box pb-2 pb-md-3">
-                <div class="cook-info p-2 p-sm-3" v-if="offerInfo.user && offerInfo.user.id && !hiddenUserBlock">
-                    <template v-if="!avoidRedirectToCookProfile && offerInfo.user && offerInfo.user.id">
-                        <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
-                            <a :href="href" class="cook-info-img">
+                <div class="cook-box pb-2 pb-md-3">
+                    <div class="cook-info p-2 p-sm-3" v-if="offerInfo.user && offerInfo.user.id && !hiddenUserBlock">
+                        <template v-if="!avoidRedirectToCookProfile && offerInfo.user && offerInfo.user.id">
+                            <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
+                                <a :href="href" class="cook-info-img">
+                                    <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail">
+                                        <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
+                                    </template>
+                                    <template v-else>
+                                        <i class="fas fa-user-circle icon-placeholder"></i>
+                                    </template>
+                                </a>
+                            </router-link>
+                            <div class="cook-info-part">
+                                <router-link
+                                    :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }"
+                                    class="cook-info-name mr-2"
+                                >{{offerInfo.user.username}}</router-link>
+
+                                <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
+                                    <a :href="href" class="cook-info-benefits mt-1">
+                                        <!-- hardcoded symbols should be hidden -->
+                                        <!--
+                                        <div class="cook-info-benefits-box">
+                                            <SvgIcon icon="benefit3"></SvgIcon>
+                                        </div>
+                                        <div class="cook-info-benefits-box">
+                                            <SvgIcon icon="benefit2"></SvgIcon>
+                                        </div>
+                                        <div class="cook-info-benefits-box">
+                                            <SvgIcon icon="benefit1"></SvgIcon>
+                                        </div>
+                                        -->
+                                        <UserRating :rating="offerInfo.user.rating"></UserRating>
+                                    </a>
+                                </router-link>
+                            </div>
+                        </template>
+
+                        <template v-else>
+                            <div class="cook-info-img">
                                 <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail">
                                     <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
                                 </template>
                                 <template v-else>
                                     <i class="fas fa-user-circle icon-placeholder"></i>
                                 </template>
-                            </a>
-                        </router-link>
-                        <div class="cook-info-part">
-                            <router-link
-                                    :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }"
-                                    class="cook-info-name mr-2"
-                            >{{offerInfo.user.username}}</router-link>
-
-                            <router-link :to="{ path: '/dashboard/cook-profile/' + offerInfo.user.id }" v-slot="{ href }">
-                                <a :href="href" class="cook-info-benefits mt-1">
+                            </div>
+                            <div class="cook-info-part">
+                                <div class="cook-info-name mr-2">{{offerInfo.user.username}}</div>
+                                <div class="cook-info-benefits mt-1">
                                     <!-- hardcoded symbols should be hidden -->
                                     <!--
                                     <div class="cook-info-benefits-box">
@@ -83,51 +106,22 @@
                                     </div>
                                     -->
                                     <UserRating :rating="offerInfo.user.rating"></UserRating>
-                                </a>
-                            </router-link>
-                        </div>
-                    </template>
-
-                    <template v-else>
-                        <div class="cook-info-img">
-                            <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail">
-                                <img :src="offerInfo.user.image.thumbnail" alt="" class="img-fluid">
-                            </template>
-                            <template v-else>
-                                <i class="fas fa-user-circle icon-placeholder"></i>
-                            </template>
-                        </div>
-                        <div class="cook-info-part">
-                            <div class="cook-info-name mr-2">{{offerInfo.user.username}}</div>
-                            <div class="cook-info-benefits mt-1">
-                                <!-- hardcoded symbols should be hidden -->
-                                <!--
-                                <div class="cook-info-benefits-box">
-                                    <SvgIcon icon="benefit3"></SvgIcon>
                                 </div>
-                                <div class="cook-info-benefits-box">
-                                    <SvgIcon icon="benefit2"></SvgIcon>
-                                </div>
-                                <div class="cook-info-benefits-box">
-                                    <SvgIcon icon="benefit1"></SvgIcon>
-                                </div>
-                                -->
-                                <UserRating :rating="offerInfo.user.rating"></UserRating>
                             </div>
-                        </div>
-                    </template>
-                </div>
-                <div
+                        </template>
+                    </div>
+                    <div
                         class="cook-info-additional pl-3 pr-3"
                         v-bind:class="hiddenUserBlock || (!offerInfo.user || !offerInfo.user.id) ? 'pt-2 pt-sm-3' : 'pl-sm-4 pl-md-5'"
-                >
-                    <div class="cook-time">
-                        <SvgIcon icon="clock"></SvgIcon>
-                        <span class="ml-3">Ready at {{readyTimeStr}}</span>
+                    >
+                        <div class="cook-time">
+                            <SvgIcon icon="clock"></SvgIcon>
+                            <span class="ml-3">Ready at {{readyTimeStr}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </router-link>
     </div>
 </template>
 

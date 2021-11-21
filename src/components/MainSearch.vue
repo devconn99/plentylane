@@ -3,10 +3,10 @@
         <div class="row pad-70b">
             <div class="col-12">
                 <SearchFilters
-                        @on-filters-changed="onFiltersChanged"
-                        @on-view-type-changed="onViewTypeChanged"
-                        :search-str="searchStr"
-                        :is-submitting="isSubmitting"
+                    @on-filters-changed="onFiltersChanged"
+                    @on-view-type-changed="onViewTypeChanged"
+                    :search-str="searchStr"
+                    :is-submitting="isSubmitting"
                 ></SearchFilters>
             </div>
         </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="row" v-if="results && results.length && !shouldShowMap">
-            <div class="col-sm-6 col-xl-4 mb-4" v-for="item in results">
+            <div class="col-sm-6 col-xl-4 mb-4" v-for="item in results" v-bind:key="item">
                 <OfferInfoBlock :offer-info="item"></OfferInfoBlock>
             </div>
         </div>

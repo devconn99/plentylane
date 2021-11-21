@@ -96,7 +96,7 @@
                     <div class="dashboard-aside-box">
                         <nav id="nav-dashboard">
                             <ul class="nav-menu-dashboard">
-                                <li v-for="navItem in navMenuItems" v-bind:class="{ 'active': navItem.isActive }">
+                                <li v-for="navItem in navMenuItems" v-bind:class="{ 'active': navItem.isActive }" v-bind:key="navItem.iconName">
                                     <div class="nav-link" @click.stop.prevent="redirectToPath(navItem.path)">
                                         <SvgIcon :icon="navItem.iconName"></SvgIcon>
                                         <span>{{navItem.text}}</span>
