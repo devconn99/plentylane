@@ -1,5 +1,6 @@
 export default {
-    API_ORIGIN: 'https://plenty-lane-dev.herokuapp.com',
+    // API_ORIGIN: 'http://192.168.0.140:3002',
+    API_ORIGIN: 'https://api.plentylane.com',
     PWD_MIN_LENGTH: 8,
     PWD_MAX_LENGTH: 20,
     USER_NAME_MIN_LENGTH: 6,
