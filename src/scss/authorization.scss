@@ -48,8 +48,13 @@
 			@media screen and (max-width: $phoneBigWidth) {
 				margin-top: 40px;
 			}
-			p:last-child {
-				margin-bottom: 0;
+
+			h4 {
+  			font-family: $FilsonProBold;
+				font-size: 18px;
+				line-height: 24px;
+				color: $textBlackColor;
+				margin-top: 1px;
 			}
 		}
 	}

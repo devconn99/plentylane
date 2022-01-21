@@ -7,8 +7,8 @@
 ********************/
 
 ul.nav-menu-landing {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 	list-style: none;
 	display: flex;
 	justify-content: flex-end;
@@ -407,8 +407,8 @@ ul.nav-menu-landing {
 	justify-content: space-between;
 	height: 100%;
 	-webkit-transition: all 0.3s;
-		-o-transition: all 0.3s;
-		transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
 	@media screen and (max-width: $desktopWidth) {
 		padding: 30px 25px;
 	}
