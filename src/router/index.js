@@ -76,6 +76,16 @@ const routes = [
         }
     },
     {
+        path: "/sign-up-success",
+        name: "SignUpSuccess",
+        component: () => import("../views/SignUpSuccess.vue"),
+        meta: {
+            title: `${TITLE} - Sign Up Success`,
+            // authHelper: true,
+            hideLoaderWithDelay: true
+        }
+    },
+    {
         path: "/dashboard",
         component: () => import("../views/Dashboard.vue"),
         meta: {

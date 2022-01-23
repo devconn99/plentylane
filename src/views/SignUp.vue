@@ -25,13 +25,13 @@
 
             <h1 class="title-size3 titleGreenNavyColor">Register for Plenty Lane</h1>
 
-            <b-alert
+            <!-- <b-alert
               :show="submitted && showSuccessAlert"
               dismissible
               variant="success"
             >
               <p>You've been registered successfully. Please use your email and password to login.</p>
-            </b-alert>
+            </b-alert> -->
             <b-alert
               :show="submitted && showErrorAlert"
               dismissible
@@ -148,7 +148,7 @@ export default {
   components: {Loading, SvgIcon},
   mixins: [validationMixin],
   data: () => ({
-    showSuccessAlert: false,
+    // showSuccessAlert: false,
     showErrorAlert: false,
     pwdMinLength: config.PWD_MIN_LENGTH,
     pwdMaxLength: config.PWD_MAX_LENGTH,
@@ -238,10 +238,8 @@ export default {
       api.auth.signUp(userData)
         .then(() => {
           this.isSubmitting = false;
-          this.showSuccessAlert = true;
-          setTimeout(() => {
-            this.$router.push({ path: '/login' });
-          }, 3000);
+          // this.showSuccessAlert = true;
+          this.$router.push({ path: '/sign-up-success' });
         })
         .catch(err => {
           // error message will disappear on focus or on change value
@@ -266,18 +264,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.btn-sign-up {
-  padding-left: 60px;
-  padding-right: 60px;
-}
-.alert {
-  padding-left: 25px;
-  margin-bottom: 35px;
-}
-.alert-dismissible .close {
-  padding-right: 25px;
-}
-.gift-section {
-  margin-top: 50px;
-}
+  .btn-sign-up {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  .alert {
+    padding-left: 25px;
+    margin-bottom: 35px;
+  }
+  .alert-dismissible .close {
+    padding-right: 25px;
+  }
+  .gift-section {
+    margin-top: 50px;
+  }
 </style>
