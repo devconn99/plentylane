@@ -430,13 +430,15 @@ ul.nav-menu-landing {
 			}
 		}
 		.price-plan {
-			background: rgba(245, 190, 0, 0.5);
 			padding: 8px 19px;
 			font-size: 24px;
 			line-height: 24px;
 			color: $textBlackColor;
 			font-family: $LacaProSemiBold;
 			display: inline-block;
+			&:last-of-type {
+				background: rgba(245, 190, 0, 0.5);
+			}
 		}
 		ul.price-benefits {
 			li {

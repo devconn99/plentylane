@@ -31,7 +31,7 @@
                             </nav>
                         </div>
                         <div class="copyright">
-                            &copy;2020
+                            &copy;2022
                             <a href="https://www.plentylane.com" target="_blank">PlentyLane.com</a>. <span>All Rights Reserved.</span>
                         </div>
                     </div>

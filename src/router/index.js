@@ -26,6 +26,12 @@ const routes = [
         meta: { title: TITLE, hideLoaderWithDelay: true }
     },
     {
+        path: "/how-it-works",
+        name: "HowItWorks",
+        component: () => import("../views/HowItWorks.vue"),
+        meta: { title: TITLE, hideLoaderWithDelay: true }
+    },
+    {
         path: "/pricing",
         name: "Pricing",
         component: () => import("../views/Pricing.vue"),
