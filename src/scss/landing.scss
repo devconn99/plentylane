@@ -95,75 +95,78 @@ ul.nav-menu-landing {
 *      LANDING      *
 ********************/
 
-#home-page .hero {
-	padding: 180px 0 90px;
-	// path is fine
-	background-image: url('./assets/images/elements/landing/hero/illust_little.svg');
-	background-position: top center;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	position: relative;
-	@media screen and (max-width: $tableWidth) {
-		padding: 110px 0 30px;
-	}
-	&.hero-img {
-		text-align: center;
-		@media screen and (max-width: $phoneBigWidth) {
-			max-width: 60%;
-			margin: 0 auto;
-		}
-	}
-	.hero-shape {
-		overflow: hidden;
-		position: absolute;
-		left: 0;
-		width: 100%;
-		line-height: 0;
-		direction: ltr;
-		bottom: -1px;
-		z-index: 1000;
-	}
-	.hero-shape svg {
-		height: 160px;
-		display: block;
-		width: calc(100% + 1.3px);
-		position: relative;
-		left: 50%;
-		-webkit-transform: translateX(-50%);
-		-ms-transform: translateX(-50%);
-		transform: translateX(-50%);
-	}
-	.hero-shape-fill {
-		fill: $mainBackgroundColor;
-		-webkit-transform-origin: center;
-		-ms-transform-origin: center;
-		transform-origin: center;
-		-webkit-transform: rotateY(0deg);
-		transform: rotateY(0deg);
-	}
-	&.hero-main {
-		padding: 90px 0 0;
+#home-page {
+	.hero {
+		padding: 180px 0 90px;
 		// path is fine
-		background-image: url('./assets/images/elements/landing/hero/ilustr.svg');
+		background-image: url('./assets/images/elements/landing/hero/illust_little.svg');
 		background-position: top center;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		position: relative;
-		@media screen and (max-width: $phoneBigWidth) {
-			padding: 110px 0 0;
+		@media screen and (max-width: $tableWidth) {
+			padding: 110px 0 30px;
 		}
-		.empty-img-placeholder {
-			height: 443px;
+		.hero-section {
+			width: 800px;
+		}
+		.hero-img {
+			text-align: center;
+			width: 320px;
 
 			@media screen and (max-width: $phoneBigWidth) {
 				display: none;
-				height: 0;
+			}
+		}
+		.hero-shape {
+			overflow: hidden;
+			position: absolute;
+			left: 0;
+			width: 100%;
+			line-height: 0;
+			direction: ltr;
+			bottom: -1px;
+			z-index: 1000;
+		}
+		.hero-shape svg {
+			height: 160px;
+			display: block;
+			width: calc(100% + 1.3px);
+			position: relative;
+			left: 50%;
+			-webkit-transform: translateX(-50%);
+			-ms-transform: translateX(-50%);
+			transform: translateX(-50%);
+		}
+		.hero-shape-fill {
+			fill: $mainBackgroundColor;
+			-webkit-transform-origin: center;
+			-ms-transform-origin: center;
+			transform-origin: center;
+			-webkit-transform: rotateY(0deg);
+			transform: rotateY(0deg);
+		}
+		&.hero-main {
+			padding: 90px 0 0;
+			// path is fine
+			background-image: url('./assets/images/elements/landing/hero/ilustr.svg');
+			background-position: top center;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			position: relative;
+			@media screen and (max-width: $phoneBigWidth) {
+				padding: 110px 0 0;
+			}
+			.empty-img-placeholder {
+				height: 443px;
+	
+				@media screen and (max-width: $phoneBigWidth) {
+					display: none;
+					height: 0;
+				}
 			}
 		}
 	}
-}
-
-#home-page {
 	.header-with-wave {
 		padding-top: 110px;
 		background-color: #efebdd;

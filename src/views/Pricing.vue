@@ -1,18 +1,17 @@
 <template>
   <div id="home-page">
-    <Header activeItem="pricing"></Header>
+    <Header activeItem="pricing" isGreenColor></Header>
 
     <main>
-      <section class="header-with-wave">
+      <section class="hero green-bg">
         <div class="container">
           <div class="row align-items-center">
-            <div class="col-12 mx-auto mb-5 mb-sm-0 text-center mt-md-4">
-              <h1 class="title-size1 titleGreenNavyColor mb-4">Pricing</h1>
+            <div class="col-lg-7 col-md-10 mx-auto text-center">
+              <h1 class="title-size1 titleLightColor mb-4">Pricing</h1>
             </div>
           </div>
         </div>
-
-        <img class="header-img-doors" src="../assets/images/elements/landing/hero/header.svg" alt="">
+        <HeroWave></HeroWave>
       </section>
 
       <section class="welcome pad-70">
@@ -135,11 +134,12 @@
 import Footer from "../components/homepage/Footer";
 import Header from "../components/homepage/Header";
 import BackToTop from '../components/BackToTop';
+import HeroWave from '../components/HeroWave';
 import PromoLogo from '../components/homepage/PromoLogo';
 
 export default {
   name: "Pricing",
-  components: {Footer, Header, BackToTop, PromoLogo},
+  components: {Footer, Header, BackToTop, HeroWave, PromoLogo},
   mounted () {
     window.scrollTo(0, 0); // temp
     this.$eventHub.$emit('mobile-side-nav-closed');
