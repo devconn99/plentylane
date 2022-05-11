@@ -596,10 +596,10 @@ export default {
                     </svg>
                 `
             },
-            gift: function () {
+            gift: function (params) {
                 return `
                     <svg xmlns="http://www.w3.org/2000/svg" width="33px" height="26px" viewBox="0 0 33 26">
-                        <g id="Website-UI" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                        <g id="Website-UI" stroke="none" stroke-width="1" fill="#C54579" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
                             <g id="Register-1---Desktop" transform="translate(-79.000000, -1013.000000)" stroke="#000000">
                                 <g id="gift-box-1" transform="translate(80.000000, 1014.000000)">
                                     <path d="M13.3333309,14.6666647 L7.99999856,14.6666647 C7.26361903,14.6666647 6.66666547,14.0697105 6.66666547,13.3333309 L6.66666547,11.9999978 C6.66666547,11.2636183 7.26361903,10.6666647 7.99999856,10.6666647 L22.6666655,10.6666647 C23.4030421,10.6666647 23.9999957,11.2636183 23.9999957,11.9999978 L23.9999957,13.3333309 C23.9999957,14.0697105 23.4030421,14.6666647 22.6666655,14.6666647 L17.3333302,14.6666647" id="Path"/>

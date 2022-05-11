@@ -58,19 +58,19 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-1
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-1
+                      aria-expanded="true"
                     >
                       What happens if I can’t pick up a meal I reserved?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-1"
-                      visible
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-1')"
+                    id="accordion-1"
+                    visible
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-1')"
                   >
                     <div class="faq-text">
                       If you cancel your reservation at least 24 hours before the meal is ready
@@ -84,19 +84,19 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-2
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-2
+                      aria-expanded="true"
                     >
                       Do I still get credits for cooking if someone cancels within 24 hours or
                       doesn’t show to pick up their serving(s)?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-2"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-2')"
+                    id="accordion-2"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-2')"
                   >
                     <div class="faq-text">
                       Yes you do! Diners must cancel at least 24 hours in advance or you will
@@ -108,18 +108,18 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-3
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-3
+                      aria-expanded="true"
                     >
                       How do I cancel a meal I signed up to cook
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-3"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-3')"
+                    id="accordion-3"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-3')"
                   >
                     <div class="faq-text">
                       TBD
@@ -130,19 +130,19 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-4
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-4
+                      aria-expanded="true"
                     >
                       What do I do if I want to share more servings than the number of Plenty
                       Lane Snap containers I have?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-4"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-4')"
+                    id="accordion-4"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-4')"
                   >
                     <div class="faq-text">
                       <p class="mb-2">
@@ -171,18 +171,18 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-5
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-5
+                      aria-expanded="true"
                     >
                       How do I change the plan I am on or cancel my account?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-5"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-5')"
+                    id="accordion-5"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-5')"
                   >
                     <div class="faq-text">
                       TBD
@@ -193,18 +193,18 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-6
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-6
+                      aria-expanded="true"
                     >
                       What if no one takes the meals I post?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-6"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-6')"
+                    id="accordion-6"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-6')"
                   >
                     <div class="faq-text">
                       If no one has reserved your meals by the time you start cooking, you can
@@ -225,18 +225,18 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-7
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-7
+                      aria-expanded="true"
                     >
                       Can I gift a Plenty Lane subscription to someone else?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-7"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-7')"
+                    id="accordion-7"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-7')"
                   >
                     <div class="faq-text">
                       TBD
@@ -247,18 +247,18 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-8
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-8
+                      aria-expanded="true"
                     >
                       How do I report a problem with a Cook or Diner?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-8"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-8')"
+                    id="accordion-8"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-8')"
                   >
                     <div class="faq-text">
                       Please send us an email asap to
@@ -271,18 +271,18 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-9
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-9
+                      aria-expanded="true"
                     >
                       What if I have a dietary restriction or food allergies?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-9"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-9')"
+                    id="accordion-9"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-9')"
                   >
                     <div class="faq-text">
                       All are welcome here! We want everyone to be able to feel included at
@@ -297,19 +297,19 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-10
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-10
+                      aria-expanded="true"
                     >
                       What about Food Safety - protocols should I follow or how safe is it to eat
                       what others prepare?
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-10"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-10')"
+                    id="accordion-10"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-10')"
                   >
                     <div class="faq-text">
                       Please review our
@@ -322,18 +322,18 @@
                 <div class="faq-box">
                   <div class="faq-title" role="tab">
                     <a
-                        class="title-size3 titleGreenNavyColor collapsible-link"
-                        v-b-toggle.accordion-11
-                        aria-expanded="true"
+                      class="title-size3 titleGreenNavyColor collapsible-link"
+                      v-b-toggle.accordion-11
+                      aria-expanded="true"
                     >
                       I still have a question that isn’t answered here.
                     </a>
                   </div>
                   <b-collapse
-                      id="accordion-11"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                      @shown="onShown('accordion-11')"
+                    id="accordion-11"
+                    accordion="my-accordion"
+                    role="tabpanel"
+                    @shown="onShown('accordion-11')"
                   >
                     <div class="faq-text">
                       No problem! Send us an email to

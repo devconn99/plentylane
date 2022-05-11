@@ -5,15 +5,15 @@
                 <SvgIcon icon="search" :params="{ stroke: '#9F9F95' }"></SvgIcon>
             </div>
             <b-form-input
-                    id="searchFormBig"
-                    type="search"
-                    name="search"
-                    placeholder="E.g. Fish Tacos"
-                    required
-                    class="form-control"
-                    autocomplete="off"
-                    v-model="$v.form.name.$model"
-                    v-on:keyup.enter="onSubmit"
+                id="searchFormBig"
+                type="search"
+                name="search"
+                placeholder="E.g. Fish Tacos"
+                required
+                class="form-control"
+                autocomplete="off"
+                v-model="$v.form.name.$model"
+                v-on:keyup.enter="onSubmit"
             ></b-form-input>
             <b-btn class="btnGreen btnBigSize text-uppercase hover-slide-left search-button" @click.stop="onSubmit">
                 <span>Search</span>

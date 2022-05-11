@@ -15,13 +15,21 @@
     <main>
       <section class="authorization">
         <div class="authorization-box">
+          <div class="authorization-label">
+            <p>Account creation sent me here. to this page.</p>
+            <p>
+              Need accoutnt Type selection, payment, etc <strong>FIRST</strong>
+              I will label this NEW pages "AFTER ACCOUNT CREATION"
+            </p>
+          </div>
+
           <div class="authorization-box-position pt-0 position-relative">
             <h1 class="title-size2 titleGreenNavyColor">Congratulations!</h1>
 
             <div class="authorization-box-info">
               <p>
                 <span class="font-weight-bold">Welcome to Plenty Lane!</span>
-                We'll ship your containers and send you an email with tips to get stated.
+                We'll ship your containers and send you an email with tips to get started.
                 In the meantime, <router-link to="/login">login</router-link> to see what's cooking.
               </p>
             </div>
@@ -45,3 +53,17 @@
     name: "SignUpSuccess",
   }
 </script>
+
+<style scoped lang="scss">
+  .authorization-label {
+    margin: 0 80px 25px;
+
+    p, strong {
+      line-height: 1.75;
+      font-size: 20px;
+      text-align: center;
+      margin: 0;
+      color: #194F5A;
+    }
+  }
+</style>

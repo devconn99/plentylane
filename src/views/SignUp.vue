@@ -65,6 +65,17 @@
               </b-form-group>
               <b-form-group>
                 <b-form-input
+                  v-model="$v.form.phoneNumber.$model"
+                  @focus="focusHandler"
+                  @input="resetError"
+                  placeholder="Phone 000-000-0000"
+                ></b-form-input>
+                <small class="text-notification d-flex mt-2 text-left">We wan't share your contact information.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phoneNumber.$dirty && !$v.form.phoneNumber.required">This is a required field.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.phoneNumber.isValidPhoneNumber">Please enter valid phone number.</small>
+              </b-form-group>
+              <b-form-group>
+                <b-form-input
                   v-model.trim="$v.form.username.$model"
                   type="text"
                   @focus="focusHandler"
@@ -119,12 +130,15 @@
               </div>
               <div class="gift-section">
                 <div class="d-flex align-items-center mb-3">
-                  <SvgIcon icon="gift" />
-                  <h4 class="pt-2 pl-3">
+                  <SvgIcon icon="gift" params="{ fill: #C54579 }" />
+                  <h4 class="text-notification pt-2 pl-3">
                     Getting Plenty Lane as a gift?
                   </h4>
                 </div>
-                <span>If this is a gift, register for the recipient, not yourself</span>
+                <span>
+                  If this is a gift, register for the <strong>recipient</strong>, not yourself.
+                  You will name an opportunity to write a gift message.
+                </span>
               </div>
             </div>
           </div>
@@ -158,6 +172,7 @@ export default {
     form: {
       fullName: '',
       email: '',
+      phoneNumber: '',
       username: '',
       password: '',
       passwordConfirm: ''
@@ -174,6 +189,13 @@ export default {
       },
       fullName: {
         required
+      },
+      phoneNumber: {
+        required,
+        isValidPhoneNumber(value) {
+          if (value === '') return true;
+          return /^[2-9]\d{2}-[2-9]\d{2}-\d{4}$/.test(value);
+        }
       },
       username: {
         required,
@@ -277,5 +299,8 @@ export default {
   }
   .gift-section {
     margin-top: 50px;
+  }
+  .text-notification {
+    color: #194F5A;
   }
 </style>

@@ -22,13 +22,13 @@
                 <div class="spoon"></div>
               </div>
               <div class="description">
-                <p>Our pricing model was crafted to make sure that no matter what plan you are on, you
-                  can swap as much as you want with
-                  the people in your network. Want to expand your network to swap with more people? Go
-                  for our Casual Plan! Ready to
-                  unlock everything Plenty Lane has to offer and swap with every Laner out there? Jump
-                  aboard our Unlimited Plan!
-                </p>
+                <p>Our pricing model was crafted to fit any budget.</p>
+                <ul>
+                  <li>Want to swap easily with just a few people for free? Join our Starter plan!</li>
+                  <li>Want to expand your network to swap with more people? Go for our Casual Plan!</li>
+                  <li>Ready to unlock everything Plenty Lane has to offer? Jump aboard our Unlimited Plan!</li>
+                </ul>
+                <p>Your first month is on us, to give you time to to build your swapping network.</p>
               </div>
               <div class="background-element pad-70t">
                 <div class="fork"></div>
@@ -52,9 +52,11 @@
                         <span>7</span>
                         other members
                       </div>
+                      <div class="price-plan w-100">&nbsp;</div>
                       <div class="price-plan mb-4">$0/mo</div>
                       <ul class="price-benefits mb-3">
-                        <li>Plus $29.50 for <br/> four Plenty Lane containers to swap meals in</li>
+                        <li>Plus $29.50 for <br/>
+                        four Plenty Lane containers* to swap meals in</li>
                       </ul>
                     </div>
                     <div class="price-btn">
@@ -76,7 +78,7 @@
                       <div class="price-plan">$4.95/mo</div>
                       <div class="price-plan mb-4">$49.50/yr</div>
                       <ul class="price-benefits mb-3">
-                        <li>Plus $29.50 for <br/> four Plenty Lane containers to swap meals in</li>
+                        <li>Plus $29.50 for <br/> four Plenty Lane containers* to swap meals in</li>
                       </ul>
                     </div>
                     <div class="price-btn">
@@ -98,7 +100,7 @@
                       <div class="price-plan">$8.95/mo</div>
                       <div class="price-plan mb-4">$89.50/yr</div>
                       <ul class="price-benefits mb-3">
-                        <li>Plus $29.50 for <br/> four Plenty Lane containers to swap meals in</li>
+                        <li>Plus $29.50 for <br/> four Plenty Lane containers* to swap meals in</li>
                       </ul>
                     </div>
                     <div class="price-btn">
@@ -113,8 +115,18 @@
           </div>
           <div class="row mt-3 mt-lg-5">
             <div class="col-lg-7 col-md-10 mx-auto text-center">
+              <p style="font-size: 24px; line-height: 28.5px;">
+                * Everyone swaps in the Plenty Lane Snap containers to set a standard for meal size and
+                so you don't have to chase down your personal containers when the meal is done.
+              </p>
+
+              <div class="row mb-4">
+                <img src="../assets/images/landing/container1.jpg" alt="" class="col-12 col-md-6 img-fluid" />
+                <img src="../assets/images/landing/container2.jpg" alt="" class="col-12 col-md-6 img-fluid" />
+              </div>
+
               <p>
-                * You can cancel at any time and the unused portion of your subscription will be refunded.
+                You can cancel at any time and the unused portion of your subscription will be refunded.
               </p>
             </div>
           </div>
@@ -148,4 +160,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.description {
+  ul {
+    text-align: left;
+    margin: 0 50px 25px 50px;
+    li {
+      list-style-type: circle;
+    }
+  }
+}
 </style>

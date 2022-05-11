@@ -19,7 +19,7 @@
                                         <router-link to="/faqs">FAQs</router-link>
                                     </li>
                                     <li>
-                                        <router-link to="/food-safety">Food Safety</router-link>
+                                        <router-link to="/food-safety">Food Safety FAQs</router-link>
                                     </li>
                                     <li>
                                         <router-link to="/terms">Terms</router-link>

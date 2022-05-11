@@ -157,7 +157,11 @@ export default {
                             this.$store.commit('userInfo', { ...data });
                             localStorage.setItem('plUserId', data.id);
                             this.isSubmitting = false;
-                            this.$router.push({ path: '/dashboard' });
+                            if(data.subscription!=null) {
+                            	this.$router.push({ path: '/dashboard' });
+                            } else {
+                                this.$router.push('/choose-plan' );
+                            }
                         })
                         .catch((err) => {
                             this.isSubmitting = false;

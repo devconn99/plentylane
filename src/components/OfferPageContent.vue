@@ -65,7 +65,10 @@
                             </b-btn>
                             <div class="meal-reserved-info w-100 mb-4" v-if="wasReserved">Meal Reserved!</div>
                             <b-btn class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-4" @click="showContactCookModal">
-                                <span>Contact cook</span>
+                                <span class="d-block pb-2 pt-3">
+                                    Contact cook
+                                    <p>(Private message)</p>
+                                </span>
                             </b-btn>
                             <b-btn
                                     class="btnNavyRedTransparent btnNormalSize btn100 hover-slide-left"
@@ -186,7 +189,10 @@
                 <div class="row mb-5 d-flex justify-content-end" v-if="shouldAllowAskQuestion && !isLoadingMealQuestions">
                     <div class="col-12 col-lg-4">
                         <b-btn class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-4" @click="showAskQuestionModal">
-                            <span>Ask question</span>
+                            <span class="d-block pb-2 pt-3">
+                                Ask question
+                                <p>(Posted publicly)</p>
+                            </span>
                         </b-btn>
                     </div>
                 </div>

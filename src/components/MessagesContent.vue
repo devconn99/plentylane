@@ -10,10 +10,10 @@
         </div>
         <div class="msg-content" ref="msgContent" v-if="messages && messages.length">
             <div
-                    class="msg-item"
-                    v-for="(msg, index) in messages"
-                    v-bind:key="msg.id"
-                    v-bind:class="{ 'your-msg': msg.isCurrentUserMsg }"
+                class="msg-item"
+                v-for="(msg, index) in messages"
+                v-bind:key="msg.id"
+                v-bind:class="{ 'your-msg': msg.isCurrentUserMsg }"
             >
                 <template v-if="msg.isCurrentUserMsg">
                     <div class="msg-time" v-if="isMsgInfoVisible(index, msg)">{{msg.displayTime}}</div>

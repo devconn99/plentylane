@@ -11,7 +11,7 @@
               <div class="ml-md-5 text-center text-md-left">
                 <h1 class="title-size1 titleLightColor mb-4">Tired of cooking dinner?</h1>
                 <div class="description titleLightColor mb-4">
-                  Plenty Lane’s meal swapping network helps friends and neighbors share home cooked meals.
+                  Swap home cooked meals with friends and neighbors.
                 </div>
                 <router-link to="/sign-up" class="btnLightRed btnNormalSize btn50 hover-slide-left">
                   <span>Sign Up Today!</span>
@@ -29,13 +29,23 @@
             <div class="col-lg-7 col-md-10 mx-auto text-center">
               <h2 class="title-size2 titleGreenNavyColor mb-5">What is Plenty Lane?</h2>
               <div class="description">
-                <p>Plenty Lane is a meal swapping network built to make sharing food with friends and neighbors
-                  as easy as pie...or tacos...or whatever you’re in the mood for. We help you cut down on time
-                  spent in the kitchen, reduce money spent on take out, and connect you with your community in
-                  a new and meaningful way.</p>
-                <p>When you’re cooking a little extra, go ahead and share it with your Plenty Lane community - they’ll
+                <p>
+                  Plenty Lane is a meal swapping network built to make sharing food with friends and neighbors
+                  as easy as pie...or tacos...or whatever you’re in the mood for.
+                </p>
+                <div class="list">
+                  We help you:
+                  <ul>
+                    <li> cut down on time spent in the kitchen </li>
+                    <li> reduce money spent on take out </li>
+                    <li> connect with your community in a new and meaningful way </li>
+                  </ul>
+                </div>
+                <p>
+                  When you’re cooking a little extra, go ahead and share it with your Plenty Lane community - they’ll
                   do the same. Next time you’d rather put on a robe than an apron, just pick up a meal from your
-                  friends and neighbors, there’s plenty to go around!</p>
+                  friends and neighbors. There’s plenty to go around!
+                </p>
               </div>
             </div>
             <!-- TODO: insert actual video
@@ -79,8 +89,10 @@
           <div class="row align-items-center">
             <div class="col-lg-5 col-sm-6 ml-auto text-center text-sm-left">
               <h3 class="title-size3 titleGreenNavyColor mb-3">As easy as Cook, Snap, Share!</h3>
-              <p>Cook meals and give them to friends and neighbors for credits, then use those credits to take meals
-                that others have made!</p>
+              <p>
+                Cook meals and give them to friends and neighbors for tokens, then use those tokens to take meals
+                that others have made!
+              </p>
             </div>
             <div class="col-lg-5 col-sm-6 mr-auto text-center mt-4 mt-sm-0">
               <img src="../assets/images/landing/img-cook-snap-share.svg" alt="" class="img-fluid">
@@ -106,14 +118,22 @@ import HeroWave from '../components/HeroWave';
 import PromoLogo from '../components/homepage/PromoLogo';
 
 export default {
-    name: 'Home',
-    components: {Footer, Header, BackToTop, HeroWave, PromoLogo},
-    mounted () {
-        window.scrollTo(0, 0); // temp
-        this.$eventHub.$emit('mobile-side-nav-closed');
-    }
+  name: 'Home',
+  components: {Footer, Header, BackToTop, HeroWave, PromoLogo},
+  mounted () {
+    window.scrollTo(0, 0); // temp
+    this.$eventHub.$emit('mobile-side-nav-closed');
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.description .list {
+  text-align: left;
+  margin: 0 50px 25px;
+  ul li {
+    list-style-type: circle;
+    margin-left: 20px;
+  }
+}
 </style>

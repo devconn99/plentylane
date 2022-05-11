@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <img src="../../assets/images/landing/share-more-clean-less.svg" alt="" class="img-fluid">
+                    <img src="../../assets/images/landing/more-food-utensils.svg" alt="" class="img-fluid">
                 </div>
             </div>
         </div>

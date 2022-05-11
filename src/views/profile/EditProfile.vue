@@ -52,23 +52,23 @@
                         </b-form-group>
                         <b-form-group label="First Name">
                             <b-form-input
-                                    name="firstName"
-                                    v-model="$v.form.firstName.$model"
-                                    placeholder="First Name"
-                                    @focus="focusHandler"
-                                    @input="hideAlerts"
-                                    autocomplete="off"
+                                name="firstName"
+                                v-model="$v.form.firstName.$model"
+                                placeholder="First Name"
+                                @focus="focusHandler"
+                                @input="hideAlerts"
+                                autocomplete="off"
                             ></b-form-input>
                             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.firstName.$dirty && !$v.form.firstName.required">This is a required field.</small>
                         </b-form-group>
                         <b-form-group label="Last Name">
                             <b-form-input
-                                    name="lastName"
-                                    v-model="$v.form.lastName.$model"
-                                    placeholder="Last Name"
-                                    @focus="focusHandler"
-                                    @input="hideAlerts"
-                                    autocomplete="off"
+                                name="lastName"
+                                v-model="$v.form.lastName.$model"
+                                placeholder="Last Name"
+                                @focus="focusHandler"
+                                @input="hideAlerts"
+                                autocomplete="off"
                             ></b-form-input>
                             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.lastName.$dirty && !$v.form.lastName.required">This is a required field.</small>
                         </b-form-group>
@@ -97,12 +97,12 @@
                         </b-form-group>
                         <b-form-group label="Phone">
                             <b-form-input
-                                    name="phone"
-                                    v-model="$v.form.phone.$model"
-                                    placeholder="Phone"
-                                    @focus="focusHandler"
-                                    @input="hideAlerts"
-                                    autocomplete="off"
+                                name="phone"
+                                v-model="$v.form.phone.$model"
+                                placeholder="Phone"
+                                @focus="focusHandler"
+                                @input="hideAlerts"
+                                autocomplete="off"
                             ></b-form-input>
                             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && !$v.form.phone.required">This is a required field.</small>
                             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && $v.form.phone && !$v.form.phone.isValidPhone">Please enter valid phone.</small>
@@ -113,8 +113,8 @@
                         <div class="form-group">
                             <label class="mb-0" for="profile_photo_input">Profile Image</label>
                             <div
-                                    class="profile-img"
-                                    v-bind:class="{ 'no-image': !profilePhotoUrl || !profilePhotoUrl.length }"
+                                class="profile-img"
+                                v-bind:class="{ 'no-image': !profilePhotoUrl || !profilePhotoUrl.length }"
                             >
                                 <template v-show="profilePhotoUrl && profilePhotoUrl.length">
                                     <img :src="profilePhotoUrl" ref="userPhoto" alt="Profile Image" class="img-fluid" />
@@ -137,9 +137,9 @@
                                     <span>Upload Image</span>
                                 </b-btn>
                                 <p
-                                        v-if="hasOriginalImage()"
-                                        class="cursor-pointer delete-image-trigger"
-                                        @click="showConfirmRemovePhotoModal"
+                                    v-if="hasOriginalImage()"
+                                    class="cursor-pointer delete-image-trigger"
+                                    @click="showConfirmRemovePhotoModal"
                                 >Delete Image</p>
                             </div>
                         </div>
@@ -147,23 +147,27 @@
 
                     <div class="col-12">
                         <b-form-group label="Bio">
-                        <textarea
+                            <textarea
                                 name="bio"
                                 v-model="$v.form.bio.$model"
-                                placeholder="Bio"
+                                placeholder="Tell us a little about yourself.
+Why have you joined Plenty Lane?
+What kind of food do you like to cook or eat?
+Anything else you would like members to know?"
                                 @focus="focusHandler"
                                 @input="hideAlerts"
                                 autocomplete="off"
-                        ></textarea>
+                                rows="4"
+                            ></textarea>
                         </b-form-group>
                     </div>
 
                     <div class="col-lg-6 col-xl-5 ml-auto">
                         <div class="btn-box">
                             <b-btn
-                                    type="submit"
-                                    class="btnGreen btnNormalSize btn100 hover-slide-left"
-                                    :disabled="$v.$invalid || submitted"
+                                type="submit"
+                                class="btnGreen btnNormalSize btn100 hover-slide-left"
+                                :disabled="$v.$invalid || submitted"
                             >
                                 <span>Save Changes</span>
                             </b-btn>
@@ -473,6 +477,10 @@ export default {
                 text-decoration: none;
                 color: $greenColor;
             }
+        }
+
+        textarea::-webkit-input-placeholder {
+            line-height: inherit;
         }
     }
     .profile-img {

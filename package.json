@@ -1,6 +1,6 @@
 {
   "name": "plentylane-fe",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Plenty Lane’s meal swapping network helps friends and neighbors share home cooked meals.",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "npm run serve"
   },
   "dependencies": {
+    "@vue-stripe/vue-stripe": "^4.4.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.21.2",

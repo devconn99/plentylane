@@ -251,6 +251,7 @@ export default {
         },
         editPaymentMethod () {
             // TODO
+            
         },
         postOrder () {
             // TODO: use api when ready
