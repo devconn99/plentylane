@@ -29,7 +29,7 @@
             <div class="col-12 col-md-6">
               <div class="row">
                 <div class="col-6 col-md-4">Plan</div>
-                <div class="col-6">{{ getPlanName | kebabCaseToSpace }}</div>
+                <div class="col-6">{{ getPlanName | kebabToTitleCase }}</div>
               </div>
               <div class="row mb-2">
                 <div class="col-6 col-md-4">Price</div>
@@ -37,8 +37,13 @@
               </div>
               <div class="row mb-2">
                 <div class="col-10">
-                  * You will be charged <span v-if="getFrequency=='annual'">${{ getPlanPrice }} plan price + </span>  $29.50
-                  initial fee
+                  * You will be charged
+                  <span v-if="getFrequency == 'annual'">
+                    ${{ getPlanPrice }} plan price
+                  </span>
+                  <span v-if="!isUpdateCase">
+                    + $29.50 initial fee
+                  </span>
                 </div>
               </div>
             </div>
@@ -53,54 +58,33 @@
                     />
                     <small
                       class="text-danger d-flex mt-1 text-left"
-                      v-if="
-                        $v.userDetails.name.$dirty &&
-                        !$v.userDetails.name.required
-                      "
-                      >This is a required field.</small
-                    >
+                      v-if="$v.userDetails.name.$dirty && !$v.userDetails.name.required"
+                    >This is a required field.</small>
                   </b-form-group>
                   <b-form-group>
-                    <b-form-input
-                      v-model="$v.userDetails.email.$model"
-                      placeholder="Email"
-                    />
+                    <b-form-input v-model="$v.userDetails.email.$model" placeholder="Email" />
                     <small
                       class="text-danger d-flex mt-2 text-left"
                       v-if="!$v.userDetails.email.email"
-                      >Please enter valid email address.</small
-                    >
+                    >Please enter valid email address.</small>
                     <small
                       class="text-danger d-flex mt-2 text-left"
-                      v-if="
-                        $v.userDetails.email.$dirty &&
-                        !$v.userDetails.email.required
-                      "
-                      >This is a required field.</small
-                    >
+                      v-if="$v.userDetails.email.$dirty && !$v.userDetails.email.required"
+                    >This is a required field.</small>
                   </b-form-group>
                   <b-form-group>
-                    <b-form-input
-                      v-model="$v.userDetails.phone.$model"
-                      placeholder="Phone"
-                      autocomplete="off"
-                    />
+                    <b-form-input v-model="$v.userDetails.phone.$model" placeholder="Phone" autocomplete="off" />
                     <small
                       class="text-danger d-flex mt-2 text-left"
-                      v-if="
-                        $v.userDetails.phone.$dirty &&
-                        !$v.userDetails.phone.required
-                      "
-                      >This is a required field.</small
-                    >
+                      v-if="$v.userDetails.phone.$dirty && !$v.userDetails.phone.required"
+                    >This is a required field.</small>
                     <small
                       class="text-danger d-flex mt-2 text-left"
                       v-if="!$v.userDetails.phone.isValidPhoneNumber"
-                      >Please enter valid phone number.</small
-                    >
+                    >Please enter valid phone number.</small>
                   </b-form-group>
 
-                  <b-form-group>
+                  <b-form-group v-if="!isUpdateCase">
                     <b-form-input
                       v-model="$v.userDetails.address.line1.$model"
                       placeholder="Street"
@@ -108,15 +92,11 @@
                     />
                     <small
                       class="text-danger d-flex mt-2 text-left"
-                      v-if="
-                        $v.userDetails.address.line1.$dirty &&
-                        !$v.userDetails.address.line1.required
-                      "
-                      >This is a required field.</small
-                    >
+                      v-if="$v.userDetails.address.line1.$dirty && !$v.userDetails.address.line1.required"
+                    >This is a required field.</small>
                   </b-form-group>
 
-                  <div class="d-flex mt-2">
+                  <div class="d-flex mt-2" v-if="!isUpdateCase">
                     <b-form-group>
                       <b-form-input
                         v-model="$v.userDetails.address.city.$model"
@@ -125,12 +105,8 @@
                       />
                       <small
                         class="text-danger d-flex mt-2 text-left"
-                        v-if="
-                          $v.userDetails.address.city.$dirty &&
-                          !$v.userDetails.address.city.required
-                        "
-                        >This is a required field.</small
-                      >
+                        v-if="$v.userDetails.address.city.$dirty && !$v.userDetails.address.city.required"
+                      >This is a required field.</small>
                     </b-form-group>
 
                     <b-form-group>
@@ -148,12 +124,8 @@
                       />
                       <small
                         class="text-danger d-flex mt-2 text-left"
-                        v-if="
-                          $v.userDetails.address.state.$dirty &&
-                          !$v.userDetails.address.state.required
-                        "
-                        >This is a required field.</small
-                      >
+                        v-if="$v.userDetails.address.state.$dirty && !$v.userDetails.address.state.required"
+                      >This is a required field.</small>
                     </b-form-group>
                     <b-form-group>
                       <b-form-input
@@ -163,15 +135,12 @@
                       />
                       <small
                         class="text-danger d-flex mt-2 text-left"
-                        v-if="
-                          $v.userDetails.address.country.$dirty &&
-                          !$v.userDetails.address.country.required
-                        "
-                        >This is a required field.</small
-                      >
+                        v-if="$v.userDetails.address.country.$dirty && !$v.userDetails.address.country.required"
+                      >This is a required field.</small>
                     </b-form-group>
                   </div>
                   <StripeElementCard
+                    v-if="!isUpdateCase"
                     class="mt-2"
                     ref="elementRef"
                     :testMode="true"
@@ -187,14 +156,7 @@
           <div class="row">
             <div class="d-flex justify-content-center" style="width: 100%">
               <b-button
-                class="
-                  mt-4
-                  btnGreen
-                  btnBigSize
-                  btn50
-                  text-uppercase
-                  hover-slide-left
-                "
+                class="mt-4 btnGreen btnBigSize btn50 text-uppercase hover-slide-left"
                 @click="submitCardData"
               >
                 <span>Subscribe to plan</span>
@@ -215,7 +177,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, email } from "vuelidate/lib/validators";
+import { required,email,requiredIf } from "vuelidate/lib/validators";
 
 import Footer from "../components/homepage/Footer";
 import Header from "../components/homepage/Header";
@@ -230,7 +192,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "PlanCheckout",
-  mixins: [mobileDetectorMixin, validationMixin],
+  mixins: [mobileDetectorMixin,validationMixin],
   components: {
     Footer,
     Header,
@@ -248,7 +210,7 @@ export default {
     }
   },
   mounted() {
-    window.scrollTo(0, 0); // temp
+    window.scrollTo(0,0); // temp
     this.$eventHub.$emit("mobile-side-nav-closed");
   },
   data: () => ({
@@ -280,22 +242,32 @@ export default {
         required,
         isValidPhoneNumber(value) {
           if (value === "") return true;
-          return /^[2-9]\d{2}-[2-9]\d{2}-\d{4}$/.test(value);
+          return /^[2-9]\d{2}-[2-9]\d{2}-\d{4}$/.test(value) || /^\d{10}$/.test(value);
         },
       },
       address: {
         line1: {
-          required,
+          required: requiredIf(function (form) {
+            return !this.isUpdateCase
+          })
         },
         city: {
-          required,
+          required: requiredIf(function (form) {
+            return !this.isUpdateCase
+          }),
         },
         state: {
-          required,
+          required: requiredIf(function (form) {
+            return !this.isUpdateCase
+          }),
         },
-        country: { required },
-      },
-    },
+        country: {
+          required: requiredIf(function (form) {
+            return !this.isUpdateCase
+          })
+        },
+      }
+    }
   },
   computed: {
     ...mapGetters({
@@ -306,7 +278,13 @@ export default {
       if (planData) {
         return planData;
       } else {
-        return this.$router.push("/choose-plan");
+        const { id } = this.$route.params
+        if (id) {
+          return this.$router.push(`/choose-plan/${id}`);
+        } else {
+          return this.$router.push("/choose-plan");
+        }
+
       }
     },
     getPlanName() {
@@ -321,24 +299,47 @@ export default {
     getFrequency() {
       return this.getPlanName.includes("monthly") ? "monthly" : "annual";
     },
+    isUpdateCase() {
+      return !!this.$route.params.id
+    }
   },
   methods: {
     manipulateUserDetails(user) {
-        const { email, fullName, phone } = user;
-        this.userDetails = {
-          ...this.userDetails,
-          email,
-          phone,
-          name: fullName,
-        };
-      
+      const { email,fullName,phone,subscription } = user;
+      this.userDetails = {
+        ...this.userDetails,
+        email,
+        phone,
+        name: fullName,
+        subscription
+      };
+      if (this.isUpdateCase) {
+        this.getSubscription()
+      }
+
     },
-    submitCardData() {
+
+    async getSubscription() {
+      const { id } = this.userDetails?.subscription
+
+      try {
+        const subscription = await api.payment.getSubscription(id)
+        this.$store.commit('updateSubscription',subscription);
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async submitCardData() {
       this.$v.userDetails.$touch();
       if (this.$v.userDetails.$anyError) {
         return;
       }
-      this.$refs.elementRef.submit();
+      if (!this.isUpdateCase) {
+        this.$refs.elementRef.submit();
+      } else {
+        await this.apiCallToGeneratePaymentIntent(null);
+      }
+
     },
     async tokenCreated(token) {
       if (token?.card) {
@@ -348,22 +349,32 @@ export default {
 
     async apiCallToGeneratePaymentIntent(token) {
       try {
-        let { customer, source } = await this.createCustomer(token.id);
-        if (customer && source) {
-          await this.createPayment(customer.id, token.card.id, source.id);
-          await this.createSubscription(customer.id, token.card.id);
+        const id = this.$route.params.id
+        if (id) {
+          const subscriptionId = this.userDetails?.subscription?.stripesubscriptionId
+          const planId = this.userDetails?.subscription?.plan?.id
+          const updatedSubscription = await this.updateSubscription(id,subscriptionId,planId)
+          this.$store.commit('updateSubscription',updatedSubscription);
           this.$router.push("/plan-success");
+        } else {
+          let { customer,source } = await this.createCustomer(token.id);
+          if (customer && source) {
+            await this.createPayment(customer.id,token.card.id,source.id);
+            const createdSubscription = await this.createSubscription(customer.id,token.card.id);
+            this.$store.commit('updateSubscription',createdSubscription);
+            this.$router.push("/plan-success");
+          }
         }
       } catch (error) {
         console.log(error);
       }
     },
     async createCustomer(token) {
-      let customer = { ...this.userDetails, stripe_token: token };
+      let customer = { ...this.userDetails,stripe_token: token };
       let user = await api.payment.createCustomer(customer);
       return user;
     },
-    async createPayment(customerId, paymentMethod, sourceId) {
+    async createPayment(customerId,paymentMethod,sourceId) {
       const payment = {
         amount: 2950,
         customer: customerId,
@@ -373,8 +384,8 @@ export default {
       };
       return await api.payment.makePayment(payment);
     },
-    async createSubscription(customerId, paymentMethod) {
-      await api.payment.createSubscription({
+    async createSubscription(customerId,paymentMethod) {
+      return await api.payment.createSubscription({
         customerId,
         priceId: this.getPlanPriceId,
         userId: this.userInfo?.id || 1,
@@ -389,15 +400,31 @@ export default {
         },
       });
     },
+    async updateSubscription(id,subscriptionId,planId) {
+      return await api.payment.updateSubscription({
+        id,
+        subscriptionId,
+        priceId: this.getPlanPriceId,
+        userId: this.userInfo?.id,
+        plan: {
+          id: planId,
+          frequency: this.getFrequency,
+          name: this.getPlanName,
+          price: this.getPlanPrice,
+          signupFee: 29.5,
+          alias: this.getPlanName,
+          swapLimit: 0,
+        },
+      });
+    },
     loadUserInfo() {
       api.dashboard.profile
         .userInfo()
         .then((data) => {
           this.manipulateUserDetails({ ...data });
-          this.$store.commit("userInfo", { ...data });
-          // TODO
+          this.$store.commit("userInfo",{ ...data });
         })
-        .catch((err) => {});
+        .catch((err) => { });
     },
   },
 };
@@ -405,6 +432,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../scss/utils/vars";
+
 .bg-main {
   background: $mainBackgroundColor !important;
 }

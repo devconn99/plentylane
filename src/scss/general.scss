@@ -703,6 +703,23 @@ button {
 	}
 }
 
+.btn-round-sm {
+	background-color: $greenColor;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@media screen and (max-width: $tableWidth) {
+		width: 24px;
+		height: 24px;
+	}
+	&:hover, &:focus, &:active {
+		background-color: $greenLightColor;
+	}
+}
+
 /********************
 *     H1-H6 STYLE   *
 ********************/

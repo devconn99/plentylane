@@ -102,8 +102,27 @@ const routes = [
     },
   },
   {
+    path: "/choose-plan/:id",
+    name: "ChoosePlanEdit",
+    component: () => import("../views/ChoosePlan.vue"),
+    meta: {
+      title: `${TITLE} - Choose A Plan`,
+      hideLoaderWithDelay: true,
+    },
+  },
+  {
     path: "/plan-checkout",
     name: "PlanCheckout",
+    component: () => import("../views/Checkout.vue"),
+    meta: {
+      title: `${TITLE} - Checkout`,
+      // authHelper: true,
+      hideLoaderWithDelay: true,
+    },
+  },
+  {
+    path: "/plan-checkout/:id",
+    name: "PlanCheckoutEdit",
     component: () => import("../views/Checkout.vue"),
     meta: {
       title: `${TITLE} - Checkout`,

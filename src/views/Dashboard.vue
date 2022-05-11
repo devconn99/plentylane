@@ -30,12 +30,12 @@
             </div>
             <!-- notifications are not included in MVP -->
             <!--
-                        <div class="header-link-notify">
-                            <a v-b-modal.notifications-modal>
-                                <SvgIcon icon="bell"></SvgIcon>
-                            </a>
-                        </div>
-                        -->
+              <div class="header-link-notify">
+                <a v-b-modal.notifications-modal>
+                  <SvgIcon icon="bell"></SvgIcon>
+                </a>
+              </div>
+            -->
             <div class="header-link-nav">
               <div class="mobile-button">
                 <button
@@ -252,6 +252,7 @@
 import api from "../api";
 import SvgIcon from "../components/SvgIcon";
 import InviteFriendsViaCopyLinkModal from "../components/modals/InviteFriendsViaCopyLinkModal";
+import { mapGetters } from 'vuex';
 export default {
   name: "Dashboard",
   components: { SvgIcon, InviteFriendsViaCopyLinkModal },
@@ -321,6 +322,9 @@ export default {
     });
   },
   computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
     displayUserName: function () {
       if (!this.user || !this.user.username) {
         return "";
@@ -350,10 +354,19 @@ export default {
         .then((data) => {
           this.user = { ...data };
           this.$store.commit("userInfo", { ...data });
-          this.confirmSubScription(user)
-          // TODO
+          this.confirmSubScription(data)  
         })
         .catch((err) => {});
+    },
+     async getSubscription(){
+      const { id } = this.userInfo?.subscription
+      
+      try {
+        const subscription=await api.payment.getSubscription(id)
+        this.$store.commit('updateSubscription', subscription);
+      } catch (error) {
+        console.log(error)
+      }
     },
     toggleMobileSideNav() {
       if (!this.isMobileSidebarVisible) {
@@ -474,6 +487,8 @@ export default {
     confirmSubScription(user) {
       if (user.subscription == null) {
         this.$router.push("/choose-plan");
+      } else {
+        this.getSubscription()
       }
     },
   },

@@ -111,7 +111,9 @@ const checkErr = (errResponse) => {
     localStorage.removeItem("plAccessToken");
     localStorage.removeItem("plUserId");
     // than redirect to /login
-    router.push({ path: "/login" });
+    router.push({
+      path: "/login"
+    });
     return Promise.reject(errResponse);
   } else {
     return Promise.reject(errResponse);
@@ -180,11 +182,17 @@ export default {
       },
       uploadImage(fileInfo) {
         const endpoint = `${config.API_ORIGIN}/api/me`;
-        const _config = { headers: { "Content-Type": "multipart/form-data" } };
+        const _config = {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        };
         let form = new FormData();
         form.append("image", fileInfo);
         return axios
-          .patch(endpoint, form, { ..._config })
+          .patch(endpoint, form, {
+            ..._config
+          })
           .then((res) => {
             return Promise.resolve(res.data || {});
           })
@@ -195,7 +203,9 @@ export default {
       deleteImage() {
         const endpoint = `${config.API_ORIGIN}/api/me`;
         return axios
-          .patch(endpoint, { deleteImage: true })
+          .patch(endpoint, {
+            deleteImage: true
+          })
           .then((res) => {
             return Promise.resolve(res.data || {});
           })
@@ -210,7 +220,9 @@ export default {
         let _request;
         if (data["images"]) {
           const _config = {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+              "Content-Type": "multipart/form-data"
+            },
           };
           let form = new FormData();
           const keys = Object.keys(data);
@@ -322,7 +334,11 @@ export default {
       },
       addImage(mealId, imageData) {
         const endpoint = `${config.API_ORIGIN}/api/me/mealImages`;
-        const _config = { headers: { "Content-Type": "multipart/form-data" } };
+        const _config = {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        };
         let form = new FormData();
         form.append("image", imageData);
         form.append("meal", mealId);
@@ -628,8 +644,7 @@ export default {
               img: "https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025",
             },
             date: new Date("2021-01-11"),
-            answer:
-              "It's not super spicy, but...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed vehicula massa, vitae semper ante.!",
+            answer: "It's not super spicy, but...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed vehicula massa, vitae semper ante.!",
           },
           {
             questionText: "What's in the sauce?",
@@ -749,7 +764,9 @@ export default {
       changeRating(id, rating) {
         const endpoint = `${config.API_ORIGIN}/api/me/bookings/dine/${id}/rate`;
         return axios
-          .patch(endpoint, { rating: Number(rating) })
+          .patch(endpoint, {
+            rating: Number(rating)
+          })
           .then((res) => {
             return Promise.resolve(res.data || {});
           })
@@ -918,7 +935,10 @@ export default {
         return axios
           .get(endpoint)
           .then((res) => {
-            let _data = { isFriend: false, isFavorite: false };
+            let _data = {
+              isFriend: false,
+              isFavorite: false
+            };
             if (res && res.data && res.data.count > 0 && res.data.data) {
               res.data.data.forEach((connection) => {
                 if (connection.connectionType === "friend") {
@@ -936,7 +956,10 @@ export default {
               err.response.data &&
               err.response.data.statusCode === 404
             ) {
-              return Promise.resolve({ isFriend: false, isFavorite: false });
+              return Promise.resolve({
+                isFriend: false,
+                isFavorite: false
+              });
             }
             return checkErr(err.response);
           });
@@ -944,7 +967,10 @@ export default {
       followUser(id) {
         const endpoint = `${config.API_ORIGIN}/api/me/follows`;
         return axios
-          .post(endpoint, { followingId: Number(id), connectionType: "friend" })
+          .post(endpoint, {
+            followingId: Number(id),
+            connectionType: "friend"
+          })
           .then((res) => {
             return Promise.resolve(res.data || {});
           })
@@ -1011,7 +1037,11 @@ export default {
         if (_item && _item.id) {
           return Promise.resolve(_item);
         }
-        return Promise.reject({ data: { statusCode: 404 } });
+        return Promise.reject({
+          data: {
+            statusCode: 404
+          }
+        });
       },
     },
     mealQuestions: {
@@ -1177,6 +1207,41 @@ export default {
         .catch((err) => {
           return Promise.reject(err.response.data || err);
         });
-      }
+    },
+    updateSubscription(data) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/update-subscription`;
+      return axios
+        .put(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    getSubscription(id) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/get-subscription`;
+      return axios
+        .post(endpoint, {id})
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    cancelSubscription(data) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/delete-subscription`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    }
+
+
   },
 };

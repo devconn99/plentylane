@@ -81,9 +81,7 @@
                   'd-inline-block': !isMobile,
                 }"
               >
-                <label
-                  :class="{ active: plan == 'casual-monthly', btn: !isMobile }"
-                >
+                <label :class="{ active: plan == 'casual-monthly', btn: !isMobile }">
                   <input
                     type="radio"
                     name="plan-radios"
@@ -245,12 +243,23 @@ export default {
       this.plan = plan;
     },
     goToCheckout() {
-      this.$router.push({
-        name: "PlanCheckout",
-        params: {
-          plan: this.planCalculation,
-        },
-      });
+      const id=this.$route.params.id
+      if(id) {
+        this.$router.push({
+          name: "PlanCheckoutEdit",
+          params: {
+            plan: this.planCalculation,
+            id
+          },
+        });
+      } else {
+        this.$router.push({
+          name: "PlanCheckout",
+          params: {
+            plan: this.planCalculation,
+          },
+        });
+      }
     },
   },
 };

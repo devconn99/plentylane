@@ -255,7 +255,8 @@ export default {
         password: this.$v.form.$model.password,
         firstName,
         lastName: lastName || ' ',
-        username: this.$v.form.$model.username
+        username: this.$v.form.$model.username,
+        phone:this.$v.form.$model.phoneNumber
       };
       api.auth.signUp(userData)
         .then(() => {

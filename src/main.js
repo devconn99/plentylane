@@ -52,7 +52,7 @@ Vue.use(
   }
 );
 
-Vue.filter("kebabCaseToSpace", (value) => {
+Vue.filter("kebabToTitleCase", (value) => {
   return value
     ? value
         .split("-")
