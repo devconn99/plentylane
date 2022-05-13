@@ -200,6 +200,17 @@ export default {
             return checkErr(err.response);
           });
       },
+      updateShippingAddress(data) {
+        const endpoint = `${config.API_ORIGIN}/api/users/update-shipping-address`;
+        return axios
+          .put(endpoint, data)
+          .then((res) => {
+            return Promise.resolve(res.data || {});
+          })
+          .catch((err) => {
+            return checkErr(err.response);
+          });
+      },
       deleteImage() {
         const endpoint = `${config.API_ORIGIN}/api/me`;
         return axios
@@ -1240,8 +1251,29 @@ export default {
         .catch((err) => {
           return Promise.reject(err.response.data || err);
         });
+    },
+
+    getPaymentMethod(data) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/get-payment-method`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    updatePaymentMethod(data) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/update-payment-method`;
+      return axios
+        .put(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
     }
-
-
   },
 };

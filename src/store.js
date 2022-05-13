@@ -20,7 +20,19 @@ const initialState = () => {
         mealsOptionsDataToCopy: [],
         copiedMealInfo: null,
         basket: [],
-        shippingInfo: null,
+        shippingInfo: {
+            fullName: "",
+            phoneNumber: "",
+            address: {
+                line1: "",
+                city: "",
+                postalCode: "",
+                state: "",
+                country: ""
+            }
+
+        },
+        paymentMethod: null,
         myOffersActiveTabIndexOnInit: 0
     }
 };
@@ -112,6 +124,16 @@ export default {
         clearShippingInfo(state) {
             state.shippingInfo = null;
         },
+        updateShippingAddress(state, value) {
+            state.shippingInfo.address = {
+                ...value
+            };
+        },
+        updatePaymentMethod(state, value) {
+            state.paymentMethod = {
+                ...value
+            }
+        },
         myOffersActiveTabIndexOnInit(state, value) {
             state.myOffersActiveTabIndexOnInit = value;
         }
@@ -128,6 +150,7 @@ export default {
         mealsOptionsDataToCopy: (state) => (state.mealsOptionsDataToCopy),
         copiedMealInfo: (state) => (state.copiedMealInfo),
         basket: (state) => (state.basket),
+        getPaymentMethod: (state) => (state.paymentMethod),
         totalPrice: (state) => {
             if (!state.basket || !state.basket.length) return 0;
             let _price = 0;
