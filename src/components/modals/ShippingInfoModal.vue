@@ -30,9 +30,9 @@
           </small>
         </b-form-group>
 
-        <b-form-group label="Street">
+        <b-form-group label="Address">
           <b-form-input
-            name="street"
+            name="address"
             v-model="$v.form.address.line1.$model"
             placeholder="Address"
             autocomplete="off"
@@ -43,6 +43,15 @@
           >
             This is a required field.
           </small>
+        </b-form-group>
+
+        <b-form-group label="Address 2">
+          <b-form-input
+            name="address2"
+            v-model="form.address.line2"
+            placeholder="Address 2"
+            autocomplete="off"
+          />
         </b-form-group>
 
         <div class="d-flex">
@@ -60,11 +69,19 @@
               This is a required field.
             </small>
           </b-form-group>
+
           <b-form-group label="State">
-            <b-form-input name="state" v-model="$v.form.address.state.$model" placeholder="State"
-              autocomplete="off"/>
-            <small class="text-danger d-flex mt-2 text-left"
-            v-if="$v.form.address.state.$dirty && !$v.form.address.state.required">This is a required field.</small>
+            <states-dropdown
+              placeholder="State"
+              name="State"
+              v-model="$v.form.address.state.$model"
+            />
+            <small
+              class="text-danger d-flex mt-2 text-left"
+              v-if="$v.form.address.state.$dirty && !$v.form.address.state.required"
+            >
+              This is a required field.
+            </small>
           </b-form-group>
 
            <b-form-group label="Postal Code">
@@ -82,6 +99,7 @@
               v-model="$v.form.address.country.$model"
               placeholder="Country"
               autocomplete="off"
+              disabled
             />
             <small
               class="text-danger d-flex mt-2 text-left"
@@ -93,7 +111,12 @@
         </div>
 
         <b-form-group label="Phone">
-          <b-form-input name="phone" v-model="$v.form.phone.$model" placeholder="Phone" autocomplete="off" />
+          <b-form-input
+            name="phone"
+            v-model="$v.form.phone.$model"
+            placeholder="Phone"
+            autocomplete="off"
+          />
           <small
             class="text-danger d-flex mt-2 text-left"
             v-if="$v.form.phone.$dirty && !$v.form.phone.required"
@@ -133,10 +156,12 @@ import SvgIcon from '../SvgIcon';
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import parsePhoneNumberWithError from 'libphonenumber-js';
+import StatesDropdown from '../states-dropdown/index.vue';
+
 export default {
   name: "ShippingInfoModal",
   mixins: [validationMixin],
-  components: { SvgIcon },
+  components: { SvgIcon, StatesDropdown },
   props: ['prevValues'],
   data: () => ({
     form: {
@@ -144,12 +169,13 @@ export default {
       address: {
         id:0,
         line1: "",
+        line2:"",
         city: "",
         state: "",
         postalCode: "",
-        country: ""
+        country: "USA",
       },
-      phone: ''
+      phone: '',
     }
   }),
   validations: {
@@ -201,10 +227,11 @@ export default {
       this.form.address = {
         id:0,
         line1:"",
+        line2:"",
         city:"",
         postalCode:"",
         state:"",
-        country:""
+        country:"USA"
       };
       this.form.phone = '';
     },

@@ -169,16 +169,17 @@ export default {
     isLoading: false,
     userIdToUpdate: 0,
     shippingInfo: {
-      fullName: '',
+      fullName: "",
       address: {
         id: 0,
         line1: "",
+        line2: "",
         city: "",
         state: "",
         postalCode: "",
-        country: ""
+        country: "USA"
       },
-      phoneNumber: ''
+      phoneNumber: "",
     },
     paymentMethod: {
       cardToken: {
@@ -200,16 +201,17 @@ export default {
     isSubmitting: false,
     isShippingLoaded: false,
     modalShippingInfo: {
-      fullName: '',
+      fullName: "",
       address: {
         id: 0,
         line1: "",
+        line2: "",
         city: "",
         postalCode: "",
         state: "",
-        country: ""
+        country: "USA"
       },
-      phone: ''
+      phone: "",
     }
   }),
   created() {
@@ -231,8 +233,8 @@ export default {
     completeAddress() {
       const address = this.shippingInfo.address
       if (address) {
-        const { line1,city,state,postalCode,country } = address;
-        return `${line1}, ${city} ${state} ${postalCode} ${country}`
+        const { line1, line2, city, state, postalCode, country } = address;
+        return `${line1}, ${line2}, ${city} ${state} ${postalCode} ${country}`;
       } else {
         return ""
       }
@@ -346,13 +348,13 @@ export default {
             userId: this.userIdToUpdate,
             address: data.address
           })
+          data.address["phone"]=data.phone || "";
+          data.address["fullName"]=data.fullName || "";
           this.$store.commit('updateShippingAddress',data.address);
         } catch (error) {
           console.log(error)
         }
       }
-
-
     },
     async getPaymentMethod(user) {
       const { stripeCustomerId } = user;

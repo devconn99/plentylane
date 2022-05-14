@@ -85,6 +85,13 @@
                   </b-form-group>
 
                   <b-form-group v-if="!isUpdateCase">
+                    <b-form-checkbox v-model="applyPromoCode" >
+                    Apply promo code?
+                    </b-form-checkbox>
+                    <b-form-input v-if="applyPromoCode" v-model="userDetails.promoCode" placeholder="Promo code" autocomplete="off" />
+                  </b-form-group>
+
+                  <b-form-group v-if="!isUpdateCase">
                     <b-form-input
                       v-model="$v.userDetails.address.line1.$model"
                       placeholder="Street"
@@ -125,7 +132,9 @@
                       <small
                         class="text-danger d-flex mt-2 text-left"
                         v-if="$v.userDetails.address.state.$dirty && !$v.userDetails.address.state.required"
-                      >This is a required field.</small>
+                      >
+                        This is a required field.
+                      </small>
                     </b-form-group>
                     <b-form-group>
                       <b-form-input
@@ -136,7 +145,9 @@
                       <small
                         class="text-danger d-flex mt-2 text-left"
                         v-if="$v.userDetails.address.country.$dirty && !$v.userDetails.address.country.required"
-                      >This is a required field.</small>
+                      >
+                        This is a required field.
+                      </small>
                     </b-form-group>
                   </div>
                   <StripeElementCard
@@ -216,6 +227,7 @@ export default {
   data: () => ({
     plan: "starter-monthly",
     publishableKey: config.STRIPE_INFO.PUBLISHABLE_KEY,
+    applyPromoCode:false,
     userDetails: {
       name: "",
       email: "",
@@ -227,6 +239,7 @@ export default {
         postal_code: "",
         country: "",
       },
+      promoCode:""
     },
   }),
   validations: {
@@ -316,7 +329,6 @@ export default {
       if (this.isUpdateCase) {
         this.getSubscription()
       }
-
     },
 
     async getSubscription() {
@@ -380,6 +392,7 @@ export default {
         customer: customerId,
         payment_method: paymentMethod,
         source: sourceId,
+        promoCode:this.userDetails.promoCode,
         metadata: { plan: this.getPlanName },
       };
       return await api.payment.makePayment(payment);
@@ -388,8 +401,9 @@ export default {
       return await api.payment.createSubscription({
         customerId,
         priceId: this.getPlanPriceId,
-        userId: this.userInfo?.id || 1,
+        userId: this.userInfo?.id,
         payment_method: paymentMethod,
+        promoCode:this.userDetails.promoCode,
         plan: {
           frequency: this.getFrequency,
           name: this.getPlanName,
@@ -406,6 +420,7 @@ export default {
         subscriptionId,
         priceId: this.getPlanPriceId,
         userId: this.userInfo?.id,
+        promoCode:this.promoCode,
         plan: {
           id: planId,
           frequency: this.getFrequency,

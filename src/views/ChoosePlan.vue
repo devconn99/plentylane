@@ -226,16 +226,10 @@ export default {
         id: "",
       };
       const plan = this.plan;
-      if (this.plan == "casual-monthly") {
-        price = config.STRIPE_INFO.PRICE.CASUAL_MONTHLY;
-      } else if (plan == "casual-annual") {
-        price = config.STRIPE_INFO.PRICE.CASUAL_ANNUAL;
-      } else if (plan == "unlimited-monthly") {
-        price = config.STRIPE_INFO.PRICE.UNLIMITED_MONTHLY;
-      } else if (plan == "unlimited-annual") {
-        price = config.STRIPE_INFO.PRICE.UNLIMITED_ANNUAL;
-      }
-      return { price, name: plan };
+      return {
+        price: config.STRIPE_INFO.PRICE[plan],
+        name: plan
+      };
     },
   },
   methods: {
