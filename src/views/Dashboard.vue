@@ -368,6 +368,25 @@ export default {
         console.log(error)
       }
     },
+
+    async getCheckoutSession() {
+      const { stripeCheckoutId } =  this.userInfo
+      if(stripeCheckoutId){
+        try {
+            const chckout = await api.payment.getCheckoutSession(stripeCheckoutId)
+            if(chckout?.subscription){
+            const subscription = await api.payment.getSubscriptionById(chckout.subscription)
+            this.$store.commit('updateSubscription',subscription);
+            }
+          } catch (error) {
+          this.$store.commit('updateSubscription',null);
+            console.log(error)
+          }
+      } else {
+        this.$store.commit('updateSubscription',null);
+      }
+    },
+
     toggleMobileSideNav() {
       if (!this.isMobileSidebarVisible) {
         this.showMobileSideNav();
@@ -456,13 +475,13 @@ export default {
       this.$bvModal.show("invite-friends-via-copy-link-modal");
     },
     /*
-        showNotificationsModal () {
-            if (this.isMobileSidebarVisible) {
-                this.hideMobileSideNav();
-            }
-            this.$bvModal.show('notifications-modal');
-        },
-        */
+    showNotificationsModal () {
+      if (this.isMobileSidebarVisible) {
+        this.hideMobileSideNav();
+      }
+      this.$bvModal.show('notifications-modal');
+    },
+    */
     goToProfile() {
       const pathToProfile = "/dashboard/profile";
       if (this.$route.path === pathToProfile) {
@@ -485,10 +504,11 @@ export default {
       this.$router.push({ path: path }).catch(() => {});
     },
     confirmSubScription(user) {
-      if (user.subscription == null) {
+      if (user.stripeCheckoutId == null) {
         this.$router.push("/choose-plan");
       } else {
-        this.getSubscription()
+        //this.getSubscription()
+        this.getCheckoutSession()
       }
     },
   },

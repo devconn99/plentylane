@@ -55,6 +55,7 @@ import { mapGetters } from 'vuex'
 import ConfirmModal from '../../components/modals/ConfirmModal.vue';
 import MessageModal from '../../components/modals/MessageModal.vue';
 import api from '../../api';
+import config from '../../config';
 
 export default {
   name: "Account",
@@ -81,10 +82,18 @@ export default {
       userInfo: "userInfo",
     }),
     getPlanName() {
-      return this.userDetails?.subscription?.plan?.name || ""
+      const planId=this.userDetails?.subscription?.plan?.id
+      if (planId) {
+        const obj = config.STRIPE_INFO.PRICE;
+        return Object.keys(obj).find((key)=> {
+          return obj[key]['id'] === planId
+        });
+      }
+      return ""
     },
     getPlanPrice() {
-      return this.userDetails?.subscription?.plan?.price || 0
+       const price = this.userDetails?.subscription?.plan?.amount;
+       return price ? (price/100) : 0;
     }
   },
   created() {
@@ -109,15 +118,17 @@ export default {
         .catch((err) => { });
     },
     manipulateUserDetails(user) {
-      const { email,fullName,phone,subscription } = user;
+      const { email,fullName,phone,subscription,stripeCheckoutId } = user;
       this.userDetails = {
         ...this.userDetails,
         email,
         phone,
         name: fullName,
-        subscription
+        subscription,
+        stripeCheckoutId
       };
-      this.getSubscription()
+      // this.getSubscription()
+      this.getCheckoutSession()
     },
     updateSubscription() {
       let id = this.userDetails.subscription?.id
@@ -140,13 +151,30 @@ export default {
     async getSubscription() {
       const { id } = this.userDetails?.subscription
       try {
-
         const subscription = await api.payment.getSubscription(id)
         this.userDetails.subscription = subscription
         this.$store.commit('updateSubscription',subscription);
       } catch (error) {
         console.log(error)
       }
+    },
+  async getCheckoutSession() {
+      const { stripeCheckoutId } = this.userDetails
+      if(stripeCheckoutId){
+     try {
+        const chckout = await api.payment.getCheckoutSession(stripeCheckoutId)
+        if(chckout?.subscription){
+        const subscription = await api.payment.getSubscriptionById(chckout.subscription)
+        this.$store.commit('updateSubscription',subscription);
+        }
+      } catch (error) {
+       this.$store.commit('updateSubscription',null);
+        console.log(error)
+      }
+     }else
+     {
+       this.$store.commit('updateSubscription',null);
+     }
     },
     async cancelSubScription() {
       const { id,stripesubscriptionId,planId } = this.userDetails?.subscription
@@ -157,7 +185,6 @@ export default {
       } catch (error) {
         console.log(error)
       }
-
     },
     closeMessageModal() {
       this.$bvModal.hide(this.messageModalId);

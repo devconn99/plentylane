@@ -154,6 +154,28 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
+    resetPasswordRequest(data) {
+      const endpoint = `${config.API_ORIGIN}/api/auth/reset-password-request`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    resetPassword(data) {
+      const endpoint = `${config.API_ORIGIN}/api/auth/reset-password`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    }
   },
   dashboard: {
     profile: {
@@ -1241,6 +1263,17 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
+    getSubscriptionById(id) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/get-subscription-by-id/${id}`;
+      return axios
+        .get(endpoint)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
     cancelSubscription(data) {
       const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/delete-subscription`;
       return axios
@@ -1268,6 +1301,28 @@ export default {
       const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/update-payment-method`;
       return axios
         .put(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    createCheckoutSession(data) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/create-checkout-session`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    getCheckoutSession(id) {
+      const endpoint = `${config.API_ORIGIN}/api/me/subscriptions/get-checkout-session/${id}`;
+      return axios
+        .get(endpoint)
         .then((res) => {
           return Promise.resolve(res.data || {});
         })

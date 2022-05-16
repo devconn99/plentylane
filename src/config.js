@@ -35,6 +35,8 @@ export default {
     GLUTEN_FREE_KITCHEN: "Gluten free kitchen",
   },
   STRIPE_INFO: {
+    SUCCESS_URL:"https://www.plentylane.com/#/plan-success",
+    CANCEL_URL:"https://www.plentylane.com/#/choose-plan",
     PUBLISHABLE_KEY:
       "pk_test_51K8qCPGB4hdOutpgof9ByAyhSh8TEGa9gxWm7zFXppqjUqJu0twUuVDbvL4x6kgzVgKvpcLFCPoqv5J3kn86gJWj00RvDZA6zj",
     PRICE: {
@@ -44,6 +46,7 @@ export default {
       'casual-annual': { price: 49.5, id: "price_1KxhnmGB4hdOutpgB6eK9heI" },
       'unlimited-monthly': { price: 8.95, id: "price_1KxhqpGB4hdOutpgQWcMxjVk" },
       'unlimited-annual': { price: 89.5, id: "price_1KxhqpGB4hdOutpgmNvLBJFR" },
+      'inital-fee': { price: 29.5, id: "price_1L03wFGB4hdOutpgiZCRRkkV"}
     },
   },
 };

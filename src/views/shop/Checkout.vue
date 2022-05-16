@@ -10,8 +10,12 @@
     </div>
 
     <div class="col-12 col-lg-10 mx-auto position-relative" v-if="!isBasketEmpty">
-      <loading :active.sync="isLoading" :is-full-page="loaderOptions.IS_FULL_PAGE" :color="loaderOptions.COLOR"
-        :background-color="loaderOptions.BACKGROUND_COLOR"></loading>
+      <loading
+        :active.sync="isLoading"
+        :is-full-page="loaderOptions.IS_FULL_PAGE"
+        :color="loaderOptions.COLOR"
+        :background-color="loaderOptions.BACKGROUND_COLOR"
+      />
       <router-link :to="{ path: '/dashboard/shop/basket' }" class="shop-back d-inline-flex align-items-center">
         <SvgIcon icon="arrowLeft"></SvgIcon>
         <span class="ml-2">Basket</span>
@@ -19,12 +23,12 @@
       <div class="row mt-5">
         <div class="col-12 col-sm-12 col-xl-8 pr-xl-5" v-if="isShippingLoaded">
           <div class="
-              checkout-shipping
-              d-flex
-              justify-content-between
-              align-items-center
-              mb-3
-            ">
+            checkout-shipping
+            d-flex
+            justify-content-between
+            align-items-center
+            mb-3
+          ">
             <div class="title-size3 titleGreenNavyColor">Shipping Info</div>
             <EditBtn @on-clicked="editShippingInfo"></EditBtn>
           </div>
@@ -57,13 +61,13 @@
           </div>
 
           <div class="
-              checkout-payment
-              d-flex
-              justify-content-between
-              align-items-center
-              mt-5
-              mb-3
-            ">
+            checkout-payment
+            d-flex
+            justify-content-between
+            align-items-center
+            mt-5
+            mb-3
+          ">
             <div class="title-size3 titleGreenNavyColor">Payment Method</div>
             <EditBtn @on-clicked="editPaymentMethod"></EditBtn>
           </div>
@@ -81,14 +85,10 @@
                 <b-form-checkbox class="checkbox-icon-size-24 cursor-pointer" v-model="paymentMethod.useShippingAddress"
                   name="check"></b-form-checkbox>
               </div>
-              <div class="
-                  checkout-payment-box-field-text
-                  cursor-pointer
-                  user-select-none
-                " @click="
-                  paymentMethod.useShippingAddress =
-                  !paymentMethod.useShippingAddress
-                ">
+              <div
+                class="checkout-payment-box-field-text cursor-pointer user-select-none"
+                @click="paymentMethod.useShippingAddress = !paymentMethod.useShippingAddress"
+              >
                 Use Shipping Address
               </div>
             </div>
@@ -123,8 +123,11 @@
           <div class="clear-line"></div>
 
           <div class="box-btn">
-            <b-btn class="btnGreen btnNormalSize btnUpper btn100 hover-slide-left" :disabled="isSubmitting"
-              @click.stop.prevent="postOrder()">
+            <b-btn
+              class="btnGreen btnNormalSize btnUpper btn100 hover-slide-left"
+              :disabled="isSubmitting"
+              @click.stop.prevent="postOrder()"
+            >
               <span>Place order</span>
             </b-btn>
           </div>
@@ -169,7 +172,7 @@ export default {
     isLoading: false,
     userIdToUpdate: 0,
     shippingInfo: {
-      fullName: "",
+      fullName: '',
       address: {
         id: 0,
         line1: "",

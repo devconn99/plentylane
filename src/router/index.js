@@ -72,6 +72,24 @@ const routes = [
     },
   },
   {
+    path: "/forgot-password",
+    name: "ForgotPassword",
+    component: () => import("../views/ForgotPassword.vue"),
+    meta: {
+      title: `${TITLE} - Forgot Password`,
+      hideLoaderWithDelay: true,
+    },
+  },
+  {
+    path: "/reset-password",
+    name: "ResetPassword",
+    component: () => import("../views/ResetPassword.vue"),
+    meta: {
+      title: `${TITLE} - Reset Password`,
+      hideLoaderWithDelay: true,
+    },
+  },
+  {
     path: "/sign-up",
     name: "SignUp",
     component: () => import("../views/SignUp.vue"),

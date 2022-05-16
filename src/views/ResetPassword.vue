@@ -5,7 +5,11 @@
         <div class="header-box">
           <div class="logo-block">
             <router-link to="/">
-              <img src="../assets/images/logo/logo_green.svg" alt="" class="img-fluid">
+              <img
+                src="../assets/images/logo/logo_green.svg"
+                alt=""
+                class="img-fluid"
+              />
             </router-link>
           </div>
         </div>
@@ -23,28 +27,18 @@
               :background-color="loaderOptions.BACKGROUND_COLOR"
             ></loading>
 
-            <h1 class="title-size3 titleGreenNavyColor">Login</h1>
+            <h1 class="title-size3 titleGreenNavyColor">Reset Password</h1>
 
             <b-alert
               :show="submitted && showErrorAlert"
               dismissible
-              variant="danger"
+              :variant="alertVarient"
+              @dismissed="goToLogin"
             >
-              <p>{{errorMsg}}</p>
+              <p>{{ errorMsg }}</p>
             </b-alert>
 
             <b-form class="form" @submit.stop.prevent="onSubmit">
-              <b-form-group>
-                <b-form-input
-                  v-model="$v.form.email.$model"
-                  type="email"
-                  @focus="focusHandler"
-                  @input="resetError"
-                  placeholder="Email Address"
-                ></b-form-input>
-                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
-                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
-              </b-form-group>
               <b-form-group>
                 <b-form-input
                   v-model="$v.form.password.$model"
@@ -52,15 +46,39 @@
                   @focus="focusHandler"
                   @input="resetError"
                   placeholder="Password"
+                  autocomplete="off"
                 ></b-form-input>
-                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.password.$dirty && !$v.form.password.required">This is a required field.</small>
-                <small class="text-danger d-flex mt-2" v-if="!$v.form.password.minLength">This field must be at least {{pwdMinLength}} characters long.</small>
-                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.password.maxLength">
-                  This field must be shorter than or equal to {{pwdMaxLength}} characters.
+                <small
+                  class="text-danger d-flex mt-2 text-left"
+                  v-if="$v.form.password.$dirty && !$v.form.password.required"
+                  >This is a required field.</small
+                >
+                <small
+                  class="text-danger d-flex mt-2"
+                  v-if="!$v.form.password.minLength"
+                  >This field must be at least {{ pwdMinLength }} characters
+                  long.</small
+                >
+                <small
+                  class="text-danger d-flex mt-2 text-left"
+                  v-if="!$v.form.password.maxLength"
+                >
+                  This field must be shorter than or equal to
+                  {{ pwdMaxLength }} characters.
                 </small>
               </b-form-group>
-              <b-button type="submit" :disabled="$v.$invalid || submitted" class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left">
-                <span>Login</span>
+              <b-button
+                type="submit"
+                :disabled="$v.$invalid || submitted"
+                class="
+                  btnGreen
+                  btnBigSize
+                  btn50
+                  text-uppercase
+                  hover-slide-left
+                "
+              >
+                <span>Reset</span>
               </b-button>
             </b-form>
 
@@ -85,12 +103,12 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, maxLength, email } from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import Loading from 'vue-loading-overlay';
 import api from '../api';
 import config from '../config';
 export default {
-  name: "Login",
+  name: "ResetPassword",
   components: {Loading},
   mixins: [validationMixin],
   data: () => ({
@@ -98,20 +116,14 @@ export default {
     pwdMinLength: config.PWD_MIN_LENGTH,
     pwdMaxLength: config.PWD_MAX_LENGTH,
     submitted: false,
-    form: {
-      email: '',
-      password: '',
-    },
+    form: { password: '' },
+    alertVarient:"",
     errorMsg: '',
     loaderOptions: { ...config.LOADER_OPTIONS },
     isSubmitting: false
   }),
   validations: {
     form: {
-      email: {
-        required,
-        email
-      },
       password: {
         required,
         minLength: minLength(config.PWD_MIN_LENGTH),
@@ -138,6 +150,10 @@ export default {
     focusHandler (e) {
       this.resetError();
     },
+    goToLogin(){
+      this.$router.push({ path: '/login' });
+      this.showErrorAlert = false;
+    },
     onSubmit () {
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
@@ -145,34 +161,27 @@ export default {
       }
       this.submitted = true;
       this.isSubmitting = true;
+      const {id, token}=this.$route.query;
       const userData = {
-        email: this.$v.form.$model.email,
-        password: this.$v.form.$model.password
+        password: this.$v.form.$model.password,
+        userId:id,
+        token
       };
-      api.auth.login(userData)
+      api.auth.resetPassword(userData)
         .then((response) => {
-          if (response.accessToken) {
-            localStorage.setItem('plAccessToken', response.accessToken);
-          }
-          api.dashboard.profile.userInfo()
-            .then((data) => {
-              this.$store.commit('userInfo', { ...data });
-              localStorage.setItem('plUserId', data.id);
-              this.isSubmitting = false;
-              if(data.stripeCheckoutId!=null) {
-                this.$router.push({ path: '/dashboard' });
-              } else {
-                this.$router.push('/choose-plan' );
-              }
-            })
-            .catch((err) => {
-              this.isSubmitting = false;
-              this.$router.push({ path: '/dashboard' });
-            });
+          this.isSubmitting = false;
+          this.errorMsg = "Password successfully changed";
+          this.alertVarient="succss";
+          this.showErrorAlert = true;
+          setTimeout(() => {
+            this.goToLogin();
+          }, 3000);
+          
         })
         .catch(err => {
           console.log('\n >> err > ', err);
           this.errorMsg = err.message;
+          this.alertVarient="danger";
           this.showErrorAlert = true;
           this.isSubmitting = false;
         })

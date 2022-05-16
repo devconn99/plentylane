@@ -169,8 +169,18 @@
             <b-form-checkbox class="mx-auto ml-md-3">
               <span> It's a gift for someone else! </span>
             </b-form-checkbox>
-            * All plans pay initial fee of $29.50 for 4 Plenty Lane containers to
+            <span v-if="!isUpdateCase">
+              * All plans pay initial fee of $29.50 for 4 Plenty Lane containers to
             swap in, including shipping.
+
+            </span>
+           
+            <stripe-checkout
+            ref="checkoutRef"
+            :pk="publishableKey"
+            :session-id="sessionId"
+            @loading="v => loading = v"
+            />   
             <div class="d-flex justify-content-center" style="width: 100%">
               <b-button
                 @click="goToCheckout"
@@ -189,72 +199,166 @@
           </div>
         </div>
       </section>
-
       <PromoLogo></PromoLogo>
     </main>
-
     <Footer></Footer>
-
     <BackToTop></BackToTop>
+
+    <MessageModal
+      id="no-plan-modal"
+      message="Kindly select a plan"
+      @confirmed="closeMessageModal"
+    />
   </div>
 </template>
 
 <script>
+import { StripeCheckout } from "@vue-stripe/vue-stripe";
 import Footer from "../components/homepage/Footer";
 import Header from "../components/homepage/Header";
 import BackToTop from "../components/BackToTop";
+import MessageModal from "../components/modals/MessageModal.vue";
 import HeroWave from "../components/HeroWave";
 import PromoLogo from "../components/homepage/PromoLogo";
 import mobileDetectorMixin from "../mixins/mobile-detector-mixin";
 import config from "../config";
+import api from "../api";
+import { mapGetters } from "vuex";
 
 export default {
-  name: "AfterAccountCreation",
+  name: "ChoosePlan",
   mixins: [mobileDetectorMixin],
-  components: { Footer, Header, BackToTop, HeroWave, PromoLogo },
+  components: { Footer, MessageModal, Header, BackToTop, HeroWave, PromoLogo,StripeCheckout },
+  created(){
+    if(!this.userInfo.email){
+      this.loadUserInfo()
+    }
+    this.getPlanName()
+  },
   mounted() {
     window.scrollTo(0, 0); // temp
     this.$eventHub.$emit("mobile-side-nav-closed");
   },
-  data: () => ({
+  data: ()=>{
+    return{
+    sessionId:"",
+    publishableKey: config.STRIPE_INFO.PUBLISHABLE_KEY,
     plan: "starter-monthly",
-  }),
+  }},
   computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
     planCalculation() {
-      let price = {
-        price: 0,
-        id: "",
-      };
       const plan = this.plan;
       return {
         price: config.STRIPE_INFO.PRICE[plan],
         name: plan
       };
     },
+    getFrequency() {
+      return this.plan.includes("monthly") ? "monthly" : "annual";
+    },
+    lineItems(){
+      const plan = this.plan
+      return [{
+        price: config.STRIPE_INFO.PRICE[plan].id,
+        quantity:1
+      },
+      ]
+    },
+    successURL(){
+      return config.STRIPE_INFO.SUCCESS_URL
+    },
+    cancelURL(){
+      return config.STRIPE_INFO.CANCEL_URL
+    },
+    isUpdateCase() {
+      return !!this.$route.params.id
+    }
   },
   methods: {
-    choosePlan(plan) {
-      this.plan = plan;
-    },
-    goToCheckout() {
-      const id=this.$route.params.id
-      if(id) {
-        this.$router.push({
-          name: "PlanCheckoutEdit",
-          params: {
-            plan: this.planCalculation,
-            id
-          },
-        });
+    async goToCheckout() {
+      if (this.lineItems?.length) {
+        let lineItemsToUpdate = [...this.lineItems];
+        if (!this.isUpdateCase) {
+          lineItemsToUpdate.push({
+            price:config.STRIPE_INFO.PRICE["inital-fee"].id,
+            quantity:1
+          });
+        }
+
+        const data = {
+          success_url: this.successURL,
+          cancel_url: this.cancelURL,
+          line_items: lineItemsToUpdate,
+          mode: "subscription",
+          customer_email: this.userInfo?.email || '',
+          allow_promotion_codes: true,
+          billing_address_collection:'required'
+        }
+        if(this.getFrequency=='monthly' && !this.isUpdateCase) {
+          data['subscription_data'] = {
+            trial_period_days:30
+          }
+        }
+
+        try {
+          const session = await api.payment.createCheckoutSession(data);
+          this.sessionId=session?.id;
+          this.$refs.checkoutRef.redirectToCheckout();        
+        } catch (error) {
+          console.log(error)
+        }
       } else {
-        this.$router.push({
-          name: "PlanCheckout",
-          params: {
-            plan: this.planCalculation,
-          },
-        });
+        this.$bvModal.show('no-plan-modal');
+      }
+
+      // const id=this.$route.params.id
+      // if(id) {
+      //   this.$router.push({
+      //     name: "PlanCheckoutEdit",
+      //     params: {
+      //       plan: this.planCalculation,
+      //       id
+      //     },
+      //   });
+      // } else {
+      //   this.$router.push({
+      //     name: "PlanCheckout",
+      //     params: {
+      //       plan: this.planCalculation,
+      //     },
+      //   });
+      // }
+    },
+    closeMessageModal() {
+      this.$bvModal.hide('no-plan-modal');
+    },
+
+    getPlanName() {
+      const planId=this.$route.params.id
+      if (planId) {
+        const obj=config.STRIPE_INFO.PRICE;
+
+        const key = Object.keys(obj).find((key)=> {
+          return obj[key]['id'] === planId}
+        );
+
+        if(key) {
+          this.plan = key;
+        }
       }
     },
+
+    loadUserInfo() {
+      api.dashboard.profile
+        .userInfo()
+        .then((data) => {
+          this.$store.commit("userInfo",{ ...data });
+        })
+        .catch((err) => { });
+    }
   },
 };
 </script>
