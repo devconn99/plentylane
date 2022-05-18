@@ -124,9 +124,11 @@ const checkErr = (errResponse) => {
 const TEMP_SHOP_ITEMS = [
   {
     title: "Container 4pk",
-    price: 35,
+    price: config.STRIPE_INFO.PRICE["container-fee"].price,
+    productId:config.STRIPE_INFO.PRICE["container-fee"].id,
     currency: "$",
     id: 1,
+    tax_rates: [config.STRIPE_INFO.TAX["container-tax"].id]
   },
 ];
 
@@ -855,10 +857,10 @@ export default {
             rating: 4,
             title: "Subject/Question",
             comment: `
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
-                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
-                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
-                        `,
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+              corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+              perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+            `,
             from: {
               fullName: "Martie G.",
               date: "2020-11-21",
@@ -869,10 +871,10 @@ export default {
             rating: 5,
             title: "Delicious",
             comment: `
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
-                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
-                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
-                        `,
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+              corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+              perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+            `,
             from: {
               fullName: "Bobby T.",
               date: "2020-11-12",
@@ -883,10 +885,10 @@ export default {
             rating: 2.5,
             title: "A little too spicy...",
             comment: `
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
-                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
-                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
-                        `,
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+              corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+              perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+            `,
             from: {
               fullName: "Joe P.",
               date: "2020-11-12",
@@ -897,10 +899,10 @@ export default {
             rating: 1,
             title: "-",
             comment: `
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
-                            corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
-                            perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
-                        `,
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci architecto commodi 
+              corporis dolorum impedit in ipsum itaque nesciunt non nostrum, officia officiis perferendis 
+              perspiciatis placeat quaerat quasi repellendus saepe voluptatibus?
+            `,
             from: {
               fullName: "Ben G.",
               date: "2020-12-01",

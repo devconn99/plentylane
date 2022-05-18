@@ -37,6 +37,8 @@ export default {
   STRIPE_INFO: {
     SUCCESS_URL:"https://www.plentylane.com/#/plan-success",
     CANCEL_URL:"https://www.plentylane.com/#/choose-plan",
+    SHOP_SUCCESS_URL:"https://www.plentylane.com/#/dashboard/shop/success",
+    SHOP_CANCEL_URL:"https://www.plentylane.com/#/dashboard/shop",
     PUBLISHABLE_KEY:
       "pk_test_51K8qCPGB4hdOutpgof9ByAyhSh8TEGa9gxWm7zFXppqjUqJu0twUuVDbvL4x6kgzVgKvpcLFCPoqv5J3kn86gJWj00RvDZA6zj",
     PRICE: {
@@ -46,7 +48,11 @@ export default {
       'casual-annual': { price: 49.5, id: "price_1KxhnmGB4hdOutpgB6eK9heI" },
       'unlimited-monthly': { price: 8.95, id: "price_1KxhqpGB4hdOutpgQWcMxjVk" },
       'unlimited-annual': { price: 89.5, id: "price_1KxhqpGB4hdOutpgmNvLBJFR" },
-      'inital-fee': { price: 29.5, id: "price_1L03wFGB4hdOutpgiZCRRkkV"}
+      'inital-fee': { price: 29.5, id: "price_1L03wFGB4hdOutpgiZCRRkkV"},
+      'container-fee':{ price:35, id:"price_1L0cyuGB4hdOutpgppKgn5cA"},
     },
-  },
+    TAX:{
+      'container-tax':{rate:11.49, id:"txr_1L0d1tGB4hdOutpg9ZC6jZHz" }
+    }
+  } ,
 };

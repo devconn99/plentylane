@@ -164,12 +164,16 @@ import config from '../../config';
 import api from '../../api';
 import EditBtn from '../../components/EditBtn';
 import { mapGetters } from 'vuex';
+import { StripeCheckout } from "@vue-stripe/vue-stripe";
+
 export default {
   name: "Checkout",
-  components: { SvgIcon,Loading,ShippingInfoModal,EditBtn,PaymentMethodModal },
+  components: { SvgIcon,Loading,ShippingInfoModal,EditBtn,PaymentMethodModal, StripeCheckout},
   data: () => ({
+    publishableKey: config.STRIPE_INFO.PUBLISHABLE_KEY,
     loaderOptions: { ...config.LOADER_OPTIONS },
     isLoading: false,
+    stripeLoading: false,
     userIdToUpdate: 0,
     shippingInfo: {
       fullName: '',
@@ -197,6 +201,7 @@ export default {
       shipping: { value: 0,text: '$0' },
       total: { value: 0,text: '$0' }
     },
+    sessionId:"",
     isBasketEmpty: false,
     basketItems: [],
     shippingPrice: 5,
@@ -241,7 +246,13 @@ export default {
       } else {
         return ""
       }
-    }
+    },
+     successURL(){
+      return config.STRIPE_INFO.SHOP_SUCCESS_URL
+    },
+     cancelURL(){
+      return config.STRIPE_INFO.SHOP_CANCEL_URL
+    },
   },
   methods: {
     async prepareData() {
@@ -323,9 +334,68 @@ export default {
     editPaymentMethod() {
       this.$bvModal.show('payment-method-modal');
     },
-    postOrder() {
-      // TODO: use api when ready
-      // temp
+   async postOrder() {
+    // TODO: use api when ready
+    // temp
+    const lineItems = this.basketItems.length
+      ? this.basketItems.map(res => {
+          return {
+            price:res.productId,
+            quantity:res.count,
+            tax_rates: res.tax_rates
+          }
+        })
+      : [];
+
+      //  if(lineItems.length){
+      //    lineItems.push({
+      //      price:config.STRIPE_INFO.PRICE['container-shipping'].id,
+      //      quantity:1
+      //    })
+      //  }
+
+       const _user = { ...this.$store.getters.userInfo };
+       const data = {
+        success_url: this.successURL,
+        cancel_url: this.cancelURL,
+        line_items: lineItems,
+        mode: "payment",
+        customer_email: _user?.email || '',
+        allow_promotion_codes: true,
+        billing_address_collection:'required',
+        customer_creation:'if_required',
+        shipping_options: [
+          {
+            shipping_rate_data: {
+              type: 'fixed_amount',
+              fixed_amount: {
+                amount: 500,
+                currency: 'usd',
+              },
+              display_name: 'Shipping cost',
+              // delivery_estimate: {
+              //   minimum: {
+              //     unit: 'business_day',
+              //     value: 1,
+              //   },
+              //   maximum: {
+              //     unit: 'business_day',
+              //     value: 1,
+              //   },
+              // },
+            },
+          },
+        ]
+      }
+      try {
+        const session=await api.payment.createCheckoutSession(data)
+        debugger
+        this.sessionId=session?.id;
+        this.$refs.checkoutRef.redirectToCheckout(); 
+      } catch (error) {
+        console.log(error)
+      }
+
       this.isLoading = true;
       this.isSubmitting = true;
       setTimeout(() => {
@@ -335,7 +405,7 @@ export default {
         this.$store.commit('clearShippingInfo');
         this.$eventHub.$emit('basket-reset');
         this.$router.push({ path: '/dashboard/shop/success' });
-      },3000);
+      }, 3000);
     },
     async onShippingInfoSaved(data) {
       if (data.fullName && data.fullName.length) {
@@ -351,8 +421,8 @@ export default {
             userId: this.userIdToUpdate,
             address: data.address
           })
-          data.address["phone"]=data.phone || "";
-          data.address["fullName"]=data.fullName || "";
+          data.address["phone"] = data.phone || "";
+          data.address["fullName"] = data.fullName || "";
           this.$store.commit('updateShippingAddress',data.address);
         } catch (error) {
           console.log(error)

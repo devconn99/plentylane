@@ -26,6 +26,18 @@ const routes = [
     meta: { title: TITLE, hideLoaderWithDelay: true },
   },
   {
+    path: "/feedyourneighbor",
+    name: "FeedYourNeighbor",
+    component: ()=>import("../views/FeedYourNeihbour.vue"),
+    meta: { title: TITLE, hideLoaderWithDelay: true },
+  },
+  {
+    path: "/neighborcookyoudinner",
+    name: "NeighborCookYouDinner",
+    component: ()=>import("../views/NeighborCookYouDinner.vue"),
+    meta: { title: TITLE, hideLoaderWithDelay: true },
+  },
+  {
     path: "/how-it-works",
     name: "HowItWorks",
     component: () => import("../views/HowItWorks.vue"),

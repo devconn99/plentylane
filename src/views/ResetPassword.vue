@@ -67,6 +67,19 @@
                   {{ pwdMaxLength }} characters.
                 </small>
               </b-form-group>
+              <b-form-group>
+                <b-form-input
+                  v-model="$v.form.passwordConfirm.$model"
+                  type="password"
+                  @focus="focusHandler"
+                  @input="resetError"
+                  placeholder="Password Confirmation"
+                ></b-form-input>
+                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.passwordConfirm.$dirty && !$v.form.passwordConfirm.required">This is a required field.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.passwordConfirm.maxLength">This field must be shorter than or equal to {{pwdMaxLength}} characters.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-else-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm && $v.form.passwordConfirm.isValidPwd && $v.form.passwordConfirm.maxLength) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
+              </b-form-group>
               <b-button
                 type="submit"
                 :disabled="$v.$invalid || submitted"
@@ -81,18 +94,6 @@
                 <span>Reset</span>
               </b-button>
             </b-form>
-
-            <div class="authorization-box-info">
-              <p>
-                Don't have an account?
-                <router-link to="/sign-up">Register</router-link>
-              </p>
-              <p>
-                Forgot your password?
-                <!-- TODO: add router and view for "Reset password page" -->
-                <router-link to="/forgot-password">Reset it here</router-link>
-              </p>
-            </div>
           </div>
         </div>
         <div class="authorization-background green-bg"></div>
@@ -103,7 +104,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { required, minLength, maxLength, sameAs } from "vuelidate/lib/validators";
 import Loading from 'vue-loading-overlay';
 import api from '../api';
 import config from '../config';
@@ -116,7 +117,10 @@ export default {
     pwdMinLength: config.PWD_MIN_LENGTH,
     pwdMaxLength: config.PWD_MAX_LENGTH,
     submitted: false,
-    form: { password: '' },
+    form: {
+      password: '',
+      passwordConfirm:''
+    },
     alertVarient:"",
     errorMsg: '',
     loaderOptions: { ...config.LOADER_OPTIONS },
@@ -127,7 +131,19 @@ export default {
       password: {
         required,
         minLength: minLength(config.PWD_MIN_LENGTH),
-        maxLength: maxLength(config.PWD_MAX_LENGTH)
+        maxLength: maxLength(config.PWD_MAX_LENGTH),
+        isValidPwd(value) {
+          return this.isValidPassword(value);
+        },
+      },
+      passwordConfirm: {
+        required,
+        minLength: minLength(config.PWD_MIN_LENGTH),
+        maxLength: maxLength(config.PWD_MAX_LENGTH),
+        isValidPwd(value) {
+          return this.isValidPassword(value);
+        },
+        sameAsPassword: sameAs('password')
       }
     }
   },
