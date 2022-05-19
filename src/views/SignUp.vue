@@ -111,6 +111,12 @@
                 <small class="text-danger d-flex mt-2 text-left" v-else-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
                 <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm && $v.form.passwordConfirm.isValidPwd && $v.form.passwordConfirm.maxLength) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
               </b-form-group>
+              <b-form-group>
+                <b-form-input
+                  v-model="form.inviteId"
+                  placeholder="Invitation Code"
+                />
+              </b-form-group>
               <b-button type="submit" :disabled="$v.$invalid || submitted" class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left">
                 <span>Continue</span>
               </b-button>
@@ -175,7 +181,8 @@ export default {
       phoneNumber: '',
       username: '',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      inviteId: ''
     },
     errorMsg: '',
     loaderOptions: { ...config.LOADER_OPTIONS },
@@ -221,7 +228,16 @@ export default {
       }
     }
   },
+  mounted(){
+    this.manipulateInvitaion()
+  },
   methods: {
+    manipulateInvitaion(){
+      const code = this.$route.query.code;
+      if(code){
+        this.form.inviteId = code
+      }
+    },
     isValidPassword (value) {
       if (value === '') return true;
       return new RegExp(`^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{${config.PWD_MIN_LENGTH},}$`, 'g').test(value);
@@ -256,7 +272,8 @@ export default {
         firstName,
         lastName: lastName || ' ',
         username: this.$v.form.$model.username,
-        phone:this.$v.form.$model.phoneNumber
+        phone: this.$v.form.$model.phoneNumber,
+        inviteId: this.form.inviteId
       };
       api.auth.signUp(userData)
         .then(() => {

@@ -187,7 +187,7 @@ export default {
         .then((response) => {
           this.isSubmitting = false;
           this.errorMsg = "Password successfully changed";
-          this.alertVarient="succss";
+          this.alertVarient="success";
           this.showErrorAlert = true;
           setTimeout(() => {
             this.goToLogin();

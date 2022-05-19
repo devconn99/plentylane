@@ -151,13 +151,13 @@
               <ul class="nav-menu-dashboard-small">
                 <!-- notifications are not included in MVP -->
                 <!--
-                                <li class="linotifications">
-                                    <a @click.stop.prevent="showNotificationsModal">
-                                        <SvgIcon icon="bell"></SvgIcon>
-                                        <span>Notifications</span>
-                                    </a>
-                                </li>
-                                -->
+                  <li class="linotifications">
+                      <a @click.stop.prevent="showNotificationsModal">
+                          <SvgIcon icon="bell"></SvgIcon>
+                          <span>Notifications</span>
+                      </a>
+                  </li>
+                -->
                 <li>
                   <!-- TODO: refactor tag <a> later -->
                   <a @click.stop.prevent="showInviteFriendsModal">
@@ -221,14 +221,15 @@
                 <span
                   class="dashboard-user-name"
                   v-if="displayUserName && displayUserName.length"
-                  >{{ displayUserName }}</span
                 >
+                  {{ displayUserName }}
+                </span>
                 <span class="dashboard-user-name" v-else>Profile</span>
               </div>
               <!-- notifications are not included in MVP -->
               <!--
-                            <a @click.stop.prevent="showNotificationsModal" class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
-                            -->
+              <a @click.stop.prevent="showNotificationsModal" class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
+              -->
             </div>
           </div>
         </div>
@@ -238,13 +239,28 @@
         class="dashboard-section"
         v-bind:class="{ 'dashboard-profile': isProfilePage }"
       >
-        <router-view></router-view>
+        <span>
+          <b-alert
+            @dismiss-count-down="countDownChanged"
+            @dismissed="alert.show=0"
+            :show="alert.show"
+            :variant="alert.varient"
+            dismissible
+          >
+            <!-- @dismissed="goToLogin" -->
+            <p>{{ alert.msg }}</p>
+          </b-alert>
+          <router-view></router-view>
+        </span>
       </section>
     </main>
 
     <!-- Modals -->
     <!-- TODO: insert NotificationsModal here if it's needed to be shown -->
-    <InviteFriendsViaCopyLinkModal></InviteFriendsViaCopyLinkModal>
+    <InviteFriendsViaCopyLinkModal
+      @onSendInvitation="sendInvitation"
+      :invitationLink="invitationLink"
+    />
   </div>
 </template>
 
@@ -253,10 +269,17 @@ import api from "../api";
 import SvgIcon from "../components/SvgIcon";
 import InviteFriendsViaCopyLinkModal from "../components/modals/InviteFriendsViaCopyLinkModal";
 import { mapGetters } from 'vuex';
+
 export default {
   name: "Dashboard",
   components: { SvgIcon, InviteFriendsViaCopyLinkModal },
   data: () => ({
+    invitationLink:"",
+    alert:{
+      show:false,
+      msg:"",
+      varient:""
+    },
     user: null,
     // notificationsCount: 3,
     navMenuItems: [
@@ -348,6 +371,9 @@ export default {
     next();
   },
   methods: {
+    countDownChanged(dismissCountDown){
+      this.alert.show = dismissCountDown
+    },
     loadUserInfo() {
       api.dashboard.profile
         .userInfo()
@@ -358,7 +384,8 @@ export default {
         })
         .catch((err) => {});
     },
-     async getSubscription(){
+
+    async getSubscription(){
       const { id } = this.userInfo?.subscription
       
       try {
@@ -370,18 +397,18 @@ export default {
     },
 
     async getCheckoutSession() {
-      const { stripeCheckoutId } =  this.userInfo
-      if(stripeCheckoutId){
+      const { stripeCheckoutId } = this.userInfo;
+      if(stripeCheckoutId) {
         try {
-            const chckout = await api.payment.getCheckoutSession(stripeCheckoutId)
-            if(chckout?.subscription){
+          const chckout = await api.payment.getCheckoutSession(stripeCheckoutId)
+          if(chckout?.subscription) {
             const subscription = await api.payment.getSubscriptionById(chckout.subscription)
             this.$store.commit('updateSubscription',subscription);
-            }
-          } catch (error) {
-          this.$store.commit('updateSubscription',null);
-            console.log(error)
           }
+        } catch (error) {
+          this.$store.commit('updateSubscription',null);
+          console.log(error);
+        }
       } else {
         this.$store.commit('updateSubscription',null);
       }
@@ -468,12 +495,44 @@ export default {
         }
       }
     },
-    showInviteFriendsModal() {
+    async showInviteFriendsModal() {
       if (this.isMobileSidebarVisible) {
         this.hideMobileSideNav();
       }
-      this.$bvModal.show("invite-friends-via-copy-link-modal");
+      const user = { ...this.$store.getters.userInfo };
+      try {
+        if(user.email){
+          const invitationLink=await api.invitations.generateInvitation({email:user.email})
+          this.invitationLink=invitationLink
+          this.$bvModal.show("invite-friends-via-copy-link-modal");
+        }        
+      } catch (error) {
+        this.alert = {
+          msg:error.message,
+          varient:"danger",
+          show:true
+        }
+      }
     },
+
+    async sendInvitation(data){
+      try {
+        await api.invitations.sendInvitation(data)
+        this.$bvModal.hide("invite-friends-via-copy-link-modal");
+        this.alert={
+          msg:"Invitation sent",
+          varient:"success",
+          show:true
+        }
+      } catch (error) {
+        this.alert = {
+          msg:error.message,
+          varient:"danger",
+          show:true
+        }
+      }
+    },
+
     /*
     showNotificationsModal () {
       if (this.isMobileSidebarVisible) {
@@ -529,7 +588,7 @@ export default {
     this.$eventHub.$off("user-image-removed");
     this.$eventHub.$off("user-name-updated");
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

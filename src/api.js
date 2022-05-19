@@ -1333,4 +1333,29 @@ export default {
         });
     }
   },
+  invitations: {
+    generateInvitation(data) {
+      const endpoint = `${config.API_ORIGIN}/api/invitations/generate-invitaion-link`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    sendInvitation(data) {
+      const endpoint = `${config.API_ORIGIN}/api/invitations/send-invitation`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    }
+    
+  }
 };
