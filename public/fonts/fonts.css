@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "FilsonProRegular";
+  src: url("/fonts/FilsonProRegular.ttf") format("truetype"),
+       url("/fonts/FilsonProRegular.woff2") format("woff2"),
+       url("/fonts/FilsonProRegular.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FilsonProBold";
+  src: url("/fonts/FilsonProBold.ttf") format("truetype"),
+       url("/fonts/FilsonProBold.woff2") format("woff2"),
+       url("/fonts/FilsonProBold.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LacaProSemiBold";
+  src: url("/fonts/LacaPro-SemiBold.ttf") format("truetype"),
+       url("/fonts/LacaPro-SemiBold.woff2") format("woff2"),
+       url("/fonts/LacaPro-SemiBold.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LHFAmericanSans";
+  src: url("/fonts/LHFAmericanSans.ttf") format("truetype"),
+       url("/fonts/LHFAmericanSans.woff2") format("woff2"),
+       url("/fonts/LHFAmericanSans.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PaintStoreBold";
+  src: url("/fonts/PaintStore-Bold.ttf") format("truetype"),
+       url("/fonts/PaintStore-Bold.woff2") format("woff2"),
+       url("/fonts/PaintStore-Bold.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PaintStoreRegular";
+  src: url("/fonts/PaintStore-Regular.ttf") format("truetype"),
+       url("/fonts/PaintStore-Regular.woff2") format("woff2"),
+       url("/fonts/PaintStore-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
