@@ -197,6 +197,7 @@
 		}
 	}
 }
+
 .header_search_container_mobile {
 	display: none;
 	.form-group {
@@ -216,11 +217,13 @@
 		transition: 0.4s;
 	}
 }
+
 .box-btn {
 	&.w100 {
 		width: 100%;
 	}
 }
+
 .list-style-circle {
 	li {
 		list-style-type: square;
@@ -487,6 +490,7 @@ ul.nav-menu-dashboard {
 		}
 	}
 }
+
 ul.nav-menu-dashboard-small {
 	padding: 0;
 	margin: 0;
@@ -731,13 +735,17 @@ ul.nav-menu-dashboard-small {
 		}
 	}
 }
-.cook-box, a.cook-box {
+
+.cook-box,
+a.cook-box {
 	@media screen and (max-width: $phoneWidth) {
 		font-size: 14px;
 		font-family: $FilsonProRegular;
 	}
 }
-a.reserved-box, .reserved-box {
+
+a.reserved-box,
+.reserved-box {
 	background-color: $whiteColor;
 	box-shadow: 0 4px 16px rgba(69,53,38,0.15);
 	margin-bottom: 16px;
@@ -823,6 +831,7 @@ a.reserved-box, .reserved-box {
 		}
 	}
 }
+
 // .recept-box has been moved to src/components/OfferInfoBlock styles
 .recept-box {
 	.recept-box-img {
@@ -848,7 +857,8 @@ a.reserved-box, .reserved-box {
 	}
 }
 
-.serving-number, a.serving-number {
+.serving-number,
+a.serving-number {
 	line-height: 24px;
 	color: $textBlackColor;
 	span {
@@ -858,6 +868,7 @@ a.reserved-box, .reserved-box {
 		line-height: 24px;
 	}
 }
+
 .questions {
 	.questions-box {
 		padding: 20px 0;
@@ -1043,12 +1054,16 @@ a.reserved-box, .reserved-box {
 /*************
 *  CUSTOM DROPDOWN WRAPPER/TOGGLE/MENU  *
 *************/
-.my-meal-action-wrapper, .reserved-action-wrapper {
+.my-meal-action-wrapper,
+.reserved-action-wrapper {
 	.my-meal-action-toggle, .reserved-action-toggle {
 		color: $grayColor !important;
 	}
 }
-.my-meal-action-wrapper, .reserved-action-wrapper, .recept-box-action-wrapper {
+
+.my-meal-action-wrapper,
+.reserved-action-wrapper,
+.recept-box-action-wrapper {
 	.my-meal-action-toggle, .reserved-action-toggle, .recept-box-action-toggle {
 		border-radius: 0 !important;
 		background-color: transparent !important;
@@ -1063,6 +1078,7 @@ a.reserved-box, .reserved-box {
 		border-color: rgba(231, 230, 230, 0.5) !important;
 	}
 }
+
 .recept-box-action-wrapper {
 	position: absolute;
 	top: 0;

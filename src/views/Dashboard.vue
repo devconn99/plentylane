@@ -239,19 +239,20 @@
         class="dashboard-section"
         v-bind:class="{ 'dashboard-profile': isProfilePage }"
       >
-        <span>
-          <b-alert
-            @dismiss-count-down="countDownChanged"
-            @dismissed="alert.show=0"
-            :show="alert.show"
-            :variant="alert.varient"
-            dismissible
-          >
-            <!-- @dismissed="goToLogin" -->
-            <p>{{ alert.msg }}</p>
-          </b-alert>
-          <router-view></router-view>
-        </span>
+        <b-alert
+          @dismiss-count-down="countDownChanged"
+          @dismissed="alert.show=0"
+          :show="alert.show"
+          :variant="alert.varient"
+          dismissible
+          fade
+          class="d-alert"
+        >
+          <!-- @dismissed="goToLogin" -->
+          <p>{{ alert.msg }}</p>
+        </b-alert>
+
+        <router-view></router-view>
       </section>
     </main>
 
@@ -273,12 +274,13 @@ import { mapGetters } from 'vuex';
 export default {
   name: "Dashboard",
   components: { SvgIcon, InviteFriendsViaCopyLinkModal },
+
   data: () => ({
-    invitationLink:"",
-    alert:{
-      show:false,
-      msg:"",
-      varient:""
+    invitationLink: "",
+    alert: {
+      show: 0,
+      msg: "",
+      varient: "success"
     },
     user: null,
     // notificationsCount: 3,
@@ -310,6 +312,7 @@ export default {
     isMobileBtnSearchActive: false,
     isMobileBtnMenuActive: false,
   }),
+
   created() {
     const user = { ...this.$store.getters.userInfo };
     if (!user || !user.email || !user.id) {
@@ -344,6 +347,7 @@ export default {
       this.user.username = data.username;
     });
   },
+
   computed: {
     ...mapGetters({
       userInfo: "userInfo",
@@ -361,6 +365,7 @@ export default {
       return this.$route.path.includes("/profile");
     },
   },
+
   beforeRouteUpdate(to, from, next) {
     if (this.isMobileSidebarVisible) {
       this.hideMobileSideNav();
@@ -370,10 +375,12 @@ export default {
     }
     next();
   },
+
   methods: {
     countDownChanged(dismissCountDown){
       this.alert.show = dismissCountDown
     },
+
     loadUserInfo() {
       api.dashboard.profile
         .userInfo()
@@ -431,6 +438,7 @@ export default {
         }
       }, 300);
     },
+
     toggleMobileSearch() {
       if (!this.isMobileSearchVisible) {
         this.showMobileSearch();
@@ -448,6 +456,7 @@ export default {
         }
       }, 300);
     },
+
     showMobileSearch() {
       this.isMobileSearchVisible = true;
       this.$eventHub.$emit("mobile-search-opened");
@@ -457,18 +466,22 @@ export default {
         }
       });
     },
+
     hideMobileSearch() {
       this.isMobileSearchVisible = false;
       this.$eventHub.$emit("mobile-search-closed");
     },
+
     showMobileSideNav() {
       this.isMobileSidebarVisible = true;
       this.$eventHub.$emit("mobile-side-nav-opened");
     },
+
     hideMobileSideNav() {
       this.isMobileSidebarVisible = false;
       this.$eventHub.$emit("mobile-side-nav-closed");
     },
+
     handleSearch() {
       // TODO: handle search (use this.searchStr as a value), redirect to search page
       const str =
@@ -477,6 +490,7 @@ export default {
         .push({ path: "/dashboard/search", query: { name: str } })
         .catch(() => {});
     },
+
     onMobileSearchClickedAway() {
       if (!this.isMobileBtnSearchActive && this.isMobileSearchVisible) {
         this.isMobileSearchVisible = false;
@@ -486,6 +500,7 @@ export default {
         }
       }
     },
+
     onMobileSideNavClickedAway() {
       if (!this.isMobileBtnMenuActive && this.isMobileSidebarVisible) {
         this.isMobileSidebarVisible = false;
@@ -495,6 +510,7 @@ export default {
         }
       }
     },
+
     async showInviteFriendsModal() {
       if (this.isMobileSidebarVisible) {
         this.hideMobileSideNav();
@@ -510,37 +526,37 @@ export default {
         this.alert = {
           msg:error.message,
           varient:"danger",
-          show:true
+        show:5
         }
       }
     },
 
-    async sendInvitation(data){
-      try {
-        await api.invitations.sendInvitation(data)
+    async sendInvitation(emailsData) {
+      const emailsPromise = emailsData.map(data => api.invitations.sendInvitation(data));
+
+      Promise.all(emailsPromise).then(res => {
         this.$bvModal.hide("invite-friends-via-copy-link-modal");
-        this.alert={
-          msg:"Invitation sent",
-          varient:"success",
-          show:true
-        }
-      } catch (error) {
         this.alert = {
+          msg:"Invitations sent",
+          varient:"success",
+          show:5
+        }     
+      }).catch(error => {
+        this.alert={
           msg:error.message,
           varient:"danger",
-          show:true
-        }
-      }
+          show:5
+          }
+      });
     },
 
-    /*
-    showNotificationsModal () {
+    /* showNotificationsModal () {
       if (this.isMobileSidebarVisible) {
         this.hideMobileSideNav();
       }
       this.$bvModal.show('notifications-modal');
-    },
-    */
+    }, */
+
     goToProfile() {
       const pathToProfile = "/dashboard/profile";
       if (this.$route.path === pathToProfile) {
@@ -552,6 +568,7 @@ export default {
       }
       this.$router.push({ path: pathToProfile }).catch(() => {});
     },
+
     redirectToPath(path) {
       if (this.$route.path === path) {
         if (this.isMobileSidebarVisible) {
@@ -562,6 +579,7 @@ export default {
       if (!path || !path.length) return;
       this.$router.push({ path: path }).catch(() => {});
     },
+
     confirmSubScription(user) {
       if (user.stripeCheckoutId == null) {
         this.$router.push("/choose-plan");
@@ -571,6 +589,7 @@ export default {
       }
     },
   },
+
   watch: {
     "$route.path": {
       handler: function (path) {
@@ -582,6 +601,7 @@ export default {
       immediate: true,
     },
   },
+
   beforeDestroy() {
     this.$eventHub.$off("clear-global-search-value");
     this.$eventHub.$off("user-image-updated");
@@ -592,4 +612,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.d-alert{
+  position: absolute;
+  width: calc(100% - 245px);
+  z-index: 4;
+}
 </style>

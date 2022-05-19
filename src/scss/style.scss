@@ -6,3 +6,11 @@
 @import "authorization";
 @import "landing";
 @import "dashboard";
+
+:root {
+  --default-size: 16px;
+  --chip-input-border-width: 100%;
+  --chip-input-font-size: var(--default-size);
+  --chip-input-autocomplete-font-size: var(--default-size);
+  --chip-font-size: var(--default-size)
+}
