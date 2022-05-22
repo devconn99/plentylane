@@ -388,9 +388,8 @@ export default {
         ]
       }
       try {
-        const session=await api.payment.createCheckoutSession(data)
-        debugger
-        this.sessionId=session?.id;
+        const session = await api.payment.createCheckoutSession(data)
+        this.sessionId = session?.id;
         this.$refs.checkoutRef.redirectToCheckout(); 
       } catch (error) {
         console.log(error)

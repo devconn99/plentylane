@@ -181,6 +181,26 @@ const routes = [
     },
   },
   {
+    path: "/public-profile/:id",
+    name: "Public Profile",
+    component: () => import("../views/CookProfile.vue"),
+    meta: {
+      title: `${TITLE} - Public profile`,
+      skipHidingLoader: true,
+      isPublic:true
+    },
+  },
+  {
+    path: "/profile-rating",
+    name: "Rate Profile",
+    component: () => import("../views/RateProfile.vue"),
+    meta: {
+      title: `${TITLE} - Rate Public`,
+      skipHidingLoader: true,
+      isPublic:true
+    },
+  },
+  {
     path: "/dashboard",
     component: () => import("../views/Dashboard.vue"),
     meta: {

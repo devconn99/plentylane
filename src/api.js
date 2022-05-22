@@ -1357,5 +1357,40 @@ export default {
         });
     }
     
+  },
+  ratings:{
+    getRatingByUUID(uuid) {
+      const endpoint = `${config.API_ORIGIN}/api/ratings/get-rating-by-uuid/${uuid}`;
+      return axios
+        .get(endpoint)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    getRatingByUserId(userId) {
+      const endpoint = `${config.API_ORIGIN}/api/ratings/get-rating-by-user-id/${userId}`;
+      return axios
+        .get(endpoint)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    updateRating(id,data){
+      const endpoint = `${config.API_ORIGIN}/api/ratings/${id}`;
+      return axios
+        .patch(endpoint,data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    }
   }
 };
