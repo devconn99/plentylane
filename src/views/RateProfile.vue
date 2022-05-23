@@ -22,7 +22,7 @@
             v-for="(tag, i) of reviewTags"
             :key="i"
             class="mt-2 btnGreen p-2 hover-slide-left"
-            :class="{ 'ml-2': i > 0, active: rating.remarks == tag }"
+            :class="{ 'ml-2': i > 0, active: tagSelected(tag) }"
           >
             <span>{{ tag }}</span>
           </b-button>
@@ -30,6 +30,11 @@
         <b-form-group label="Review" class="mt-2">
           <b-textarea v-model="rating.review" rows="5" />
         </b-form-group>
+        <span class="d-flex mt-2">
+          <b-badge v-for="(remark,i) in selectedRemarks" :key="i" :class="{'ml-2':i>0}">
+            {{remark}}
+          </b-badge>
+        </span>
         
         <b-button
           @click="updateRating()"
@@ -65,7 +70,7 @@ export default {
     reviewTags: config.RATINGS.TAGS,
     rating: {
       rating: 0,
-      remarks: "",
+      remarks: [],
       review: "",
     },
     loaderOptions: { ...config.LOADER_OPTIONS },
@@ -101,15 +106,26 @@ export default {
       localStorage.removeItem("plAccessToken")
     };
   },
+  computed:{
+    selectedRemarks() {
+      return this.rating.remarks;
+    }
+  },
   methods: {
     clearData() {
       this.isLoaded = false;
     },
     updateRemarks(tag) {
-      this.rating.remarks = tag
+      const remarkIndex = this.rating.remarks.findIndex(res=> res == tag);
+      if (remarkIndex >= 0) {
+        this.rating.remarks.splice(remarkIndex, 1) 
+      } else {
+        this.rating.remarks.push(tag) 
+      }
     },
     async loadPageData() {
-      let uuid = this.ratingUUID
+      const uuid = this.ratingUUID;
+
       api.ratings.getRatingByUUID(uuid).then(res => {
         if (res.id) {
           this.ratingId=res.id
@@ -126,6 +142,9 @@ export default {
           this.$loader.hide()
         }, 0);
       }
+    },
+    tagSelected(tag) {
+      return this.rating.remarks.indexOf(tag) >= 0
     },
     updateRating() {
       const id = this.ratingId

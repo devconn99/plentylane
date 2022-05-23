@@ -19,6 +19,7 @@
     "jquery": "^3.5.1",
     "libphonenumber-js": "^1.9.9",
     "lodash": "^4.17.20",
+    "moment": "^2.29.3",
     "popper": "^1.0.1",
     "vue": "^2.6.11",
     "vue-clickaway": "^2.2.2",

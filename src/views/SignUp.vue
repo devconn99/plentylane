@@ -111,12 +111,6 @@
                 <small class="text-danger d-flex mt-2 text-left" v-else-if="!$v.form.passwordConfirm.isValidPwd">This field must be at least {{pwdMinLength}} characters long with one capital letter and one digit.</small>
                 <small class="text-danger d-flex mt-2 text-left" v-if="($v.form.$model.password && $v.form.$model.passwordConfirm && $v.form.passwordConfirm.isValidPwd && $v.form.passwordConfirm.maxLength) && !$v.form.passwordConfirm.sameAsPassword">Passwords must be identical.</small>
               </b-form-group>
-              <b-form-group>
-                <b-form-input
-                  v-model="form.inviteId"
-                  placeholder="Invitation Code"
-                />
-              </b-form-group>
               <b-button type="submit" :disabled="$v.$invalid || submitted" class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left">
                 <span>Continue</span>
               </b-button>
@@ -228,13 +222,13 @@ export default {
       }
     }
   },
-  mounted(){
+  mounted() {
     this.manipulateInvitaion()
   },
   methods: {
-    manipulateInvitaion(){
+    manipulateInvitaion() {
       const code = this.$route.query.code;
-      if(code){
+      if (code) {
         this.form.inviteId = code
       }
     },
@@ -242,7 +236,7 @@ export default {
       if (value === '') return true;
       return new RegExp(`^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{${config.PWD_MIN_LENGTH},}$`, 'g').test(value);
     },
-    resetError () {
+    resetError() {
       if (this.submitted) {
         this.submitted = false;
       }
@@ -253,10 +247,10 @@ export default {
         this.errorMsg = false;
       }
     },
-    focusHandler (e) {
+    focusHandler(e) {
       this.resetError();
     },
-    onSubmit () {
+    onSubmit() {
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;

@@ -1356,7 +1356,6 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     }
-    
   },
   ratings:{
     getRatingByUUID(uuid) {
@@ -1381,10 +1380,24 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
-    updateRating(id,data){
+    getRatingReviewdByUserId(userId,page) {
+      let endpoint = `${config.API_ORIGIN}/api/ratings/get-reviewed-rating-by-user-id/${userId}`;
+      if (page !== undefined && page !== null) {
+        endpoint += `?page=${page}`;
+      }
+      return axios
+        .get(endpoint)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    updateRating(id, data){
       const endpoint = `${config.API_ORIGIN}/api/ratings/${id}`;
       return axios
-        .patch(endpoint,data)
+        .patch(endpoint, data)
         .then((res) => {
           return Promise.resolve(res.data || {});
         })

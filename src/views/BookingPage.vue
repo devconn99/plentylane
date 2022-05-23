@@ -8,7 +8,7 @@
         :booked-servings-num="bookingInfo.servings"
         :should-load-more-offers="true"
         :should-allow-ask-question="true"
-        :rating="rating"
+        :rating="usersOpenRating"
       ></OfferPageContent>
     </template>
   </div>
@@ -50,21 +50,26 @@ export default {
     };
     this.loadPageData(cb);
   },
+  computed: {
+    usersOpenRating() {
+      return this.rating?.status == "opened" ? this.rating : null;
+    }
+  },
   methods: {
-    clearData () {
+    clearData() {
       this.isLoaded = false;
       this.bookingInfo = null;
       this.offerInfo = null;
       this.isBookingCanceled = false;
     },
-    hideGlobalLoader () {
+    hideGlobalLoader() {
       if (this.$loader && this.$loader.hide) {
         setTimeout(() => {
           this.$loader.hide()
         }, 0);
       }
     },
-    errLoadingDataHandler (cb, err) {
+    errLoadingDataHandler(cb, err) {
       if (err && err.data && err.data.statusCode === 404) {
         this.isLoaded = true;
         this.bookingInfo = null;
@@ -77,7 +82,7 @@ export default {
       this.hideGlobalLoader();
       if (cb) cb();
     },
-    loadPageData (cb) {
+    loadPageData(cb) {
       if (!this.bookingId) {
         this.errLoadingDataHandler(cb);
         return;
