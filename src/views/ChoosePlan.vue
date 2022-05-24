@@ -16,18 +16,18 @@
 
       <section class="plan pad-70">
         <div class="container">
-          <h2 class="text-left mb-3">Choose your plan:</h2>
+          <h2 class="text-left mb-3 text-fuchsia-rose">Choose your plan:</h2>
           <div class="row align-items-center mb-2">
             <div class="col-3"></div>
             <div class="col-3 text-nowrap">Swap with</div>
-            <div class="col-6" v-if="isMobile">
+            <div class="col-6 text-dark-green" v-if="isMobile">
               <span style="border-bottom: 1px black solid"> Monthly</span>
               <br />Annual
             </div>
-            <div class="col-6" v-else>Monthly / Annual</div>
+            <div class="col-6 text-dark-green" v-else>Monthly / Annual</div>
           </div>
           <div class="row align-items-center mb-3 toggle-plan-radio-group">
-            <div class="col-3 text-left">Starter</div>
+            <div class="col-3 text-left text-fuchsia-rose">Starter</div>
             <div class="col-3 text-nowrap">7 people</div>
             <div class="col-6">
               <div
@@ -39,7 +39,7 @@
               >
                 <label
                   :class="{
-                    active: plan == 'starter-monthly',
+                    'active-button': plan == 'starter-monthly',
                     btn: !isMobile,
                     'mr-4': isMobile,
                   }"
@@ -54,9 +54,9 @@
                 </label>
                 <label
                   :class="{
-                    active: plan == 'starter-annual',
-                    btn: !isMobile,
+                    'active-button': plan == 'starter-annual',
                     'mr-4': isMobile,
+                    btn: !isMobile,
                   }"
                 >
                   <input
@@ -71,7 +71,7 @@
             </div>
           </div>
           <div class="row align-items-center mb-3 toggle-plan-radio-group">
-            <div class="col-3 text-left">Casual</div>
+            <div class="col-3 text-left text-fuchsia-rose">Casual</div>
             <div class="col-3 text-nowrap">20 people</div>
             <div class="col-6">
               <div
@@ -81,7 +81,7 @@
                   'd-inline-block': !isMobile,
                 }"
               >
-                <label :class="{ active: plan == 'casual-monthly', btn: !isMobile }">
+                <label :class="{ 'active-button': plan == 'casual-monthly', btn: !isMobile }">
                   <input
                     type="radio"
                     name="plan-radios"
@@ -92,7 +92,7 @@
                 </label>
                 <label
                   :class="{
-                    active: plan == 'casual-annual',
+                    'active-button': plan == 'casual-annual',
                     btn: !isMobile,
                     'ml-3': isMobile,
                   }"
@@ -109,7 +109,7 @@
             </div>
           </div>
           <div class="row align-items-center mb-3 toggle-plan-radio-group">
-            <div class="col-3 text-left">Unlimited</div>
+            <div class="col-3 text-left text-fuchsia-rose">Unlimited</div>
             <div class="col-3">Unlimited people</div>
             <div class="col-6">
               <div
@@ -121,7 +121,7 @@
               >
                 <label
                   :class="{
-                    active: plan == 'unlimited-monthly',
+                    'active-button': plan == 'unlimited-monthly',
                     btn: !isMobile,
                   }"
                 >
@@ -135,7 +135,7 @@
                 </label>
                 <label
                   :class="{
-                    active: plan == 'unlimited-annual',
+                    'active-button': plan == 'unlimited-annual',
                     btn: !isMobile,
                     'ml-3': isMobile,
                   }"
@@ -365,6 +365,19 @@ export default {
 
 <style scoped lang="scss">
 @import "../scss/utils/vars";
+
+.text-fuchsia-rose {
+  color: #C54579;
+}
+
+.active-button{
+  background-color: #194f5a !important;
+}
+
+.text-dark-green{
+  color: #194f5a;
+}
+
 .plan {
   font-size: 14pt;
   .container {
@@ -372,7 +385,7 @@ export default {
     text-align: center;
   }
   .toggle-plan-radio-group {
-    //   position: relative;
+    // position: relative;
     .btn {
       border-color: transparent;
       padding: 13px;
@@ -395,21 +408,11 @@ export default {
       }
     }
   }
-  // @media screen and (max-width: $phoneBigWidth) {
-  //   font-size: 12pt;
-  //   .radio-btn {
-  //     .btn {
-  //       font-size: 14px;
-  //       padding: 15px;
-  //       line-height: 14px;
-  //       min-width: 90px;
-  //       margin: 0 3px;
-  //     }
-  //   }
-  // }
 }
+
 .prices {
   align-items: center;
+
   p {
     font-size: 14pt;
     margin: 0;
@@ -420,6 +423,7 @@ export default {
     width: 20px;
   }
 }
+
 .description {
   ul {
     text-align: left;

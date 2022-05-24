@@ -137,7 +137,7 @@
                 </div>
                 <span>
                   If this is a gift, register for the <strong>recipient</strong>, not yourself.
-                  You will name an opportunity to write a gift message.
+                  You will have an opportunity to write a gift message.
                 </span>
               </div>
             </div>

@@ -5,13 +5,12 @@
         <div class="title-size3 titleGreenNavyColor">Your order is complete!</div>
       </div>
       <p>Your plan is successfully updated.</p>
-      <div class="title-size3 titleGreenNavyColor mt-5 mb-3">Now what?</div>
       <div class="box-btn">
         <router-link
           :to="{ path: '/dashboard' }"
           class="btnGreenTransparent btnHugeSize btn100 hover-slide-left"
         >
-          <span>Continue</span>
+          <span>See what's cooking</span>
         </router-link>
       </div>
     </div>

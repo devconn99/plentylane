@@ -15,22 +15,13 @@
     <main>
       <section class="authorization">
         <div class="authorization-box">
-          <div class="authorization-label">
-            <p>Account creation sent me here. to this page.</p>
-            <p>
-              Need accoutnt Type selection, payment, etc <strong>FIRST</strong>
-              I will label this NEW pages "AFTER ACCOUNT CREATION"
-            </p>
-          </div>
-
           <div class="authorization-box-position pt-0 position-relative">
             <h1 class="title-size2 titleGreenNavyColor">Congratulations!</h1>
 
             <div class="authorization-box-info">
               <p>
                 <span class="font-weight-bold">Welcome to Plenty Lane!</span>
-                We'll ship your containers and send you an email with tips to get started.
-                In the meantime, <router-link to="/login">login</router-link> to see what's cooking.
+                Please <router-link to="/login">login</router-link> to choose a plan and get your swapping containers shipped to you. You can also see what's cooking!                
               </p>
             </div>
 
