@@ -114,12 +114,8 @@ const routes = [
   {
     path: "/invitefriends",
     name: "InviteFriends",
-    component: () => import("../views/SignUp.vue"),
-    meta: {
-      title: `${TITLE} - Sign Up`,
-      authHelper: true,
-      hideLoaderWithDelay: true,
-    },
+    component: Home,
+    meta: { title: TITLE, hideLoaderWithDelay: true },
   },
   {
     path: "/sign-up-success",

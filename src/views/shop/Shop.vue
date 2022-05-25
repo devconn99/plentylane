@@ -3,12 +3,6 @@
     <div class="row mb-4">
       <div class="col-12">
         <div class="dashboard-title-box">
-          <!-- TODO: temp message -->
-          <p>
-            Please email us at
-            <a class="href-mailto" href="mailto:info@plentylane.com">info@plentylane.com</a> if you need
-            to purchase additional containers.
-          </p>
           <div class="title-size3 titleGreenNavyColor">Shop containers</div>
         </div>
       </div>
@@ -18,13 +12,18 @@
         <div class="col-sm-6 col-xl-4 mb-4" v-for="(item,i) in items" :key="i">
           <div class="shop-box">
             <div class="shop-box-img">
-              <img src="../../assets/images/data/images/dashboard/shop/container-4pk.jpg" alt=""
-                 class="img-fluid">
+              <img
+                src="../../assets/images/data/images/dashboard/shop/container-4pk.jpg"
+                alt=""
+                class="img-fluid"
+              >
             </div>
             <div class="shop-box-info">
               <div>
                 <div class="shop-box-title mb-1">{{item.title}}</div>
-                <div class="shop-box-price mb-1">{{item.currency || '$'}}{{item.price}}</div>
+                <div class="shop-box-price mb-1">
+                  {{item.currency || '$'}}{{item.price}} including shipping
+                </div>
               </div>
               <div class="shop-box-btn">
                 <div class="btn-round cursor-pointer" @click="addItemToBasket(item)">
