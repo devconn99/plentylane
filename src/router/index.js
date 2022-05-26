@@ -114,8 +114,22 @@ const routes = [
   {
     path: "/invitefriends",
     name: "InviteFriends",
-    component: Home,
-    meta: { title: TITLE, hideLoaderWithDelay: true },
+    component: () => import("../views/Invitation.vue"),
+    meta: {
+      title: `${TITLE} - Accept Invitation`,
+      authHelper: true,
+      hideLoaderWithDelay: true,
+    },
+  },
+  {
+    path: "/invitaion-success",
+    name: "InvitationSuccess",
+    component: () => import("../views/InvitationSuccess.vue"),
+    meta: {
+      title: `${TITLE} - Invitation Success`,
+      authHelper: true,
+      hideLoaderWithDelay: true,
+    },
   },
   {
     path: "/sign-up-success",

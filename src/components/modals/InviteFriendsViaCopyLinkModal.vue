@@ -30,7 +30,8 @@
               </b-btn>
             </template>
           </b-input-group>
-          <span class="fg-main d-flex mt-2">
+          <label class="mt-2">Enter email address then press Space/Enter key.</label>
+          <span class="fg-main d-flex">
             <span class="fg-container">
               <b-input-group
                 style="direction: ltr"
@@ -42,6 +43,7 @@
                     @chip-create="emailUpdate"
                     @chip-close="emailUpdate"
                     @keyup.delete="emailUpdate"
+                    @keyup.enter="emailUpdate"
                     class="form-control"
                   />
                 </template>
@@ -134,8 +136,7 @@ export default {
       const val = event.target.value?.trim();
       const eventType = event.type;
       const valueIndex = this.emailsArray.findIndex(res => res === val);
-
-      if (eventType == "chip-create") {
+      if ((eventType == "chip-create" || event.code=="Enter") && val) {
         this.emailsArray.push(val);
       } else if (eventType == "chip-close" || event.code == "Backspace") {
         this.emailsArray.splice(valueIndex, 1);   

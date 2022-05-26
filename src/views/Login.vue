@@ -37,12 +37,11 @@
               <b-form-group>
                 <b-form-input
                   v-model="$v.form.email.$model"
-                  type="email"
                   @focus="focusHandler"
                   @input="resetError"
-                  placeholder="Email Address"
+                  placeholder="Email/Username"
                 ></b-form-input>
-                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email/username.</small>
                 <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
               </b-form-group>
               <b-form-group>
@@ -85,7 +84,7 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { required, minLength, maxLength, email } from "vuelidate/lib/validators";
+import { required, minLength, maxLength, email,requiredIf } from "vuelidate/lib/validators";
 import Loading from 'vue-loading-overlay';
 import api from '../api';
 import config from '../config';
@@ -110,7 +109,18 @@ export default {
     form: {
       email: {
         required,
-        email
+        email:function (email) {
+            if(email && email.includes("@")){
+               const emailPattern =
+               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+              return !!emailPattern.test(email);
+            }else if(email) {
+              const validateUsername = !email.includes(" ")
+              return validateUsername
+            }else{
+            return true
+            }
+          }
       },
       password: {
         required,

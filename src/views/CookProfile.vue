@@ -96,7 +96,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6 col-xl-4 mb-4" v-for="item in offers">
+            <div class="col-sm-6 col-xl-4 mb-4" v-for="(item,i) in offers" :key="i">
               <OfferInfoBlock :offer-info="item" :avoid-redirect-to-cook-profile="true"></OfferInfoBlock>
             </div>
           </div>
@@ -377,7 +377,7 @@ export default {
     loadRating(cookId,pageSkip){
       api.ratings.getRatingReviewdByUserId(cookId,pageSkip).then(data=>{
         this.$nextTick(() => {
-          this.reviews=[...this.reviews,...data];
+          this.reviews = [...this.reviews,...data];
           this.reviewsPage.loaded = true;
           this.reviewsPage.page += 1;
           if (data.length < 10) {

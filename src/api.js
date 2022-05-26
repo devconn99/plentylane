@@ -1345,8 +1345,43 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
+    validateInvitation(invitationCode){
+      
+      const endpoint = `${config.API_ORIGIN}/api/invitations/validate-invitaion/${invitationCode}`;
+      return axios
+        .get(endpoint)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    getInvitedUser(email){
+      
+      const endpoint = `${config.API_ORIGIN}/api/invitations/get-invited-user/${email}`;
+      return axios
+        .get(endpoint)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
     sendInvitation(data) {
       const endpoint = `${config.API_ORIGIN}/api/invitations/send-invitation`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    acceptAlreadyRegisteredInvitation(data) {
+      const endpoint = `${config.API_ORIGIN}/api/invitations/accept-already-registered-invitation`;
       return axios
         .post(endpoint, data)
         .then((res) => {
