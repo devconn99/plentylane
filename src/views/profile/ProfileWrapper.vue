@@ -34,38 +34,8 @@ import SvgIcon from '../../components/SvgIcon';
 
 export default {
   name: "ProfileWrapper",
-  components: {ConfirmModal, SvgIcon},
+  components: { ConfirmModal, SvgIcon },
   data: () => ({
-    navItems: [
-      {
-        title: 'Edit Profile',
-        path: '/dashboard/profile'
-      },
-      {
-        title: 'My Dishes',
-        path: '/dashboard/profile/my-meals'
-      },
-      {
-        title: 'My Network',
-        path: '/dashboard/profile/my-network'
-      },
-      {
-        title: 'My Answers',
-        path: '/dashboard/profile/my-answers'
-      },
-      {
-        title: 'My Questions',
-        path: '/dashboard/profile/my-questions'
-      },
-      {
-        title: 'Tokens',
-        path: '/dashboard/profile/tokens'
-      },
-      {
-        title: 'Account',
-        path: '/dashboard/profile/account'
-      }
-    ],
     logoutMessage: 'Are you sure you want to logout?',
     modalId: 'confirm-logout',
     isMobileAsideEnabled: false
@@ -79,12 +49,60 @@ export default {
     this.isMobileAsideEnabled = false;
     next();
   },
+  computed: {
+    isNotAdmin() {
+      const role = localStorage.getItem("role");
+      return role !== "admin";
+    },
+    navItems() {
+      const adminItems = [
+        {
+          title: 'Edit Profile',
+          path: '/admin/profile'
+        },
+      ];
+
+      const nonAdminItems = [
+        {
+          title: 'Edit Profile',
+          path: '/dashboard/profile'
+        },
+        {
+          title: 'My Dishes',
+          path: '/dashboard/profile/my-meals'
+        },
+        {
+          title: 'My Network',
+          path: '/dashboard/profile/my-network'
+        },
+        {
+          title: 'My Answers',
+          path: '/dashboard/profile/my-answers'
+        },
+        {
+          title: 'My Questions',
+          path: '/dashboard/profile/my-questions'
+        },
+        {
+          title: 'Tokens',
+          path: '/dashboard/profile/tokens'
+        },
+        {
+          title: 'Account',
+          path: '/dashboard/profile/account'
+        }
+      ];
+
+      return this.isNotAdmin ? nonAdminItems : adminItems;
+    }
+  },
   methods: {
     openLogoutConfirmModal () {
       this.$bvModal.show(this.modalId);
     },
     onConfirmedLogout () {
       localStorage.removeItem('plAccessToken');
+      localStorage.removeItem("role");
       localStorage.removeItem('plUserId');
       this.$store.commit('reset');
       this.$router.push({path: '/login'});
@@ -165,7 +183,8 @@ $profileAsideWidthMin: 220px;
     padding: 0;
     margin: 0;
     li {
-      .aside-nav-item-wrapper, &.logout-item {
+      .aside-nav-item-wrapper,
+      &.logout-item {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -218,6 +237,7 @@ $profileAsideWidthMin: 220px;
     }
   }
 }
+
 .profile-page-wrapper {
   .dashboard-content {
     @media screen and (min-width: $tableMinWidth + 1px) and (max-width: $desktopWidth) {

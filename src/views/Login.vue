@@ -168,8 +168,12 @@ export default {
             .then((data) => {
               this.$store.commit('userInfo', { ...data });
               localStorage.setItem('plUserId', data.id);
+              const isAdmin = data.role=="admin";
+              localStorage.setItem("role",data.role)
               this.isSubmitting = false;
-              if(data.stripeCheckoutId!=null) {
+              if(isAdmin){
+                this.$router.push( '/admin' );
+              }else if(data.stripeCheckoutId!=null) {
                 this.$router.push({ path: '/dashboard' });
               } else {
                 this.$router.push('/choose-plan' );

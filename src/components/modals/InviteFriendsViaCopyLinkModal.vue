@@ -70,8 +70,9 @@
 </template>
 
 <script>
-import SvgIcon from '../SvgIcon';
 import { ComponentChipInput } from 'chip-input';
+import { mapGetters } from 'vuex';
+import SvgIcon from '../SvgIcon';
 
 export default {
   name: "InviteFriendsViaCopyLinkModal",
@@ -83,6 +84,9 @@ export default {
     emailsArray: [],
   }),
   computed:{
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
     validateEmails() {
       const emails = this.emailsArray;
       const emailPattern =
@@ -119,10 +123,13 @@ export default {
       if(this.validateEmails) {
         const str = this.invitationLink;
         const invitationId = str?str.split("code=")[1].split("&full-name")[0] : "";
-        const emails=this.emailsArray.map(email => {
+
+        const uniqEmails = [...new Set(this.emailsArray)];
+        const emails = uniqEmails.map(email => {
           return {
             invitationId,
-            email: email
+            email: email,
+            userId: this.userInfo.id
           }
         });
         this.resetEmails();
@@ -138,7 +145,7 @@ export default {
       const valueIndex = this.emailsArray.findIndex(res => res === val);
       if ((eventType == "chip-create" || event.code=="Enter") && val) {
         this.emailsArray.push(val);
-      } else if (eventType == "chip-close" || event.code == "Backspace") {
+      } else if ((eventType == "chip-close" || event.code == "Backspace") && valueIndex > -1) {
         this.emailsArray.splice(valueIndex, 1);   
       }
     },

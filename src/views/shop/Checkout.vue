@@ -146,10 +146,18 @@
         </router-link>
       </div>
     </div>
+    <stripe-checkout
+      ref="checkoutRef"
+      :pk="publishableKey"
+      :session-id="sessionId"
+      @loading="v => loading = v"
+    />
 
     <!-- Modals -->
-    <ShippingInfoModal :prev-values="modalShippingInfo" @shipping-info-saved="onShippingInfoSaved">
-    </ShippingInfoModal>
+    <ShippingInfoModal
+      :prev-values="modalShippingInfo"
+      @shipping-info-saved="onShippingInfoSaved"
+    />
     <PaymentMethodModal @onSavePaymentMethod="savePaymentMethod" />
   </div>
 </template>
@@ -236,7 +244,6 @@ export default {
       } else {
         return '**** **** **** ****'
       }
-
     },
     completeAddress() {
       const address = this.shippingInfo.address
@@ -347,15 +354,8 @@ export default {
         })
       : [];
 
-      //  if(lineItems.length){
-      //    lineItems.push({
-      //      price:config.STRIPE_INFO.PRICE['container-shipping'].id,
-      //      quantity:1
-      //    })
-      //  }
-
-       const _user = { ...this.$store.getters.userInfo };
-       const data = {
+      const _user = { ...this.$store.getters.userInfo };
+      const data = {
         success_url: this.successURL,
         cancel_url: this.cancelURL,
         line_items: lineItems,
@@ -373,16 +373,6 @@ export default {
                 currency: 'usd',
               },
               display_name: 'Shipping cost',
-              // delivery_estimate: {
-              //   minimum: {
-              //     unit: 'business_day',
-              //     value: 1,
-              //   },
-              //   maximum: {
-              //     unit: 'business_day',
-              //     value: 1,
-              //   },
-              // },
             },
           },
         ]

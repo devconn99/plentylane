@@ -18,13 +18,7 @@
                   class="d-flex"
                 >
                   <div class="cook-info-img">
-                    <template
-                      v-if="
-                        offerInfo.user.image &&
-                        offerInfo.user.image.thumbnail &&
-                        offerInfo.user.image.thumbnail.length
-                      "
-                    >
+                    <template v-if="offerInfo.user.image && offerInfo.user.image.thumbnail && offerInfo.user.image.thumbnail.length">
                       <img
                         :src="offerInfo.user.image.thumbnail"
                         alt=""
@@ -43,26 +37,22 @@
                       <!-- hardcoded symbols should be hidden -->
                       <!--
                         <div class="cook-info-benefits-box">
-                            <SvgIcon icon="benefit3"></SvgIcon>
+                          <SvgIcon icon="benefit3"></SvgIcon>
                         </div>
                         <div class="cook-info-benefits-box">
-                            <SvgIcon icon="benefit2"></SvgIcon>
+                          <SvgIcon icon="benefit2"></SvgIcon>
                         </div>
                         <div class="cook-info-benefits-box">
-                            <SvgIcon icon="benefit1"></SvgIcon>
+                          <SvgIcon icon="benefit1"></SvgIcon>
                         </div>
                       -->
-                      <UserRating
-                        :rating="cookRating || offerInfo.user.rating"
-                      ></UserRating>
+                      <UserRating :rating="cookRating || offerInfo.user.rating" />
                     </div>
                   </div>
                 </router-link>
               </div>
               <!-- <div class="cook-info justify-content-center" v-if="rating && rating.status=='opened'">
-                <router-link
-                  :to="{ path: '/profile-rating/' + rating.uuid }"
-                >
+                <router-link :to="{ path: '/profile-rating/' + rating.uuid }">
                   Rate it
                 </router-link>
               </div> -->
@@ -168,7 +158,9 @@
             <div class="col-md-12">
               <div class="dashboard-title-box mb-3">
                 <div class="title-size3 titleGreenNavyColor">
-                  {{ mealQuestions.length }} Question{{ mealQuestions.length !== 1 ? "s" : "" }}
+                  {{ mealQuestions.length }} Question{{
+                    mealQuestions.length !== 1 ? "s" : ""
+                  }}
                 </div>
               </div>
               <div class="questions">
@@ -180,14 +172,7 @@
                   <div class="row">
                     <div class="col-sm-4 mb-2 mb-sm-0">
                       <div class="questions-box-author">
-                        <template
-                          v-if="
-                            item.askedBy &&
-                            item.askedBy.image &&
-                            item.askedBy.image.thumbnail &&
-                            item.askedBy.image.thumbnail.length
-                          "
-                        >
+                        <template v-if="item.askedBy && item.askedBy.image && item.askedBy.image.thumbnail && item.askedBy.image.thumbnail.length">
                           <div class="questions-box-author-img mr-2 mr-xl-3">
                             <img
                               :src="item.askedBy.image.thumbnail"
@@ -305,26 +290,23 @@
       @onReserved="onReserved"
       @onModalHidden="onReserveMealModalHidden"
     ></ReserveMealModal>
-    <ContactCookModal
-      :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id"
-    ></ContactCookModal>
+    <ContactCookModal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id" />
     <ConfirmModal
       :id="modalId"
       :message="confirmCancelReservationMsg"
       @confirmed="onConfirmedCancelReservation"
-    ></ConfirmModal>
-    <AskQuestionAboutMeal
-      :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id"
-    ></AskQuestionAboutMeal>
+    />
+    <AskQuestionAboutMeal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id" />
     <AnswerQuestionModal
       :question-info="questionToAnswer"
       @answer-sent="onAnswerSent"
       @modal-hidden="onAnswerQuestionModalHidden"
-    ></AnswerQuestionModal>
+    />
   </div>
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
 import api from '../api';
 import helpers from '../helpers';
 import ReserveMealModal from './modals/ReserveMealModal';
@@ -336,9 +318,8 @@ import SvgIcon from './SvgIcon';
 import ConfirmModal from './modals/ConfirmModal';
 import AskQuestionAboutMeal from './modals/AskQuestionAboutMeal';
 import AnswerQuestionModal from '../components/modals/AnswerQuestionModal';
-import Loading from 'vue-loading-overlay';
-import config from "../config";
 import UserRating from '../components/UserRating';
+import config from "../config";
 
 export default {
   name: "OfferPageContent",

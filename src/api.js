@@ -109,6 +109,7 @@ const checkErr = (errResponse) => {
   ) {
     // clear localStorage
     localStorage.removeItem("plAccessToken");
+    localStorage.removeItem("role");
     localStorage.removeItem("plUserId");
     // than redirect to /login
     router.push({

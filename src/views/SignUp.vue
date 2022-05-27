@@ -50,7 +50,9 @@
                   placeholder="Full Name"
                   autocomplete="off"
                 ></b-form-input>
-                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.fullName.$dirty && !$v.form.fullName.required">This is a required field.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.fullName.$dirty && !$v.form.fullName.required">
+                  This is a required field.
+                </small>
               </b-form-group>
               <b-form-group>
                 <b-form-input
@@ -267,7 +269,8 @@ export default {
         lastName: lastName || ' ',
         username: this.$v.form.$model.username,
         phone: this.$v.form.$model.phoneNumber,
-        inviteId: this.form.inviteId
+        inviteId: this.form.inviteId,
+        role: "normal",
       };
       api.auth.signUp(userData)
         .then(() => {
@@ -291,7 +294,7 @@ export default {
           }
           this.isSubmitting = false;
           this.showErrorAlert = true;
-        })
+        });
     }
   }
 }

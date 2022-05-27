@@ -489,15 +489,75 @@ const routes = [
       },
       {
         path: "*",
-        redirect: "/dashboard",
+        redirect:getDashboard()// "/dashboard",
       },
     ],
   },
   {
     path: "*",
-    redirect: "/dashboard",
+    redirect:getDashboard() //"/dashboard",
   },
+  {
+    path: "/admin",
+    component: () => import("../views/AdminDashboard.vue"),
+    meta: {
+      title: `${TITLE} - Admin`,
+    },
+    children: [
+      {
+        path: "",
+        name: "Admin Dashboard",
+        component: () => import("../components/AdminDashboardContent.vue"),
+        meta: { noLoader: true, isAdmin:true },
+        children: [
+          {
+            path: "",
+            name: "Users",
+            component: () => import("../components/Users.vue"),
+            meta: {
+              title: `${TITLE} - All Users`,
+              noLoader: true,
+            },
+          },
+          {
+            path: "user-details/:id",
+            name: "UserDetails",
+            component: () => import("../components/UserDetails.vue"),
+            meta: {
+              title: `${TITLE} - User Details`,
+              noLoader: true,
+            },
+          }
+        ]
+      },
+      {
+        path: "profile",
+        component: () => import("../views/profile/ProfileWrapper.vue"),
+        meta: {
+          title: `${TITLE} - Profile`,
+          noLoader: true,
+        },
+        children: [
+          {
+            path: "",
+            name: "Edit Profile",
+            component: () => import("../views/profile/EditProfile.vue"),
+            meta: {
+              title: `${TITLE} - Edit Profile`,
+              noLoader: true,
+            },
+          }
+        ]
+      }
+    ]
+  }
 ];
+
+function getDashboard(){
+  const role = localStorage.getItem("role");
+  const isAdmin=role=="admin";
+  return isAdmin?"/admin":"/dashboard"
+}
 
 const router = new VueRouter({
   mode: 'history',
@@ -540,17 +600,20 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
   }
   const _token = localStorage.getItem("plAccessToken");
+  const role = localStorage.getItem("role");
+  const isAdmin = role == "admin";
+
   if (to.path === "/" && _token) {
-    next("/dashboard");
+    next(isAdmin ? "/admin" : "/dashboard");
   }
+
   if (to.meta.authHelper) {
     // check if token exists
-    if (_token) {
-      // than redirect to home page
-      next("/dashboard");
+    if (_token){
+      next(isAdmin ? "/admin" : "/dashboard");
     }
   } else if (!_token) {
-    if (to.path.includes("dashboard")) {
+    if (to.path.includes("dashboard") || to.path.includes("admin")) {
       next("/login");
     }
   }

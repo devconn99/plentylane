@@ -234,37 +234,37 @@ export default {
     }
   },
   mounted(){
-    this.manipulateInvitaion()
+    this.manipulateInvitaion();
   },
   methods: {
-    manipulateInvitaion(){
+    manipulateInvitaion() {
       const code = this.$route.query.code;
-      if(code){
+      if(code) {
         api.invitations.validateInvitation(code).then(res=>{
-          if(res?.invitation?.status=="Accepted"){
-          this.showErrorAlert = true;
-          this.alreadyAccepted=true;
-          this.errorMsg = "Invitation Already accepted";
-          this.isValidInvitation=false;
-          }else if(!res?.id){
+          if (res?.status=="Accepted") {
             this.showErrorAlert = true;
-            this.isValidInvitation=false;
+            this.alreadyAccepted = true;
+            this.errorMsg = "Invitation Already accepted";
+            this.isValidInvitation = false;
+          } else if (!res?.id) {
+            this.showErrorAlert = true;
+            this.isValidInvitation = false;
             this.errorMsg = "Invalid Invitation";
-          }else if(res?.invitation?.email){
-            api.invitations.getInvitedUser(res.invitation.email).then(res1=>{
-              if(res1 && res1.id){
-                this.alreadyRegisteredUser=true
-                this.registeredUserMail=res1.email
-              }else{
-                this.alreadyRegisteredUser=false
-                this.registeredUserMail=""
+          } else if (res?.email) {
+            api.invitations.getInvitedUser(res.email).then(res1 => {
+              if (res1 && res1.id) {
+                this.alreadyRegisteredUser = true;
+                this.registeredUserMail = res1.email;
+              } else {
+                this.alreadyRegisteredUser = false;
+                this.registeredUserMail = "";
               }
-            })
+            });
           }
         }).catch(err=>{
 
         })
-        this.form.inviteId = code
+        this.form.inviteId = code;
       }
     },
     isValidPassword (value) {
@@ -285,13 +285,14 @@ export default {
     focusHandler (e) {
       this.resetError();
     },
-    acceptAlreadyRegieteredUser(){
+    acceptAlreadyRegieteredUser() {
       this.submitted = true;
       this.isSubmitting = true;
       const userData = {
         email: this.registeredUserMail,
         inviteId: this.form.inviteId
       };
+
       api.invitations.acceptAlreadyRegisteredInvitation(userData)
         .then(() => {
           this.isSubmitting = false;
@@ -316,13 +317,12 @@ export default {
           this.showErrorAlert = true;
         })
     },
-    acceptNewUserInvitation(){
-        this.$v.form.$touch();
-        if(this.$v.form.$anyError){
-          return
-        }
+    acceptNewUserInvitation() {
+      this.$v.form.$touch();
 
-         this.submitted = true;
+      if(this.$v.form.$anyError) return;
+
+      this.submitted = true;
       this.isSubmitting = true;
       const fullName = this.$v.form.$model.fullName.trim();
       const firstName = fullName.split(' ')[0];
@@ -335,7 +335,7 @@ export default {
         username: this.$v.form.$model.username,
         phone: this.$v.form.$model.phoneNumber,
         inviteId: this.form.inviteId,
-        role:"normal"
+        role: "normal",
       };
       api.auth.signUp(userData)
         .then(() => {
@@ -359,18 +359,18 @@ export default {
           }
           this.isSubmitting = false;
           this.showErrorAlert = true;
-        })
-
+        });
     },
     onSubmit () {
-      if ( this.alreadyAccepted || !this.isValidInvitation) {
+      if (this.alreadyAccepted || !this.isValidInvitation) {
         return;
       }
-     if(this.alreadyRegisteredUser){
-       this.acceptAlreadyRegieteredUser()
-     }else{
-       this.acceptNewUserInvitation();
-     }
+
+      if (this.alreadyRegisteredUser) {
+        this.acceptAlreadyRegieteredUser();
+      } else {
+        this.acceptNewUserInvitation();
+      }
     }
   }
 }
