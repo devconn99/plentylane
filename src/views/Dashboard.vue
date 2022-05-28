@@ -241,7 +241,7 @@
       >
         <b-alert
           @dismiss-count-down="countDownChanged"
-          @dismissed="alert.show=0"
+          @dismissed="alert.show = 0"
           :show="alert.show"
           :variant="alert.varient"
           dismissible
@@ -284,28 +284,6 @@ export default {
     },
     user: null,
     // notificationsCount: 3,
-    navMenuItems: [
-      {
-        path: "/dashboard",
-        iconName: "home",
-        text: "Home",
-      },
-      {
-        path: "/dashboard/eat",
-        iconName: "eat",
-        text: "Eat",
-      },
-      {
-        path: "/dashboard/cook",
-        iconName: "cook",
-        text: "Cook",
-      },
-      {
-        path: "/dashboard/shop",
-        iconName: "shop",
-        text: "Shop",
-      },
-    ],
     searchStr: "",
     isMobileSidebarVisible: false,
     isMobileSearchVisible: false,
@@ -364,6 +342,40 @@ export default {
     isProfilePage: function () {
       return this.$route.path.includes("/profile");
     },
+    navMenuItems() {
+      const user = { ...this.$store.getters.userInfo };
+      const navItems= [
+        {
+          path: "/dashboard",
+          iconName: "home",
+          text: "Home",
+        },
+        {
+          path: "/dashboard/eat",
+          iconName: "eat",
+          text: "Eat",
+        },
+        {
+          path: "/dashboard/cook",
+          iconName: "cook",
+          text: "Cook",
+        },
+        {
+          path: "/dashboard/shop",
+          iconName: "shop",
+          text: "Shop",
+        },
+      ];
+
+      if(user.role=="admin"){
+        navItems.push({
+          path: "/admin",
+          iconName: "user",
+          text: "Admin",
+        });
+      }
+      return navItems;
+    }
   },
 
   beforeRouteUpdate(to, from, next) {
@@ -393,10 +405,10 @@ export default {
     },
 
     async getSubscription(){
-      const { id } = this.userInfo?.subscription
-      
+      const { id } = this.userInfo?.subscription;
+
       try {
-        const subscription=await api.payment.getSubscription(id)
+        const subscription = await api.payment.getSubscription(id)
         this.$store.commit('updateSubscription', subscription);
       } catch (error) {
         console.log(error)
@@ -612,7 +624,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.d-alert{
+.d-alert {
   position: absolute;
   width: calc(100% - 245px);
   z-index: 4;

@@ -234,7 +234,7 @@ export default {
     // notificationsCount: 3,
     navMenuItems: [
       {
-        path: "/admin",
+        path: "/dashboard",
         iconName: "home",
         text: "Home",
       }

@@ -40,7 +40,7 @@
             </b-col>
             <b-col cols="12" md="6">
               <div>
-                <h3>Firends Invitations</h3>
+                <h3>Friends Invitations</h3>
                 <b-table
                   v-if="getUserInvitations.length"
                   class="table-custom-border"
@@ -235,8 +235,8 @@ export default {
     getUserInvitations() {
       return this.userInfo?.invitation || []
     },
-    getUserMeals(){
-    return this.userInfo?.meals||[]
+    getUserMeals() {
+      return this.userInfo?.meals || [];
     },
     getUserDinnerBookings(){
       let dinnersToReturn=[];
@@ -250,7 +250,6 @@ export default {
       });
       return dinnersToReturn
     },
-
     getPlanName() {
       const planId=this.subscription?.plan?.id
       if (planId) {
@@ -273,7 +272,7 @@ export default {
         const { city, country, line1, line2, postalCode, state } = billingAddress;
         return `${line1}, ${line2} - ${city} ${state} ${country} - ${postalCode}`;
       } else {
-        return ""
+        return "";
       }
     }
   }

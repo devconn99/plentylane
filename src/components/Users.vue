@@ -37,6 +37,7 @@
               <span>Load more</span>
             </b-btn>
           </template>
+          <h4 v-else class="text-center">No users found</h4>
         </template>
       </div>
     </div>

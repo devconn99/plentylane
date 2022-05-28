@@ -71,7 +71,7 @@
             <div class="box-btn mb-4" v-if="!hiddenButtons">
               <b-btn
                 class="btnGreen btnBigSize btn100 text-uppercase hover-slide-left mb-4"
-                v-if="offerInfo.availableQuantity > 0 && !wasReserved"
+                v-if="offerInfo.availableQuantity > 0 && !wasReserved && isAbleToReserve"
                 @click="showReserveMealModal"
               >
                 <span>Reserve Meal</span>
@@ -307,6 +307,7 @@
 
 <script>
 import Loading from 'vue-loading-overlay';
+import { mapGetters } from 'vuex';
 import api from '../api';
 import helpers from '../helpers';
 import ReserveMealModal from './modals/ReserveMealModal';
@@ -333,6 +334,7 @@ export default {
   ],
   data: () => ({
     wasReserved: false,
+    isAbleToReserve: false,
     reservationId: '',
     numberOfServingsReserved: 0,
     confirmCancelReservationMsg: 'Are you sure you want to cancel reservation?',
@@ -435,6 +437,7 @@ export default {
       const _endpoint = this.isMyOffer
         ? api.dashboard.meals.getMyMealQuestions(this.offerInfo.meal.id)
         : api.dashboard.meals.getMealQuestions(this.offerInfo.meal.id, true);
+
       _endpoint
         .then(res => {
           if (res && res.mealQuestions) {
@@ -446,9 +449,25 @@ export default {
           console.log('\n >> err load meal questions > ', err);
           this.isLoadingMealQuestions = false;
         });
+    },
+    loadInvitation() {
+      const user = this.userInfo;
+      const { inviteId, email } = user;
+      if(inviteId) {
+        api.invitations.validateAcceptedInvitation(inviteId).then(res => {
+          if(res.email) {
+            this.isAbleToReserve = email == res.email
+          }
+        }).catch(err=>{
+          this.isAbleToReserve=false
+        });
+      }
     }
   },
   computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
     readyTimeStr: function () {
       if (!this.offerInfo || !this.offerInfo.pickupTime) return '';
       return `Ready at ${helpers.parseDate(this.offerInfo.pickupTime, true)}`;
@@ -470,6 +489,9 @@ export default {
     if (this.shouldLoadMoreOffers && this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
       this.loadMoreOffersFromSameCook();
     }
+    },
+    mounted(){
+      this.loadInvitation()
   }
 }
 </script>

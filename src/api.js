@@ -1358,8 +1358,18 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
-    getInvitedUser(email){
-      
+    validateAcceptedInvitation(invitationCode) {
+      const endpoint = `${config.API_ORIGIN}/api/invitations/validate-accepted-invitaion/${invitationCode}`;
+      return axios
+        .get(endpoint)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    getInvitedUser(email) {
       const endpoint = `${config.API_ORIGIN}/api/invitations/get-invited-user/${email}`;
       return axios
         .get(endpoint)

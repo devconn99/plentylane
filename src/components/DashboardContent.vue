@@ -58,7 +58,7 @@
                   v-for="(item, index) in bookings"
                   :booking-info="item"
                   :is-small="index > 0"
-                  :key="i"
+                  :key="index"
               ></BookingInfoBlock>
             </template>
 
@@ -91,7 +91,7 @@
             </div>
 
             <template v-if="isLoaded && myOffers && myOffers.length">
-              <MyMealInfo v-for="item in myOffers" :item-data="item" :is-my-meal="true"></MyMealInfo>
+              <MyMealInfo v-for="(item,i) in myOffers" :key="i" :item-data="item" :is-my-meal="true" />
             </template>
 
             <template v-else>
@@ -125,7 +125,7 @@
 
           <div class="carousel-reserved" v-if="isLoaded && offers && offers.length">
             <CarouselContainer>
-              <OfferInfoBlock v-for="item in offers" :offer-info="item"></OfferInfoBlock>
+              <OfferInfoBlock v-for="(item,i) in offers" :key="i" :offer-info="item" />
             </CarouselContainer>
           </div>
         </div>
