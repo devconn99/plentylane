@@ -921,10 +921,10 @@ export default {
     },
     follows: {
       getMyFriends(page, search) {
-        let endpoint = `${config.API_ORIGIN}/api/me/follows?filter=connectionType||$eq||friend`;
+        let endpoint = `${config.API_ORIGIN}/api/me/follows/get-followers?connectionType=friend`;
         const filterByUserName =
           search && search.length
-            ? `filter=following.username||$contL||${search}`
+            ? `username=${search}`
             : "";
         if (page) {
           endpoint += `&page=${page}`;
@@ -1007,6 +1007,19 @@ export default {
             followingId: Number(id),
             connectionType: "friend"
           })
+          .then((res) => {
+            return Promise.resolve(res.data || {});
+          })
+          .catch((err) => {
+            return checkErr(err.response);
+          });
+      },
+      
+      removeFollower(userId,followerId,type) {
+        let endpoint = `${config.API_ORIGIN}/api/me/follows/remove-follower?userId=${userId}&followerId=${followerId}&type=${type}`;
+      
+        return axios
+          .delete(endpoint)
           .then((res) => {
             return Promise.resolve(res.data || {});
           })

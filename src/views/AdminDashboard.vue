@@ -232,13 +232,6 @@ export default {
     },
     user: null,
     // notificationsCount: 3,
-    navMenuItems: [
-      {
-        path: "/dashboard",
-        iconName: "home",
-        text: "Home",
-      }
-    ],
     searchStr: "",
     isMobileSidebarVisible: false,
     isMobileSearchVisible: false,
@@ -297,6 +290,41 @@ export default {
     isProfilePage: function () {
       return this.$route.path.includes("/profile");
     },
+    navMenuItems() {
+      const user = { ...this.$store.getters.userInfo };
+      const navItems= [
+        {
+          path: "/dashboard",
+          iconName: "home",
+          text: "Home",
+        },
+        {
+          path: "/dashboard/eat",
+          iconName: "eat",
+          text: "Eat",
+        },
+        {
+          path: "/dashboard/cook",
+          iconName: "cook",
+          text: "Cook",
+        },
+        {
+          path: "/dashboard/shop",
+          iconName: "shop",
+          text: "Shop",
+        },
+      ];
+
+      if(user.role === "admin") {
+        navItems.push({
+          path: "/admin",
+          iconName: "user",
+          text: "Admin",
+        })
+      }
+
+      return navItems;
+    }      
   },
 
   beforeRouteUpdate(to, from, next) {

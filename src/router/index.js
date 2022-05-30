@@ -489,13 +489,13 @@ const routes = [
       },
       {
         path: "*",
-        redirect:getDashboard()// "/dashboard",
+        redirect:"/dashboard",
       },
     ],
   },
   {
     path: "*",
-    redirect:getDashboard() //"/dashboard",
+    redirect:"/dashboard",
   },
   {
     path: "/admin",
@@ -553,12 +553,6 @@ const routes = [
   }
 ];
 
-function getDashboard(){
-  const role = localStorage.getItem("role");
-  const isAdmin=role=="admin";
-  return isAdmin?"/admin":"/dashboard"
-}
-
 const router = new VueRouter({
   mode: 'history',
   routes,
@@ -599,18 +593,16 @@ router.beforeEach((to, from, next) => {
   if (to.meta && to.meta.title) {
     document.title = to.meta.title;
   }
-  const _token = localStorage.getItem("plAccessToken");
-  const role = localStorage.getItem("role");
-  const isAdmin = role == "admin";
-
-  if (to.path === "/" && _token) {
-    next(isAdmin ? "/admin" : "/dashboard");
+   const _token = localStorage.getItem("plAccessToken");
+   if (to.path === "/" && _token) {
+    next("/dashboard");
   }
 
   if (to.meta.authHelper) {
     // check if token exists
-    if (_token){
-      next(isAdmin ? "/admin" : "/dashboard");
+     if(_token) {
+      // than redirect to home page
+      next("/dashboard");
     }
   } else if (!_token) {
     if (to.path.includes("dashboard") || to.path.includes("admin")) {

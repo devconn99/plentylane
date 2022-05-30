@@ -50,19 +50,8 @@ export default {
     next();
   },
   computed: {
-    isNotAdmin() {
-      const role = localStorage.getItem("role");
-      return role !== "admin";
-    },
     navItems() {
-      const adminItems = [
-        {
-          title: 'Edit Profile',
-          path: '/admin/profile'
-        },
-      ];
-
-      const nonAdminItems = [
+      const allItems = [
         {
           title: 'Edit Profile',
           path: '/dashboard/profile'
@@ -93,7 +82,7 @@ export default {
         }
       ];
 
-      return this.isNotAdmin ? nonAdminItems : adminItems;
+      return allItems;
     }
   },
   methods: {
