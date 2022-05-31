@@ -451,15 +451,16 @@ export default {
         });
     },
     loadInvitation() {
-      const user = this.userInfo;
-      const { inviteId, email } = user;
-      if(inviteId) {
-        api.invitations.validateAcceptedInvitation(inviteId).then(res => {
-          if(res.email) {
-            this.isAbleToReserve = email == res.email
+      const { id, email } = this.userInfo;
+      const { id: cookId } = this.offerInfo.user;
+      if (id) {
+        api.dashboard.follows.getUserFriends(id).then(res => {
+          if(res?.length) {
+            const currentCookIndex = res.findIndex(res1 => res1.followerId == cookId || res1.followingId == cookId);
+            this.isAbleToReserve = currentCookIndex >= 0;
           }
         }).catch(err=>{
-          this.isAbleToReserve=false
+          this.isAbleToReserve = false
         });
       }
     }

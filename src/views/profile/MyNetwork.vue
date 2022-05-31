@@ -11,19 +11,18 @@
       </div>
 
       <b-tabs nav-class="custom-tabs" content-class="profile-item mt-4" v-model="activeTabIndex" @input="onTabSwitched">
-        <b-tab title="My Connections" :disabled="isLoadingUsers || isLoadingFavorite">
+        <b-tab title="My Network" :disabled="isLoadingUsers || isLoadingFavorite">
           <div class="tab-content-wrapper">
             <b-form class="form searchFormNormal">
               <b-form-group class="position-relative">
                 <b-form-input
                   v-model.trim="searchStrFriends"
-                  placeholder="Search my connections"
+                  placeholder="Search my network"
                   class="form-control search-form-control"
                   autocomplete="off"
                   debounce="500"
                   @update="triggerSearchFriends"
-                >
-                </b-form-input>
+                />
                 <div
                   class="clear-icon-wrapper cursor-pointer"
                   v-if="searchStrFriends && searchStrFriends.length"
@@ -154,6 +153,8 @@
                   v-bind:key="user.id"
                   :user="user"
                   :has-remove-action="false"
+                  :has-invite-action="true"
+                  @invite-user="inviteUser(user)"
                   @redirect-to-cook-profile="redirectToCookProfile(user.id)"
                 ></UserInfoLine>
                 <b-btn
@@ -186,16 +187,24 @@
       @confirmed="onConfirmedRemoveFavorite"
       @canceled="onCanceledRemoveFavorite"
     ></ConfirmModal>
+    <ConfirmModal
+      :id="modalInviteFriend"
+      :message="confirmInviteMsg"
+      @confirmed="onConfirmedInvite"
+      @canceled="onCanceledInvite"
+    ></ConfirmModal>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import api from '../../api';
-import ConfirmModal from '../../components/modals/ConfirmModal';
 import config from "../../config";
+import ConfirmModal from '../../components/modals/ConfirmModal';
 import SvgIcon from '../../components/SvgIcon';
 import UserInfoLine from '../../components/UserInfoLine';
+
 export default {
   name: "MyNetwork",
   components: {Loading, ConfirmModal, SvgIcon, UserInfoLine},
@@ -206,6 +215,10 @@ export default {
     friendToRemove: null,
     modalIdFriend: 'confirm-remove-friend',
     confirmRemoveFavoriteMsg: 'Are you sure you want to remove this person from your favorite list?',
+    modalInviteFriend: 'confirm-invite-friend',
+    confirmInviteMsg: 'Are you sure you want to invite this person to your netwirk?',
+    invitationId: null,
+    userToInvite: null,
     favoriteToRemove: null,
     modalIdFavorite: 'confirm-remove-favorite',
     searchStrFriends: '',
@@ -245,6 +258,11 @@ export default {
   created () {
     this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
     this.loadFriends();
+  },
+  computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
   },
   methods: {
     onTabSwitched (tabIndex) {
@@ -358,6 +376,33 @@ export default {
           this.friendToRemove = null;
           this.isRemovingFriend = false;
         });
+    },
+    inviteUser(item) {
+      this.userToInvite = item;
+      const { email } = this.userInfo;
+      if(email) {
+        api.invitations.generateInvitation({email}).then(str => {
+          const invitationId = str?str.split("code=")[1].split("&full-name")[0] : "";
+          this.invitationId = invitationId;
+          this.$bvModal.show(this.modalInviteFriend);
+        });
+      }
+    },
+    onConfirmedInvite() {
+      const invitationId = this.invitationId;
+      const { email } = this.userToInvite;
+      const emailData = {
+        invitationId,
+        email: email,
+        userId:this.currentUserId
+      };
+      api.invitations.sendInvitation(emailData).then(res1 => {
+        debugger
+      });
+    },
+    onCanceledInvite(){
+      this.invitationId = null;
+      this.userToInvite = null;
     },
     onCanceledRemoveFriend () {
       this.friendToRemove = null;

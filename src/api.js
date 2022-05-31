@@ -921,32 +921,34 @@ export default {
     },
     follows: {
       getMyFriends(page, search) {
-        let endpoint = `${config.API_ORIGIN}/api/me/follows/get-followers?connectionType=friend`;
-        const filterByUserName =
-          search && search.length
-            ? `username=${search}`
-            : "";
-        if (page) {
-          endpoint += `&page=${page}`;
-        }
-        if (filterByUserName.length) {
-          endpoint += `&${filterByUserName}`;
-        }
-        return axios
-          .get(endpoint)
-          .then((res) => {
-            return Promise.resolve(res.data || {});
-          })
-          .catch((err) => {
-            return checkErr(err.response);
-          });
+        return this.searchConnections(page, search, "friend");
       },
       getMyFavorites(page, search) {
-        let endpoint = `${config.API_ORIGIN}/api/me/follows?filter=connectionType||$eq||favorite`;
-        const filterByUserName =
-          search && search.length
-            ? `filter=following.username||$contL||${search}`
-            : "";
+        return this.searchConnections(page, search, "favorite");
+        // let endpoint = `${config.API_ORIGIN}/api/me/follows?filter=connectionType||$eq||favorite`;
+        // const filterByUserName =
+        //   search && search.length
+        //     ? `filter=following.username||$contL||${search}`
+        //     : "";
+        // if (page) {
+        //   endpoint += `&page=${page}`;
+        // }
+        // if (filterByUserName.length) {
+        //   endpoint += `&${filterByUserName}`;
+        // }
+        // return axios
+        //   .get(endpoint)
+        //   .then((res) => {
+        //     return Promise.resolve(res.data || {});
+        //   })
+        //   .catch((err) => {
+        //     return checkErr(err.response);
+        //   });
+      },
+      searchConnections(page, search, type){
+        let endpoint = `${config.API_ORIGIN}/api/me/follows/get-followers?connectionType=${type}`;
+        const filterByUserName = search?.length ? `username=${search}` : "";
+
         if (page) {
           endpoint += `&page=${page}`;
         }
@@ -997,6 +999,17 @@ export default {
                 isFavorite: false
               });
             }
+            return checkErr(err.response);
+          });
+      },
+      getUserFriends(id) {
+        let endpoint = `${config.API_ORIGIN}/api/me/follows/get-friends/${id}`;
+        return axios
+          .get(endpoint)
+          .then((res) => {
+            return Promise.resolve(res.data || []);
+          })
+          .catch((err) => {
             return checkErr(err.response);
           });
       },
