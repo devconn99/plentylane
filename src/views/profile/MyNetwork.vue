@@ -1,6 +1,17 @@
 <template>
   <div class="row">
     <div class="col-12">
+      <b-alert
+        @dismiss-count-down="countDownChanged"
+        @dismissed="alert.show = 0"
+        :show="alert.show"
+        :variant="alert.varient"
+        dismissible
+        fade
+        class="d-alert"
+      >
+        <p>{{ alert.msg }}</p>
+      </b-alert>
       <div class="dashboard-title-box flex-row align-items-center mb-4 mb-lg-5 mt-2 mt-lg-3">
         <div class="dashboard-profile-title-back mr-2 mr-md-3">
           <div class="cursor-pointer" @click="showMobileAside">
@@ -253,7 +264,12 @@ export default {
       isLastPage: false
     },
     isLoadingFavorite: false,
-    listOfFavorites: []
+    listOfFavorites: [],
+    alert: {
+      msg: "",
+      varient: "success",
+      show: 0
+    }
   }),
   created () {
     this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
@@ -397,7 +413,11 @@ export default {
         userId:this.currentUserId
       };
       api.invitations.sendInvitation(emailData).then(res1 => {
-        debugger
+        this.alert = {
+          msg: "Invitations sent",
+          varient: "success",
+          show: 5
+        }
       });
     },
     onCanceledInvite(){
@@ -464,6 +484,9 @@ export default {
       if (!id) return;
       this.$router.push({ path: `/dashboard/cook-profile/${id}` }).catch(()=>{});
     },
+    countDownChanged(dismissCountDown) {
+      this.alert.show = dismissCountDown;
+    },
     loadFavorite (search) {
       this.isLoadingFavorite = true;
       api.dashboard.follows.getMyFavorites(this.favoritePagination.page, search)
@@ -522,5 +545,11 @@ export default {
       right: 12px;
     }
   }
+}
+
+.d-alert {
+  position: absolute;
+  width: calc(100% - 50px);
+  z-index: 4;
 }
 </style>

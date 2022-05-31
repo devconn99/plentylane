@@ -1,9 +1,26 @@
 <template>
   <div v-if="offerInfo && offerInfo.id">
+    <b-alert
+      @dismiss-count-down="countDownChanged"
+      @dismissed="alert.show = 0"
+      :show="alert.show"
+      :variant="alert.varient"
+      dismissible
+      fade
+      class="d-alert"
+    >
+      <p>{{ alert.msg }}</p>
+    </b-alert>
     <div
       class="dashboard-hero hero-img-overlay offer-page-content-header"
       :style="{ backgroundImage: 'url(' + getHeaderBgImageUrl() + ')' }"
     >
+      <loading
+        :active.sync="isProcessing"
+        :is-full-page="loaderOptions.IS_FULL_PAGE"
+        :color="loaderOptions.COLOR"
+        :background-color="loaderOptions.BACKGROUND_COLOR"
+      />
       <div class="container-fluid">
         <div class="row">
           <div class="col-12 text-center">
@@ -76,6 +93,12 @@
               >
                 <span>Reserve Meal</span>
               </b-btn>
+              <div class="link-item cursor-pointer" v-else-if="!isAbleToReserve" @click="openAddToNetworkDialog">
+                <SvgIcon icon="network"></SvgIcon>
+                <span class="ml-1 link-item-text">
+                  Add to Network to reserve a meal
+                </span>
+              </div>
               <div class="meal-reserved-info w-100 mb-4" v-if="wasReserved">
                 Meal Reserved!
               </div>
@@ -296,6 +319,11 @@
       :message="confirmCancelReservationMsg"
       @confirmed="onConfirmedCancelReservation"
     />
+      <ConfirmModal
+      id="addToNetworkDialog"
+      message="Are you sure to add cook to network?"
+      @confirmed="addToNetwork"
+    ></ConfirmModal>
     <AskQuestionAboutMeal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id" />
     <AnswerQuestionModal
       :question-info="questionToAnswer"
@@ -334,6 +362,9 @@ export default {
   ],
   data: () => ({
     wasReserved: false,
+        isProcessing:false,
+        userToInvite:null,
+        invitationId:null,
     isAbleToReserve: false,
     reservationId: '',
     numberOfServingsReserved: 0,
@@ -345,7 +376,12 @@ export default {
     isLoadingMoreOffers: false,
     loaderOptions: { ...config.LOADER_OPTIONS },
     isLoadingMealQuestions: false,
-    shouldRedirectToBookingPage: false
+        shouldRedirectToBookingPage: false,
+        alert:{
+          msg:"",
+          varient:"success",
+          show:0
+        }
   }),
   methods: {
     showReserveMealModal () {
@@ -418,6 +454,38 @@ export default {
       }
       this.questionToAnswer = null;
     },
+    openAddToNetworkDialog(){
+      this.userToInvite = this.offerInfo.user;
+      const { email } = this.userInfo;
+      if (email) {
+        api.invitations.generateInvitation({email}).then(str=>{
+          const invitationId = str?str.split("code=")[1].split("&full-name")[0] : "";
+          this.invitationId = invitationId;
+          this.$bvModal.show("addToNetworkDialog"); 
+        });
+      }
+    },
+    addToNetwork () {
+      this.isProcessing = true;
+      const invitationId = this.invitationId;
+      const { email } = this.userToInvite;
+      const { id } = this.userInfo;
+      const emailData = {
+        invitationId,
+        email: email,
+        userId: id
+      }
+      api.invitations.sendInvitation(emailData).then(res1 => {
+        this.alert = {
+          msg: "Invitations sent",
+          varient: "success",
+          show: 5
+        }
+      })
+    },
+    countDownChanged(dismissCountDown) {
+      this.alert.show = dismissCountDown;
+    },
     loadMoreOffersFromSameCook () {
       this.isLoadingMoreOffers = true;
       api.dashboard.offers.getAvailableOffersFromUser(this.offerInfo.user.id, this.offerInfo.id)
@@ -451,7 +519,7 @@ export default {
         });
     },
     loadInvitation() {
-      const { id, email } = this.userInfo;
+      const { id } = this.userInfo;
       const { id: cookId } = this.offerInfo.user;
       if (id) {
         api.dashboard.follows.getUserFriends(id).then(res => {
@@ -523,5 +591,10 @@ export default {
     min-height: 200px;
     width: 100%;
   }
+}
+.d-alert {
+  position: absolute;
+  width: calc(100% - 250px);
+  z-index: 4;
 }
 </style>
