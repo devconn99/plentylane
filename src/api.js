@@ -695,7 +695,7 @@ export default {
         return Promise.resolve(questionsTemp);
       },
       removeOffer(id) {
-        const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}`;
+        const endpoint = `${config.API_ORIGIN}/api/me/offers/cancel/${id}`;
         return axios
           .delete(endpoint)
           .then((res) => {
@@ -706,7 +706,7 @@ export default {
           });
       },
       updateOffer(id, data) {
-        const endpoint = `${config.API_ORIGIN}/api/me/offers/${id}`;
+        const endpoint = `${config.API_ORIGIN}/api/me/offers/update/${id}`;
         return axios
           .patch(endpoint, data)
           .then((res) => {
@@ -945,7 +945,7 @@ export default {
         //     return checkErr(err.response);
         //   });
       },
-      searchConnections(page, search, type){
+      searchConnections(page, search, type) {
         let endpoint = `${config.API_ORIGIN}/api/me/follows/get-followers?connectionType=${type}`;
         const filterByUserName = search?.length ? `username=${search}` : "";
 

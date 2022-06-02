@@ -14,15 +14,14 @@
         </div>
         <div class="row">
           <div class="col-12 col-sm-6">
-            <h4 class="font-weight-bold titleGreenNavyColor">Plan</h4>
-            <h5 class="ml-4 font-weight-bold titleGreenNavyColor">
-              Type : {{ getPlanName | kebabToTitleCase }}
-            </h5>
-            <h5 class="ml-4 font-weight-bold titleGreenNavyColor">
-              Price : {{ getPlanPrice }}
-            </h5>
+            <h4 class="font-weight-bold titleGreenNavyColor">
+              Plan : {{ getPlanName | kebabToTitleCase }}
+            </h4>
             <div class="d-flex mt-4">
-              <b-button class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left" @click="updateSubscription()">
+              <b-button
+                class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left"
+                @click="updateSubscription()"
+              >
                 <span>Update</span>
               </b-button>
               <b-button
@@ -89,7 +88,7 @@ export default {
           return obj[key]['id'] === planId
         });
       }
-      return ""
+      return "No Plan Selected";
     },
     getPlanPrice() {
        const price = this.userDetails?.subscription?.plan?.amount;
@@ -138,6 +137,10 @@ export default {
           params: {
             id
           },
+        });
+      } else {
+        this.$router.push({
+          name: "ChoosePlan"
         });
       }
     },

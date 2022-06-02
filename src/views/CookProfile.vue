@@ -1,6 +1,17 @@
 <template>
   <div class="dashboard-content" v-if="cookInfo && cookInfo.id">
     <div class="container-fluid cook-profile-page-container">
+      <b-alert
+        @dismiss-count-down="countDownChanged"
+        @dismissed="alert.show = 0"
+        :show="alert.show"
+        :variant="alert.varient"
+        class="d-alert"
+        dismissible
+        fade
+      >
+        <p>{{ alert.msg }}</p>
+      </b-alert>
       <loading
         :active.sync="isProcessing"
         :is-full-page="loaderOptions.IS_FULL_PAGE"
@@ -193,16 +204,30 @@
 
     <!-- modals -->
     <!--<ContactCookModal></ContactCookModal>-->
-    <ConfirmModal :id="modalIdNetwork" :message="confirmRemoveFromNtwMsg" @confirmed="onConfirmedRemoveFromNetwork"></ConfirmModal>
-    <ConfirmModal :id="modalIdFavorite" :message="confirmRemoveFromFvrMsg" @confirmed="onConfirmedRemoveFromFavorite"></ConfirmModal>
+    <ConfirmModal
+      id="addToNetworkDialog"
+      message="Are you sure to add cook to network?"
+      @confirmed="addToNetwork"
+    />
+    <ConfirmModal
+      :id="modalIdNetwork"
+      :message="confirmRemoveFromNtwMsg"
+      @confirmed="onConfirmedRemoveFromNetwork"
+    />
+    <ConfirmModal
+      :id="modalIdFavorite"
+      :message="confirmRemoveFromFvrMsg"
+      @confirmed="onConfirmedRemoveFromFavorite"
+    />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import Loading from 'vue-loading-overlay';
 import api from '../api';
 import SvgIcon from '../components/SvgIcon';
 import ContactCookModal from '../components/modals/ContactCookModal';
-import Loading from 'vue-loading-overlay';
 import OfferInfoBlock from '../components/OfferInfoBlock';
 import config from "../config";
 import ConfirmModal from '../components/modals/ConfirmModal';
@@ -215,6 +240,7 @@ export default {
     isLoaded: false,
     cookId: '',
     cookInfo: null,
+    invitationId:null,
     offers: [],
     areOffersLoading: false,
     isFavorite: false,
@@ -233,6 +259,11 @@ export default {
       pageCount: 0,
       loaded: false,
       isLastPage: false
+    },
+    alert: {
+      msg:"",
+      varient:"success",
+      show:0
     },
     reviews: [],
     currentUserId: '',
@@ -296,6 +327,9 @@ export default {
           this.$loader.hide()
         }, 0);
       }
+    },
+    countDownChanged(dismissCountDown){
+      this.alert.show = dismissCountDown;
     },
     errLoadingDataHandler (cb, err) {
       if (err && err.data && err.data.statusCode === 404) {
@@ -426,16 +460,40 @@ export default {
       if (this.isFriend) {
         return this.openConfirmRemoveFromNtwModal();
       }
-      return this.addToNetwork();
+      return this.openAddToNetworkDialog();
+    },
+    openAddToNetworkDialog(){
+      const { email } = this.userInfo;
+      if (email) {
+        api.invitations.generateInvitation({email}).then(str=>{
+          const invitationId = str?str.split("code=")[1].split("&full-name")[0] : "";
+          this.invitationId = invitationId;
+          this.$bvModal.show("addToNetworkDialog"); 
+        });
+      }
     },
     addToNetwork () {
       this.isProcessing = true;
-      api.dashboard.follows.followUser(this.cookId)
-        .then(() => {
-          this.isProcessing = false;
-          this.isFriend = true;
+      const invitationId = this.invitationId;
+      const { email } = this.cookInfo;
+      const { id } = this.userInfo;
+      const emailData = {
+        invitationId,
+        email: email,
+        userId: id
+      }
+      api.invitations.sendInvitation(emailData)
+        .then(res1 => {
+          this.alert = {
+            msg: "Invitations sent",
+            varient: "success",
+            show: 5
+          }
         })
-        .catch(() => {
+        .catch(err => {
+
+        })
+        .finally(() => {
           this.isProcessing = false;
         });
     },
@@ -486,6 +544,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+        userInfo: 'userInfo'
+    }),
     numOfOffersStr: function () {
       return `${this.totalOffers} Meal${this.totalOffers === 1 ? '' : 's'}`;
     },
@@ -538,5 +599,11 @@ export default {
       }
     }
   }
+}
+
+.d-alert {
+  position: absolute;
+  width: calc(100%);
+  z-index: 4;
 }
 </style>

@@ -24,11 +24,11 @@
               <div class="description">
                 <p>Our pricing model was crafted to fit any budget.</p>
                 <ul>
-                  <li>Want to swap easily with just a few people for free? Join our Starter plan!</li>
+                  <li>Want to swap easily with just a few people for free? Join our Starter Plan!</li>
                   <li>Want to expand your network to swap with more people? Go for our Casual Plan!</li>
                   <li>Ready to unlock everything Plenty Lane has to offer? Jump aboard our Unlimited Plan!</li>
                 </ul>
-                <p>Your first month is on us, to give you time to to build your swapping network.</p>
+                <p>Your first month is on us, to give you time to build your swapping network.</p>
               </div>
               <div class="background-element pad-70t">
                 <div class="fork"></div>

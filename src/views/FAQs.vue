@@ -149,7 +149,7 @@
                     @shown="onShown('accordion-5')"
                   >
                     <div class="faq-text">
-                      Either of those things can be done on your Account page, in your Plenty Lane profile
+                      Either of those things can be done on your Account page, in your Plenty Lane profile.
                     </div>
                   </b-collapse>
                 </div>
@@ -200,7 +200,7 @@
                     @shown="onShown('accordion-7')"
                   >
                     <div class="faq-text">
-                      Absolutely! When you are creating an account (for the intended gift recipient),on the
+                      Absolutely! When you are creating an account (for the intended gift recipient), on the
                       Choose a Plan page click the box near the bottom that asks if it is a gift for someone else.
                     </div>
                   </b-collapse>

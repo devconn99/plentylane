@@ -30,7 +30,7 @@
               </b-btn>
             </template>
           </b-input-group>
-          <label class="mt-2">Enter email address then press Space/Enter key.</label>
+          <label class="mt-2">Or Enter email address then press Space/Enter key.</label>
           <span class="fg-main d-flex">
             <span class="fg-container">
               <b-input-group

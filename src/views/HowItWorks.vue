@@ -30,7 +30,7 @@
                   So how does Plenty Lane work?
                   <ul>
                     It’s delightfully simple:
-                    <li>Cook meals and share theme with neighbors for "tokens".</li>
+                    <li>Cook meals and share them with neighbors for "tokens".</li>
                     <li>Use those tokens to claim meals from other cooks.</li>
                   </ul>
                 </span>
@@ -65,7 +65,7 @@
           <div class="row align-items-center pad-70b">
             <div class="col-lg-5 col-sm-6 order-sm-2 mr-auto text-center text-sm-left">
               <h3 class="title-size3 titleGreenNavyColor mb-3">Snap</h3>
-              <p>Put the meals in the Plenty Lane Snap containers that come with your membership!</p>
+              <p>Put the meals in the Plenty Lane Snap containers that come with your membership.</p>
             </div>
             <div class="col-lg-4 col-sm-6 order-sm-1 ml-auto text-center mt-4 mt-sm-0">
               <img src="../assets/images/landing/img-snap1.png" alt="" class="img-fluid">
@@ -76,7 +76,7 @@
             <div class="col-lg-5 col-sm-6 ml-auto text-center text-sm-left">
               <h3 class="title-size3 titleGreenNavyColor mb-3">Share</h3>
               <p>
-                Your neighbors will come pick up the food at a time and place of your choosing and viola!
+                Your neighbors will come pick up the food at a time and place of your choosing and voila!
                 Use your newly earned tokens to lighten your load on a busy day, treat yourself to a cuisine
                 you don’t usually eat, or just take a night off from cooking!
               </p>
