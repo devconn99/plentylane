@@ -52,8 +52,8 @@
             <template v-if="friendsPagination.loaded">
               <div class="connection" v-if="listOfFriends && listOfFriends.length">
                 <UserInfoLine
-                                        v-for="(item,i) in listOfFriends"
-                                        :key="(i)"
+                  v-for="(item,i) in listOfFriends"
+                  :key="(i)"
                   :user="item"
                   :has-remove-action="true"
                   :user-to-remove="friendToRemove"
@@ -106,8 +106,8 @@
             <template v-if="favoritePagination.loaded">
               <div class="connection" v-if="listOfFavorites && listOfFavorites.length">
                 <UserInfoLine
-                                        v-for="(item,i) in listOfFavorites"
-                                        :key="i"
+                  v-for="(item,i) in listOfFavorites"
+                  :key="i"
                   :user="item"
                   :has-remove-action="true"
                   :user-to-remove="favoriteToRemove"
@@ -160,11 +160,11 @@
             <template v-if="usersPagination.loaded">
               <div class="connection" v-if="users && users.length">
                 <UserInfoLine
-                                        v-for="(user,i) in users"
-                                        :key="i"
+                  v-for="(user,i) in users"
+                  :key="i"
                   :user="user"
                   :has-remove-action="false"
-                  :has-invite-action="true"
+                  :has-invite-action="!userIsAlreadyAFriend(user.id)"
                   @invite-user="inviteUser(user)"
                   @redirect-to-cook-profile="redirectToCookProfile(user.id)"
                 ></UserInfoLine>
@@ -339,6 +339,7 @@ export default {
           const shouldOverride = this.usersPagination.page === 1;
           if (result && result.data && result.data.length) {
             this.users = shouldOverride ? result.data.slice(0) : this.users.concat(result.data.slice(0));
+            this.users = this.users.filter(res => res.id != this.userInfo.id);
           } else if (shouldOverride) {
             this.users = [];
           }
@@ -351,7 +352,12 @@ export default {
         .catch(err => {
           console.log('\n >> err > ', err);
           this.isLoadingUsers = false;
-        })
+        });
+    },
+    userIsAlreadyAFriend(userId) {
+      if(!userId) return;
+      const userIndex = this.listOfFriends.findIndex(res => res.id == userId);
+      return userIndex >= 0;
     },
     loadMoreUsers () {
       if (this.usersPagination.isLastPage) return;
@@ -497,6 +503,7 @@ export default {
               return item.following;
             });
             this.listOfFavorites = shouldOverride ? _data.slice(0) : this.listOfFavorites.concat(_data.slice(0));
+            this.listOfFavorites = this.listOfFavorites.filter(res => res.id != this.userInfo.id)
           } else if (shouldOverride) {
             this.listOfFavorites = [];
           }
