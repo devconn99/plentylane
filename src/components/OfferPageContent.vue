@@ -95,7 +95,7 @@
               </b-btn>
               <div class="link-item cursor-pointer" v-else-if="!isAbleToReserve" @click="openAddToNetworkDialog">
                 <SvgIcon icon="network"></SvgIcon>
-                <span class="ml-1 link-item-text">
+                <span class="ml-1 mt-3 textNavyRed font-weight-bold">
                   Add to Network to reserve a meal
                 </span>
               </div>
@@ -171,8 +171,8 @@
               <div class="dashboard-text">
                 <ul class="list-style-circle">
                   <li
-                    v-for="note in offerInfo.meal.dietaryNotes"
-                    v-bind:key="note.text"
+                    v-for="(note,i) in offerInfo.meal.dietaryNotes"
+                    :key="i"
                   >
                     {{ note.text }}
                   </li>
@@ -204,8 +204,8 @@
               <div class="questions">
                 <div
                   class="questions-box"
-                  v-for="item in mealQuestions"
-                  v-bind:key="item"
+                  v-for="(item,i) in mealQuestions"
+                  :key="i"
                 >
                   <div class="row">
                     <div class="col-sm-4 mb-2 mb-sm-0">
@@ -309,10 +309,10 @@
                 <div class="carousel-reserved">
                   <CarouselContainer>
                     <OfferInfoBlock
-                      v-for="item in moreOffersFromSameCook"
+                      v-for="(item,i) in moreOffersFromSameCook"
                       :offer-info="item"
-                      v-bind:key="item"
-                    ></OfferInfoBlock>
+                      :key="i"
+                    />
                   </CarouselContainer>
                 </div>
               </div>
@@ -327,18 +327,23 @@
       :offer-info="{ ...this.offerInfo }"
       @onReserved="onReserved"
       @onModalHidden="onReserveMealModalHidden"
-    ></ReserveMealModal>
+    />
     <ContactCookModal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id" />
     <ConfirmModal
       :id="modalId"
       :message="confirmCancelReservationMsg"
       @confirmed="onConfirmedCancelReservation"
     />
-      <ConfirmModal
+    <ConfirmModal
       id="addToNetworkDialog"
       message="Are you sure to add cook to network?"
       @confirmed="addToNetwork"
-    ></ConfirmModal>
+    />
+    <ConfirmModal
+      :id="modalMealInfo.id"
+      :message="modalMealInfo.msg"
+      @confirmed="onModalMealConfirm"
+    />
     <AskQuestionAboutMeal :meal-id="this.offerInfo.mealId || this.offerInfo.meal.id" />
     <AnswerQuestionModal
       :question-info="questionToAnswer"
@@ -620,9 +625,9 @@ export default {
     if (this.shouldLoadMoreOffers && this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
       this.loadMoreOffersFromSameCook();
     }
-    },
-    mounted(){
-      this.loadInvitation()
+  },
+  mounted() {
+    this.loadInvitation();
   }
 }
 </script>

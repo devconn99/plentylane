@@ -62,8 +62,12 @@
                   @input="resetError"
                   placeholder="Email Address"
                 ></b-form-input>
-                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email address.</small>
-                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">
+                  Please enter valid email address.
+                </small>
+                <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">
+                  This is a required field.
+                </small>
               </b-form-group>
               <b-form-group>
                 <b-form-input
@@ -225,10 +229,10 @@ export default {
     }
   },
   mounted() {
-    this.manipulateInvitaion()
+    this.manipulateInvitation()
   },
   methods: {
-    manipulateInvitaion() {
+    manipulateInvitation() {
       const code = this.$route.query.code;
       if (code) {
         this.form.inviteId = code

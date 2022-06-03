@@ -122,7 +122,7 @@ const routes = [
     },
   },
   {
-    path: "/invitaion-success",
+    path: "/invitation-success",
     name: "InvitationSuccess",
     component: () => import("../views/InvitationSuccess.vue"),
     meta: {

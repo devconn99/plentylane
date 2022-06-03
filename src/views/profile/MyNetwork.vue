@@ -310,7 +310,7 @@ export default {
           const result = res.data;
           if (result && result.length) {
             const _data = result.map(item => {
-              return item.follower;
+              return item.follower?.id != this.userInfo.id ? item.follower : item.following;
             });
             this.listOfFriends = shouldOverride ? _data.slice(0) : this.listOfFriends.concat(_data.slice(0));
           } else if (shouldOverride) {

@@ -541,6 +541,9 @@ button {
 		}
 	}
 }
+.textNavyRed{
+	color: $redNavyColor;
+}
 .btnGreen, .btnLightGreen, .btnGreenTransparent, .btnLightRed, .btnNavyRedTransparent {
 	text-decoration: none!important;
 	-webkit-transition: .3s all ease;
@@ -981,9 +984,12 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-
-.form input[type=button], .form input[type=submit], .form input[type=reset] {
+/*
+.form input[type=button],
+.form input[type=submit],
+.form input[type=reset] {
 }
+*/
 
 /*******************
 * HEADER-FORM-STYLES *

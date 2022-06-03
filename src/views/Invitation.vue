@@ -234,10 +234,10 @@ export default {
     }
   },
   mounted(){
-    this.manipulateInvitaion();
+    this.manipulateInvitation()
   },
   methods: {
-    manipulateInvitaion() {
+    manipulateInvitation() {
       const code = this.$route.query.code;
       if(code) {
         api.invitations.validateInvitation(code).then(res=>{
@@ -297,7 +297,7 @@ export default {
         .then(() => {
           this.isSubmitting = false;
           // this.showSuccessAlert = true;
-          this.$router.push({ path: '/invitaion-success' });
+          this.$router.push({ path: '/invitation-success' });
         })
         .catch(err => {
           // error message will disappear on focus or on change value

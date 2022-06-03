@@ -1362,7 +1362,7 @@ export default {
   },
   invitations: {
     generateInvitation(data) {
-      const endpoint = `${config.API_ORIGIN}/api/invitations/generate-invitaion-link`;
+      const endpoint = `${config.API_ORIGIN}/api/invitations/generate-invitation-link`;
       return axios
         .post(endpoint, data)
         .then((res) => {
@@ -1374,7 +1374,7 @@ export default {
     },
     validateInvitation(invitationCode){
       
-      const endpoint = `${config.API_ORIGIN}/api/invitations/validate-invitaion/${invitationCode}`;
+      const endpoint = `${config.API_ORIGIN}/api/invitations/validate-invitation/${invitationCode}`;
       return axios
         .get(endpoint)
         .then((res) => {
@@ -1385,7 +1385,7 @@ export default {
         });
     },
     validateAcceptedInvitation(invitationCode) {
-      const endpoint = `${config.API_ORIGIN}/api/invitations/validate-accepted-invitaion/${invitationCode}`;
+      const endpoint = `${config.API_ORIGIN}/api/invitations/validate-accepted-invitation/${invitationCode}`;
       return axios
         .get(endpoint)
         .then((res) => {

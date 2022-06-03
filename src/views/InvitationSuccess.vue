@@ -24,7 +24,7 @@
 
             <div class="authorization-box-info">
               <p>
-                <span class="font-weight-bold">Invitaion Accepted</span>
+                <span class="font-weight-bold">Invitation Accepted</span>
                 Please <router-link to="/login">login</router-link> here.
               </p>
             </div>
