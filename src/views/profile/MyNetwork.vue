@@ -164,10 +164,11 @@
                   :key="i"
                   :user="user"
                   :has-remove-action="false"
-                  :has-invite-action="!userIsAlreadyAFriend(user.id)"
+                  :has-invite-action="true"
+                  :invite-action-caption="getInviteCaption(user.id,user.email)"
                   @invite-user="inviteUser(user)"
                   @redirect-to-cook-profile="redirectToCookProfile(user.id)"
-                ></UserInfoLine>
+                />
                 <b-btn
                   v-if="!usersPagination.isLastPage"
                   class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
@@ -227,7 +228,7 @@ export default {
     modalIdFriend: 'confirm-remove-friend',
     confirmRemoveFavoriteMsg: 'Are you sure you want to remove this person from your favorite list?',
     modalInviteFriend: 'confirm-invite-friend',
-    confirmInviteMsg: 'Are you sure you want to invite this person to your netwirk?',
+    confirmInviteMsg: 'Are you sure you want to invite this person to your network?',
     invitationId: null,
     userToInvite: null,
     favoriteToRemove: null,
@@ -237,6 +238,7 @@ export default {
     isRemovingFriend: false,
     isRemovingFavorite: false,
     users: [],
+    pendingInvitations: [],
     usersPagination: {
       total: 0,
       page: 1,
@@ -274,6 +276,7 @@ export default {
   created () {
     this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
     this.loadFriends();
+    this.getPendingInvitations();
   },
   computed: {
     ...mapGetters({
@@ -354,10 +357,19 @@ export default {
           this.isLoadingUsers = false;
         });
     },
-    userIsAlreadyAFriend(userId) {
+    getInviteCaption(userId,email){
       if(!userId) return;
+
+      let status = "";
       const userIndex = this.listOfFriends.findIndex(res => res.id == userId);
-      return userIndex >= 0;
+      const invitations = this.pendingInvitations;
+      if(invitations.length) {
+        const emailIndex = invitations.findIndex(res => res.email == email);
+        status = emailIndex >= 0 ? "Invited" : userIndex >= 0 ? "In Network" : "Invite";
+      } else {
+        status = userIndex >= 0 ? "In Network" : "Invite";
+      }
+      return status;
     },
     loadMoreUsers () {
       if (this.usersPagination.isLastPage) return;
@@ -409,6 +421,12 @@ export default {
           this.$bvModal.show(this.modalInviteFriend);
         });
       }
+    },
+    getPendingInvitations(){
+      api.invitations.getInviteByStatus("Pending")
+        .then(invitations => {
+          this.pendingInvitations = invitations;
+        });
     },
     onConfirmedInvite() {
       const invitationId = this.invitationId;

@@ -123,7 +123,7 @@
             <div class="box-btn d-flex mb-4" v-else>
               <b-btn
                 class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left mb-4"
-                @click="redirectToEditMealPage(offerInfo.id)"
+                @click="redirectToEditMealPage(offerInfo.mealId)"
               >
                 <span>Update</span>
               </b-btn>

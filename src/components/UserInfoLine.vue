@@ -34,11 +34,19 @@
     </div>
     <div class="box-btn" v-if="hasInviteAction">
       <b-btn
-        class="action-button btnNavyRedTransparent btnSmallSize hover-slide-left"
+        class="text-nowrap action-button btnSmallSize hover-slide-left"
+        :class="
+          inviteActionCaption == 'Invite'
+          ? 'btnInviteYellow'
+          : inviteActionCaption == 'Invited'
+          ? 'btnInvitedOrange'
+          : 'btnNetworkGreen'
+        "
+        :disabled="inviteActionCaption == 'Invited' || inviteActionCaption == 'In Network'"
         @click="emitInviteUser"
         title="Invite to join your swapping network"
       >
-        <span>Invite</span>
+        <span>{{inviteActionCaption}}</span>
       </b-btn>
     </div>   
   </div>
@@ -47,7 +55,16 @@
 <script>
 export default {
   name: "UserInfoLine",
-  props: ['user', 'hasRemoveAction', 'userToRemove','hasInviteAction'],
+  props:{
+    user: null,
+    hasRemoveAction: false,
+    userToRemove: null,
+    hasInviteAction: false,
+    inviteActionCaption: {
+      type: String,
+      default: "Invite"
+    }
+  },
   methods: {
     emitRedirectToCookProfile () {
       this.$emit('redirect-to-cook-profile');

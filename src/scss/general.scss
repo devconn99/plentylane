@@ -541,10 +541,142 @@ button {
 		}
 	}
 }
+
+.btnInviteYellow {
+	background: transparent;
+	span {
+		color: $inviteYellow;
+		border: 2px solid $inviteYellow;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				transition: 0.2s 0.1s;
+				background-color: $inviteYellow;
+				border: 2px solid $inviteYellow;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $inviteYellow;
+				border: 2px solid $inviteYellow;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $inviteYellow;
+			transition: 0.3s ease-out;
+		}
+	}
+	&.btnDisabled, &[disabled] {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		background-color: transparent !important;
+		span {
+			background-color: $inviteYellow;
+			border: 2px solid $inviteYellow;
+			color: $mainBackgroundColor;
+			opacity: 0.3;
+		}
+	}
+}
+
+.btnInvitedOrange {
+	background: transparent;
+	span {
+		color: $invitedOrange;
+		border: 2px solid $invitedOrange;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				transition: 0.2s 0.1s;
+				background-color: $invitedOrange;
+				border: 2px solid $invitedOrange;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $invitedOrange;
+				border: 2px solid $invitedOrange;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $invitedOrange;
+			transition: 0.3s ease-out;
+		}
+	}
+	&.btnDisabled, &[disabled] {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		background-color: transparent !important;
+		span {
+			background-color: $invitedOrange;
+			border: 2px solid $invitedOrange;
+			color: $mainBackgroundColor;
+			opacity: 0.3;
+		}
+	}
+}
+
+.btnNetworkGreen {
+	background: transparent;
+	span {
+		color: $networkGreen;
+		border: 2px solid $networkGreen;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				transition: 0.2s 0.1s;
+				background-color: $networkGreen;
+				border: 2px solid $networkGreen;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $networkGreen;
+				border: 2px solid $networkGreen;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $networkGreen;
+			transition: 0.3s ease-out;
+		}
+	}
+	&.btnDisabled, &[disabled] {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		background-color: transparent !important;
+		span {
+			background-color: $networkGreen;
+			border: 2px solid $networkGreen;
+			color: $mainBackgroundColor;
+			opacity: 0.3;
+		}
+	}
+}
+
 .textNavyRed{
 	color: $redNavyColor;
 }
-.btnGreen, .btnLightGreen, .btnGreenTransparent, .btnLightRed, .btnNavyRedTransparent {
+
+.btnGreen,
+.btnLightGreen,
+.btnGreenTransparent,
+.btnLightRed,
+.btnNavyRedTransparent,
+.btnInviteYellow,
+.btnInvitedOrange,
+.btnNetworkGreen {
 	text-decoration: none!important;
 	-webkit-transition: .3s all ease;
 	-o-transition: .3s all ease;
