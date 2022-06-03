@@ -5,7 +5,7 @@
         @dismiss-count-down="countDownChanged"
         @dismissed="alert.show = 0"
         :show="alert.show"
-        :variant="alert.varient"
+        :variant="alert.variant"
         dismissible
         fade
         class="d-alert"
@@ -52,8 +52,8 @@
             <template v-if="friendsPagination.loaded">
               <div class="connection" v-if="listOfFriends && listOfFriends.length">
                 <UserInfoLine
-                  v-for="item in listOfFriends"
-                  v-bind:key="item.id"
+                                        v-for="(item,i) in listOfFriends"
+                                        :key="(i)"
                   :user="item"
                   :has-remove-action="true"
                   :user-to-remove="friendToRemove"
@@ -106,8 +106,8 @@
             <template v-if="favoritePagination.loaded">
               <div class="connection" v-if="listOfFavorites && listOfFavorites.length">
                 <UserInfoLine
-                  v-for="item in listOfFavorites"
-                  v-bind:key="item.id"
+                                        v-for="(item,i) in listOfFavorites"
+                                        :key="i"
                   :user="item"
                   :has-remove-action="true"
                   :user-to-remove="favoriteToRemove"
@@ -160,8 +160,8 @@
             <template v-if="usersPagination.loaded">
               <div class="connection" v-if="users && users.length">
                 <UserInfoLine
-                  v-for="user in users"
-                  v-bind:key="user.id"
+                                        v-for="(user,i) in users"
+                                        :key="i"
                   :user="user"
                   :has-remove-action="false"
                   :has-invite-action="true"
@@ -267,7 +267,7 @@ export default {
     listOfFavorites: [],
     alert: {
       msg: "",
-      varient: "success",
+      variant: "success",
       show: 0
     }
   }),
@@ -415,7 +415,7 @@ export default {
       api.invitations.sendInvitation(emailData).then(res1 => {
         this.alert = {
           msg: "Invitations sent",
-          varient: "success",
+          variant: "success",
           show: 5
         }
       });

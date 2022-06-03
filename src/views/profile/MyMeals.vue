@@ -11,7 +11,7 @@
       </div>
 
       <b-tabs nav-class="custom-tabs" content-class="mt-4" v-model="activeTabIndex" @input="onTabSwitched">
-        <b-tab title="Dishes" :disabled="isLoadingReservations || isLoadingOffers">
+        <b-tab title="Meals I’ve Posted" :disabled="isLoadingReservations || isLoadingOffers">
           <div class="tab-content-wrapper">
             <loading
               :active.sync="isLoadingMeals"
@@ -65,7 +65,7 @@
                           <i class="fas fa-ellipsis-v"></i>
                         </template>
                         <b-dropdown-item @click="redirectToEditMealPage(item.id)">Edit</b-dropdown-item>
-                        <b-dropdown-item @click="removeMeal(item.id)">Remove</b-dropdown-item>
+                        <b-dropdown-item @click="removeMeal(item.id)">Cancel</b-dropdown-item>
                       </b-dropdown>
                     </div>
                   </div>
@@ -81,7 +81,7 @@
             </div>
           </div>
         </b-tab>
-        <b-tab title="Reservations" :disabled="isLoadingMeals || isLoadingOffers">
+        <b-tab title="Meals I’ve Reserved" :disabled="isLoadingMeals || isLoadingOffers">
           <div class="tab-content-wrapper">
             <loading
               :active.sync="isLoadingReservations"
@@ -115,7 +115,7 @@
             </div>
           </div>
         </b-tab>
-        <b-tab title="Meals" :disabled="isLoadingMeals || isLoadingReservations">
+        <b-tab title="Dishes I’ve Made" :disabled="isLoadingMeals || isLoadingReservations">
           <div class="tab-content-wrapper">
             <loading
               :active.sync="isLoadingOffers"
@@ -221,7 +221,7 @@ export default {
     mealToRemove: '',
     modalMealInfo: {
       id: 'confirm-remove-meal',
-      msg: 'Are you sure you want to remove this meal?'
+      msg: 'Are you sure you want to cancel this meal?'
     },
     modalDineInfo: {
       id: 'confirm-cancel-reservation',
@@ -229,7 +229,7 @@ export default {
     },
     modalOfferInfo: {
       id: 'confirm-remove-offer',
-      msg: 'Are you sure you want to remove this meal?'
+      msg: 'Are you sure you want to cancel this meal?'
     },
     reservationToRemove: '',
     dineActions: [{ title: 'View', name: 'view' }, { title: 'Cancel', name: 'cancel' }],

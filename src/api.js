@@ -571,7 +571,7 @@ export default {
         // no need to add join=meal.images
         let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
         const _filterHideInPast = getDefaultPickupTimeNotInPastFilter();
-        const _filterAvailableQuantity = "filter=availableQuantity||$gte||1";
+        const _filterAvailableQuantity = "filter = availableQuantity || $gte || 0";
         const _sortPickupTimeAsc = "sort=pickupTime,ASC";
         let _filters = `&${_filterAvailableQuantity}&${_filterHideInPast}&${_sortPickupTimeAsc}`;
 
@@ -649,8 +649,8 @@ export default {
       getAvailableOffersFromUser(userId, exceptionId, page) {
         // no need to add join=meal.images
         let endpoint = `${config.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
-        const _filterByUserId = `filter=user.id||$eq||${userId}`;
-        const _filterAvailableServings = "filter=availableQuantity||$gte||1";
+        const _filterByUserId = `filter = user.id || $eq || ${userId}`;
+        const _filterAvailableServings = "filter = availableQuantity || $gte || 0";
         const _filterHideInPast = getDefaultPickupTimeNotInPastFilter();
         const _sortByPickupTimeAsc = "sort=pickupTime,ASC";
         endpoint += `&${_filterByUserId}&${_filterAvailableServings}&${_filterHideInPast}&${_sortByPickupTimeAsc}`;

@@ -4,7 +4,7 @@
       @dismiss-count-down="countDownChanged"
       @dismissed="alert.show = 0"
       :show="alert.show"
-      :variant="alert.varient"
+      :variant="alert.variant"
       dismissible
       fade
       class="d-alert"
@@ -117,6 +117,21 @@
                 @click="openConfirmCancelReservation"
               >
                 <span>Cancel reservation</span>
+              </b-btn>
+            </div>
+
+            <div class="box-btn d-flex mb-4" v-else>
+              <b-btn
+                class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left mb-4"
+                @click="redirectToEditMealPage(offerInfo.id)"
+              >
+                <span>Update</span>
+              </b-btn>
+              <b-btn
+                class="btnGreen btnBigSize btn50 text-uppercase hover-slide-left mb-4 ml-2"
+                @click="removeMeal"
+              >
+                <span>Cancel</span>
               </b-btn>
             </div>
 
@@ -337,51 +352,74 @@
 import Loading from 'vue-loading-overlay';
 import { mapGetters } from 'vuex';
 import api from '../api';
+import config from "../config";
 import helpers from '../helpers';
-import ReserveMealModal from './modals/ReserveMealModal';
-import ContactCookModal from './modals/ContactCookModal';
 import HeroWave from './HeroWave';
 import CarouselContainer from './CarouselContainer';
 import OfferInfoBlock from './OfferInfoBlock';
 import SvgIcon from './SvgIcon';
 import ConfirmModal from './modals/ConfirmModal';
 import AskQuestionAboutMeal from './modals/AskQuestionAboutMeal';
+import ContactCookModal from './modals/ContactCookModal';
+import ReserveMealModal from './modals/ReserveMealModal';
 import AnswerQuestionModal from '../components/modals/AnswerQuestionModal';
 import UserRating from '../components/UserRating';
-import config from "../config";
+import EditBtn from '../components/EditBtn';
 
 export default {
   name: "OfferPageContent",
   components: {
-    ReserveMealModal, ContactCookModal, HeroWave, CarouselContainer, OfferInfoBlock, SvgIcon, ConfirmModal,
-    AskQuestionAboutMeal, AnswerQuestionModal, Loading, UserRating
+    ReserveMealModal,
+    ContactCookModal,
+    HeroWave,
+    CarouselContainer,
+    OfferInfoBlock,
+    SvgIcon,
+    ConfirmModal,
+    AskQuestionAboutMeal,
+    AnswerQuestionModal,
+    Loading,
+    UserRating,
+    EditBtn,
   },
-  props: ["rating",
-    'offerInfo', 'hiddenButtons', 'isMealReservedOnInit', 'bookingId', 'bookedServingsNum',
-    'shouldAllowAskQuestion', 'isMyOffer', 'shouldLoadMoreOffers', 'cookRating'
+  props: [
+    'rating',
+    'offerInfo',
+    'hiddenButtons',
+    'isMealReservedOnInit',
+    'bookingId',
+    'bookedServingsNum',
+    'shouldAllowAskQuestion',
+    'isMyOffer',
+    'shouldLoadMoreOffers',
+    'cookRating'
   ],
   data: () => ({
     wasReserved: false,
-        isProcessing:false,
-        userToInvite:null,
-        invitationId:null,
+    isProcessing: false,
+    userToInvite: null,
+    invitationId: null,
     isAbleToReserve: false,
     reservationId: '',
     numberOfServingsReserved: 0,
     confirmCancelReservationMsg: 'Are you sure you want to cancel reservation?',
     modalId: 'confirm-cancel-reservation',
+    modalMealInfo: {
+      id: 'confirm-remove-meal',
+      msg: 'Are you sure you want to cancel this meal?'
+    },
     mealQuestions: [],
     questionToAnswer: null,
     moreOffersFromSameCook: [],
     isLoadingMoreOffers: false,
     loaderOptions: { ...config.LOADER_OPTIONS },
     isLoadingMealQuestions: false,
-        shouldRedirectToBookingPage: false,
-        alert:{
-          msg:"",
-          varient:"success",
-          show:0
-        }
+    shouldRedirectToBookingPage: false,
+    alert:{
+      msg: "",
+      variant: "success",
+      show: 0
+    }
   }),
   methods: {
     showReserveMealModal () {
@@ -389,6 +427,30 @@ export default {
     },
     showContactCookModal () {
       this.$bvModal.show('contact-cook-modal');
+    },
+      redirectToEditMealPage (id) {
+        if (!id) return;
+        this.$router.push({ path: `/dashboard/edit-meal/${id}` });
+    },
+    removeMeal () {
+      this.$bvModal.show(this.modalMealInfo.id);
+    },
+    onModalMealConfirm () {
+      const {id}=this.offerInfo
+      if(!id) return
+      api.dashboard.meals.removeMyMeal(id)
+        .then(() => {
+          this.alert = {
+            msg: "Meal canceled",
+            variant: "success",
+            show: 5
+          }
+          this.$router.push("/dashboard")
+        })
+        .catch(err => {
+          // TODO: handle error
+          console.log('\n >> err > ', err);
+        })
     },
     onReserved (id, numOfServings) {
       this.wasReserved = true;
@@ -478,7 +540,7 @@ export default {
       api.invitations.sendInvitation(emailData).then(res1 => {
         this.alert = {
           msg: "Invitations sent",
-          varient: "success",
+          variant: "success",
           show: 5
         }
       })

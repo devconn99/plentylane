@@ -6,7 +6,7 @@
       fade dismissible
       class="d-alert position-absolute"
       style="width: 100%"
-      :variant="alert.varient"
+      :variant="alert.variant"
       @dismissed="alert.show = 0"
     >
       <p>{{ alert.msg }}</p>
@@ -61,7 +61,7 @@ export default {
     alert: {
       show: 0,
       msg: "",
-      varient: "success"
+      variant: "success"
     },
     isLoaded: false,
     ratingUUID: '',
@@ -152,7 +152,7 @@ export default {
         this.rating['status']='reviewed'
         api.ratings.updateRating(id, this.rating).then(res => {
           this.alert = {
-            varient: 'success',
+            variant: 'success',
             msg: "Rating post successful!",
             show: 5
           }
@@ -160,14 +160,14 @@ export default {
           this.$router.push("/")
         }).catch(err => {
           this.alert = {
-            varient: 'danger',
+            variant: 'danger',
             msg: "Internal server error!",
             show: 5
           }
         })
       } else {
         this.alert = {
-          varient: 'warning',
+          variant: 'warning',
           msg: "Rating request not found!",
           show: 5
         }

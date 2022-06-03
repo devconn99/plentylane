@@ -199,7 +199,7 @@
           @dismiss-count-down="countDownChanged"
           @dismissed="alert.show=0"
           :show="alert.show"
-          :variant="alert.varient"
+          :variant="alert.variant"
           dismissible
           fade
           class="d-alert"
@@ -228,7 +228,7 @@ export default {
     alert: {
       show: 0,
       msg: "",
-      varient: "success"
+      variant: "success"
     },
     user: null,
     // notificationsCount: 3,
@@ -485,9 +485,9 @@ export default {
         }        
       } catch (error) {
         this.alert = {
-          msg:error.message,
-          varient:"danger",
-        show:5
+          msg: error.message,
+          variant: "danger",
+          show: 5
         }
       }
     },

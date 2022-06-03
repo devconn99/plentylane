@@ -5,7 +5,7 @@
         @dismiss-count-down="countDownChanged"
         @dismissed="alert.show = 0"
         :show="alert.show"
-        :variant="alert.varient"
+        :variant="alert.variant"
         class="d-alert"
         dismissible
         fade
@@ -261,9 +261,9 @@ export default {
       isLastPage: false
     },
     alert: {
-      msg:"",
-      varient:"success",
-      show:0
+      msg: "",
+      variant: "success",
+      show: 0
     },
     reviews: [],
     currentUserId: '',
@@ -486,7 +486,7 @@ export default {
         .then(res1 => {
           this.alert = {
             msg: "Invitations sent",
-            varient: "success",
+            variant: "success",
             show: 5
           }
         })

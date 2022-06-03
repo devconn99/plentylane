@@ -243,7 +243,7 @@
           @dismiss-count-down="countDownChanged"
           @dismissed="alert.show = 0"
           :show="alert.show"
-          :variant="alert.varient"
+          :variant="alert.variant"
           dismissible
           fade
           class="d-alert"
@@ -280,7 +280,7 @@ export default {
     alert: {
       show: 0,
       msg: "",
-      varient: "success"
+      variant: "success"
     },
     user: null,
     // notificationsCount: 3,
@@ -529,16 +529,16 @@ export default {
       }
       const user = { ...this.$store.getters.userInfo };
       try {
-        if(user.email){
-          const invitationLink=await api.invitations.generateInvitation({email:user.email})
-          this.invitationLink=invitationLink
+        if(user.email) {
+          const invitationLink = await api.invitations.generateInvitation({ email: user.email });
+          this.invitationLink = invitationLink;
           this.$bvModal.show("invite-friends-via-copy-link-modal");
         }        
       } catch (error) {
         this.alert = {
-          msg:error.message,
-          varient:"danger",
-        show:5
+          msg: error.message,
+          variant: "danger",
+          show: 5
         }
       }
     },
@@ -549,16 +549,16 @@ export default {
       Promise.all(emailsPromise).then(res => {
         this.$bvModal.hide("invite-friends-via-copy-link-modal");
         this.alert = {
-          msg:"Invitations sent",
-          varient:"success",
-          show:5
+          msg: "Invitations sent",
+          variant: "success",
+          show: 5
         }     
       }).catch(error => {
         this.alert={
-          msg:error.message,
-          varient:"danger",
-          show:5
-          }
+          msg: error.message,
+          variant: "danger",
+          show: 5
+        }
       });
     },
 

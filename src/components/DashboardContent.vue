@@ -123,7 +123,7 @@
             <div class="title-size3 titleGreenNavyColor">Reserve a Meal</div>
           </div>
 
-          <div class="carousel-reserved" v-if="isLoaded && offers && offers.length">
+          <div class="carousel-reserved" v-if="isLoaded">
             <CarouselContainer>
               <OfferInfoBlock v-for="(item,i) in offers" :key="i" :offer-info="item" />
             </CarouselContainer>
