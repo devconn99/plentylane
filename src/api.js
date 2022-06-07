@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from 'moment';
 import config from "./config";
 import router from "./router";
 const FormData = require("form-data");
@@ -20,10 +21,7 @@ axios.interceptors.request.use(
   }
 );
 const getTodayStartStr = () => {
-  const _dateObj = new Date();
-  const _month = `0${_dateObj.getUTCMonth() + 1}`.slice(-2);
-  const _day = `0${_dateObj.getUTCDate()}`.slice(-2);
-  return `${_dateObj.getUTCFullYear()}-${_month}-${_day}T00:00:00.000Z`;
+  return moment.utc().format("YYYY-MM-DDT00:00:00.000") + "Z";
 };
 const getDefaultPickupTimeNotInPastFilter = (prefix) => {
   if (!prefix || !prefix.length) {

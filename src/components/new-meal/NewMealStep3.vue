@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import ModalNewLocation from '../modals/ModalNewLocation';
@@ -146,7 +147,9 @@ export default {
         data['dietaryNotesText'] = [];
       }
       if (this.$data.form.pickupDate && this.$data.form.pickupTime) {
-        data['pickupTime'] = `${this.$data.form.pickupDate}T${this.$data.form.pickupTime}Z`; // TODO ?
+        const selectedTime = this.$data.form.pickupTime;
+        const selectedDateMom = moment(this.$data.form.pickupDate).add(selectedTime).format();
+        data['pickupTime'] = moment.utc(selectedDateMom).format();
       }
       if (this.$data.form.placeId) {
         data['placeId'] = this.$data.form.placeId;
