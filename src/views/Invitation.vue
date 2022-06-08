@@ -285,12 +285,13 @@ export default {
     focusHandler (e) {
       this.resetError();
     },
-    acceptAlreadyRegieteredUser() {
+    acceptAlreadyRegisteredUser() {
       this.submitted = true;
       this.isSubmitting = true;
       const userData = {
         email: this.registeredUserMail,
-        inviteId: this.form.inviteId
+        inviteId: this.form.inviteId,
+        type: "friend"
       };
 
       api.invitations.acceptAlreadyRegisteredInvitation(userData)
@@ -367,7 +368,7 @@ export default {
       }
 
       if (this.alreadyRegisteredUser) {
-        this.acceptAlreadyRegieteredUser();
+        this.acceptAlreadyRegisteredUser();
       } else {
         this.acceptNewUserInvitation();
       }

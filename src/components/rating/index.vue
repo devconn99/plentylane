@@ -1,10 +1,10 @@
 <template>
   <div class="rating-app">
     <RatingStar
-      @onChange="updateRatingValue(i)"
       v-for="(rating, i) in totalRatings"
       :key="i"
       :isRated="rating.rated"
+      @onChange="updateRatingValue(i)"
     />
   </div>
 </template>
@@ -69,7 +69,7 @@ export default {
           res.rated = false;
         }
       });
-      const rate=(this.totalRatings[index].index+1);
+      const rate = (this.totalRatings[index].index + 1);
       this.$emit("input", rate);
     },
     manipulateRating() {

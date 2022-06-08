@@ -87,14 +87,13 @@ export default {
     currentUser: {}
   }),
   methods: {
-    showMobileAside () {
+    showMobileAside() {
       this.$eventHub.$emit('show-mobile-profile-aside');
     },
-    goToUserProfile(userId){
-      debugger
+    goToUserProfile(userId) {
       this.$router.push(`/admin/user-details/${userId}`)
     },
-     loadUsers () {
+     loadUsers() {
       this.isLoading = true;
       const requests = [
         api.dashboard.profile.userInfo(),
@@ -121,12 +120,12 @@ export default {
           this.isLoading = false;
         });
     },
-    loadMoreUsers () {
+    loadMoreUsers() {
       if (this.usersPagination.isLastPage) return;
       this.usersPagination.page++;
       this.loadUsers();
     },
-    tokensResponseHandler (response) {
+    tokensResponseHandler(response) {
       if (response && response.data && response.data.length) {
         this.users = this.users.concat(response.data);
       }
@@ -136,15 +135,15 @@ export default {
       this.usersPagination.loaded = true;
       this.isLoading = false;
     },
-    getPickupTimeDate (dateStr) {
+    getPickupTimeDate(dateStr) {
       return helpers.parseDateForTokensTable(dateStr);
     },
-    getTokensStr (item) {
+    getTokensStr(item) {
       const _str = Number(this.currentUser.id) === Number(item.cookId) ? 'earned' : 'spent';
       return `${_str} ${item.servings} token${item.servings === 1 ? '' : 's'}`;
     }
   },
-  created () {
+  created() {
     this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
     this.loadUsers();
   }

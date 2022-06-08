@@ -16,7 +16,7 @@
                 src="../../assets/images/data/images/dashboard/shop/container-4pk.jpg"
                 alt=""
                 class="img-fluid"
-              >
+              />
             </div>
             <div class="shop-box-info">
               <div>

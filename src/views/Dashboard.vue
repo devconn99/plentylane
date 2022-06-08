@@ -530,7 +530,7 @@ export default {
       const user = { ...this.$store.getters.userInfo };
       try {
         if(user.email) {
-          const invitationLink = await api.invitations.generateInvitation({ email: user.email });
+          const invitationLink = await api.invitations.generateInvitation({ email: user.email, type: "friend" });
           this.invitationLink = invitationLink;
           this.$bvModal.show("invite-friends-via-copy-link-modal");
         }        

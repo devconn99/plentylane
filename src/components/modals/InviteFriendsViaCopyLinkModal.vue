@@ -129,7 +129,8 @@ export default {
           return {
             invitationId,
             email: email,
-            userId: this.userInfo.id
+            userId: this.userInfo.id,
+            type: "friend"
           }
         });
         this.resetEmails();

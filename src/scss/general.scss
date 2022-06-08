@@ -500,6 +500,19 @@ button {
 			transition: 0.3s ease-out;
 		}
 	}
+	&.btnDisabled, &[disabled] {
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		background-color: $redColor !important;
+		border: 2px solid $redColor !important;
+
+		span {
+			background-color: $redColor !important;
+			border: 2px solid $redColor !important;
+			color: $mainBackgroundColor;
+		}
+	}
 }
 .btnNavyRedTransparent {
 	background: transparent;

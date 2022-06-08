@@ -918,6 +918,9 @@ export default {
       },
     },
     follows: {
+      getMyNetworks(page, search) {
+        return this.searchConnections(page,search,"network");
+      },
       getMyFriends(page, search) {
         return this.searchConnections(page, search, "friend");
       },
@@ -1428,6 +1431,17 @@ export default {
     },
     acceptAlreadyRegisteredInvitation(data) {
       const endpoint = `${config.API_ORIGIN}/api/invitations/accept-already-registered-invitation`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    rejectInvitation(data) {
+      const endpoint = `${config.API_ORIGIN}/api/invitations/reject-invitation`;
       return axios
         .post(endpoint, data)
         .then((res) => {

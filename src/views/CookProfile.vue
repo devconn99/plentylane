@@ -465,8 +465,8 @@ export default {
     openAddToNetworkDialog(){
       const { email } = this.userInfo;
       if (email) {
-        api.invitations.generateInvitation({email}).then(str=>{
-          const invitationId = str?str.split("code=")[1].split("&full-name")[0] : "";
+        api.invitations.generateInvitation({email, type:"network"}).then(str=>{
+          const invitationId = str?str.split("code=")[1].split("&user-name")[0] : "";
           this.invitationId = invitationId;
           this.$bvModal.show("addToNetworkDialog"); 
         });
@@ -480,7 +480,8 @@ export default {
       const emailData = {
         invitationId,
         email: email,
-        userId: id
+        userId: id,
+        type: "network"
       }
       api.invitations.sendInvitation(emailData)
         .then(res1 => {

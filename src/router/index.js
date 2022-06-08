@@ -116,7 +116,17 @@ const routes = [
     name: "InviteFriends",
     component: () => import("../views/Invitation.vue"),
     meta: {
-      title: `${TITLE} - Accept Invitation`,
+      title: `${TITLE} - Accept Friend Invitation`,
+      authHelper: true,
+      hideLoaderWithDelay: true,
+    },
+  },
+  {
+    path: "/invite-network",
+    name: "InviteNetwork",
+    component: () => import("../views/NetworkInvitation.vue"),
+    meta: {
+      title: `${TITLE} - Accept Network Invitation`,
       authHelper: true,
       hideLoaderWithDelay: true,
     },
@@ -600,7 +610,8 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.authHelper) {
     // check if token exists
-     if(_token) {
+    const isInvitationLink = to.name == "InviteNetwork" || to.name == "InviteFriends";
+    if(_token && !isInvitationLink) {
       // than redirect to home page
       next("/dashboard");
     }

@@ -9,6 +9,14 @@
           <img :src="user.image.thumbnail" alt="" class="img-fluid">
         </div>
       </template>
+      <template v-else-if="user.image && user.image.path && user.image.path.length">
+        <div
+          class="connection-box-info-img mr-2 mr-xl-3"
+          @click="emitRedirectToCookProfile(user.id)"
+        >
+          <img :src="user.image.path" alt="" class="img-fluid">
+        </div>
+      </template>
       <template v-else>
         <div
           class="connection-box-info-img-placeholder mr-2 mr-xl-3"
@@ -35,14 +43,8 @@
     <div class="box-btn" v-if="hasInviteAction">
       <b-btn
         class="text-nowrap action-button btnSmallSize hover-slide-left"
-        :class="
-          inviteActionCaption == 'Invite'
-          ? 'btnInviteYellow'
-          : inviteActionCaption == 'Invited'
-          ? 'btnInvitedOrange'
-          : 'btnNetworkGreen'
-        "
-        :disabled="inviteActionCaption == 'Invited' || inviteActionCaption == 'In Network'"
+        :class="getButtonColor(inviteActionCaption)"
+        :disabled="inviteActionCaption=='Invited' || inviteActionCaption=='In Network' || inviteActionCaption=='Rejected'"
         @click="emitInviteUser"
         title="Invite to join your swapping network"
       >
@@ -74,6 +76,18 @@ export default {
     },
     emitInviteUser () {
       this.$emit('invite-user');
+    },
+    getButtonColor (caption) {
+      switch (caption) {
+        case 'Invite':
+          return 'btnInviteYellow';
+        case 'Invited':
+          return 'btnInvitedOrange';
+        case 'In Network':
+          return 'btnNetworkGreen';
+        default:
+          return 'btnLightRed';
+      }
     }
   }
 }

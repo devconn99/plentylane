@@ -20,7 +20,7 @@
     </div>
 
     <div class="row" v-if="results && results.length && !shouldShowMap">
-      <div class="col-sm-6 col-xl-4 mb-4" v-for="item in results" v-bind:key="item">
+      <div class="col-sm-6 col-xl-4 mb-4" v-for="(item,i) in results" :key="i">
         <OfferInfoBlock :offer-info="item" />
       </div>
     </div>

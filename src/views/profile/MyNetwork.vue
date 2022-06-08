@@ -27,6 +27,58 @@
             <b-form class="form searchFormNormal">
               <b-form-group class="position-relative">
                 <b-form-input
+                  v-model.trim="searchStrNetworkUsers"
+                  placeholder="Search my network"
+                  class="form-control search-form-control"
+                  autocomplete="off"
+                  debounce="500"
+                  @update="triggerSearchNetworkUsers"
+                />
+                <div
+                  class="clear-icon-wrapper cursor-pointer"
+                  v-if="searchStrNetworkUsers && searchStrNetworkUsers.length"
+                  @click="clearSearchStrNetworkUsers"
+                >
+                  <SvgIcon icon="close"></SvgIcon>
+                </div>
+              </b-form-group>
+            </b-form>
+            <loading
+              :active.sync="isLoadingFriends"
+              :is-full-page="loaderOptions.IS_FULL_PAGE"
+              :color="loaderOptions.COLOR"
+              :background-color="loaderOptions.BACKGROUND_COLOR"
+            />
+            <template v-if="networkUsersPagination.loaded">
+              <div class="connection" v-if="listOfNetworkUsers && listOfNetworkUsers.length">
+                <UserInfoLine
+                  v-for="(item,i) in listOfNetworkUsers"
+                  :key="(i)"
+                  :user="item"
+                  :has-remove-action="true"
+                  :user-to-remove="networkUserToRemove"
+                  @redirect-to-cook-profile="redirectToCookProfile(item.id)"
+                  @remove-user="removeItemFromMyNetwork(item)"
+                />
+                <b-btn
+                  v-if="!networkUsersPagination.isLastPage"
+                  class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
+                  @click="loadMoreNetworkUsers"
+                >
+                  <span>Load more</span>
+                </b-btn>
+              </div>
+              <div v-else>
+                <p>No network users found.</p>
+              </div>
+            </template>
+          </div>
+        </b-tab>
+        <!-- <b-tab title="Friends" :disabled="isLoadingUsers || isLoadingFavorite">
+          <div class="tab-content-wrapper">
+            <b-form class="form searchFormNormal">
+              <b-form-group class="position-relative">
+                <b-form-input
                   v-model.trim="searchStrFriends"
                   placeholder="Search my network"
                   class="form-control search-form-control"
@@ -48,20 +100,20 @@
               :is-full-page="loaderOptions.IS_FULL_PAGE"
               :color="loaderOptions.COLOR"
               :background-color="loaderOptions.BACKGROUND_COLOR"
-            ></loading>
-            <template v-if="friendsPagination.loaded">
-              <div class="connection" v-if="listOfFriends && listOfFriends.length">
+            />
+            <template v-if="networkUsersPagination.loaded">
+              <div class="connection" v-if="listOfNetworkUsers && listOfNetworkUsers.length">
                 <UserInfoLine
-                  v-for="(item,i) in listOfFriends"
+                  v-for="(item,i) in listOfNetworkUsers"
                   :key="(i)"
                   :user="item"
                   :has-remove-action="true"
                   :user-to-remove="friendToRemove"
                   @redirect-to-cook-profile="redirectToCookProfile(item.id)"
                   @remove-user="removeItemFromMyNetwork(item)"
-                ></UserInfoLine>
+                />
                 <b-btn
-                  v-if="!friendsPagination.isLastPage"
+                  v-if="!networkUsersPagination.isLastPage"
                   class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mt-4"
                   @click="loadMoreFriends"
                 >
@@ -69,11 +121,11 @@
                 </b-btn>
               </div>
               <div v-else>
-                <p>No connections found.</p>
+                <p>No friends found.</p>
               </div>
             </template>
           </div>
-        </b-tab>
+        </b-tab> -->
 
         <b-tab title="Favorites" :disabled="isLoadingUsers || isLoadingFriends">
           <div class="tab-content-wrapper">
@@ -192,19 +244,25 @@
       :message="confirmRemoveFriendMsg"
       @confirmed="onConfirmedRemoveFriend"
       @canceled="onCanceledRemoveFriend"
-    ></ConfirmModal>
+    />
+    <ConfirmModal
+      :id="modalIdNetwork"
+      :message="confirmRemoveNetworkMsg"
+      @confirmed="onConfirmedRemoveNetworkUser"
+      @canceled="onCancelRemoveNetwork"
+    />
     <ConfirmModal
       :id="modalIdFavorite"
       :message="confirmRemoveFavoriteMsg"
       @confirmed="onConfirmedRemoveFavorite"
       @canceled="onCanceledRemoveFavorite"
-    ></ConfirmModal>
+    />
     <ConfirmModal
       :id="modalInviteFriend"
       :message="confirmInviteMsg"
       @confirmed="onConfirmedInvite"
       @canceled="onCanceledInvite"
-    ></ConfirmModal>
+    />
   </div>
 </template>
 
@@ -223,8 +281,11 @@ export default {
   data: () => ({
     loaderOptions: { ...config.LOADER_OPTIONS },
     activeTabIndex: 0,
-    confirmRemoveFriendMsg: 'Are you sure you want to remove this person from your network?',
     friendToRemove: null,
+    networkUserToRemove: null,
+    confirmRemoveNetworkMsg: 'Are you sure you want to remove this person from your network?',
+    modalIdNetwork: 'confirm-remove-network-user',
+    confirmRemoveFriendMsg: 'Are you sure you want to remove this person from your friends?',
     modalIdFriend: 'confirm-remove-friend',
     confirmRemoveFavoriteMsg: 'Are you sure you want to remove this person from your favorite list?',
     modalInviteFriend: 'confirm-invite-friend',
@@ -234,11 +295,14 @@ export default {
     favoriteToRemove: null,
     modalIdFavorite: 'confirm-remove-favorite',
     searchStrFriends: '',
+    searchStrNetworkUsers: '',
     searchStrFavorite: '',
     isRemovingFriend: false,
     isRemovingFavorite: false,
+    isRemovingNetwork: false,
     users: [],
     pendingInvitations: [],
+    rejectedInvitations: [],
     usersPagination: {
       total: 0,
       page: 1,
@@ -258,6 +322,15 @@ export default {
     },
     isLoadingFriends: false,
     listOfFriends: [],
+    networkUsersPagination: {
+      total: 0,
+      page: 1,
+      pageCount: 1,
+      loaded: false,
+      isLastPage: false
+    },
+    isLoadingNetworkUsers: false,
+    listOfNetworkUsers: [],
     favoritePagination: {
       total: 0,
       page: 1,
@@ -275,8 +348,10 @@ export default {
   }),
   created () {
     this.currentUserId = localStorage.getItem('plUserId') || this.$store.getters.userId || '';
-    this.loadFriends();
+    // this.loadFriends();
+    this.loadNetworkUsers();
     this.getPendingInvitations();
+    this.getRejectedInvitations();
   },
   computed: {
     ...mapGetters({
@@ -287,8 +362,8 @@ export default {
     onTabSwitched (tabIndex) {
       switch (tabIndex) {
         case 0:
-          if (!this.friendsPagination.loaded) {
-            this.loadFriends();
+          if (!this.networkUsersPagination.loaded) {
+            this.loadNetworkUsers();
           }
           break;
         case 1:
@@ -335,6 +410,36 @@ export default {
       this.friendsPagination.page++;
       this.loadFriends();
     },
+    loadNetworkUsers (search) {
+    this.isLoadingNetworkUsers = true;
+    api.dashboard.follows.getMyNetworks(this.networkUsersPagination.page, search)
+      .then(res => {
+        const shouldOverride = this.networkUsersPagination.page === 1;
+        const result = res.data;
+        if (result && result.length) {
+          const _data = result.map(item => {
+            return item.follower?.id != this.userInfo.id ? item.follower : item.following;
+          });
+          this.listOfNetworkUsers = shouldOverride ? _data.slice(0) : this.listOfNetworkUsers.concat(_data.slice(0));
+        } else if (shouldOverride) {
+          this.listOfNetworkUsers = [];
+        }
+        this.networkUsersPagination.total = result.total;
+        this.networkUsersPagination.pageCount = result.pageCount;
+        this.networkUsersPagination.isLastPage = result.page === result.pageCount;
+        this.networkUsersPagination.loaded = true;
+        this.isLoadingNetworkUsers = false;
+      })
+      .catch(err => {
+        console.log('\n >> err > ', err);
+        this.isLoadingNetworkUsers = false;
+      });
+    },
+    loadMoreNetworkUsers () {
+      if (this.networkUsersPagination.isLastPage) return;
+      this.networkUsersPagination.page++;
+      this.loadNetworkUsers();
+    },
     loadUsers (search) {
       this.isLoadingUsers = true;
       api.dashboard.users.getAllUsers(this.usersPagination.page, search, this.currentUserId)
@@ -360,15 +465,22 @@ export default {
     getInviteCaption(userId,email){
       if(!userId) return;
 
+      const user = this.listOfNetworkUsers.find(res => res.id == userId);
+      const pendingEmail = this.pendingInvitations.find(res => res.email == email);
+      const rejectedEmail = this.rejectedInvitations.find(res => res.email == email);
+
       let status = "";
-      const userIndex = this.listOfFriends.findIndex(res => res.id == userId);
-      const invitations = this.pendingInvitations;
-      if(invitations.length) {
-        const emailIndex = invitations.findIndex(res => res.email == email);
-        status = emailIndex >= 0 ? "Invited" : userIndex >= 0 ? "In Network" : "Invite";
+
+      if(pendingEmail && !rejectedEmail && !user) {
+        status = "Invited";
+      } else if (!pendingEmail && rejectedEmail && !user) {
+        status = "Rejected";
+      } else if (!pendingEmail && !rejectedEmail && user) {
+        status = "In Network";
       } else {
-        status = userIndex >= 0 ? "In Network" : "Invite";
+        status = "Invite";
       }
+
       return status;
     },
     loadMoreUsers () {
@@ -390,6 +502,28 @@ export default {
       this.triggerSearchUsers();
     },
     removeItemFromMyNetwork (item) {
+      if (this.isRemovingNetwork) return;
+      this.networkUserToRemove = { ...item };
+      this.$bvModal.show(this.modalIdNetwork);
+    },
+    onConfirmedRemoveNetworkUser () {
+      if (!this.networkUserToRemove || !this.networkUserToRemove.id) return;
+      this.isRemovingNetwork = true;
+      const _id = this.networkUserToRemove.id;
+      const userId=this.currentUserId;
+      api.dashboard.follows.removeFollower(userId,_id,"network")
+        .then(() => {
+          this.listOfFriends = this.listOfFriends.filter(item => item.id !== Number(_id));
+          this.networkUserToRemove = null;
+          this.isRemovingNetwork = false;
+          this.loadNetworkUsers();
+        })
+        .catch(err => {
+          this.networkUserToRemove = null;
+          this.isRemovingNetwork = false;
+        });
+    },
+    removeItemFromFriend (item) {
       if (this.isRemovingFriend) return;
       this.friendToRemove = { ...item };
       this.$bvModal.show(this.modalIdFriend);
@@ -414,19 +548,23 @@ export default {
     inviteUser(item) {
       this.userToInvite = item;
       const { email } = this.userInfo;
-      if(email) {
-        api.invitations.generateInvitation({email}).then(str => {
-          const invitationId = str?str.split("code=")[1].split("&full-name")[0] : "";
+      if (email) {
+        api.invitations.generateInvitation({email, type: "network"}).then(str => {
+          const invitationId = str?str.split("code=")[1].split("&user-name")[0] : "";
           this.invitationId = invitationId;
           this.$bvModal.show(this.modalInviteFriend);
-        });
+        })
       }
     },
-    getPendingInvitations(){
-      api.invitations.getInviteByStatus("Pending")
-        .then(invitations => {
-          this.pendingInvitations = invitations;
-        });
+    getPendingInvitations() {
+      api.invitations.getInviteByStatus("Pending").then(invitations => {
+        this.pendingInvitations = invitations;
+      })
+    },
+    getRejectedInvitations() {
+      api.invitations.getInviteByStatus("Rejected").then(invitations => {
+        this.rejectedInvitations = invitations;
+      })
     },
     onConfirmedInvite() {
       const invitationId = this.invitationId;
@@ -434,9 +572,11 @@ export default {
       const emailData = {
         invitationId,
         email: email,
-        userId:this.currentUserId
-      };
+        userId: this.currentUserId,
+        type: "network"
+      }
       api.invitations.sendInvitation(emailData).then(res1 => {
+        this.getPendingInvitations();
         this.alert = {
           msg: "Invitations sent",
           variant: "success",
@@ -450,6 +590,9 @@ export default {
     },
     onCanceledRemoveFriend () {
       this.friendToRemove = null;
+    },
+    onCancelRemoveNetwork () {
+      this.networkUserToRemove = null;
     },
     removeItemFromListOfFavorite (item) {
       if (this.isRemovingFavorite) return;
@@ -475,6 +618,10 @@ export default {
     onCanceledRemoveFavorite () {
       this.favoriteToRemove = null;
     },
+    clearSearchStrNetworkUsers(){
+      this.searchStrNetworkUsers='';
+      this.triggerSearchNetworkUsers();
+    },
     clearSearchStrFriends () {
       this.searchStrFriends = '';
       this.triggerSearchFriends();
@@ -487,6 +634,15 @@ export default {
       this.friendsPagination.isLastPage = false;
       this.listOfFriends = [];
       this.loadFriends(this.searchStrFriends);
+    },
+    triggerSearchNetworkUsers () {
+      this.networkUsersPagination.total = 0;
+      this.networkUsersPagination.page = 1;
+      this.networkUsersPagination.pageCount = 1;
+      this.networkUsersPagination.loaded = false;
+      this.networkUsersPagination.isLastPage = false;
+      this.listOfNetworkUsers = [];
+      this.loadNetworkUsers(this.searchStrNetworkUsers);
     },
     clearSearchStrFavorite () {
       this.searchStrFavorite = '';
