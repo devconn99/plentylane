@@ -359,12 +359,34 @@ export default {
           </svg>
         `;
       },
+      network2: function () {
+        return `
+          <svg width="16px" height="16px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <g fill="none" fill-rule="evenodd">
+              <path d="M421-184H-619v2191H421z" class="no-change"/>
+              <g transform="translate(-233 -4)" filter="">
+                <g fill="#009c90" fill-rule="nonzero">
+                  <path
+                    class="no-change"
+                    d="M243.232 4c-1.91 0-3.695.944-4.77 2.522a.667.667 0 101.103.75 4.435 4.435 0 11-.491 4.042.667.667 0 10-1.25.467A5.769 5.769 0 10243.232 4z"
+                  />
+                  <path
+                    class="no-change"
+                    d="M242.435 16.726a4.434 4.434 0 11.547-3.88.667.667 0 101.267-.417 5.77 5.77 0 10-.712 5.048.667.667 0 00-1.102-.751z"
+                  />
+                </g>
+              </g>
+            </g>
+          </svg>
+        `;
+      },
       arrowLeft: function () {
         return `
           <svg width="16" height="14" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M7.58 2.437L5.366 4.654a.286.286 0 00.202.488h9.005a1.428 1.428 0 110 2.857H5.567a.286.286 0 00-.202.487l2.216 2.216a1.428 1.428 0 11-2.02 2.02L.42 7.579a1.425 1.425 0 010-2.019L5.561.418a1.428 1.428 0 112.02 2.02z"
-              fill="#009C90" fill-rule="nonzero" />
+              fill="#009C90" fill-rule="nonzero"
+            />
           </svg>
         `
       },
@@ -373,7 +395,8 @@ export default {
           <svg width="8" height="13" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M1.603 12.376L7.84 6.884a.533.533 0 000-.77L1.603.624a.494.494 0 00-.706.054l-.779.925a.514.514 0 00.055.719L4.9 6.405a.125.125 0 010 .189L.173 10.678a.51.51 0 00-.173.348.5.5 0 00.119.37l.777.926a.494.494 0 00.707.054z"
-              fill="#808080" fill-rule="nonzero" />
+              fill="#808080" fill-rule="nonzero"
+            />
           </svg>
         `
       },
@@ -382,7 +405,8 @@ export default {
           <svg width="16" height="12" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M13.54 4.857c-2.19-1.941-5.181-2.074-6.443-2.03a.181.181 0 01-.188-.183V.774A.727.727 0 005.715.218l-5.45 4.63a.728.728 0 00-.01 1.114L5.72 10.79a.727.727 0 001.19-.562V8.02c0-.087.061-.16.146-.178C8.442 7.552 12.97 7 15.316 11.4a.364.364 0 00.684-.171c0-2.78-.828-4.922-2.46-6.37z"
-              fill-rule="nonzero" fill="#000" opacity=".5" />
+              fill-rule="nonzero" fill="#000" opacity=".5"
+            />
           </svg>
         `
       },
@@ -391,7 +415,8 @@ export default {
           <svg width="26" height="24" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M25.408.124a.533.533 0 00-.546-.083L.329 10.174a.533.533 0 00.01.989l6.754 2.623a.533.533 0 00.5-.06l8.96-6.372a.533.533 0 01.679.819l-7.467 7.194a.533.533 0 00-.163.384v7.182a.533.533 0 00.993.27l3.378-5.788a.268.268 0 01.36-.099l6.214 3.414a.533.533 0 00.779-.355L25.593.642a.542.542 0 00-.185-.518z"
-              fill="${params && params.fill ? params.fill : '#009C90'}" fill-rule="nonzero" />
+              fill="${params && params.fill ? params.fill : '#009C90'}" fill-rule="nonzero"
+            />
           </svg>
         `
       },

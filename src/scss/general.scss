@@ -514,6 +514,46 @@ button {
 		}
 	}
 }
+
+.btnCGRed {
+	background-color: $cgRed;
+	span {
+		color: $mainBackgroundColor;
+		border: 2px solid $cgRed;
+		@media screen and (min-width: $tableWidth) {
+			&:hover {
+				color: $mainBackgroundColor;
+				border: 2px solid $cgRed;
+			}
+		}
+		@media screen and (max-width: $tableWidth) {
+			&:hover, &:focus, &:active {
+				background-color: $cgRed;
+				color: $mainBackgroundColor;
+			}
+		}
+	}
+
+	@media screen and (min-width: $tableWidth) {
+		&::before {
+			background-color: $cgRed;
+			transition: 0.3s ease-out;
+		}
+	}
+	&.btnDisabled, &[disabled]{
+		cursor: none;
+		pointer-events: none;
+		text-decoration: none;
+		background-color: $cgRed !important;
+		border: 2px solid $cgRed !important;
+		span {
+			background-color: $cgRed !important;
+			border: 2px solid $cgRed !important;
+			color: $mainBackgroundColor;
+		}
+	}
+}
+
 .btnNavyRedTransparent {
 	background: transparent;
 	span {

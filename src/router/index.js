@@ -234,6 +234,15 @@ const routes = [
         meta: { skipHidingLoader: true },
       },
       {
+        path: "my-network",
+        name: "My Network",
+        component: () => import("../views/profile/NetworkWrapper.vue"),
+        meta: {
+          title: `${TITLE} - My Network`,
+          noLoader: true,
+        },
+      },
+      {
         path: "profile",
         component: () => import("../views/profile/ProfileWrapper.vue"),
         meta: {
@@ -256,15 +265,6 @@ const routes = [
             component: () => import("../views/profile/MyMeals.vue"),
             meta: {
               title: `${TITLE} - My Dishes`,
-              noLoader: true,
-            },
-          },
-          {
-            path: "my-network",
-            name: "My Network",
-            component: () => import("../views/profile/MyNetwork.vue"),
-            meta: {
-              title: `${TITLE} - My Network`,
               noLoader: true,
             },
           },

@@ -41,6 +41,9 @@
       </b-btn>
     </div>
     <div class="box-btn" v-if="hasInviteAction">
+      <b-badge v-if="inviteActionCaption=='Rejected'">
+        <i @click="reInvite" class="fas fa-sync cursor-pointer"></i>
+      </b-badge>
       <b-btn
         class="text-nowrap action-button btnSmallSize hover-slide-left"
         :class="getButtonColor(inviteActionCaption)"

@@ -309,6 +309,11 @@ export default {
           text: "Cook",
         },
         {
+          text: 'My Network',
+          path: '/dashboard/my-network',
+          iconName:'network2'
+        },
+        {
           path: "/dashboard/shop",
           iconName: "shop",
           text: "Shop",

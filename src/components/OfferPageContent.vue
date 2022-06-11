@@ -93,12 +93,20 @@
               >
                 <span>Reserve Meal</span>
               </b-btn>
-              <div class="link-item cursor-pointer" v-else-if="!isAbleToReserve" @click="openAddToNetworkDialog">
-                <SvgIcon icon="network"></SvgIcon>
-                <span class="ml-1 mt-3 textNavyRed font-weight-bold">
-                  Add to Network to reserve a meal
+
+              <b-btn
+                class="btnCGRed btnBigSize btn100 text-uppercase hover-slide-left mb-4"
+                v-else-if="!isAbleToReserve"
+                @click="openAddToNetworkDialog"
+              >
+                <span>
+                  <div>
+                    Add to Network
+                    <p class="text-lowercase">to reserve a meal</p>
+                  </div>
                 </span>
-              </div>
+              </b-btn>
+
               <div class="meal-reserved-info w-100 mb-4" v-if="wasReserved">
                 Meal Reserved!
               </div>
@@ -336,7 +344,7 @@
     />
     <ConfirmModal
       id="addToNetworkDialog"
-      message="Are you sure to add cook to network?"
+      message="Add cook to network?"
       @confirmed="addToNetwork"
     />
     <ConfirmModal
@@ -359,6 +367,9 @@ import { mapGetters } from 'vuex';
 import api from '../api';
 import config from "../config";
 import helpers from '../helpers';
+import AnswerQuestionModal from '../components/modals/AnswerQuestionModal';
+import UserRating from '../components/UserRating';
+import EditBtn from '../components/EditBtn';
 import HeroWave from './HeroWave';
 import CarouselContainer from './CarouselContainer';
 import OfferInfoBlock from './OfferInfoBlock';
@@ -367,9 +378,6 @@ import ConfirmModal from './modals/ConfirmModal';
 import AskQuestionAboutMeal from './modals/AskQuestionAboutMeal';
 import ContactCookModal from './modals/ContactCookModal';
 import ReserveMealModal from './modals/ReserveMealModal';
-import AnswerQuestionModal from '../components/modals/AnswerQuestionModal';
-import UserRating from '../components/UserRating';
-import EditBtn from '../components/EditBtn';
 
 export default {
   name: "OfferPageContent",

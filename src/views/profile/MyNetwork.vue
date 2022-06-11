@@ -12,7 +12,7 @@
       >
         <p>{{ alert.msg }}</p>
       </b-alert>
-      <div class="dashboard-title-box flex-row align-items-center mb-4 mb-lg-5 mt-2 mt-lg-3">
+            <div class="dashboard-title-box d-flex flex-row align-items-center mb-2 mt-2 mt-lg-3">
         <div class="dashboard-profile-title-back mr-2 mr-md-3">
           <div class="cursor-pointer" @click="showMobileAside">
             <SvgIcon icon="arrowLeft"></SvgIcon>
@@ -220,6 +220,7 @@
                   :invite-action-caption="getInviteCaption(user.id,user.email)"
                   @invite-user="inviteUser(user)"
                   @redirect-to-cook-profile="redirectToCookProfile(user.id)"
+		  @re-invite="reInvite(user)"
                 />
                 <b-btn
                   v-if="!usersPagination.isLastPage"
@@ -554,6 +555,17 @@ export default {
           this.invitationId = invitationId;
           this.$bvModal.show(this.modalInviteFriend);
         })
+      }
+    },
+    reInvite(item){
+      this.userToInvite = item;
+      const { email } = this.userInfo;
+      if (email) {
+        api.invitations.reGenerateInvitation({email, type:"network"}).then(str => {
+          const invitationId = str?str.split("code=")[1].split("&user-name")[0] : "";
+          this.invitationId = invitationId;
+          this.$bvModal.show(this.modalInviteFriend);
+        });
       }
     },
     getPendingInvitations() {

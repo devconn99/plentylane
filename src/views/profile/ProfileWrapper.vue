@@ -61,10 +61,6 @@ export default {
           path: '/dashboard/profile/my-meals'
         },
         {
-          title: 'My Network',
-          path: '/dashboard/profile/my-network'
-        },
-        {
           title: 'My Answers',
           path: '/dashboard/profile/my-answers'
         },

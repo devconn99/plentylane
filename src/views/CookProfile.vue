@@ -206,7 +206,7 @@
     <!--<ContactCookModal></ContactCookModal>-->
     <ConfirmModal
       id="addToNetworkDialog"
-      message="Are you sure to add cook to network?"
+      message="Add cook to network?"
       @confirmed="addToNetwork"
     />
     <ConfirmModal

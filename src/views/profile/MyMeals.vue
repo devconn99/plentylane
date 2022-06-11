@@ -137,6 +137,7 @@
                       :hidden-user-block="true"
                       @on-action-edit="onActionEditOffer"
                       @on-action-remove="onActionRemoveOffer"
+		                  @on-action-re-post="openConfirmRePost(item)"
                     />
                   </div>
                 </template>
@@ -174,6 +175,12 @@
       @confirmed="onModalOfferConfirm"
       @canceled="onModalOfferCancel"
     ></ConfirmModal>
+    <ConfirmModal
+      :id="modalRePost.id"
+      :message="modalRePost.msg"
+      @confirmed="closeModalWithValue"
+      @canceled="onModalRePostCancel"
+    ></ConfirmModal>
   </div>
 </template>
 
@@ -185,6 +192,7 @@ import ConfirmModal from '../../components/modals/ConfirmModal';
 import OfferInfoBlock from '../../components/OfferInfoBlock';
 import config from "../../config";
 import SvgIcon from '../../components/SvgIcon';
+
 export default {
   name: "MyMeals",
   components: {Loading, BookingInfoBlock, ConfirmModal, OfferInfoBlock, SvgIcon},
@@ -231,9 +239,13 @@ export default {
       id: 'confirm-remove-offer',
       msg: 'Are you sure you want to cancel this meal?'
     },
+    modalRePost: {
+      id: 'confirm-re-post',
+      msg: 'Are you sure you want to post this meal again?'
+    },
     reservationToRemove: '',
     dineActions: [{ title: 'View', name: 'view' }, { title: 'Cancel', name: 'cancel' }],
-    offerActions: [{ title: 'Edit', name: 'edit' }, { title: 'Cancel', name: 'remove' }],
+    offerActions: [{ title: 'Re-Post', name: 're-post' }, { title: 'Edit', name: 'edit' }, { title: 'Cancel', name: 'remove' }],
     offerToRemove: ''
   }),
   created () {
@@ -418,6 +430,10 @@ export default {
       this.offerToRemove = id;
       this.$bvModal.show(this.modalOfferInfo.id);
     },
+    openConfirmRePost(post){
+      this.mealToRePost = post.meal;
+      this.$bvModal.show(this.modalRePost.id);
+    },
     onActionRemoveOffer (id) {
       if (!id) return;
       this.openConfirmRemoveOfferModal(id);
@@ -426,8 +442,18 @@ export default {
       if (!id) return;
       this.$router.push({ path: `/dashboard/edit-offer/${id}` }).catch(()=>{});
     },
+    closeModalWithValue () {
+      if (this.mealToRePost && this.mealToRePost.id) {
+        const { id = '', name = '', description = '', dietaryNotes = [], images = [] } = this.mealToRePost;
+        this.$store.commit('copiedMealInfo', { id, name, description, dietaryNotes, images });
+        this.$router.push({ path: '/dashboard/cook/new-meal' }).catch(() => {});
+      }
+    },
     onModalOfferCancel () {
       this.offerToRemove = '';
+    },
+    onModalRePostCancel() {
+      this.mealToRePost = null;
     },
     onModalOfferConfirm () {
       if (!this.offerToRemove) return;

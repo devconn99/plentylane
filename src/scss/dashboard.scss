@@ -465,7 +465,13 @@ ul.nav-menu-dashboard {
 			transition: color 0.3s ease;
 			&:hover, &:focus, &:active {
 				color: $mainBackgroundColor;
-				svg path {
+				svg path:not(.no-change) {
+					fill: $greenLightColor;
+					-webkit-transition: .3s all ease;
+					-o-transition: .3s all ease;
+					transition: .3s all ease;
+				}
+				svg path.no-change~g>g {
 					fill: $greenLightColor;
 					-webkit-transition: .3s all ease;
 					-o-transition: .3s all ease;
@@ -478,7 +484,13 @@ ul.nav-menu-dashboard {
 		}
 		&.active .nav-link {
 			color: $mainBackgroundColor;
-			svg path {
+			svg path:not(.no-change){
+				fill: $greenLightColor;
+				-webkit-transition: .3s all ease;
+				-o-transition: .3s all ease;
+				transition: .3s all ease;
+			}
+			svg path.no-change~g>g {
 				fill: $greenLightColor;
 				-webkit-transition: .3s all ease;
 				-o-transition: .3s all ease;

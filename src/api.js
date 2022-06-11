@@ -1373,8 +1373,18 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
-    validateInvitation(invitationCode){
-      
+    reGenerateInvitation(data) {
+      const endpoint = `${config.API_ORIGIN}/api/invitations/re-generate-invitation-link`;
+      return axios
+        .post(endpoint, data)
+        .then((res) => {
+          return Promise.resolve(res.data || {});
+        })
+        .catch((err) => {
+          return Promise.reject(err.response.data || err);
+        });
+    },
+    validateInvitation(invitationCode) {
       const endpoint = `${config.API_ORIGIN}/api/invitations/validate-invitation/${invitationCode}`;
       return axios
         .get(endpoint)
