@@ -20,7 +20,7 @@
               :background-color="loaderOptions.BACKGROUND_COLOR"
             />
             <div v-if="mealPagination.loaded">
-              <p>You have {{mealPagination.total}} dish{{mealPagination.total === 1 ? '' : 'es'}}</p>
+              <p>You have {{mealPagination.total}} meal{{mealPagination.total === 1 ? '' : 's'}}</p>
               <div class="my-meal-wrapper" v-if="meals && meals.length">
                 <div class="my-meal-item p-2 p-xl-3" v-for="item in meals" v-bind:key="item.id">
                   <div class="my-meal-item-info">
@@ -124,7 +124,7 @@
               :background-color="loaderOptions.BACKGROUND_COLOR"
             />
             <div v-if="offersPagination.loaded">
-              <p>You have {{offersPagination.total}} meal{{offersPagination.total === 1 ? '' : 's'}}</p>
+              <p>You have {{offersPagination.total}} dish{{offersPagination.total === 1 ? '' : 'es'}}</p>
 
               <div class="row">
                 <template v-if="offers && offers.length">

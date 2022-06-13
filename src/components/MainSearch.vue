@@ -268,6 +268,7 @@ export default {
           value: 0
         })
       }
+      /*
       if (form['dietaryNotes'] && form['dietaryNotes'].length) {
         query.push({
           type: defaultType,
@@ -276,6 +277,7 @@ export default {
           value: form['dietaryNotes'].join(',')
         });
       }
+      */
       resultQuery = query;
       if (query.length && shouldUseOr) {
         query.forEach(item => {
