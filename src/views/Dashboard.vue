@@ -199,7 +199,24 @@
           <div class="dashboard-aside-box">
             <div class="dashboard-user" v-if="user && user.id">
               <div class="dashboard-user-info" @click="goToProfile()">
-                <template
+                <b-avatar
+                  badge-top
+                  badge-variant="warning"
+                  v-if="user.image && user.image.thumbnail && user.image.thumbnail.length"
+                  :src="user.image.thumbnail"
+                  ref="asideUserPhoto"
+                >
+                  <template #badge>
+                    <b v-b-tooltip.hover :title="displayCredits + ' tokens'"> {{displayCredits}}</b>
+                  </template>
+                </b-avatar>
+                <b-avatar badge-top badge-variant="warning" v-else>
+                  <template  #badge>
+                    <b v-b-tooltip.hover :title="displayCredits + ' tokens'"> {{displayCredits}}</b>
+                  </template>
+                </b-avatar>
+
+                <!-- <template
                   v-if="
                     user.image &&
                     user.image.thumbnail &&
@@ -217,7 +234,8 @@
                   <div class="user-icon-placeholder">
                     <i class="fas fa-user-circle"></i>
                   </div>
-                </template>
+                </template> -->
+
                 <span
                   class="dashboard-user-name"
                   v-if="displayUserName && displayUserName.length"
@@ -226,10 +244,6 @@
                 </span>
                 <span class="dashboard-user-name" v-else>Profile</span>
               </div>
-              <!-- notifications are not included in MVP -->
-              <!--
-              <a @click.stop.prevent="showNotificationsModal" class="dashboard-user-notify" v-if="notificationsCount">{{notificationsCount}}</a>
-              -->
             </div>
           </div>
         </div>
@@ -335,6 +349,12 @@ export default {
         return "";
       }
       return this.user.username;
+    },
+    displayCredits: function () {
+      if (!this.user || !this.user.credits) {
+        return "";
+      }
+      return this.user.credits;
     },
     isDashboardPage: function () {
       return this.$route.path === "/dashboard";

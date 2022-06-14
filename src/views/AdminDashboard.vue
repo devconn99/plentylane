@@ -149,25 +149,24 @@
           <div class="dashboard-aside-box position-fixed" style="bottom:0">
             <div class="dashboard-user" v-if="user && user.id">
               <div class="dashboard-user-info" @click="goToProfile()">
-                <template
-                  v-if="
-                    user.image &&
-                    user.image.thumbnail &&
-                    user.image.thumbnail.length
-                  "
+                <b-avatar
+                  badge-top
+                  badge-variant="warning"
+                  v-if="user.image && user.image.thumbnail && user.image.thumbnail.length"
+                  :src="user.image.thumbnail"
+                  ref="asideUserPhoto"
                 >
-                  <img
-                    :src="user.image.thumbnail"
-                    ref="asideUserPhoto"
-                    alt=""
-                    class="img-fluid"
-                  />
-                </template>
-                <template v-else>
-                  <div class="user-icon-placeholder">
-                    <i class="fas fa-user-circle"></i>
-                  </div>
-                </template>
+                  <template #badge>
+                    <b v-b-tooltip.hover :title="displayCredits + ' tokens'">
+                      {{displayCredits}}
+                    </b>
+                  </template>
+                </b-avatar>
+                <b-avatar badge-top badge-variant="warning" v-else>
+                  <template  #badge>
+                    <b v-b-tooltip.hover :title="displayCredits + ' tokens'"> {{displayCredits}}</b>
+                  </template>
+                </b-avatar>
                 <span
                   class="dashboard-user-name"
                   v-if="displayUserName && displayUserName.length"

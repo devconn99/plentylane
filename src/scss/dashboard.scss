@@ -306,18 +306,20 @@
 					-ms-user-select: none;
 					user-select: none;
 					span {
-						font-size: 18px;
-						line-height: 24px;
-						color: $greenColor;
-						font-family: $LacaProSemiBold;
-						margin-left: 8px;
-						width: 125px;
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						-webkit-transition: .3s all ease;
-						-o-transition: .3s all ease;
-						transition: .3s all ease;
+						&:not(.b-avatar):not(.b-avatar-img ):not(.b-avatar-badge){
+							font-size: 18px;
+							line-height: 24px;
+							color: $greenColor;
+							font-family: $LacaProSemiBold;
+							margin-left: 8px;
+							width: 125px;
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							-webkit-transition: .3s all ease;
+							-o-transition: .3s all ease;
+							transition: .3s all ease;
+						}
 					}
 					&:hover, &:focus, &:active {
 						span {
