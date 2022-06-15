@@ -51,6 +51,17 @@
                         >
                           {{item.name}}
                         </div>
+			                  <span  v-if="averageRating(item)">
+                          Rating : 
+                          <SvgIcon class="d-inline-flex" icon="star"/> 
+                          <span class="mt-2">{{averageRating(item)}}</span>
+                        </span>
+                        <ul>
+                          <li v-for="(offer,i) in item.offers" :key="i">
+                            Date : {{offer.pickupTime | formatDateOnly}}
+                            Quantity : {{offer.bookedQuantity}}/{{offer.quantity}}
+                          </li>
+                        </ul>
                       </div>
                     </div>
                     <div class="my-meal-action-wrapper">
@@ -346,6 +357,10 @@ export default {
       this.mealToRemove = id;
       this.$bvModal.show(this.modalMealInfo.id);
     },
+    averageRating(item){
+      const totalRatings = item.offers.reduce((a,b) => a+b?.rating?.rating, 0);
+      return totalRatings/item.offers.length
+    },
     onModalMealConfirm () {
       if (!this.mealToRemove) return;
       this.isLoadingMeals = true;
@@ -560,7 +575,7 @@ export default {
 
         .my-meal-title {
           display: flex;
-          flex-direction: row;
+          flex-direction: column;
           justify-content: space-between;
 
           .title-size3 {

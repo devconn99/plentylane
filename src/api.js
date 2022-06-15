@@ -317,7 +317,7 @@ export default {
           });
       },
       getMyMeals(page) {
-        let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images`;
+        let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images&join=offers&join=offers.rating`;
         if (page) {
           endpoint += `&page=${page}`;
         }

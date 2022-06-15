@@ -41,13 +41,13 @@
       </b-btn>
     </div>
     <div class="box-btn" v-if="hasInviteAction">
-      <b-badge v-if="inviteActionCaption=='Rejected'">
+      <b-badge v-if="inviteActionCaption=='Rejected'" v-b-tooltip.hover title="Re invite">
         <i @click="reInvite" class="fas fa-sync cursor-pointer"></i>
       </b-badge>
       <b-btn
         class="text-nowrap action-button btnSmallSize hover-slide-left"
         :class="getButtonColor(inviteActionCaption)"
-        :disabled="inviteActionCaption=='Invited' || inviteActionCaption=='In Network' || inviteActionCaption=='Rejected'"
+        :disabled="inviteActionCaption == 'Invited' || inviteActionCaption == 'In Network' || inviteActionCaption == 'Rejected'"
         @click="emitInviteUser"
         title="Invite to join your swapping network"
       >

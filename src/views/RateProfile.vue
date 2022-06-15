@@ -39,6 +39,7 @@
         <b-button
           @click="updateRating()"
           class="mt-2 btnGreen btnBigSize btn50 text-uppercase hover-slide-left"
+	        :disabled="!ratingId"
         >
           <span>Rate</span>
         </b-button>
