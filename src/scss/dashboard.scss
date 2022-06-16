@@ -320,6 +320,9 @@
 							-o-transition: .3s all ease;
 							transition: .3s all ease;
 						}
+						&.b-avatar-badge{
+							right: -0.5rem !important;
+						}
 					}
 					&:hover, &:focus, &:active {
 						span {

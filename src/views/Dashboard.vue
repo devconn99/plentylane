@@ -352,7 +352,7 @@ export default {
     },
     displayCredits: function () {
       if (!this.user || !this.user.credits) {
-        return "";
+        return 0;
       }
       return this.user.credits;
     },
