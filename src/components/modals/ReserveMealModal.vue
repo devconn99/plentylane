@@ -109,7 +109,7 @@ export default {
     maxCount: 10000, // temp value, it's initialized via offerInfo.availableQuantity
     availableCredits: 0,
   }),
-  validations () {
+  validations() {
     return {
       form: {
         servings: {
@@ -126,21 +126,21 @@ export default {
     };
   },
   methods: {
-    closeModal () {
+    closeModal() {
       this.$bvModal.hide('reserve-meal-modal');
     },
-    onShow () {
+    onShow() {
       this.maxCount = this.offerInfo.availableQuantity;
       this.availableCredits = this.userInfo.credits;
     },
-    onHidden () {
+    onHidden() {
       this.isReserved = false;
       this.$v.$reset();
       this.form.notes = null;
       this.form.servings = null;
       this.$emit('onModalHidden');
     },
-    onSubmit () {
+    onSubmit() {
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
@@ -154,6 +154,7 @@ export default {
         .then(result => {
           this.isReserved = true;
           this.$emit('onReserved', result.id, dataToPost.servings);
+          this.loadUserInfo();
         })
         .catch(err => {
           console.log('\n >> err > ', err);
@@ -167,10 +168,17 @@ export default {
           }
         })
     },
-    contactTheCook () {
+    loadUserInfo() {
+      api.dashboard.profile.userInfo()
+        .then((data) => {
+            this.$store.commit("userInfo", { ...data });
+        })
+        .catch((err) => {});
+    },
+    contactTheCook() {
       this.$bvModal.show('contact-cook-modal');
     },
-    browseMoreMeals () {
+    browseMoreMeals() {
       this.closeModal();
       this.$router.push({ path: '/dashboard/eat' }).catch(()=>{});
     }
@@ -179,7 +187,7 @@ export default {
     ...mapGetters({
       userInfo: "userInfo",
     }),
-    readyTimeStr: function () {
+    readyTimeStr: function() {
       return `Ready at ${helpers.parseDate(this.offerInfo.pickupTime, true)}`;
     },
     maxCountStr() {
@@ -201,7 +209,8 @@ export default {
     justify-content: center;
     align-items: center;
 
-    .pickup-time-title, .pickup-location-title {
+    .pickup-time-title,
+    .pickup-location-title {
       display: flex;
       justify-content: center;
       align-items: center;

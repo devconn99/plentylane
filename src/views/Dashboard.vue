@@ -280,10 +280,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import api from "../api";
 import SvgIcon from "../components/SvgIcon";
 import InviteFriendsViaCopyLinkModal from "../components/modals/InviteFriendsViaCopyLinkModal";
-import { mapGetters } from 'vuex';
 
 export default {
   name: "Dashboard",
@@ -351,10 +351,10 @@ export default {
       return this.user.username;
     },
     displayCredits: function () {
-      if (!this.user || !this.user.credits) {
+      if (!this.userInfo || !this.userInfo.credits) {
         return 0;
       }
-      return this.user.credits;
+      return this.userInfo.credits;
     },
     isDashboardPage: function () {
       return this.$route.path === "/dashboard";

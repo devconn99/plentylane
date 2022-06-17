@@ -32,12 +32,13 @@
 </template>
 
 <script>
-import SearchFilters from './SearchFilters';
-import OfferInfoBlock from './OfferInfoBlock';
-import api from '../api';
-import MapInfoWindow from './MapInfoWindow';
 import Vue from 'vue';
+import MapInfoWindow from './MapInfoWindow';
+import OfferInfoBlock from './OfferInfoBlock';
+import SearchFilters from './SearchFilters';
+import api from '../api';
 import helpers from '../helpers';
+
 export default {
   name: "MainSearch",
   components: {SearchFilters, OfferInfoBlock},

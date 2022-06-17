@@ -289,6 +289,12 @@ export default {
     isProfilePage: function () {
       return this.$route.path.includes("/profile");
     },
+    displayCredits: function () {
+      if (!this.userInfo || !this.userInfo.credits) {
+        return 0;
+      }
+      return this.userInfo.credits;
+    },
     navMenuItems() {
       const user = { ...this.$store.getters.userInfo };
       const navItems= [

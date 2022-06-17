@@ -30,7 +30,12 @@
             buttons
           >
             <template #first>
-              <b-form-radio :value="item.value" v-for="item in viewTypeOptions" @change="viewTypeChanged">
+              <b-form-radio
+                v-for="item in viewTypeOptions"
+                :value="item.value"
+                :key="item.value"
+                @change="viewTypeChanged"
+              >
                 <i :class="item.iconClass"></i>
                 <span class="pl-2">{{item.text}}</span>
               </b-form-radio>
