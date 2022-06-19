@@ -11,7 +11,8 @@ const initialState = () => {
       receiveNotifications: null,
       rating: null,
       credits: null,
-      subscription: null
+      subscription: null,
+      notification: null
     },
     browserCoordinates: {
       lat: null,
@@ -52,6 +53,9 @@ export default {
         ...state.userInfo,
         ...value
       };
+    },
+    userNotification(state,value) {
+      state.userInfo.notification = value;
     },
     setUserImage(state, data) {
       if (!state.userInfo.image) {

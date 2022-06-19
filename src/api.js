@@ -203,6 +203,17 @@ export default {
             return checkErr(err.response);
           });
       },
+      updateUserNotification(id,data) {
+        const endpoint = `${config.API_ORIGIN}/api/me/notification/${id}`;
+        return axios
+          .patch(endpoint, data)
+          .then((res) => {
+            return Promise.resolve(res.data || {});
+          })
+          .catch((err) => {
+            return checkErr(err.response);
+          });
+      },
       uploadImage(fileInfo) {
         const endpoint = `${config.API_ORIGIN}/api/me`;
         const _config = {
