@@ -214,6 +214,20 @@ export default {
             return checkErr(err.response);
           });
       },
+      updateUserLocation(lng,lat) {
+        const endpoint = `${config.API_ORIGIN}/api/me/update-location`;
+        return axios
+          .patch(endpoint, {
+            latitude:lat,
+            longitude:lng
+          })
+          .then((res) => {
+            return Promise.resolve(res.data || {});
+          })
+          .catch((err) => {
+            return checkErr(err.response);
+          });
+      },
       uploadImage(fileInfo) {
         const endpoint = `${config.API_ORIGIN}/api/me`;
         const _config = {

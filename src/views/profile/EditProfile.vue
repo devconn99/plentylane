@@ -20,7 +20,9 @@
             <SvgIcon icon="arrowLeft"></SvgIcon>
           </div>
         </div>
-        <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">Edit Profile</div>
+        <div class="dashboard-profile-title-text title-size3 titleGreenNavyColor">
+          Edit Profile
+        </div>
       </div>
 
       <b-form class="form" @submit.stop.prevent="onSubmit" v-if="!isLoading">
@@ -66,8 +68,10 @@
                 @focus="focusHandler"
                 @input="hideAlerts"
                 autocomplete="off"
-              ></b-form-input>
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.lastName.$dirty && !$v.form.lastName.required">This is a required field.</small>
+              />
+              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.lastName.$dirty && !$v.form.lastName.required">
+                This is a required field.
+              </small>
             </b-form-group>
             <b-form-group label="Email">
               <b-form-input
@@ -76,7 +80,7 @@
                 @focus="focusHandler"
                 @input="hideAlerts"
                 placeholder="Email Address"
-              ></b-form-input>
+              />
               <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">
                 Please enter valid email address.
               </small>
@@ -86,15 +90,21 @@
             </b-form-group>
             <b-form-group label="User Name">
               <b-form-input
-                  v-model.trim="$v.form.username.$model"
-                  type="text"
-                  @focus="focusHandler"
-                  @input="hideAlerts"
-                  placeholder="User Name"
-              ></b-form-input>
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.username.$dirty && !$v.form.username.required">This is a required field.</small>
-              <small class="text-danger d-flex mt-2" v-if="!$v.form.username.minLength">This field must be at least {{userNameMinLength}} characters long.</small>
-              <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.username.maxLength">This field must be shorter than or equal to {{userNameMaxLength}} characters.</small>
+                v-model.trim="$v.form.username.$model"
+                type="text"
+                @focus="focusHandler"
+                @input="hideAlerts"
+                placeholder="User Name"
+              />
+              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.username.$dirty && !$v.form.username.required">
+                This is a required field.
+              </small>
+              <small class="text-danger d-flex mt-2" v-if="!$v.form.username.minLength">
+                This field must be at least {{userNameMinLength}} characters long.
+              </small>
+              <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.username.maxLength">
+                This field must be shorter than or equal to {{userNameMaxLength}} characters.
+              </small>
             </b-form-group>
             <b-form-group label="Phone">
               <b-form-input
@@ -105,8 +115,12 @@
                 @input="hideAlerts"
                 autocomplete="off"
               ></b-form-input>
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && !$v.form.phone.required">This is a required field.</small>
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && $v.form.phone && !$v.form.phone.isValidPhone">Please enter valid phone.</small>
+              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && !$v.form.phone.required">
+                This is a required field.
+              </small>
+              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && $v.form.phone && !$v.form.phone.isValidPhone">
+                Please enter valid phone.
+              </small>
             </b-form-group>
           </div>
 
@@ -122,18 +136,18 @@
                 </template>
               </div>
               <input
-                  id="profile_photo_input"
-                  class="d-none"
-                  ref="fileInput"
-                  type="file"
-                  accept=".png, .jpg, .jpeg"
-                  @change="onFileChange"
+                id="profile_photo_input"
+                class="d-none"
+                ref="fileInput"
+                type="file"
+                accept=".png, .jpg, .jpeg"
+                @change="onFileChange"
               />
               <div class="box-btn mt-3 text-center">
                 <b-btn
-                    class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-3"
-                    ref="triggerSelectFileBtn"
-                    @click="triggerSelectNewAvatar"
+                  class="btnGreenTransparent btnNormalSize btn100 hover-slide-left mb-3"
+                  ref="triggerSelectFileBtn"
+                  @click="triggerSelectNewAvatar"
                 >
                   <span>Upload Image</span>
                 </b-btn>
@@ -141,34 +155,53 @@
                   v-if="hasOriginalImage()"
                   class="cursor-pointer delete-image-trigger"
                   @click="showConfirmRemovePhotoModal"
-                >Delete Image</p>
+                >
+                  Delete Image
+                </p>
               </div>
             </div>
             <h3>Notifications</h3>
               <b-form-group class="notifications-form-group mb-2">
                 <b-form-checkbox switch v-model="$v.form.receiveNotifications.$model">
-                  <span class="switch-text">Notifications are {{$v.form.receiveNotifications.$model ? 'On' : 'Off'}}</span>
+                  <span class="switch-text">
+                    Notifications are {{$v.form.receiveNotifications.$model ? 'On' : 'Off'}}
+                  </span>
                 </b-form-checkbox>
-            </b-form-group>
+              </b-form-group>
             <h5>Meal Notifications</h5>
             <b-form-group class="notifications-form-group my-2">
-              <b-form-checkbox switch v-model="notificationsForm.mealNotificationWithin5mi">
-                <span class="switch-text">0-5 miles {{notificationsForm.mealNotificationWithin5mi ? 'On' : 'Off'}}</span>
+              <b-form-checkbox :disabled="isEnable5Miles" switch v-model="notificationsForm.mealNotificationWithin5mi">
+                <span class="switch-text">
+                  0-5 miles {{notificationsForm.mealNotificationWithin5mi ? 'On' : 'Off'}}
+                </span>
               </b-form-checkbox>
             </b-form-group>
             <b-form-group class="notifications-form-group mb-2">
-              <b-form-checkbox switch v-model="notificationsForm.mealNotificationWithin10mi">
-                <span class="switch-text">0-10 miles {{notificationsForm.mealNotificationWithin10mi ? 'On' : 'Off'}}</span>
+              <b-form-checkbox :disabled="isEnable10Miles" switch v-model="notificationsForm.mealNotificationWithin10mi">
+                <span class="switch-text">
+                  0-10 miles {{notificationsForm.mealNotificationWithin10mi ? 'On' : 'Off'}}
+                </span>
               </b-form-checkbox>
             </b-form-group>
             <b-form-group class="notifications-form-group mb-2">
-              <b-form-checkbox switch v-model="notificationsForm.mealNotificationWithin15mi">
-                <span class="switch-text">0-15 miles {{notificationsForm.mealNotificationWithin15mi ? 'On' : 'Off'}}</span>
+              <b-form-checkbox :disabled="isEnable15Miles" switch v-model="notificationsForm.mealNotificationWithin15mi">
+                <span class="switch-text">
+                  0-15 miles {{notificationsForm.mealNotificationWithin15mi ? 'On' : 'Off'}}
+                </span>
               </b-form-checkbox>
             </b-form-group>
             <b-form-group class="notifications-form-group mb-2">
-              <b-form-checkbox switch v-model="notificationsForm.mealNotificationFavoriteCook">
-                <span class="switch-text">Favorite chef meal {{notificationsForm.mealNotificationFavoriteCook ? 'On' : 'Off'}}</span>
+              <b-form-checkbox :disabled="isEnableFavoriteCook" switch v-model="notificationsForm.mealNotificationFavoriteCook">
+                <span class="switch-text">
+                  Favorite chef meal {{notificationsForm.mealNotificationFavoriteCook ? 'On' : 'Off'}}
+                </span>
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group class="notifications-form-group mb-2">
+              <b-form-checkbox switch v-model="$v.form.receiveNotifications.$model">
+                <span class="switch-text">
+                  Other Notifications {{$v.form.receiveNotifications.$model ? 'On' : 'Off'}}
+                </span>
               </b-form-checkbox>
             </b-form-group>
           </div>
@@ -206,7 +239,7 @@ Anything else you would like members to know?"
     </div>
 
     <!-- Modals -->
-    <ConfirmModal :id="modalId" :message="confirmRemovePhotoMsg" @confirmed="deleteImage"></ConfirmModal>
+    <ConfirmModal :id="modalId" :message="confirmRemovePhotoMsg" @confirmed="deleteImage" />
   </div>
 </template>
 
@@ -303,6 +336,28 @@ export default {
       this.setFormValues(user);
       this.isLoading = false;
     }
+  },
+  computed: {
+    isEnable5Miles() {
+      return this.notificationsForm.mealNotificationWithin10mi
+             || this.notificationsForm.mealNotificationWithin15mi
+             || this.notificationsForm.mealNotificationFavoriteCook;
+    },
+    isEnable10Miles() {
+      return this.notificationsForm.mealNotificationWithin5mi
+             || this.notificationsForm.mealNotificationWithin15mi
+             || this.notificationsForm.mealNotificationFavoriteCook;
+    },
+    isEnable15Miles() {
+      return this.notificationsForm.mealNotificationWithin10mi
+             || this.notificationsForm.mealNotificationWithin5mi
+             || this.notificationsForm.mealNotificationFavoriteCook
+    },
+    isEnableFavoriteCook() {
+      return this.notificationsForm.mealNotificationWithin5mi
+             || this.notificationsForm.mealNotificationWithin10mi
+             || this.notificationsForm.mealNotificationWithin15mi;
+    },
   },
   methods: {
     setFormValues (data) {

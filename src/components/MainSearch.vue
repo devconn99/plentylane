@@ -65,6 +65,9 @@ export default {
     this.$eventHub.$on('browser-coordinates', (coordinates, additionalData) => {
       this.userCoordinates.lat = coordinates.lat;
       this.userCoordinates.lng = coordinates.lng;
+      api.dashboard.profile.updateUserLocation(coordinates.lng, coordinates.lat).catch(res => {
+
+      });
       this.handleInitSearch(additionalData);
     });
 
