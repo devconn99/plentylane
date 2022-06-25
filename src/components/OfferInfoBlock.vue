@@ -11,7 +11,7 @@
             <SvgIcon icon="mealPlaceholder"></SvgIcon>
           </template>
 
-          <div class="recept-box-title">
+          <div class="recept-box-title" v-if="offerInfo && offerInfo.meal">
             <div class="meal-name title-size3 titleLightColor cursor-pointer">
               {{offerInfo.meal.name}}
             </div>

@@ -6,11 +6,9 @@ export default {
   parseDate: function (inputDateStr, shouldCompareWithToday) {
     // should return date str in format: 5-6pm Tues, Feb. 1
     const date = new Date(inputDateStr);
-    const today = new Date();
-    const isToday = shouldCompareWithToday &&
-      today.getUTCFullYear() === date.getUTCFullYear() &&
-      today.getUTCMonth() === date.getUTCMonth() &&
-      today.getUTCDate() === date.getUTCDate();
+    const pickupTime = moment(date).local()
+    const now = moment().local();
+    const isToday = shouldCompareWithToday && pickupTime.isSame(now,'date');
 
     if (isToday) {
       const timeStr = moment(inputDateStr).local().format('hh:mma');
@@ -28,12 +26,9 @@ export default {
       }
     }
     const date = new Date(inputDateStr);
-    const today = new Date();
-    const isToday = (
-      today.getFullYear() === date.getFullYear()
-      && today.getMonth() === date.getMonth()
-      && today.getDate() === date.getDate()
-    );
+    const pickupTime = moment(date).local();
+    const now = moment().local();
+    const isToday = pickupTime.isSame(now,'date');
     const monthName = date.toLocaleDateString('en', { month: 'short' });
     const day = date.getDate();
     let hours = date.getHours();
@@ -48,12 +43,9 @@ export default {
   },
   parseNewMessageDate (inputDateStr) {
     const date = new Date(inputDateStr);
-    const today = new Date();
-    const isToday = (
-      today.getFullYear() === date.getFullYear()
-      && today.getMonth() === date.getMonth()
-      && today.getDate() === date.getDate()
-    );
+    const pickupTime = moment(date).local();
+    const now = moment().local();
+    const isToday = pickupTime.isSame(now,'date');
     const monthName = date.toLocaleDateString('en', { month: 'short' });
     const day = date.getDate();
     let hours = date.getHours();

@@ -139,7 +139,7 @@
                     @click.stop.prevent="redirectToPath(navItem.path)"
                   >
                     <SvgIcon :icon="navItem.iconName"></SvgIcon>
-                    <span>{{ navItem.text }}</span>
+                    <span class="text-nowrap">{{ navItem.text }}</span>
                   </div>
                 </li>
               </ul>

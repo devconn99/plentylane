@@ -361,7 +361,7 @@ export default {
       },
       network2: function () {
         return `
-          <svg width="16px" height="16px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <svg width="31px" height="24px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
             <g fill="none" fill-rule="evenodd">
               <path d="M421-184H-619v2191H421z" class="no-change"/>
               <g transform="translate(-233 -4)" filter="">

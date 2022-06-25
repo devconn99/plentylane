@@ -362,6 +362,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import Loading from 'vue-loading-overlay';
 import { mapGetters } from 'vuex';
 import api from '../api';
@@ -487,6 +488,13 @@ export default {
       }
     },
     openConfirmCancelReservation () {
+      const pickedTime = this.offerInfo.pickupTime;
+      const pickupTime = moment(pickedTime).local();
+      const now = moment().local();
+      const timeDifference = pickupTime.diff(now, 'hours');
+      if (timeDifference < 24) {
+        this.confirmCancelReservationMsg = "This meal will be ready in less than 24 hours. If you cancel now the cook will get to keep your tokens. Do you still want to cancel?";
+      }
       this.$bvModal.show(this.modalId);
     },
     onConfirmedCancelReservation () {
