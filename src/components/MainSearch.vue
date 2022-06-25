@@ -268,7 +268,7 @@ export default {
         query.push({
           type: defaultType,
           field: `${fieldPrefix}availableQuantity`,
-          condition: '$gte',
+          condition: '$gt',
           value: 0
         })
       }

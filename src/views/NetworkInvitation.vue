@@ -63,6 +63,7 @@
 
 <script>
 import Loading from 'vue-loading-overlay';
+import { mapGetters } from 'vuex';
 import api from '../api';
 import SvgIcon from '../components/SvgIcon';
 import config from '../config';
@@ -90,6 +91,9 @@ export default {
     this.manipulateInvitation();
   },
   computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
     inviteeUser() {
       return this.$route.query['user-name'];
     },
@@ -147,14 +151,16 @@ export default {
         inviteId: this.inviteId,
         type: "network"
       };
+      const userEmail = this.userInfo?.email;
       api.invitations.acceptAlreadyRegisteredInvitation(userData)
         .then(() => {
           this.isSubmitting = false;
           // this.showSuccessAlert = true;
           this.isValidInvitation=false;
-          if (this.token) {
+          if (this.token && userData.email == userEmail) {
             this.$router.push({ path: '/dashboard' });
           } else {
+	          localStorage.clear();
             this.$router.push({ path: '/invitation-success' });
           }
         })
@@ -174,7 +180,7 @@ export default {
           }
           this.isSubmitting = false;
           this.alert.show = 5;
-        })
+        });
     },
     countDownChanged(dismissCountDown ){
       this.alert.show = dismissCountDown;

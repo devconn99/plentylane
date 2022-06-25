@@ -41,7 +41,11 @@
       </b-btn>
     </div>
     <div class="box-btn" v-if="hasInviteAction">
-      <b-badge v-if="inviteActionCaption=='Rejected'" v-b-tooltip.hover title="Re invite">
+      <b-badge
+        v-if="inviteActionCaption=='Rejected' || inviteActionCaption=='Invited'"
+        v-b-tooltip.hover
+        title="Re invite"
+      >
         <i @click="reInvite" class="fas fa-sync cursor-pointer"></i>
       </b-badge>
       <b-btn

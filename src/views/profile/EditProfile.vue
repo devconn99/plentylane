@@ -161,46 +161,57 @@
               </div>
             </div>
             <h3>Notifications</h3>
-              <b-form-group class="notifications-form-group mb-2">
-                <b-form-checkbox switch v-model="$v.form.receiveNotifications.$model">
-                  <span class="switch-text">
-                    Notifications are {{$v.form.receiveNotifications.$model ? 'On' : 'Off'}}
-                  </span>
-                </b-form-checkbox>
-              </b-form-group>
-            <h5>Meal Notifications</h5>
-            <b-form-group class="notifications-form-group my-2">
-              <b-form-checkbox :disabled="isEnable5Miles" switch v-model="notificationsForm.mealNotificationWithin5mi">
-                <span class="switch-text">
-                  0-5 miles {{notificationsForm.mealNotificationWithin5mi ? 'On' : 'Off'}}
-                </span>
-              </b-form-checkbox>
-            </b-form-group>
-            <b-form-group class="notifications-form-group mb-2">
-              <b-form-checkbox :disabled="isEnable10Miles" switch v-model="notificationsForm.mealNotificationWithin10mi">
-                <span class="switch-text">
-                  0-10 miles {{notificationsForm.mealNotificationWithin10mi ? 'On' : 'Off'}}
-                </span>
-              </b-form-checkbox>
-            </b-form-group>
-            <b-form-group class="notifications-form-group mb-2">
-              <b-form-checkbox :disabled="isEnable15Miles" switch v-model="notificationsForm.mealNotificationWithin15mi">
-                <span class="switch-text">
-                  0-15 miles {{notificationsForm.mealNotificationWithin15mi ? 'On' : 'Off'}}
-                </span>
-              </b-form-checkbox>
-            </b-form-group>
-            <b-form-group class="notifications-form-group mb-2">
-              <b-form-checkbox :disabled="isEnableFavoriteCook" switch v-model="notificationsForm.mealNotificationFavoriteCook">
-                <span class="switch-text">
-                  Favorite chef meal {{notificationsForm.mealNotificationFavoriteCook ? 'On' : 'Off'}}
-                </span>
-              </b-form-checkbox>
-            </b-form-group>
+
             <b-form-group class="notifications-form-group mb-2">
               <b-form-checkbox switch v-model="$v.form.receiveNotifications.$model">
                 <span class="switch-text">
-                  Other Notifications {{$v.form.receiveNotifications.$model ? 'On' : 'Off'}}
+                  Notifications are {{$v.form.receiveNotifications.$model ? 'On' : 'Off'}}
+                </span>
+              </b-form-checkbox>
+            </b-form-group>
+            <h5>Meal Notification</h5>
+
+            <b-form-group class="notifications-form-group my-2">
+              <b-form-checkbox
+                :disabled="!enableAllNotifications || isEnable5Miles"
+                switch
+                v-model="notificationsForm.mealNotificationWithin5mi"
+              >
+                <span class="switch-text">
+                  0-5 miles
+                </span>
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group class="notifications-form-group mb-2">
+              <b-form-checkbox
+                :disabled="!enableAllNotifications || isEnable10Miles"
+                switch
+                v-model="notificationsForm.mealNotificationWithin10mi"
+              >
+                <span class="switch-text">
+                  0-10 miles
+                </span>
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group class="notifications-form-group mb-2">
+              <b-form-checkbox
+                :disabled="!enableAllNotifications || isEnable15Miles"
+                switch
+                v-model="notificationsForm.mealNotificationWithin15mi"
+              >
+                <span class="switch-text">
+                  0-15 miles
+                </span>
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group class="notifications-form-group mb-2">
+              <b-form-checkbox
+                :disabled="!enableAllNotifications || isEnableFavoriteCook"
+                switch
+                v-model="notificationsForm.mealNotificationFavoriteCook"
+              >
+                <span class="switch-text">
+                  Favorite chef meal only.
                 </span>
               </b-form-checkbox>
             </b-form-group>
@@ -338,6 +349,9 @@ export default {
     }
   },
   computed: {
+        enableAllNotifications(){
+            return !!this.form.receiveNotifications
+        },
     isEnable5Miles() {
       return this.notificationsForm.mealNotificationWithin10mi
              || this.notificationsForm.mealNotificationWithin15mi
