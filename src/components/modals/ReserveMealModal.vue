@@ -31,7 +31,7 @@
           ></b-form-input>
           <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.servings.$dirty && !$v.form.servings.required">This is a required field.</small>
           <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.minValue">Minimum number of servings is {{minCount}}.</small>
-          <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.servings.maxValue">{{maxCountStr}}</small>
+          <small class="text-danger d-flex mt-2 text-left font-weight-bold" v-if="!$v.form.servings.maxValue">{{maxCountStr}}</small>
         </b-form-group>
         <b-form-group label="Notes for Cook">
           <textarea
@@ -193,7 +193,7 @@ export default {
     maxCountStr() {
       return this.availableCredits > this.maxCount
         ? `Maximum number of servings is ${this.maxCount}.`
-        : `Available tokens are ${this.availableCredits}.`;
+        : `Available tokens are ${this.availableCredits}. Cook for your neighbors to earn more tokens!`;
     }
   }
 }

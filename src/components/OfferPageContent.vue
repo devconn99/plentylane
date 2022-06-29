@@ -95,15 +95,13 @@
               </b-btn>
 
               <b-btn
-                class="btnCGRed btnBigSize btn100 text-uppercase hover-slide-left mb-4"
+                class="btnCGRed btnNormalSize btn100 text-uppercase hover-slide-left mb-4"
                 v-else-if="!isAbleToReserve"
                 @click="openAddToNetworkDialog"
               >
                 <span>
-                  <div>
-                    Add to Network
-                    <p class="text-lowercase">to reserve a meal</p>
-                  </div>
+                  Add to Network
+                  <p class="text-lowercase">to reserve a meal</p>
                 </span>
               </b-btn>
 

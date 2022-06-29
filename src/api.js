@@ -21,7 +21,7 @@ axios.interceptors.request.use(
   }
 );
 const getTodayStartStr = () => {
-  return moment.utc().format("YYYY-MM-DDT00:00:00.000") + "Z";
+  return moment().format("YYYY-MM-DDTHH:mm:ss.000") + "Z";
 };
 const getDefaultPickupTimeNotInPastFilter = (prefix) => {
   if (!prefix || !prefix.length) {

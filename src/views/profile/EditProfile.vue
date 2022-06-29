@@ -173,9 +173,9 @@
 
             <b-form-group class="notifications-form-group my-2">
               <b-form-checkbox
-                :disabled="!enableAllNotifications || isEnable5Miles"
                 switch
-                v-model="notificationsForm.mealNotificationWithin5mi"
+                :checked="notificationsForm.mealNotificationWithin5mi"
+                @change="updateNotificationsForm('mealNotificationWithin5mi',$event)"
               >
                 <span class="switch-text">
                   0-5 miles
@@ -184,9 +184,9 @@
             </b-form-group>
             <b-form-group class="notifications-form-group mb-2">
               <b-form-checkbox
-                :disabled="!enableAllNotifications || isEnable10Miles"
                 switch
-                v-model="notificationsForm.mealNotificationWithin10mi"
+                :checked="notificationsForm.mealNotificationWithin10mi"
+                @change="updateNotificationsForm('mealNotificationWithin10mi',$event)"
               >
                 <span class="switch-text">
                   0-10 miles
@@ -195,9 +195,9 @@
             </b-form-group>
             <b-form-group class="notifications-form-group mb-2">
               <b-form-checkbox
-                :disabled="!enableAllNotifications || isEnable15Miles"
                 switch
-                v-model="notificationsForm.mealNotificationWithin15mi"
+                :checked="notificationsForm.mealNotificationWithin15mi"
+                @change="updateNotificationsForm('mealNotificationWithin15mi',$event)"
               >
                 <span class="switch-text">
                   0-15 miles
@@ -206,9 +206,9 @@
             </b-form-group>
             <b-form-group class="notifications-form-group mb-2">
               <b-form-checkbox
-                :disabled="!enableAllNotifications || isEnableFavoriteCook"
                 switch
-                v-model="notificationsForm.mealNotificationFavoriteCook"
+                :checked="notificationsForm.mealNotificationFavoriteCook"
+                @change="updateNotificationsForm('mealNotificationFavoriteCook',$event)"
               >
                 <span class="switch-text">
                   Favorite chef meal only.
@@ -468,6 +468,12 @@ export default {
             this.hideAlerts();
           }, 2000);
         })
+    },
+    updateNotificationsForm(type,value) {
+      this.notificationsForm.mealNotificationWithin5mi = type == "mealNotificationWithin5mi" ? value : !value;
+      this.notificationsForm.mealNotificationWithin10mi = type == "mealNotificationWithin10mi" ? value : !value;
+      this.notificationsForm.mealNotificationWithin15mi =  type == "mealNotificationWithin15mi" ? value : !value;
+      this.notificationsForm.mealNotificationFavoriteCook =  type == "mealNotificationFavoriteCook" ? value : !value;
     },
     triggerSelectNewAvatar () {
       this.$refs.fileInput.click();
