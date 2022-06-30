@@ -96,7 +96,7 @@
 
               <b-btn
                 class="btnCGRed btnNormalSize btn100 text-uppercase hover-slide-left mb-4"
-                v-else-if="!isAbleToReserve"
+                v-else-if="isAbleToReserve === false"
                 @click="openAddToNetworkDialog"
               >
                 <span>
@@ -411,7 +411,7 @@ export default {
     isProcessing: false,
     userToInvite: null,
     invitationId: null,
-    isAbleToReserve: false,
+    isAbleToReserve: null,
     reservationId: '',
     numberOfServingsReserved: 0,
     confirmCancelReservationMsg: 'Are you sure you want to cancel reservation?',
@@ -602,15 +602,11 @@ export default {
     },
     loadInvitation() {
       const { id } = this.userInfo;
-      const { id: cookId } = this.offerInfo.user;
       if (id) {
-        api.dashboard.follows.getUserFriends(id).then(res => {
-          if(res?.length) {
-            const currentCookIndex = res.findIndex(res1 => res1.followerId == cookId || res1.followingId == cookId);
-            this.isAbleToReserve = currentCookIndex >= 0;
-          }
-        }).catch(err=>{
-          this.isAbleToReserve = false
+        api.dashboard.follows.getMyNetworks().then(result => {
+          const allNetworks = result?.data?.length ? result.data : [];
+          const currentCookIndex = allNetworks.findIndex(res => res.followerId == id || res.followingId == id);
+          this.isAbleToReserve = currentCookIndex >= 0;
         });
       }
     }
@@ -640,8 +636,7 @@ export default {
     if (this.shouldLoadMoreOffers && this.offerInfo && this.offerInfo.user && this.offerInfo.user.id) {
       this.loadMoreOffersFromSameCook();
     }
-  },
-  mounted() {
+
     this.loadInvitation();
   }
 }

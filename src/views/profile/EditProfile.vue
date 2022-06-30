@@ -56,7 +56,10 @@
                 @input="hideAlerts"
                 autocomplete="off"
               />
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.firstName.$dirty && !$v.form.firstName.required">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="$v.form.firstName.$dirty && !$v.form.firstName.required"
+              >
                 This is a required field.
               </small>
             </b-form-group>
@@ -69,7 +72,10 @@
                 @input="hideAlerts"
                 autocomplete="off"
               />
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.lastName.$dirty && !$v.form.lastName.required">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="$v.form.lastName.$dirty && !$v.form.lastName.required"
+              >
                 This is a required field.
               </small>
             </b-form-group>
@@ -81,10 +87,16 @@
                 @input="hideAlerts"
                 placeholder="Email Address"
               />
-              <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="!$v.form.email.email"
+              >
                 Please enter valid email address.
               </small>
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="$v.form.email.$dirty && !$v.form.email.required"
+              >
                 This is a required field.
               </small>
             </b-form-group>
@@ -96,13 +108,22 @@
                 @input="hideAlerts"
                 placeholder="User Name"
               />
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.username.$dirty && !$v.form.username.required">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="$v.form.username.$dirty && !$v.form.username.required"
+              >
                 This is a required field.
               </small>
-              <small class="text-danger d-flex mt-2" v-if="!$v.form.username.minLength">
+              <small
+                class="text-danger d-flex mt-2"
+                v-if="!$v.form.username.minLength"
+              >
                 This field must be at least {{userNameMinLength}} characters long.
               </small>
-              <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.username.maxLength">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="!$v.form.username.maxLength"
+              >
                 This field must be shorter than or equal to {{userNameMaxLength}} characters.
               </small>
             </b-form-group>
@@ -115,10 +136,16 @@
                 @input="hideAlerts"
                 autocomplete="off"
               ></b-form-input>
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && !$v.form.phone.required">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="$v.form.phone.$dirty && !$v.form.phone.required"
+              >
                 This is a required field.
               </small>
-              <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phone.$dirty && $v.form.phone && !$v.form.phone.isValidPhone">
+              <small
+                class="text-danger d-flex mt-2 text-left"
+                v-if="$v.form.phone.$dirty && $v.form.phone && !$v.form.phone.isValidPhone"
+              >
                 Please enter valid phone.
               </small>
             </b-form-group>
@@ -349,9 +376,9 @@ export default {
     }
   },
   computed: {
-        enableAllNotifications(){
-            return !!this.form.receiveNotifications
-        },
+    enableAllNotifications() {
+        return !!this.form.receiveNotifications;
+    },
     isEnable5Miles() {
       return this.notificationsForm.mealNotificationWithin10mi
              || this.notificationsForm.mealNotificationWithin15mi
@@ -467,7 +494,7 @@ export default {
           setTimeout(() => {
             this.hideAlerts();
           }, 2000);
-        })
+        });
     },
     updateNotificationsForm(type,value) {
       this.notificationsForm.mealNotificationWithin5mi = type == "mealNotificationWithin5mi" ? value : !value;
@@ -493,7 +520,7 @@ export default {
         .catch(err => {
           console.log('\n >> err > ', err);
           this.isSubmitting = false;
-        })
+        });
     },
     onFileChange (event) {
       this.$nextTick(() => {

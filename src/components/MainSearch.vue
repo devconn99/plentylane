@@ -59,7 +59,8 @@ export default {
     mapInfoWindows: {},
     defaultMapZoom: 16,
     _infoWindowComponent: null,
-    _infoWindowComponentInstance: null
+    _infoWindowComponentInstance: null,
+    favoriteUsers: []
   }),
   created () {
     this.$eventHub.$on('browser-coordinates', (coordinates, additionalData) => {
@@ -68,6 +69,7 @@ export default {
       api.dashboard.profile.updateUserLocation(coordinates.lng, coordinates.lat).catch(res => {
 
       });
+      this.getFavorites();
       this.handleInitSearch(additionalData);
     });
 
@@ -124,6 +126,11 @@ export default {
         .catch(() => {
           if (_cb) _cb();
         });
+    },
+    getFavorites() {
+      api.dashboard.follows.getMyFavorites().then(result => {
+        this.favoriteUsers = result.data;
+      });
     },
     onFiltersChanged (model) {
       this.searchStr = model['name'] || '';

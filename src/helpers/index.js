@@ -77,12 +77,13 @@ export default {
     }
     return options;
   },
-  getMarkerTemplate (item) {
+  getMarkerTemplate(item, isFavorite) {
     const classNameTextAvailable = `num-of-symbols_${item.availableQuantity.toString().length}`;
     const classNameTextTotal = `num-of-symbols_${item.quantity.toString().length}`;
+    const markerClass = isFavorite ? "favorite-marker-icon-holder" : "marker-icon-holder";
 
     const markerLabelTemplate = `
-      <div class="marker-icon-holder"></div>
+      <div class=${markerClass}></div>
       <div class="marker-label-holder">
         <div class="marker-label-container">
           <div class="marker-label-line"></div>
