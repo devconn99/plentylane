@@ -221,6 +221,16 @@ const routes = [
     },
   },
   {
+    path: "/post-answer",
+    name: "PostAnswer",
+    component: () => import("../views/PostAnswer.vue"),
+    meta: {
+      title: `${TITLE} - Answer`,
+      skipHidingLoader: true,
+      isPublic: true
+    },
+  },
+  {
     path: "/dashboard",
     component: () => import("../views/Dashboard.vue"),
     meta: {

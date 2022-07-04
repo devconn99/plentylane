@@ -480,6 +480,18 @@ export default {
             return checkErr(err.response);
           });
       },
+
+      cookAnswerByMealId(mealId, data) {
+        const endpoint = `${config.API_ORIGIN}/api/meals/${mealId}/post-answer`;
+        return axios
+          .post(endpoint, data)
+          .then((res) => {
+            return Promise.resolve(res.data || {});
+          })
+          .catch((err) => {
+            return checkErr(err.response);
+          });
+      },
     },
     places: {
       getPlaces() {
