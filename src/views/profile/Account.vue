@@ -81,7 +81,7 @@ export default {
       userInfo: "userInfo",
     }),
     getPlanName() {
-      const planId=this.userDetails?.subscription?.plan?.id
+      const planId = this.userInfo?.subscription?.plan?.id;
       if (planId) {
         const obj = config.STRIPE_INFO.PRICE;
         return Object.keys(obj).find((key)=> {

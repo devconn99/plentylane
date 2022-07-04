@@ -213,6 +213,7 @@ export default {
     isLoadingMeals: false,
     isLoadingReservations: false,
     isLoadingOffers: false,
+    mealToRePost: null,
     meals: [],
     reservations: [],
     offers: [],

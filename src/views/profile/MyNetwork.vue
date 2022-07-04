@@ -12,7 +12,7 @@
       >
         <p>{{ alert.msg }}</p>
       </b-alert>
-            <div class="dashboard-title-box d-flex flex-row align-items-center mb-2 mt-2 mt-lg-3">
+      <div class="dashboard-title-box d-flex flex-row align-items-center mb-2 mt-2 mt-lg-3">
         <div class="dashboard-profile-title-back mr-2 mr-md-3">
           <div class="cursor-pointer" @click="showMobileAside">
             <SvgIcon icon="arrowLeft"></SvgIcon>

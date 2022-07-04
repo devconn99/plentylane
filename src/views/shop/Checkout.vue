@@ -378,7 +378,7 @@ export default {
         ]
       }
       try {
-        const session = await api.payment.createCheckoutSession(data)
+        const session = await api.payment.createCheckoutSession(data);
         this.sessionId = session?.id;
         this.$refs.checkoutRef.redirectToCheckout(); 
       } catch (error) {

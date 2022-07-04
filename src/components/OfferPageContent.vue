@@ -99,7 +99,7 @@
                 v-else-if="isAbleToReserve === false"
                 @click="openAddToNetworkDialog"
               >
-                <span>
+                <span class="d-block pb-2 pt-3">
                   Add to Network
                   <p class="text-lowercase">to reserve a meal</p>
                 </span>
@@ -601,7 +601,7 @@ export default {
         });
     },
     loadInvitation() {
-      const { id } = this.userInfo;
+      const { id } = this.offerInfo.user;
       if (id) {
         api.dashboard.follows.getMyNetworks().then(result => {
           const allNetworks = result?.data?.length ? result.data : [];

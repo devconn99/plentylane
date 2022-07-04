@@ -160,7 +160,7 @@ export default {
           if (this.token && userData.email == userEmail) {
             this.$router.push({ path: '/dashboard' });
           } else {
-	          localStorage.clear();
+            localStorage.clear();
             this.$router.push({ path: '/invitation-success' });
           }
         })

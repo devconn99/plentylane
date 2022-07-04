@@ -75,16 +75,19 @@ export default {
     }
   },
   methods: {
-    emitRedirectToCookProfile () {
+    emitRedirectToCookProfile() {
       this.$emit('redirect-to-cook-profile');
     },
-    emitRemoveUser () {
+    emitRemoveUser() {
       this.$emit('remove-user');
     },
-    emitInviteUser () {
+    emitInviteUser() {
       this.$emit('invite-user');
     },
-    getButtonColor (caption) {
+    reInvite() {
+      this.$emit("re-invite");
+    },
+    getButtonColor(caption) {
       switch (caption) {
         case 'Invite':
           return 'btnInviteYellow';

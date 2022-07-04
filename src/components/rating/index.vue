@@ -52,22 +52,18 @@ export default {
   watch:{
     value:{
       handler: function (newVal) {
-        this.manipulateRating()   
+        this.manipulateRating();
       },
-      immediate:true
+      immediate: true,
     }
   },
   mounted(){
-    this.manipulateRating()
+    this.manipulateRating();
   },
   methods: {
     updateRatingValue(index) {
       this.totalRatings.forEach((res) => {
-        if (res.index <= index) {
-          res.rated = true;
-        } else {
-          res.rated = false;
-        }
+        res.rated = res.index <= index;
       });
       const rate = (this.totalRatings[index].index + 1);
       this.$emit("input", rate);

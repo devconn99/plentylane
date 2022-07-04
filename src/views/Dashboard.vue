@@ -433,7 +433,7 @@ export default {
       const { id } = this.userInfo?.subscription;
 
       try {
-        const subscription = await api.payment.getSubscription(id)
+        const subscription = await api.payment.getSubscription(id);
         this.$store.commit('updateSubscription', subscription);
       } catch (error) {
         console.log(error)
