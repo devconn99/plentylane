@@ -18,7 +18,10 @@
           name="dietaryNotes"
         />
       </b-form-group>
-      <div class="meal-time-container" v-if="!hiddenFields || !hiddenFields.length || !hiddenFields.includes('pickupTime')">
+      <div
+        class="meal-time-container"
+        v-if="!hiddenFields || !hiddenFields.length || !hiddenFields.includes('pickupTime')"
+      >
         <p class="mb-2 form-label-text">Meal availability</p>
         <div class="d-flex meal-time-container-controls">
           <b-form-group>
@@ -27,6 +30,7 @@
               v-model="$v.form.pickupTime.$model"
               placeholder=""
               name="pickupTime"
+              :state="isValidSelectedTime"
               locale="en"
               hide-header
               no-close-button
@@ -67,7 +71,10 @@
           <b-form-group class="location-select">
             <b-form-select v-model="$v.form.placeId.$model" :options="locationOptions"></b-form-select>
           </b-form-group>
-          <b-btn class="add-location-button btnGreenTransparent btnNormalSize hover-slide-left" v-b-modal.location-modal>
+          <b-btn
+            class="add-location-button btnGreenTransparent btnNormalSize hover-slide-left"
+            v-b-modal.location-modal
+          >
             <span>
               <i class="fas fa-plus"></i>
               New Location
@@ -129,10 +136,24 @@ export default {
     }
     return { form: form };
   },
+  computed: {
+    isValidSelectedTime() {
+      const selectedDate = this.form.pickupTime;
+      const selectedTime = this.form.pickupDate;
+
+      if (selectedDate && selectedTime) {
+        const selectedDateMom = moment(selectedDate).add(selectedTime);
+        const now = moment();
+        return selectedDateMom.isAfter(now)
+      } else {
+        return null;
+      }
+    }
+  },
   methods: {
     validate () {
       this.$v.form.$touch();
-      const isValid = !this.$v.form.$invalid;
+      const isValid = !this.$v.form.$invalid && this.isValidSelectedTime;
       const data = { dietaryNotes: [] };
       if (this.$data.form.dietaryNotes && this.$data.form.dietaryNotes.length) {
         data.dietaryNotes = this.$data.form.dietaryNotes.map(item => ({ label: item }));
@@ -159,7 +180,7 @@ export default {
       return isValid;
     },
     isFormValid () {
-      return !this.$v.form.$invalid;
+      return !this.$v.form.$invalid && this.isValidSelectedTime;
     },
     onNewLocationAdded (place) {
       this.locationOptions.push({ value: place.id, text: place.alias });
@@ -338,7 +359,10 @@ export default {
       svg {
         margin-top: -3px;
       }
-      i.fa, i.fas, i.far, i.fab {
+    i.fa,
+    i.fas,
+    i.far,
+    i.fab {
         margin-top: -5px;
       }
     }
