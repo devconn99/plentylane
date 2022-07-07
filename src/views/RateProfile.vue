@@ -3,7 +3,8 @@
     <b-alert
       @dismiss-count-down="countDownChanged"
       :show="alert.show"
-      fade dismissible
+      fade
+      dismissible
       class="d-alert position-absolute"
       style="width: 100%"
       :variant="alert.variant"
@@ -27,19 +28,24 @@
             <span>{{ tag }}</span>
           </b-button>
         </span>
+
         <b-form-group label="Review" class="mt-2">
-          <b-textarea v-model="rating.review" rows="5" />
+          <textarea autocomplete="off" v-model="rating.review" rows="5" />
         </b-form-group>
         <span class="d-flex mt-2">
-          <b-badge v-for="(remark,i) in selectedRemarks" :key="i" :class="{'ml-2':i>0}">
-            {{remark}}
+          <b-badge
+            v-for="(remark, i) in selectedRemarks"
+            :key="i"
+            :class="{ 'ml-2': i > 0 }"
+          >
+            {{ remark }}
           </b-badge>
         </span>
-        
+
         <b-button
           @click="updateRating()"
           class="mt-2 btnGreen btnBigSize btn50 text-uppercase hover-slide-left"
-	        :disabled="!ratingId"
+          :disabled="!ratingId"
         >
           <span>Rate</span>
         </b-button>
@@ -129,7 +135,15 @@ export default {
 
       api.ratings.getRatingByUUID(uuid).then(res => {
         if (res.id) {
-          this.ratingId=res.id
+          if (res.status !== "opened") {
+            this.ratingId = res.id
+          } else {
+            this.alert = {
+              variant: 'danger',
+              msg: "Rating is invalid or already reviewed!",
+              show: 5
+            }
+          }
         }
       }).catch(err => {
 
@@ -157,8 +171,9 @@ export default {
             msg: "Rating post successful!",
             show: 5
           }
-          localStorage.removeItem("plAccessToken")
-          this.$router.push("/")
+          this.$router.push("/dashboard")
+          // localStorage.removeItem("plAccessToken")
+          // this.$router.push("/")
         }).catch(err => {
           this.alert = {
             variant: 'danger',

@@ -138,8 +138,8 @@ export default {
   },
   computed: {
     isValidSelectedTime() {
-      const selectedDate = this.form.pickupTime;
-      const selectedTime = this.form.pickupDate;
+      const selectedDate = this.form.pickupDate;
+      const selectedTime = this.form.pickupTime;
 
       if (selectedDate && selectedTime) {
         const selectedDateMom = moment(selectedDate).add(selectedTime);

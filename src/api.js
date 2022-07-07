@@ -342,7 +342,7 @@ export default {
           });
       },
       getMyMeals(page) {
-        let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images&join=offers&join=offers.rating`;
+        let endpoint = `${config.API_ORIGIN}/api/me/meals?join=images&join=offers&join=offers.ratings`;
         if (page) {
           endpoint += `&page=${page}`;
         }

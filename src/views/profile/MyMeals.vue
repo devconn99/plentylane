@@ -196,13 +196,13 @@
 </template>
 
 <script>
-import api from '../../api';
 import Loading from 'vue-loading-overlay';
+import api from '../../api';
 import BookingInfoBlock from '../../components/BookingInfoBlock';
 import ConfirmModal from '../../components/modals/ConfirmModal';
 import OfferInfoBlock from '../../components/OfferInfoBlock';
-import config from "../../config";
 import SvgIcon from '../../components/SvgIcon';
+import config from "../../config";
 
 export default {
   name: "MyMeals",
@@ -260,7 +260,7 @@ export default {
     offerActions: [{ title: 'Re-Post', name: 're-post' }, { title: 'Edit', name: 'edit' }, { title: 'Cancel', name: 'remove' }],
     offerToRemove: ''
   }),
-  created () {
+  created() {
     const _index = this.$store.getters.myOffersActiveTabIndexOnInit;
     if (_index !== 0) {
       this.$store.commit('myOffersActiveTabIndexOnInit', 0);
@@ -272,7 +272,7 @@ export default {
     this.loadMeals();
   },
   methods: {
-    loadMeals () {
+    loadMeals() {
       this.isLoadingMeals = true;
       api.dashboard.meals.getMyMeals(this.mealPagination.page)
         .then(result => {
@@ -290,7 +290,7 @@ export default {
           this.isLoadingMeals = false;
         })
     },
-    loadMoreMeals () {
+    loadMoreMeals() {
       if (this.mealPagination.isLastPage) return;
       this.mealPagination.page++;
       this.$nextTick(() => {
@@ -300,7 +300,7 @@ export default {
       });
       this.loadMeals();
     },
-    loadReservations () {
+    loadReservations() {
       this.isLoadingReservations = true;
       // need to include all bookings, even in past (first argument of `getMyDines` should be false)
       api.dashboard.bookings.getMyDines(false, false, this.dinesPagination.page)
@@ -319,7 +319,7 @@ export default {
           this.isLoadingReservations = false;
         })
     },
-    loadMoreReservations () {
+    loadMoreReservations() {
       if (this.dinesPagination.isLastPage) return;
       this.dinesPagination.page++;
       this.$nextTick(() => {
@@ -329,7 +329,7 @@ export default {
       });
       this.loadReservations();
     },
-    onTabSwitched (tabIndex) {
+    onTabSwitched(tabIndex) {
       switch (tabIndex) {
         case 0:
           if (!this.mealPagination.loaded) {
@@ -350,19 +350,22 @@ export default {
           break;
       }
     },
-    redirectToEditMealPage (id) {
+    redirectToEditMealPage(id) {
       if (!id) return;
       this.$router.push({ path: `/dashboard/edit-meal/${id}` });
     },
-    removeMeal (id) {
+    removeMeal(id) {
       this.mealToRemove = id;
       this.$bvModal.show(this.modalMealInfo.id);
     },
-    averageRating(item){
-      const totalRatings = item.offers.reduce((a,b) => a+b?.rating?.rating, 0);
-      return totalRatings/item.offers.length
+    averageRating(item) {
+      const ratings = item.offers.flatMap(a => a.ratings);
+      if (ratings.length == 0) return 0;
+
+      const totalRatings = ratings.reduce((a, b) => a + b?.rating, 0);
+      return totalRatings/ratings.length;
     },
-    onModalMealConfirm () {
+    onModalMealConfirm() {
       if (!this.mealToRemove) return;
       this.isLoadingMeals = true;
       api.dashboard.meals.removeMyMeal(this.mealToRemove)
@@ -379,22 +382,22 @@ export default {
           this.mealToRemove = '';
         })
     },
-    onModalMealCancel () {
+    onModalMealCancel() {
       this.mealToRemove = '';
     },
-    onActionView (id) {
+    onActionView(id) {
       if (!id) return;
       this.$router.push({ path: `/dashboard/booking/${id}` }).catch(()=>{});
     },
-    onActionCancel (id) {
+    onActionCancel(id) {
       if (!id) return;
       this.openConfirmCancelReservationModal(id);
     },
-    openConfirmCancelReservationModal (id) {
+    openConfirmCancelReservationModal(id) {
       this.reservationToRemove = id;
       this.$bvModal.show(this.modalDineInfo.id);
     },
-    onModalDineConfirm () {
+    onModalDineConfirm() {
       if (!this.reservationToRemove) return;
       this.isLoadingReservations = true;
 
@@ -411,10 +414,10 @@ export default {
           this.isLoadingReservations = false;
         })
     },
-    onModalDineCancel () {
+    onModalDineCancel() {
       this.reservationToRemove = '';
     },
-    loadOffers () {
+    loadOffers() {
       this.isLoadingOffers = true;
       api.dashboard.offers.getMyOffers(false, false, this.offersPagination.page)
         .then(result => {
@@ -432,7 +435,7 @@ export default {
           this.isLoadingOffers = false;
         })
     },
-    loadMoreOffers () {
+    loadMoreOffers() {
       if (this.offersPagination.isLastPage) return;
       this.offersPagination.page++;
       this.$nextTick(() => {
@@ -442,36 +445,36 @@ export default {
       });
       this.loadOffers();
     },
-    openConfirmRemoveOfferModal (id) {
+    openConfirmRemoveOfferModal(id) {
       this.offerToRemove = id;
       this.$bvModal.show(this.modalOfferInfo.id);
     },
-    openConfirmRePost(post){
+    openConfirmRePost(post) {
       this.mealToRePost = post.meal;
       this.$bvModal.show(this.modalRePost.id);
     },
-    onActionRemoveOffer (id) {
+    onActionRemoveOffer(id) {
       if (!id) return;
       this.openConfirmRemoveOfferModal(id);
     },
-    onActionEditOffer (id) {
+    onActionEditOffer(id) {
       if (!id) return;
       this.$router.push({ path: `/dashboard/edit-offer/${id}` }).catch(()=>{});
     },
-    closeModalWithValue () {
+    closeModalWithValue() {
       if (this.mealToRePost && this.mealToRePost.id) {
         const { id = '', name = '', description = '', dietaryNotes = [], images = [] } = this.mealToRePost;
         this.$store.commit('copiedMealInfo', { id, name, description, dietaryNotes, images });
         this.$router.push({ path: '/dashboard/cook/new-meal' }).catch(() => {});
       }
     },
-    onModalOfferCancel () {
+    onModalOfferCancel() {
       this.offerToRemove = '';
     },
     onModalRePostCancel() {
       this.mealToRePost = null;
     },
-    onModalOfferConfirm () {
+    onModalOfferConfirm() {
       if (!this.offerToRemove) return;
       this.isLoadingOffers = true;
 
@@ -488,25 +491,25 @@ export default {
           this.isLoadingOffers = false;
         })
     },
-    showMobileAside () {
+    showMobileAside() {
       this.$eventHub.$emit('show-mobile-profile-aside');
     },
-    hasMealImage (item) {
+    hasMealImage(item) {
       if (!item || !item.id) return false;
       const images = item.images;
       if (!images || !images.length) return false;
       return images[0].thumbnail && images[0].thumbnail.length > 0;
     },
-    getMealImageThumbnail (item) {
+    getMealImageThumbnail(item) {
       if (!this.hasMealImage(item)) return '';
       return item.images[0].thumbnail || '';
     },
-    shouldShowRatingForm (booking) {
+    shouldShowRatingForm(booking) {
       if (!booking || !booking.id) return false;
       if (!booking.offer || !booking.offer.pickupTime) return false;
       return new Date(booking.offer.pickupTime).getTime() < new Date().getTime();
     },
-    onBookingRatingChanged (ratingValue, bookingId) {
+    onBookingRatingChanged(ratingValue, bookingId) {
       api.dashboard.bookings.changeRating(bookingId, ratingValue)
         .then(result => {
           this.$eventHub.$emit('booking-rating-saved', bookingId);

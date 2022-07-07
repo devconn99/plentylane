@@ -21,7 +21,7 @@
         </span>
 
         <b-form-group label="Write your answer here." class="mt-2">
-          <b-textarea v-model="answerObject.answer" rows="5" />
+          <textarea v-model="answerObject.answer" rows="5" />
         </b-form-group>
         <b-button
           @click="answerTheQuestion()"
