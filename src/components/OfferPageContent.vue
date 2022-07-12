@@ -96,6 +96,7 @@
 
               <b-btn
                 class="btnCGRed btnNormalSize btn100 text-uppercase hover-slide-left mb-4"
+                style="width: 100%"
                 v-else-if="isAbleToReserve === false"
                 @click="openAddToNetworkDialog"
               >

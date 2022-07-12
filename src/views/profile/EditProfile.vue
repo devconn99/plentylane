@@ -135,7 +135,7 @@
                 @focus="focusHandler"
                 @input="hideAlerts"
                 autocomplete="off"
-              ></b-form-input>
+              />
               <small
                 class="text-danger d-flex mt-2 text-left"
                 v-if="$v.form.phone.$dirty && !$v.form.phone.required"
@@ -202,7 +202,7 @@
               <b-form-checkbox
                 switch
                 :checked="notificationsForm.mealNotificationWithin5mi"
-                @change="updateNotificationsForm('mealNotificationWithin5mi',$event)"
+                @change="updateNotificationsForm('mealNotificationWithin5mi', $event)"
               >
                 <span class="switch-text">
                   0-5 miles
@@ -213,7 +213,7 @@
               <b-form-checkbox
                 switch
                 :checked="notificationsForm.mealNotificationWithin10mi"
-                @change="updateNotificationsForm('mealNotificationWithin10mi',$event)"
+                @change="updateNotificationsForm('mealNotificationWithin10mi', $event)"
               >
                 <span class="switch-text">
                   0-10 miles
@@ -224,7 +224,7 @@
               <b-form-checkbox
                 switch
                 :checked="notificationsForm.mealNotificationWithin15mi"
-                @change="updateNotificationsForm('mealNotificationWithin15mi',$event)"
+                @change="updateNotificationsForm('mealNotificationWithin15mi', $event)"
               >
                 <span class="switch-text">
                   0-15 miles
@@ -235,7 +235,7 @@
               <b-form-checkbox
                 switch
                 :checked="notificationsForm.mealNotificationFavoriteCook"
-                @change="updateNotificationsForm('mealNotificationFavoriteCook',$event)"
+                @change="updateNotificationsForm('mealNotificationFavoriteCook', $event)"
               >
                 <span class="switch-text">
                   Favorite chef meal only.
@@ -363,7 +363,7 @@ export default {
       receiveNotifications: {}
     }
   },
-  created () {
+  created() {
     // temp
     this.isLoading = true;
     const user = { ...this.$store.getters.userInfo };
@@ -401,7 +401,7 @@ export default {
     },
   },
   methods: {
-    setFormValues (data) {
+    setFormValues(data) {
       const { notification } = data;
       this.$v.form.$model.firstName = data.firstName;
       this.$v.form.$model.lastName = data.lastName;
@@ -422,7 +422,7 @@ export default {
         this.notificationsForm.mealNotificationFavoriteCook = notification.mealNotificationFavoriteCook
       }
     },
-    loadUserInfo () {
+    loadUserInfo() {
       this.isLoading = true;
       api.dashboard.profile.userInfo()
         .then((data) => {
@@ -435,7 +435,7 @@ export default {
           this.isLoading = false;
         });
     },
-    hideAlerts () {
+    hideAlerts() {
       if (this.showSuccessAlert) {
         this.showSuccessAlert = false;
       }
@@ -447,10 +447,10 @@ export default {
         this.submitted = false;
       }
     },
-    focusHandler (e) {
+    focusHandler(e) {
       this.hideAlerts();
     },
-    onSubmit () {
+    onSubmit() {
       const { notification } = { ...this.userInfo }
 
       this.$v.form.$touch();
@@ -496,16 +496,16 @@ export default {
           }, 2000);
         });
     },
-    updateNotificationsForm(type,value) {
-      this.notificationsForm.mealNotificationWithin5mi = type == "mealNotificationWithin5mi" ? value : !value;
-      this.notificationsForm.mealNotificationWithin10mi = type == "mealNotificationWithin10mi" ? value : !value;
-      this.notificationsForm.mealNotificationWithin15mi =  type == "mealNotificationWithin15mi" ? value : !value;
-      this.notificationsForm.mealNotificationFavoriteCook =  type == "mealNotificationFavoriteCook" ? value : !value;
+    updateNotificationsForm(type, value) {
+      this.notificationsForm.mealNotificationWithin5mi = type == "mealNotificationWithin5mi" && value === true ? value : false;
+      this.notificationsForm.mealNotificationWithin10mi = type == "mealNotificationWithin10mi" && value === true ? value : false;
+      this.notificationsForm.mealNotificationWithin15mi =  type == "mealNotificationWithin15mi" && value === true ? value : false;
+      this.notificationsForm.mealNotificationFavoriteCook =  type == "mealNotificationFavoriteCook" && value === true ? value : false;
     },
-    triggerSelectNewAvatar () {
+    triggerSelectNewAvatar() {
       this.$refs.fileInput.click();
     },
-    deleteImage () {
+    deleteImage() {
       this.isSubmitting = true;
 
       api.dashboard.profile.deleteImage()
@@ -522,7 +522,7 @@ export default {
           this.isSubmitting = false;
         });
     },
-    onFileChange (event) {
+    onFileChange(event) {
       this.$nextTick(() => {
         if (document.activeElement) {
           document.activeElement.blur();
@@ -567,15 +567,15 @@ export default {
         this.isSubmitting = false;
       };
     },
-    showMobileAside () {
+    showMobileAside() {
       this.$eventHub.$emit('show-mobile-profile-aside');
     },
-    hasOriginalImage () {
+    hasOriginalImage() {
       if (!this.userInfo || !this.userInfo.id) return false;
       if (!this.userInfo.image) return false;
       return this.userInfo.image.path && this.userInfo.image.path.length > 0;
     },
-    showConfirmRemovePhotoModal () {
+    showConfirmRemovePhotoModal() {
       if (this.isSubmitting) return;
       this.$bvModal.show(this.modalId);
     }

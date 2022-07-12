@@ -1273,6 +1273,19 @@ export default {
           });
       },
     },
+    contactUs: {
+      contactUs(data) {
+        const endpoint = `${config.API_ORIGIN}/api/me/contact-us`;
+        return axios
+          .post(endpoint, data)
+          .then((res) => {
+            return Promise.resolve(res.data || {});
+          })
+          .catch((err) => {
+            return checkErr(err.response);
+          });
+      },
+    },
   },
   payment: {
     createCustomer(data) {
