@@ -3,67 +3,67 @@
 ********************/
 
 #authorization-page .header {
-	position: absolute;
-	padding: 30px 0 0 0;
-	background-color: transparent;
-	@media screen and (max-width: $tableWidth) {
-		padding: 15px 0 0;
-	}
+  position: absolute;
+  padding: 30px 0 0 0;
+  background-color: transparent;
+  @media screen and (max-width: $tableWidth) {
+    padding: 15px 0 0;
+  }
 }
 .authorization {
-	display: flex;
-	flex-direction: row;
-	min-height: 100vh;
-	height: 100%;
-	@media screen and (max-width: $tableWidth) {
-		flex-direction: column;
-		justify-content: center;
-	}
-	.authorization-box {
-		width: 50%;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-end;
-		justify-content: center;
-		@media screen and (max-width: $tableWidth) {
-			width: 100%;
-		}
-		.authorization-box-position {
-			padding: 110px 80px 20px;
-			width: 100%;
-			max-width: 640px;
-			@media screen and (max-width: $tableWidth) {
-				max-width: 100%;
-				padding: 100px 15px 40px;
-			}
-			.title-size3 {
-				margin-bottom: 32.5px;
-				@media screen and (max-width: $phoneBigWidth) {
-					margin-bottom: 20px;
-				}
-			}
-		}
-		.authorization-box-info {
-			margin-top: 50px;
-			@media screen and (max-width: $phoneBigWidth) {
-				margin-top: 40px;
-			}
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  height: 100%;
+  @media screen and (max-width: $tableWidth) {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .authorization-box {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    @media screen and (max-width: $tableWidth) {
+      width: 100%;
+    }
+    .authorization-box-position {
+      padding: 110px 80px 20px;
+      width: 100%;
+      max-width: 640px;
+      @media screen and (max-width: $tableWidth) {
+        max-width: 100%;
+        padding: 100px 15px 40px;
+      }
+      .title-size3 {
+        margin-bottom: 32.5px;
+        @media screen and (max-width: $phoneBigWidth) {
+          margin-bottom: 20px;
+        }
+      }
+    }
+    .authorization-box-info {
+      margin-top: 50px;
+      @media screen and (max-width: $phoneBigWidth) {
+        margin-top: 40px;
+      }
 
-			h4 {
-  			font-family: $FilsonProBold;
-				font-size: 18px;
-				line-height: 24px;
-				color: $textBlackColor;
-				margin-top: 1px;
-			}
-		}
-	}
-	.authorization-background {
-		background-image: url('./assets/images/authorization/authorization.svg');
-		background-position: left top;
-		width: 50%;
-		@media screen and (max-width: $tableWidth) {
-			display: none;
-		}
-	}
+      h4 {
+        font-family: $FilsonProBold;
+        font-size: 18px;
+        line-height: 24px;
+        color: $textBlackColor;
+        margin-top: 1px;
+      }
+    }
+  }
+  .authorization-background {
+    background-image: url('./assets/images/authorization/authorization.svg');
+    background-position: left top;
+    width: 50%;
+    @media screen and (max-width: $tableWidth) {
+      display: none;
+    }
+  }
 }

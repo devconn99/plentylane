@@ -3,132 +3,132 @@
 ********************/
 
 .modal-lg {
-	@media screen and (min-width: $smTableWidth + 1) {
-		max-width: 640px;
-	}
+  @media screen and (min-width: $smTableWidth + 1) {
+    max-width: 640px;
+  }
 }
 
 .modal .modal-scroll {
-	max-height: 320px;
-	overflow-y: auto;
+  max-height: 320px;
+  overflow-y: auto;
 }
 
 .modal-strong-title {
-	font-size: 18px;
-	line-height: 24px;
-	font-family: $FilsonProBold;
+  font-size: 18px;
+  line-height: 24px;
+  font-family: $FilsonProBold;
 }
 
 .modal-content {
-	border-radius: 0;
-	background: $mainBackgroundColor;
-	box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  border-radius: 0;
+  background: $mainBackgroundColor;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
 
-	button.close {
-		background-color: transparent !important;
-	}
+  button.close {
+    background-color: transparent !important;
+  }
 }
 .modal {
-	.modal-header {
-		border-bottom: none;
+  .modal-header {
+    border-bottom: none;
 
-		.modal-popup-title-icon {
-			svg {
-				cursor: pointer;
-				&:hover path {
-					fill: $greenColor;
-				}
-			}
-		}
-	}
-	.modal-body {
-		display: flex;
-		flex-direction: column;
-		position: relative;
-		outline: 0;
-		pointer-events: auto;
-		width: 100%;
-		padding: 13px 40px 40px;
+    .modal-popup-title-icon {
+      svg {
+        cursor: pointer;
+        &:hover path {
+          fill: $greenColor;
+        }
+      }
+    }
+  }
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    outline: 0;
+    pointer-events: auto;
+    width: 100%;
+    padding: 13px 40px 40px;
 
-		@media screen and (max-width: $tableWidth) {
-			padding-top: 0;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
-			padding-top: 0;
-		}
+    @media screen and (max-width: $tableWidth) {
+      padding-top: 0;
+    }
+    @media screen and (max-width: $phoneBigWidth) {
+      padding-top: 0;
+    }
 
-		.form-group {
-			legend {
-				font-weight: bold;
-			}
-		}
-	}
+    .form-group {
+      legend {
+        font-weight: bold;
+      }
+    }
+  }
 
-	&.notifications-modal,
-	&.invite-friends-modal,
-	&.messages-modal,
-	&.invite-friends-via-copy-link-modal {
-		.modal-body {
-			padding: 13px 40px 40px;
-			@media screen and (max-width: $tableWidth) {
-				padding: 0 25px 25px;
-			}
-			@media screen and (max-width: $phoneBigWidth) {
-				padding: 0 15px 20px;
-			}
-		}
-	}
-	&.invite-friends-modal {
-		.modal-scroll {
-			max-height: 270px;
+  &.notifications-modal,
+  &.invite-friends-modal,
+  &.messages-modal,
+  &.invite-friends-via-copy-link-modal {
+    .modal-body {
+      padding: 13px 40px 40px;
+      @media screen and (max-width: $tableWidth) {
+        padding: 0 25px 25px;
+      }
+      @media screen and (max-width: $phoneBigWidth) {
+        padding: 0 15px 20px;
+      }
+    }
+  }
+  &.invite-friends-modal {
+    .modal-scroll {
+      max-height: 270px;
 
-			@media screen and (max-width: $phoneBigWidth) {
-				max-height: 200px;
-			}
-		}
-	}
-	&.modal-with-buttons {
-		.modal-footer {
-			padding: 0 25px 25px;
-			border-top: none;
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
+      @media screen and (max-width: $phoneBigWidth) {
+        max-height: 200px;
+      }
+    }
+  }
+  &.modal-with-buttons {
+    .modal-footer {
+      padding: 0 25px 25px;
+      border-top: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
 
-			.btn, button {
-				max-width: calc(50% - 20px);
-				width: 100%;
+      .btn, button {
+        max-width: calc(50% - 20px);
+        width: 100%;
 
-				&:first-of-type {
-					margin-right: 10px;
-				}
-				&:last-of-type {
-					margin-left: 10px;
-				}
-				@media screen and (max-width: $phoneBigWidth) {
-					max-width: 100%;
-					margin-left: 0 !important;
-					margin-right: 0 !important;
+        &:first-of-type {
+          margin-right: 10px;
+        }
+        &:last-of-type {
+          margin-left: 10px;
+        }
+        @media screen and (max-width: $phoneBigWidth) {
+          max-width: 100%;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
 
-					& + .btn, & + button {
-						margin-top: 10px;
-					}
-				}
-			}
-		}
-	}
-	&.added-to-basket-modal {
-		.modal-content {
-			.shop-box {
-				max-width: 160px;
-				margin: 0 auto;
-				box-shadow: 0 4px 16px rgba(69,53,38,0.15);
+          & + .btn, & + button {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+  &.added-to-basket-modal {
+    .modal-content {
+      .shop-box {
+        max-width: 160px;
+        margin: 0 auto;
+        box-shadow: 0 4px 16px rgba(69,53,38,0.15);
 
-				.shop-box-img {
-					padding: 0;
-				}
-			}
-		}
-	}
+        .shop-box-img {
+          padding: 0;
+        }
+      }
+    }
+  }
 }

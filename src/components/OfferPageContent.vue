@@ -374,8 +374,8 @@ import HeroWave from './HeroWave';
 import CarouselContainer from './CarouselContainer';
 import OfferInfoBlock from './OfferInfoBlock';
 import SvgIcon from './SvgIcon';
-import ConfirmModal from './modals/ConfirmModal';
 import AskQuestionAboutMeal from './modals/AskQuestionAboutMeal';
+import ConfirmModal from './modals/ConfirmModal';
 import ContactCookModal from './modals/ContactCookModal';
 import ReserveMealModal from './modals/ReserveMealModal';
 
@@ -564,6 +564,8 @@ export default {
           variant: "success",
           show: 5
         }
+      }).finally(()=>{
+        this.isProcessing = false;
       })
     },
     countDownChanged(dismissCountDown) {

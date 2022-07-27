@@ -51,7 +51,7 @@
                         >
                           {{item.name}}
                         </div>
-			                  <span  v-if="averageRating(item)">
+                        <span  v-if="averageRating(item)">
                           Rating : 
                           <SvgIcon class="d-inline-flex" icon="star"/> 
                           <span class="mt-2">{{averageRating(item)}}</span>
@@ -148,7 +148,7 @@
                       :hidden-user-block="true"
                       @on-action-edit="onActionEditOffer"
                       @on-action-remove="onActionRemoveOffer"
-		                  @on-action-re-post="openConfirmRePost(item)"
+                      @on-action-re-post="openConfirmRePost(item)"
                     />
                   </div>
                 </template>
@@ -196,6 +196,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import Loading from 'vue-loading-overlay';
 import api from '../../api';
 import BookingInfoBlock from '../../components/BookingInfoBlock';
@@ -394,6 +395,14 @@ export default {
       this.openConfirmCancelReservationModal(id);
     },
     openConfirmCancelReservationModal(id) {
+      const { offer } = this.reservations.find(res => res.id == id)
+      const pickedTime = offer.pickupTime
+      const pickupTime = moment(pickedTime).local();
+      const now = moment().local()
+      const timeDifference = pickupTime.diff(now, 'hours');
+      if (timeDifference < 24) {
+        this.modalDineInfo.msg = "This meal will be ready in less than 24 hours. If you cancel now the cook will get to keep your tokens. Do you still want to cancel?";
+      }
       this.reservationToRemove = id;
       this.$bvModal.show(this.modalDineInfo.id);
     },

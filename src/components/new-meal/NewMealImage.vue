@@ -147,7 +147,7 @@ export default {
       this.file = null;
     },
     validate () {
-      const hasImage = !!this.imageUrl;
+      const hasImage = !!this.imageUrl || !!this.previousImageData;
       this.$emit('on-validate', {
         file: this.file,
         imageUrl: this.imageUrl,

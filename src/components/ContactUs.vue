@@ -5,33 +5,33 @@
         <b-form class="form" @submit.stop.prevent="onSubmit">
           <b-row>
             <b-col>
-              <b-form-group>
+              <b-form-group label="Name">
                 <b-form-input v-model="$v.form.name.$model" @focus="focusHandler" @input="resetError" placeholder="Name"></b-form-input>
                 <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.name.$dirty && !$v.form.name.required">This is a required field.</small>
               </b-form-group>
             </b-col>
             <b-col>
-              <b-form-group>
-                <b-form-input v-model="$v.form.email.$model" @focus="focusHandler" @input="resetError" placeholder="Email"></b-form-input>
+              <b-form-group label="Email">
+                <b-form-input v-model="$v.form.email.$model" @focus="focusHandler" @input="resetError" placeholder="Email Address"></b-form-input>
                 <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.email.email">Please enter valid email.</small>
                 <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.email.$dirty && !$v.form.email.required">This is a required field.</small>
               </b-form-group>
             </b-col>
             <b-col>
-              <b-form-group>
-                <b-form-input v-model="$v.form.phoneNumber.$model" @focus="focusHandler" @input="resetError" placeholder="Phone"></b-form-input>
+              <b-form-group label="Phone (optional)">
+                <b-form-input v-model="$v.form.phoneNumber.$model" @focus="focusHandler" @input="resetError" placeholder="000-000-0000"></b-form-input>
                 <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.phoneNumber.$dirty && !$v.form.phoneNumber.required">Phone is required for sms/phone option.</small>
                 <small class="text-danger d-flex mt-2 text-left" v-if="!$v.form.phoneNumber.isValidPhoneNumber">Please enter valid phone number.</small>
               </b-form-group>
             </b-col>
           </b-row>
 
-          <b-form-group>
+          <b-form-group label="Subject">
             <b-form-input v-model="$v.form.subject.$model" @focus="focusHandler" @input="resetError" placeholder="Subject"></b-form-input>
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.subject.$dirty && !$v.form.subject.required">This is a required field.</small>
           </b-form-group>
-          <b-form-group>
-            <textarea name="message" v-model.trim="$v.form.message.$model" placeholder="Message" autocomplete="off"></textarea>
+          <b-form-group label="Message">
+            <textarea name="message" v-model.trim="$v.form.message.$model" placeholder="Type away:)" rows="5" autocomplete="off"></textarea>
             <small class="text-danger d-flex mt-2 text-left" v-if="$v.form.message.$dirty && !$v.form.message.required">This is a required field.</small>
           </b-form-group>
           <b-form-group label="Your contact preference.">

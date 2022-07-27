@@ -220,7 +220,7 @@
                   :invite-action-caption="getInviteCaption(user.id,user.email)"
                   @invite-user="inviteUser(user)"
                   @redirect-to-cook-profile="redirectToCookProfile(user.id)"
-		  @re-invite="reInvite(user)"
+                  @re-invite="reInvite(user)"
                 />
                 <b-btn
                   v-if="!usersPagination.isLastPage"
@@ -474,9 +474,9 @@ export default {
 
       if(pendingEmail && !rejectedEmail && !user) {
         status = "Invited";
-      } else if (!pendingEmail && rejectedEmail && !user) {
+      } else if (rejectedEmail && !user) {
         status = "Rejected";
-      } else if (!pendingEmail && !rejectedEmail && user) {
+      } else if (!rejectedEmail && user) {
         status = "In Network";
       } else {
         status = "Invite";

@@ -1,81 +1,81 @@
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 html {
-	line-height: $mainLineHeight;
-	font-size: $mainFontSize;
-	background-color: $mainBackgroundColor;
-	height: 100%;
-	-webkit-text-size-adjust: 100%;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  line-height: $mainLineHeight;
+  font-size: $mainFontSize;
+  background-color: $mainBackgroundColor;
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	font-family: $FilsonProRegular;
-	font-size: $mainFontSize;
-	font-weight: $normalFontWeight;
-	line-height: $mainLineHeight;
-	overflow-x: hidden;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-touch-callout: none;
-	-webkit-tap-highlight-color: transparent;
-	background-color: $mainBackgroundColor;
-	color: $textBlackColor;
-	&.mobile-menu-box-active {
-		overflow: hidden;
-		position: relative;
-		&:before {
-			content: '';
-			width: 100%;
-			height: 100%;
-			z-index: 3;
-			top: 0;
-			left: 0;
-			position: fixed;
-			background: rgba(0, 0, 0, 0.7);
-		}
-	}
-	@media screen and (max-width: $phoneBigWidth) {
-		font-size: 14px;
-		margin-bottom: 20px;
-	}
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: $FilsonProRegular;
+  font-size: $mainFontSize;
+  font-weight: $normalFontWeight;
+  line-height: $mainLineHeight;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: $mainBackgroundColor;
+  color: $textBlackColor;
+  &.mobile-menu-box-active {
+    overflow: hidden;
+    position: relative;
+    &:before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      position: fixed;
+      background: rgba(0, 0, 0, 0.7);
+    }
+  }
+  @media screen and (max-width: $phoneBigWidth) {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
 }
 .cursor-pointer {
-	cursor: pointer;
+  cursor: pointer;
 }
 .cursor-default {
-	cursor: default;
+  cursor: default;
 }
 *, *:before, *:after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 a, a:not([href]):not([class]), a:hover, a:focus, a:active {
-	text-decoration: none;
-	outline: none;
-	border: none;
-	box-shadow: none;
-	font-family: $FilsonProBold;
-	font-size: $mainFontSize;
-	font-weight: $normalFontWeight;
-	line-height: $mainLineHeight;
-	color: $greenColor;
-	-webkit-transition: .4s all ease;
-		-o-transition: .4s all ease;
-		transition: .4s all ease;
-	cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  font-family: $FilsonProBold;
+  font-size: $mainFontSize;
+  font-weight: $normalFontWeight;
+  line-height: $mainLineHeight;
+  color: $greenColor;
+  -webkit-transition: .4s all ease;
+    -o-transition: .4s all ease;
+    transition: .4s all ease;
+  cursor: pointer;
 }
 a:hover, a:focus, a:active {
-	color: $greenLightColor;
-	text-decoration: none;
+  color: $greenLightColor;
+  text-decoration: none;
 }
 a.href-mailto {
-	font-weight: normal;
-	color: $textBlackColor;
-	font-family: $FilsonProRegular;
-	text-decoration: underline;
+  font-weight: normal;
+  color: $textBlackColor;
+  font-family: $FilsonProRegular;
+  text-decoration: underline;
 }
 a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus, button.active.focus, button.active:focus, button.focus, button:active.focus, button:active:focus, button:focus {
     outline: none!important;
@@ -83,9 +83,9 @@ a.active.focus, a.active:focus, a.focus, a:active.focus, a:active:focus, a:focus
     outline-width: 0!important;
     outline-style: none!important;
     box-shadow: none!important;
-	-webkit-transition: .3s all ease;
-		-o-transition: .3s all ease;
-		transition: .3s all ease;
+  -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
 }
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=middlemit]:not(:disabled), button:not(:disabled),
 input, textarea:focus:not(:disabled), input:focus, input:active, *:focus {
@@ -94,9 +94,9 @@ input, textarea:focus:not(:disabled), input:focus, input:active, *:focus {
     outline-width: 0!important;
     outline-style: none!important;
     box-shadow: none!important;
-	-webkit-transition: .3s all ease;
-		-o-transition: .3s all ease;
-		transition: .3s all ease;
+  -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
 }
 textarea:focus, textarea.form-control:focus, input.form-control:focus, input[type=text]:focus,
 input[type=number]:focus, input[type=password]:focus, input[type=email]:focus, input[type=number]:focus,
@@ -105,140 +105,140 @@ input[type=number]:focus, input[type=password]:focus, input[type=email]:focus, i
 .form-control:active, form-control:focus, textarea:focus {
     box-shadow: none;
     outline: none;
-	border: 0px solid;
-	-webkit-appearance: none;
+  border: 0px solid;
+  -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-	-webkit-transition: .3s all ease;
-		-o-transition: .3s all ease;
-		transition: .3s all ease;
+  -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
 }
 input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, input[type=url]:focus,
 input[type=search]:focus, input[type=number]:focus, select:focus {
-	-webkit-transition: .3s all ease!important;
-		-o-transition: .3s all ease!important;
-		transition: .3s all ease!important;
+  -webkit-transition: .3s all ease!important;
+    -o-transition: .3s all ease!important;
+    transition: .3s all ease!important;
 }
 ul.list-default, ul.list-decimal {
-	padding-left: 40px;
-	margin-bottom: 20px;
+  padding-left: 40px;
+  margin-bottom: 20px;
 
-	li {
-		padding-left: 10px;
+  li {
+    padding-left: 10px;
 
-		& + li {
-			margin-top: 8px;
-		}
-	}
+    & + li {
+      margin-top: 8px;
+    }
+  }
 }
 ul.list-default, ul.list-default li {
-	list-style-type: disc;
+  list-style-type: disc;
 }
 ul.list-decimal, ul.list-decimal li {
-	list-style-type: decimal;
+  list-style-type: decimal;
 }
 .mt-60px {
-	margin-top: 60px;
+  margin-top: 60px;
 }
 .form-group {
-	position: relative;
+  position: relative;
 }
 .form-control {
-	&::-ms-expand {
-		background-color: transparent;
-		border: 0;
-		text-shadow: none;
-	}
-	&:-moz-focusring {
-		color: transparent;
-		text-shadow: none;
-	}
+  &::-ms-expand {
+    background-color: transparent;
+    border: 0;
+    text-shadow: none;
+  }
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: none;
+  }
 }
 .panel-group {
-	&::-moz-selection {
-		background: transparent;
-	}
-	&::selection {
-		background: transparent;
-	}
+  &::-moz-selection {
+    background: transparent;
+  }
+  &::selection {
+    background: transparent;
+  }
 }
 textarea {
-	&::-webkit-scrollbar {
-		width: 8px;
-	}
-	&::-webkit-scrollbar-track {
-		background: #f1f1f1;
-	}
-	&::-webkit-scrollbar-thumb {
-		background: rgba(24,24,22,0.11);
-	}
-	&::-webkit-scrollbar-thumb:hover {
-		background: rgba(24,24,22,0.4);
-	}
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(24,24,22,0.11);
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(24,24,22,0.4);
+  }
 }
 ul, li {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 section {
-	position: relative;
+  position: relative;
 }
 strong {
-	color: green;
+  color: green;
 }
 .container {
-	max-width: $desktopWidth;
-	width: 100%;
+  max-width: $desktopWidth;
+  width: 100%;
 
-	@media screen and (max-width: $desktopWidth - 1) {
-		max-width: 100%;
-	}
+  @media screen and (max-width: $desktopWidth - 1) {
+    max-width: 100%;
+  }
 }
 p {
-	margin-bottom: 25px;
-	line-height: 24px;
-	font-size: 16px;
-	&:last-child {
-		margin-bottom: 0;
-	}
-	@media screen and (max-width: $phoneBigWidth) {
-		font-size: 14px;
-		margin-bottom: 20px;
-	}
+  margin-bottom: 25px;
+  line-height: 24px;
+  font-size: 16px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  @media screen and (max-width: $phoneBigWidth) {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
 }
 .text-bold {
-	font-weight: bold;
+  font-weight: bold;
 }
 .text-italic {
-	font-style: italic;
+  font-style: italic;
 }
 .img {
-	max-width: 100%;
-	width: 100%;
-	height: auto;
-	margin: 0;
-	padding: 0;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
 }
 figure {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 svg {
-	line-height: 1;
+  line-height: 1;
 }
 svg + span {
-	padding-top: 2px;
+  padding-top: 2px;
 }
 svg path, a svg path {
-	-webkit-transition: .3s all ease;
-		-o-transition: .3s all ease;
-		transition: .3s all ease;
+  -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
 }
 svg:hover path, a svg:hover path {
-	-webkit-transition: .3s all ease;
-		-o-transition: .3s all ease;
-		transition: .3s all ease;
+  -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
 }
 button[disabled]:active, button[disabled],
 input[type="button"][disabled]:active,
@@ -249,95 +249,95 @@ button[disabled]:hover,
 input[type="button"][disabled]:hover,
 input[type="submit"][disabled]:hover
 {
-	opacity: 0.7;
-	color: $mainBackgroundColor;
-	border: none;
-	outline: 0!important;
+  opacity: 0.7;
+  color: $mainBackgroundColor;
+  border: none;
+  outline: 0!important;
     outline-color: transparent!important;
     outline-width: 0!important;
     outline-style: none!important;
-	box-shadow: none!important;
-	background-color: $greenColor!important;
-	&::before, &::after {
-		content: none;
-	}
-	span:hover {
-		background-color: transparent;
-	}
+  box-shadow: none!important;
+  background-color: $greenColor!important;
+  &::before, &::after {
+    content: none;
+  }
+  span:hover {
+    background-color: transparent;
+  }
 }
 .owl-stage-outer {
-	padding-bottom: 20px;
-	a.item {
-		display: block;
-	}
+  padding-bottom: 20px;
+  a.item {
+    display: block;
+  }
 }
 // .hero-wave styles moved to HeroWave component
 .text-underline {
-	text-decoration: underline;
-	&:hover:not(.no-hover) {
-		text-decoration: none;
-	}
+  text-decoration: underline;
+  &:hover:not(.no-hover) {
+    text-decoration: none;
+  }
 }
 button {
-	-webkit-text-size-adjust: 100%;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	order: none;
-	outline: 0!important;
-	outline-color: transparent!important;
-	outline-width: 0!important;
-	outline-style: none!important;
-	box-shadow: none!important;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  order: none;
+  outline: 0!important;
+  outline-color: transparent!important;
+  outline-width: 0!important;
+  outline-style: none!important;
+  box-shadow: none!important;
 }
 .clear-line {
-	width: 100%;
-	height: 1px;
-	background-color: transparent;
+  width: 100%;
+  height: 1px;
+  background-color: transparent;
 }
 /********************
 *   MARGIN/PADDING  *
 ********************/
 
 .padl-25 {
-	padding-left: 25px;
-	@media screen and (max-width: $desktopWidth) {
-		padding-left: 2.5px;
-	}
-	@media screen and (max-width: $tableWidth) {
-		padding-left: 0;
-	}
+  padding-left: 25px;
+  @media screen and (max-width: $desktopWidth) {
+    padding-left: 2.5px;
+  }
+  @media screen and (max-width: $tableWidth) {
+    padding-left: 0;
+  }
 }
 .padr-25 {
-	padding-right: 25px;
-	@media screen and (max-width: $desktopWidth) {
-		padding-right: 2.5px;
-	}
-	@media screen and (max-width: $tableWidth) {
-		padding-right: 0;
-	}
+  padding-right: 25px;
+  @media screen and (max-width: $desktopWidth) {
+    padding-right: 2.5px;
+  }
+  @media screen and (max-width: $tableWidth) {
+    padding-right: 0;
+  }
 }
 .pad-40 {
-	padding: 40px 0;
+  padding: 40px 0;
 }
 .pad-50 {
-	padding: 50px 0;
+  padding: 50px 0;
 }
 .pad-70 {
-	padding: 70px 0;
-	@media screen and (max-width: $phoneBigWidth) {
-		padding: 50px 0;
-	}
+  padding: 70px 0;
+  @media screen and (max-width: $phoneBigWidth) {
+    padding: 50px 0;
+  }
 }
 .pad-70t {
-	padding-top: 70px;
-	@media screen and (max-width: $phoneBigWidth) {
-		padding-top: 50px;
-	}
+  padding-top: 70px;
+  @media screen and (max-width: $phoneBigWidth) {
+    padding-top: 50px;
+  }
 }
 .pad-70b {
-	padding-bottom: 70px;
-	@media screen and (max-width: $phoneBigWidth) {
-		padding-bottom: 50px;
-	}
+  padding-bottom: 70px;
+  @media screen and (max-width: $phoneBigWidth) {
+    padding-bottom: 50px;
+  }
 }
 
 /********************
@@ -345,13 +345,13 @@ button {
 ********************/
 
 .green-bg {
-	background-color: $greenColor;
+  background-color: $greenColor;
 }
 .light-bg {
-	background-color: $lightColor;
+  background-color: $lightColor;
 }
 .lightGreen-bg {
-	background-color: $greenLightColor;
+  background-color: $greenLightColor;
 }
 
 /********************
@@ -359,16 +359,16 @@ button {
 ********************/
 
 .titleLightColor {
-	color: $mainBackgroundColor!important;
+  color: $mainBackgroundColor!important;
 }
 .titleGreenLightColor {
-	color: $greenColor!important;
+  color: $greenColor!important;
 }
 .titleGreenNavyColor {
-	color: $greenNavyColor!important;
+  color: $greenNavyColor!important;
 }
 .titleDarkColor {
-	color: $textBlackColor!important;
+  color: $textBlackColor!important;
 }
 
 /********************
@@ -376,347 +376,347 @@ button {
 ********************/
 
 .btnGreen {
-	background-color: $greenColor;
-	span {
-		color: $mainBackgroundColor;
-		border: 2px solid $greenColor;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				border: 2px solid $greenLightColor;
-			}
-		}
-		&:hover, &:focus, &:active {
-			@media screen and (max-width: $tableWidth) {
-				background-color: $greenLightColor;
-				color: $mainBackgroundColor;
-				border: 2px solid $greenLightColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $greenLightColor;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled {
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		span {
-			color: $textBlackColor;
-			background-color: $yellowColor;
-			border: 2px solid $yellowColor;
-		}
-	}
+  background-color: $greenColor;
+  span {
+    color: $mainBackgroundColor;
+    border: 2px solid $greenColor;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        border: 2px solid $greenLightColor;
+      }
+    }
+    &:hover, &:focus, &:active {
+      @media screen and (max-width: $tableWidth) {
+        background-color: $greenLightColor;
+        color: $mainBackgroundColor;
+        border: 2px solid $greenLightColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $greenLightColor;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled {
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    span {
+      color: $textBlackColor;
+      background-color: $yellowColor;
+      border: 2px solid $yellowColor;
+    }
+  }
 }
 .btnLightGreen {
-	background-color: $greenBrightColor;
-	span {
-		color: $mainBackgroundColor;
-		border: 2px solid $greenBrightColor;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-				border: 2px solid $greenLightColor;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $greenLightColor;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $greenLightColor;
-			transition: 0.3s ease-out;
-		}
-	}
+  background-color: $greenBrightColor;
+  span {
+    color: $mainBackgroundColor;
+    border: 2px solid $greenBrightColor;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        transition: 0.2s 0.1s;
+        border: 2px solid $greenLightColor;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $greenLightColor;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $greenLightColor;
+      transition: 0.3s ease-out;
+    }
+  }
 }
 .btnGreenTransparent {
-	background: transparent;
-	span {
-		color: $greenColor;
-		border: 2px solid $greenColor;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-				background-color: $greenLightColor;
-				border: 2px solid $greenLightColor;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $greenLightColor;
-				border: 2px solid $greenLightColor;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $greenLightColor;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled {
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		span {
-			background-color: $greenBrightColor;
-			border: 2px solid $greenBrightColor;
-			color: $mainBackgroundColor;
-			opacity: 0.3;
-		}
-	}
+  background: transparent;
+  span {
+    color: $greenColor;
+    border: 2px solid $greenColor;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        transition: 0.2s 0.1s;
+        background-color: $greenLightColor;
+        border: 2px solid $greenLightColor;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $greenLightColor;
+        border: 2px solid $greenLightColor;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $greenLightColor;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled {
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    span {
+      background-color: $greenBrightColor;
+      border: 2px solid $greenBrightColor;
+      color: $mainBackgroundColor;
+      opacity: 0.3;
+    }
+  }
 }
 .btnLightRed {
-	background-color: $redColor;
-	span {
-		color: $mainBackgroundColor;
-		border: 2px solid $redColor;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				border: 2px solid $yellowColor;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $yellowColor;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $yellowColor;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled, &[disabled] {
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		background-color: $redColor !important;
-		border: 2px solid $redColor !important;
+  background-color: $redColor;
+  span {
+    color: $mainBackgroundColor;
+    border: 2px solid $redColor;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        border: 2px solid $yellowColor;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $yellowColor;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $yellowColor;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled, &[disabled] {
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    background-color: $redColor !important;
+    border: 2px solid $redColor !important;
 
-		span {
-			background-color: $redColor !important;
-			border: 2px solid $redColor !important;
-			color: $mainBackgroundColor;
-		}
-	}
+    span {
+      background-color: $redColor !important;
+      border: 2px solid $redColor !important;
+      color: $mainBackgroundColor;
+    }
+  }
 }
 
 .btnCGRed {
-	background-color: $cgRed;
-	span {
-		color: $mainBackgroundColor;
-		border: 2px solid $cgRed;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				border: 2px solid $cgRed;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $cgRed;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
+  background-color: $cgRed;
+  span {
+    color: $mainBackgroundColor;
+    border: 2px solid $cgRed;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        border: 2px solid $cgRed;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $cgRed;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
 
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $cgRed;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled, &[disabled]{
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		background-color: $cgRed !important;
-		border: 2px solid $cgRed !important;
-		span {
-			background-color: $cgRed !important;
-			border: 2px solid $cgRed !important;
-			color: $mainBackgroundColor;
-		}
-	}
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $cgRed;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled, &[disabled]{
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    background-color: $cgRed !important;
+    border: 2px solid $cgRed !important;
+    span {
+      background-color: $cgRed !important;
+      border: 2px solid $cgRed !important;
+      color: $mainBackgroundColor;
+    }
+  }
 }
 
 .btnNavyRedTransparent {
-	background: transparent;
-	span {
-		color: $redNavyColor;
-		border: 2px solid $redNavyColor;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-				background-color: $redNavyColor;
-				border: 2px solid $redNavyColor;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $redNavyColor;
-				border: 2px solid $redNavyColor;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $redNavyColor;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled, &[disabled] {
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		background-color: transparent !important;
-		span {
-			background-color: $redNavyColor;
-			border: 2px solid $redNavyColor;
-			color: $mainBackgroundColor;
-			opacity: 0.3;
-		}
-	}
+  background: transparent;
+  span {
+    color: $redNavyColor;
+    border: 2px solid $redNavyColor;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        transition: 0.2s 0.1s;
+        background-color: $redNavyColor;
+        border: 2px solid $redNavyColor;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $redNavyColor;
+        border: 2px solid $redNavyColor;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $redNavyColor;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled, &[disabled] {
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    background-color: transparent !important;
+    span {
+      background-color: $redNavyColor;
+      border: 2px solid $redNavyColor;
+      color: $mainBackgroundColor;
+      opacity: 0.3;
+    }
+  }
 }
 
 .btnInviteYellow {
-	background: transparent;
-	span {
-		color: $inviteYellow;
-		border: 2px solid $inviteYellow;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-				background-color: $inviteYellow;
-				border: 2px solid $inviteYellow;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $inviteYellow;
-				border: 2px solid $inviteYellow;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $inviteYellow;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled, &[disabled] {
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		background-color: transparent !important;
-		span {
-			background-color: $inviteYellow;
-			border: 2px solid $inviteYellow;
-			color: $mainBackgroundColor;
-		}
-	}
+  background: transparent;
+  span {
+    color: $inviteYellow;
+    border: 2px solid $inviteYellow;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        transition: 0.2s 0.1s;
+        background-color: $inviteYellow;
+        border: 2px solid $inviteYellow;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $inviteYellow;
+        border: 2px solid $inviteYellow;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $inviteYellow;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled, &[disabled] {
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    background-color: transparent !important;
+    span {
+      background-color: $inviteYellow;
+      border: 2px solid $inviteYellow;
+      color: $mainBackgroundColor;
+    }
+  }
 }
 
 .btnInvitedOrange {
-	background: transparent;
-	span {
-		color: $invitedOrange;
-		border: 2px solid $invitedOrange;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-				background-color: $invitedOrange;
-				border: 2px solid $invitedOrange;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $invitedOrange;
-				border: 2px solid $invitedOrange;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $invitedOrange;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled, &[disabled] {
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		background-color: transparent !important;
-		span {
-			background-color: $invitedOrange;
-			border: 2px solid $invitedOrange;
-			color: $mainBackgroundColor;
-		}
-	}
+  background: transparent;
+  span {
+    color: $invitedOrange;
+    border: 2px solid $invitedOrange;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        transition: 0.2s 0.1s;
+        background-color: $invitedOrange;
+        border: 2px solid $invitedOrange;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $invitedOrange;
+        border: 2px solid $invitedOrange;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $invitedOrange;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled, &[disabled] {
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    background-color: transparent !important;
+    span {
+      background-color: $invitedOrange;
+      border: 2px solid $invitedOrange;
+      color: $mainBackgroundColor;
+    }
+  }
 }
 
 .btnNetworkGreen {
-	background: transparent;
-	span {
-		color: $networkGreen;
-		border: 2px solid $networkGreen;
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				color: $mainBackgroundColor;
-				transition: 0.2s 0.1s;
-				background-color: $networkGreen;
-				border: 2px solid $networkGreen;
-			}
-		}
-		@media screen and (max-width: $tableWidth) {
-			&:hover, &:focus, &:active {
-				background-color: $networkGreen;
-				border: 2px solid $networkGreen;
-				color: $mainBackgroundColor;
-			}
-		}
-	}
-	@media screen and (min-width: $tableWidth) {
-		&::before {
-			background-color: $networkGreen;
-			transition: 0.3s ease-out;
-		}
-	}
-	&.btnDisabled, &[disabled] {
-		cursor: none;
-		pointer-events: none;
-		text-decoration: none;
-		background-color: transparent !important;
-		span {
-			background-color: $networkGreen;
-			border: 2px solid $networkGreen;
-			color: $mainBackgroundColor;
-		}
-	}
+  background: transparent;
+  span {
+    color: $networkGreen;
+    border: 2px solid $networkGreen;
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        color: $mainBackgroundColor;
+        transition: 0.2s 0.1s;
+        background-color: $networkGreen;
+        border: 2px solid $networkGreen;
+      }
+    }
+    @media screen and (max-width: $tableWidth) {
+      &:hover, &:focus, &:active {
+        background-color: $networkGreen;
+        border: 2px solid $networkGreen;
+        color: $mainBackgroundColor;
+      }
+    }
+  }
+  @media screen and (min-width: $tableWidth) {
+    &::before {
+      background-color: $networkGreen;
+      transition: 0.3s ease-out;
+    }
+  }
+  &.btnDisabled, &[disabled] {
+    cursor: none;
+    pointer-events: none;
+    text-decoration: none;
+    background-color: transparent !important;
+    span {
+      background-color: $networkGreen;
+      border: 2px solid $networkGreen;
+      color: $mainBackgroundColor;
+    }
+  }
 }
 
 .textNavyRed{
-	color: $redNavyColor;
+  color: $redNavyColor;
 }
 
 .btnGreen,
@@ -727,182 +727,182 @@ button {
 .btnInviteYellow,
 .btnInvitedOrange,
 .btnNetworkGreen {
-	text-decoration: none!important;
-	-webkit-transition: .3s all ease;
-	-o-transition: .3s all ease;
-	transition: .3s all ease;
-	border-radius: 0;
-	border: none;
-	position: relative;
-	padding: 0;
-	-webkit-backface-visibility: hidden;
-	-moz-osx-font-smoothing: grayscale;
-	overflow: hidden;
-	outline: none;
-	display: block;
-	&:hover, &:after, &:focus {
-		outline: none;
-	}
-	span {
-		position: relative;
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		top: 0;
-		left: 0;
-		width: 100%;
-		transition: 0.3s;
-		text-decoration: none!important;
-		.svg-icon-wrapper {
-			display: flex;
-		}
-		svg {
-			margin-right: 12px;
-			flex: none; // TODO ?
-		}
-		i.fa, i.fas, i.far, i.fab {
-			margin-right: 12px;
-		}
-		@media screen and (min-width: $tableWidth) {
-			&:hover {
-				transition: 0.2s 0.1s;
-				text-decoration: none;
-			}
-		}
-	}
-	&::before, &::after {
-		position: absolute;
-		content: "";
-	}
-	&.hover-slide-left::before {
-		top: 0;
-		bottom: 0;
-		right: 0;
-		height: 100%;
-		width: 0%;
-	}
-	&.hover-slide-left:hover::before {
-		width: 100%;
-	}
-	&.btnHugeSize span {
-		font-size: 36px;
-		line-height: 42px;
-		letter-spacing: 1.2px;
-		padding: 24px;
-		font-family: $LacaProSemiBold;
-		@media screen and (max-width: $tableMinWidth) {
-			font-size: 24px;
-			line-height: 28px;
-			letter-spacing: 0.8px;
-			padding: 20px;
-		}
-		&:hover, &:focus, &:active {
-			@media screen and (max-width: $tableMinWidth) {
-				font-size: 24px;
-				line-height: 28px;
-				letter-spacing: 0.8px;
-			}
-		}
-	}
-	&.btnBigSize span {
-		font-size: 22px;
-		line-height: 26px;
-		letter-spacing: 1.15px;
-		padding: 18px 10px 16px;
-		font-family: $LacaProSemiBold;
-		@media screen and (max-width: $tableMinWidth) {
-			font-size: 18px;
-			line-height: 22px;
-			letter-spacing: 0.94px;
-			padding: 12px 10px 10px;
-		}
-		&:hover, &:focus, &:active {
-			@media screen and (max-width: $tableMinWidth) {
-				font-size: 18px;
-				line-height: 22px;
-				letter-spacing: 0.94px;
-				padding: 12px 10px 10px;
-			}
-		}
-	}
-	&.btnNormalSize span {
-		font-size: 18px;
-		line-height: 18px;
-		letter-spacing: 0.6px;
-		padding: 24px 10px 18px;
-		font-family: $FilsonProBold;
-		@media screen and (max-width: $tableMinWidth) {
-			font-size: 16px;
-			line-height: 16px;
-			padding: 16px 10px 12px;
-		}
-		&:hover, &:focus, &:active {
-			@media screen and (max-width: $tableMinWidth) {
-				font-size: 16px;
-				line-height: 16px;
-				padding: 16px 10px 12px;
-			}
-		}
-	}
-	&.btnSmallSize span {
-		font-size: 16px;
-		line-height: 17px;
-		letter-spacing: 0.53px;
-		font-family: $FilsonProBold;
-		padding: 11px 10px 8px;
-		&:hover, &:focus, &:active {
-			font-size: 16px;
-			line-height: 17px;
-			letter-spacing: 0.53px;
-		}
-	}
-	&.btn50 {
-		display: block;
-		width: 50%;
-		@media screen and (max-width: $phoneBigWidth) {
-			width: 100%;
-		}
-	}
-	&.btn100 {
-		display: block;
-		width: 100%;
-	}
-	&.btnUpper {
-		text-transform: uppercase;
-	}
+  text-decoration: none!important;
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+  border-radius: 0;
+  border: none;
+  position: relative;
+  padding: 0;
+  -webkit-backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  outline: none;
+  display: block;
+  &:hover, &:after, &:focus {
+    outline: none;
+  }
+  span {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: 0.3s;
+    text-decoration: none!important;
+    .svg-icon-wrapper {
+      display: flex;
+    }
+    svg {
+      margin-right: 12px;
+      flex: none; // TODO ?
+    }
+    i.fa, i.fas, i.far, i.fab {
+      margin-right: 12px;
+    }
+    @media screen and (min-width: $tableWidth) {
+      &:hover {
+        transition: 0.2s 0.1s;
+        text-decoration: none;
+      }
+    }
+  }
+  &::before, &::after {
+    position: absolute;
+    content: "";
+  }
+  &.hover-slide-left::before {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 0%;
+  }
+  &.hover-slide-left:hover::before {
+    width: 100%;
+  }
+  &.btnHugeSize span {
+    font-size: 36px;
+    line-height: 42px;
+    letter-spacing: 1.2px;
+    padding: 24px;
+    font-family: $LacaProSemiBold;
+    @media screen and (max-width: $tableMinWidth) {
+      font-size: 24px;
+      line-height: 28px;
+      letter-spacing: 0.8px;
+      padding: 20px;
+    }
+    &:hover, &:focus, &:active {
+      @media screen and (max-width: $tableMinWidth) {
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.8px;
+      }
+    }
+  }
+  &.btnBigSize span {
+    font-size: 22px;
+    line-height: 26px;
+    letter-spacing: 1.15px;
+    padding: 18px 10px 16px;
+    font-family: $LacaProSemiBold;
+    @media screen and (max-width: $tableMinWidth) {
+      font-size: 18px;
+      line-height: 22px;
+      letter-spacing: 0.94px;
+      padding: 12px 10px 10px;
+    }
+    &:hover, &:focus, &:active {
+      @media screen and (max-width: $tableMinWidth) {
+        font-size: 18px;
+        line-height: 22px;
+        letter-spacing: 0.94px;
+        padding: 12px 10px 10px;
+      }
+    }
+  }
+  &.btnNormalSize span {
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: 0.6px;
+    padding: 24px 10px 18px;
+    font-family: $FilsonProBold;
+    @media screen and (max-width: $tableMinWidth) {
+      font-size: 16px;
+      line-height: 16px;
+      padding: 16px 10px 12px;
+    }
+    &:hover, &:focus, &:active {
+      @media screen and (max-width: $tableMinWidth) {
+        font-size: 16px;
+        line-height: 16px;
+        padding: 16px 10px 12px;
+      }
+    }
+  }
+  &.btnSmallSize span {
+    font-size: 16px;
+    line-height: 17px;
+    letter-spacing: 0.53px;
+    font-family: $FilsonProBold;
+    padding: 11px 10px 8px;
+    &:hover, &:focus, &:active {
+      font-size: 16px;
+      line-height: 17px;
+      letter-spacing: 0.53px;
+    }
+  }
+  &.btn50 {
+    display: block;
+    width: 50%;
+    @media screen and (max-width: $phoneBigWidth) {
+      width: 100%;
+    }
+  }
+  &.btn100 {
+    display: block;
+    width: 100%;
+  }
+  &.btnUpper {
+    text-transform: uppercase;
+  }
 }
 .btn-round {
-	background-color: $greenColor;
-	width: 64px;
-	height: 64px;
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	@media screen and (max-width: $tableWidth) {
-		width: 48px;
-		height: 48px;
-	}
-	&:hover, &:focus, &:active {
-		background-color: $greenLightColor;
-	}
+  background-color: $greenColor;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: $tableWidth) {
+    width: 48px;
+    height: 48px;
+  }
+  &:hover, &:focus, &:active {
+    background-color: $greenLightColor;
+  }
 }
 
 .btn-round-sm {
-	background-color: $greenColor;
-	width: 32px;
-	height: 32px;
-	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	@media screen and (max-width: $tableWidth) {
-		width: 24px;
-		height: 24px;
-	}
-	&:hover, &:focus, &:active {
-		background-color: $greenLightColor;
-	}
+  background-color: $greenColor;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: $tableWidth) {
+    width: 24px;
+    height: 24px;
+  }
+  &:hover, &:focus, &:active {
+    background-color: $greenLightColor;
+  }
 }
 
 /********************
@@ -910,8 +910,8 @@ button {
 ********************/
 
 h1, h2, h3, h4, h5, h6 {
-	margin: 0;
-	font-weight: normal;
+  margin: 0;
+  font-weight: normal;
 }
 
 /*******************
@@ -919,251 +919,251 @@ h1, h2, h3, h4, h5, h6 {
 ********************/
 
 .form {
-	.form-group {
-		margin-bottom: 32.5px;
-		position: relative;
-		@media screen and (max-width: $tableMinWidth) {
-			margin-bottom: 20px;
-		}
-		// .custom-control-label - is a label for checkbox input
-		label:not(.custom-control-label), legend {
-			font-size: 18px;
-			line-height: 18px;
-			letter-spacing: 0.6px;
-			margin-bottom: 16px;
-			padding-bottom: 0;
-			display: block;
-			font-family: $FilsonProBold;
-			@media screen and (max-width: $tableMinWidth) {
-				font-size: 16px;
-				line-height: 17px;
-				letter-spacing: 0.53px;
-				margin-bottom: 14px;
-			}
-		}
-		a {
-			font-size: $mainFontSize;
-			line-height: $mainLineHeight;
-			text-decoration: underline;
-			color: $greenColor;
-			&:hover, &:active, &:focus {
-				text-decoration: none;
-				color: $greenColor;
-			}
-		}
-		input[type=text], input[type=email], input[type=password], input[type=url],
-		input[type=tel], input[type=number], select {
-			width: 100%;
-			display: block;
-			height: 65px;
-			padding-left: 27.5px;
-			padding-right: 27.5px;
-			padding-top: 6px;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-			border: 1px solid rgba(161,112,103,0.3);
-			border-radius: 0;
-			color: $textBlackColor;
-			font-size: 18px;
-			letter-spacing: 0.5px;
-			@media screen and (max-width: $tableMinWidth) {
-				height: 48px;
-				font-size: 16px;
-				padding-left: 20px;
-				padding-right: 20px;
-			}
-			&:focus {
-				border: 1px solid $greenColor!important;
-				-webkit-transition: .3s all ease!important;
-				-o-transition: .3s all ease!important;
-				transition: .3s all ease!important;
-			}
-		}
-		input[type=search] {
-			font-size: 16px;
-			line-height: 16px;
-			letter-spacing: 0;
-			color: $mainBackgroundColor;
-			background: rgba(216, 216, 216, 0.13);
-			border: 1px solid $greenNavyColor;
-			padding-top: 8px;
-			width: 100%;
-			display: block;
-			height: 34px;
-			border-radius: 16.5px;
-			padding-right: 30px;
-			&::-webkit-search-cancel-button {
-				-webkit-appearance: none;
-				height: 18px;
-				width: 18px;
-				border-radius: 50em;
-				// path is fine
-				background: url('./assets/images/elements/dashboard/search_close.svg') no-repeat 50% 50%;
-				background-size: contain;
-				opacity: 0;
-				pointer-events: none;
-				cursor: pointer;
-				margin-right: 3px;
-			}
-			&:focus::-webkit-search-cancel-button {
-				opacity: .3;
-				pointer-events: all;
-			}
-			&::-webkit-input-placeholder {
-				font-size: 16px;
-				line-height: 24px;
-				letter-spacing: 0;
-				padding-top: 0;
-			}
-			&:not(.mobile-input-search) {
-				&::-webkit-input-placeholder {
-					color: $mainBackgroundColor;
-				}
-			}
-			&.mobile-input-search {
-				&::-webkit-input-placeholder {
-					color: $grayColor;
-				}
-			}
-		}
-		textarea {
-			width: 100%;
-			display: block;
-			padding: 27.5px 27.5px;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-			border: 1px solid rgba(161,112,103,0.3);
-			border-radius: 0;
-			font-size: 18px;
-			-webkit-transition: .3s all ease!important;
-			-o-transition: .3s all ease!important;
-			transition: .3s all ease!important;
-			@media screen and (max-width: $tableMinWidth) {
-				padding: 20px;
-				font-size: 16px;
-			}
-			&:not(:disabled) {
-				&:focus, &:active {
-					border: 1px solid $greenColor!important;
-					-webkit-transition: .3s all ease!important;
-					-o-transition: .3s all ease!important;
-					transition: .3s all ease!important;
-				}
-			}
-			&:disabled {
-				background-color: #e9ecef;
-				opacity: 1;
-				resize: none;
-			}
-		}
-		input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
-		input[type=text]::-webkit-input-placeholder, input[type=number]::-webkit-input-placeholder,
-		select::-webkit-input-placeholder {
-			font-size: 18px;
-			line-height: 18px;
-			letter-spacing: 0.6px;
-			color: $grayColor;
-			padding-top: 2px;
-			@media screen and (max-width: $phoneBigWidth) {
-				font-size: 16px;
-			}
-		}
-	}
-	&.searchFormNormal {
-		.form-group {
-			margin-bottom: 20px !important;
+  .form-group {
+    margin-bottom: 32.5px;
+    position: relative;
+    @media screen and (max-width: $tableMinWidth) {
+      margin-bottom: 20px;
+    }
+    // .custom-control-label - is a label for checkbox input
+    label:not(.custom-control-label), legend {
+      font-size: 18px;
+      line-height: 18px;
+      letter-spacing: 0.6px;
+      margin-bottom: 16px;
+      padding-bottom: 0;
+      display: block;
+      font-family: $FilsonProBold;
+      @media screen and (max-width: $tableMinWidth) {
+        font-size: 16px;
+        line-height: 17px;
+        letter-spacing: 0.53px;
+        margin-bottom: 14px;
+      }
+    }
+    a {
+      font-size: $mainFontSize;
+      line-height: $mainLineHeight;
+      text-decoration: underline;
+      color: $greenColor;
+      &:hover, &:active, &:focus {
+        text-decoration: none;
+        color: $greenColor;
+      }
+    }
+    input[type=text], input[type=email], input[type=password], input[type=url],
+    input[type=tel], input[type=number], select {
+      width: 100%;
+      display: block;
+      height: 65px;
+      padding-left: 27.5px;
+      padding-right: 27.5px;
+      padding-top: 6px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border: 1px solid rgba(161,112,103,0.3);
+      border-radius: 0;
+      color: $textBlackColor;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      @media screen and (max-width: $tableMinWidth) {
+        height: 48px;
+        font-size: 16px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      &:focus {
+        border: 1px solid $greenColor!important;
+        -webkit-transition: .3s all ease!important;
+        -o-transition: .3s all ease!important;
+        transition: .3s all ease!important;
+      }
+    }
+    input[type=search] {
+      font-size: 16px;
+      line-height: 16px;
+      letter-spacing: 0;
+      color: $mainBackgroundColor;
+      background: rgba(216, 216, 216, 0.13);
+      border: 1px solid $greenNavyColor;
+      padding-top: 8px;
+      width: 100%;
+      display: block;
+      height: 34px;
+      border-radius: 16.5px;
+      padding-right: 30px;
+      &::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        height: 18px;
+        width: 18px;
+        border-radius: 50em;
+        // path is fine
+        background: url('./assets/images/elements/dashboard/search_close.svg') no-repeat 50% 50%;
+        background-size: contain;
+        opacity: 0;
+        pointer-events: none;
+        cursor: pointer;
+        margin-right: 3px;
+      }
+      &:focus::-webkit-search-cancel-button {
+        opacity: .3;
+        pointer-events: all;
+      }
+      &::-webkit-input-placeholder {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0;
+        padding-top: 0;
+      }
+      &:not(.mobile-input-search) {
+        &::-webkit-input-placeholder {
+          color: $mainBackgroundColor;
+        }
+      }
+      &.mobile-input-search {
+        &::-webkit-input-placeholder {
+          color: $grayColor;
+        }
+      }
+    }
+    textarea {
+      width: 100%;
+      display: block;
+      padding: 27.5px 27.5px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border: 1px solid rgba(161,112,103,0.3);
+      border-radius: 0;
+      font-size: 18px;
+      -webkit-transition: .3s all ease!important;
+      -o-transition: .3s all ease!important;
+      transition: .3s all ease!important;
+      @media screen and (max-width: $tableMinWidth) {
+        padding: 20px;
+        font-size: 16px;
+      }
+      &:not(:disabled) {
+        &:focus, &:active {
+          border: 1px solid $greenColor!important;
+          -webkit-transition: .3s all ease!important;
+          -o-transition: .3s all ease!important;
+          transition: .3s all ease!important;
+        }
+      }
+      &:disabled {
+        background-color: #e9ecef;
+        opacity: 1;
+        resize: none;
+      }
+    }
+    input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
+    input[type=text]::-webkit-input-placeholder, input[type=number]::-webkit-input-placeholder,
+    select::-webkit-input-placeholder {
+      font-size: 18px;
+      line-height: 18px;
+      letter-spacing: 0.6px;
+      color: $grayColor;
+      padding-top: 2px;
+      @media screen and (max-width: $phoneBigWidth) {
+        font-size: 16px;
+      }
+    }
+  }
+  &.searchFormNormal {
+    .form-group {
+      margin-bottom: 20px !important;
 
-			input[type=text], input[type=email], input[type=password], input[type=url],
-			input[type=tel], input[type=number], select {
-				height: 48px;
-			}
-		}
-	}
-	&.searchFormBig {
-		.form-group {
-			display: flex;
-			height: 100%;
-			justify-content: space-between;
-			label {
-				font-family: $FilsonProRegular;
-				&:not(.custom-control-label) {
-					margin-bottom: 10px !important;
-				}
-			}
-			// TODO???
-			input[type=search] {
-				font-size: 18px;
-				line-height: 24px;
-				letter-spacing: 0.6px;
-				color: $textBlackColor;
-				background-color: $whiteColor;
-				border: 1px solid rgba(161,112,103,0.3);
-				padding-top: 13px;
-				width: 100%;
-				display: block;
-				height: 64px;
-				border-radius: 0;
-				padding-right: 15px;
-				padding-left: 60px;
-				@media screen and (max-width: $phoneBigWidth) {
-					padding-left: 15px;
-					padding-right: 10px;
-				}
-				&::-webkit-input-placeholder {
-					font-size: 18px;
-					line-height: 24px;
-					letter-spacing: 0;
-					color: #8A877D;
-					padding-top: 0px;
-				}
-			}
-			.searchFormBigIcon {
-				position: absolute;
-				top: 20px;
-				left: 20px;
-				@media screen and (max-width: $phoneBigWidth) {
-					display: none;
-				}
-			}
-			button {
-				flex: none;
-				&.btnGreen span {
-					padding-left: 15px;
-					padding-right: 15px;
-				}
-			}
-		}
-		&.smallHeight {
-			input[type=search] {
-				height: 50px;
-			}
-			.searchFormBigIcon {
-				position: absolute;
-				top: 13px;
-				left: 20px;
-				@media screen and (max-width: $phoneBigWidth) {
-					display: none;
-				}
-			}
-			.search-modal-input {
-				> div {
-					width: 100%;
-				}
-				.form-control {
-					height: 48px;
-				}
-			}
-		}
-		.rest-filters-wrapper {
-			.form-group {
-				legend + div {
-					width: 100%;
-				}
-			}
-		}
-	}
+      input[type=text], input[type=email], input[type=password], input[type=url],
+      input[type=tel], input[type=number], select {
+        height: 48px;
+      }
+    }
+  }
+  &.searchFormBig {
+    .form-group {
+      display: flex;
+      height: 100%;
+      justify-content: space-between;
+      label {
+        font-family: $FilsonProRegular;
+        &:not(.custom-control-label) {
+          margin-bottom: 10px !important;
+        }
+      }
+      // TODO???
+      input[type=search] {
+        font-size: 18px;
+        line-height: 24px;
+        letter-spacing: 0.6px;
+        color: $textBlackColor;
+        background-color: $whiteColor;
+        border: 1px solid rgba(161,112,103,0.3);
+        padding-top: 13px;
+        width: 100%;
+        display: block;
+        height: 64px;
+        border-radius: 0;
+        padding-right: 15px;
+        padding-left: 60px;
+        @media screen and (max-width: $phoneBigWidth) {
+          padding-left: 15px;
+          padding-right: 10px;
+        }
+        &::-webkit-input-placeholder {
+          font-size: 18px;
+          line-height: 24px;
+          letter-spacing: 0;
+          color: #8A877D;
+          padding-top: 0px;
+        }
+      }
+      .searchFormBigIcon {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        @media screen and (max-width: $phoneBigWidth) {
+          display: none;
+        }
+      }
+      button {
+        flex: none;
+        &.btnGreen span {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+      }
+    }
+    &.smallHeight {
+      input[type=search] {
+        height: 50px;
+      }
+      .searchFormBigIcon {
+        position: absolute;
+        top: 13px;
+        left: 20px;
+        @media screen and (max-width: $phoneBigWidth) {
+          display: none;
+        }
+      }
+      .search-modal-input {
+        > div {
+          width: 100%;
+        }
+        .form-control {
+          height: 48px;
+        }
+      }
+    }
+    .rest-filters-wrapper {
+      .form-group {
+        legend + div {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 
 /*
@@ -1178,56 +1178,56 @@ h1, h2, h3, h4, h5, h6 {
 ********************/
 
 .header_search_container_mobile {
-	.form {
-		svg {
-			position: absolute;
-			top: 25px;
-			left: 10px;
-		}
-		input[type=search] {
-			font-size: 16px;
-			line-height: 16px;
-			letter-spacing: 0;
-			color: $grayColor;
-			background: $whiteColor;
-			border: none;
-			box-shadow: 0 4px 16px rgba(69,53,38,0.15)!important;
-			padding-top: 8px;
-			width: 100%;
-			display: block;
-			height: 66px;
-			border-radius: 0;
-			padding-right: 10px;
-			padding-left: 40px;
-			&:focus {
-				border: none!important;
-			}
-		}
-	}
-	input[type=search]::-webkit-input-placeholder {
-		font-size: 16px;
-		line-height: 17px;
-		letter-spacing: 0.53px;
-		color: $grayColor;
-		padding-top: 0px;
-	}
-	input[type=search]::-webkit-search-cancel-button {
-		-webkit-appearance: none;
-		height: 18px;
-		width: 18px;
-		border-radius: 50em;
-		// path is fine
-		background: url('./assets/images/elements/dashboard/search_close.svg') no-repeat 50% 50%;
-		background-size: contain;
-		opacity: 0;
-		pointer-events: none;
-		cursor: pointer;
-		margin-right: 3px;
-	}
-	input[type=search]:focus::-webkit-search-cancel-button {
-		opacity: .3;
-		pointer-events: all;
-	}
+  .form {
+    svg {
+      position: absolute;
+      top: 25px;
+      left: 10px;
+    }
+    input[type=search] {
+      font-size: 16px;
+      line-height: 16px;
+      letter-spacing: 0;
+      color: $grayColor;
+      background: $whiteColor;
+      border: none;
+      box-shadow: 0 4px 16px rgba(69,53,38,0.15)!important;
+      padding-top: 8px;
+      width: 100%;
+      display: block;
+      height: 66px;
+      border-radius: 0;
+      padding-right: 10px;
+      padding-left: 40px;
+      &:focus {
+        border: none!important;
+      }
+    }
+  }
+  input[type=search]::-webkit-input-placeholder {
+    font-size: 16px;
+    line-height: 17px;
+    letter-spacing: 0.53px;
+    color: $grayColor;
+    padding-top: 0px;
+  }
+  input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50em;
+    // path is fine
+    background: url('./assets/images/elements/dashboard/search_close.svg') no-repeat 50% 50%;
+    background-size: contain;
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+    margin-right: 3px;
+  }
+  input[type=search]:focus::-webkit-search-cancel-button {
+    opacity: .3;
+    pointer-events: all;
+  }
 }
 
 /*******************
@@ -1239,100 +1239,100 @@ h1, h2, h3, h4, h5, h6 {
 ********************/
 
 .header {
-	position: fixed;
-	width: 100%;
-	padding: 48px 0 0;
-	z-index: 5;
-	top: 0;
-	right: 0;
-	left: 0;
-	-webkit-transition: all 0.3s;
-		-o-transition: all 0.3s;
-		transition: all 0.3s;
-	@media screen and (max-width: $tableWidth) {
-		padding: 15px 0 15px;
-	}
-	.header-box {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		.logo-block {
-			display: flex;
-			align-items: center;
-			@media screen and (max-width: $tableWidth) {
-				img {
-					max-width: 77px;
-				}
-			}
-		}
-		.header-links {
-			display: flex;
-			flex-direction: row;
-			.header-link-search, .header-link-notify {
-				margin-right: 25px;
-			}
-			.header-link-search-btn {
-				cursor: pointer;
-				display: flex;
-				flex-direction: row;
-			}
+  position: fixed;
+  width: 100%;
+  padding: 48px 0 0;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  left: 0;
+  -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+  @media screen and (max-width: $tableWidth) {
+    padding: 15px 0 15px;
+  }
+  .header-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .logo-block {
+      display: flex;
+      align-items: center;
+      @media screen and (max-width: $tableWidth) {
+        img {
+          max-width: 77px;
+        }
+      }
+    }
+    .header-links {
+      display: flex;
+      flex-direction: row;
+      .header-link-search, .header-link-notify {
+        margin-right: 25px;
+      }
+      .header-link-search-btn {
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+      }
 
-		}
-	}
-	&.header-scrolled {
-		background: $greenNavyFooColor;
-		-webkit-box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-		box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-		top: 0;
-		padding: 20px 0;
-		@media screen and (max-width: $tableWidth) {
-			padding: 15px 0 15px;
-		}
+    }
+  }
+  &.header-scrolled {
+    background: $greenNavyFooColor;
+    -webkit-box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    top: 0;
+    padding: 20px 0;
+    @media screen and (max-width: $tableWidth) {
+      padding: 15px 0 15px;
+    }
 
-		ul.nav-menu-landing li {
-			a {
-				color: $mainBackgroundColor;
-			}
-			a:hover, a:focus, a:active {
-				color: $yellowColor;
-			}
-			&.active a {
-				color: $yellowColor;
-			}
-		}
-		.header-svg-logo {
-			.fill-letter {
-				fill: $mainBackgroundColor;
-				-webkit-transition: all 0.3s ease;
-				-moz-transition: all 0.3s ease;
-				-ms-transition: all 0.3s ease;
-				-o-transition: all 0.3s ease;
-				transition: all 0.3s ease;
-			}
-		}
-	}
-	&:not(.header-scrolled) {
-		background-color: #efebdd;
-		&.bar-green-color {
-			background-color: $greenColor;
-		}
-		.header-svg-logo {
-			.fill-letter {
-				fill: $greenNavyColor;
-				-webkit-transition: all 0.3s ease;
-				-moz-transition: all 0.3s ease;
-				-ms-transition: all 0.3s ease;
-				-o-transition: all 0.3s ease;
-				transition: all 0.3s ease;
-			}
-		}
-	}
+    ul.nav-menu-landing li {
+      a {
+        color: $mainBackgroundColor;
+      }
+      a:hover, a:focus, a:active {
+        color: $yellowColor;
+      }
+      &.active a {
+        color: $yellowColor;
+      }
+    }
+    .header-svg-logo {
+      .fill-letter {
+        fill: $mainBackgroundColor;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+  &:not(.header-scrolled) {
+    background-color: #efebdd;
+    &.bar-green-color {
+      background-color: $greenColor;
+    }
+    .header-svg-logo {
+      .fill-letter {
+        fill: $greenNavyColor;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+      }
+    }
+  }
 }
 body.mobile-menu-box-active .header {
-	background: $greenNavyColor;
-	-webkit-transition: all .3s;
-	-o-transition: all .3s;
-	transition: all .3s;
+  background: $greenNavyColor;
+  -webkit-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s;
 }
 
 /********************
@@ -1348,71 +1348,71 @@ body.mobile-menu-box-active .header {
     display: none;
     transition: all 0.4s;
     outline: none;
-	cursor: pointer;
-	@media screen and (max-width: $tableMinWidth) {
-		display: block;
-		padding: 0;
-		margin: 0;
-		padding: 12px 6px 12px 0;
-	}
-	span.hamburger {
-		background: $mainBackgroundColor;
-		display: block;
-		height: 2px;
-		width: 26px;
-		position: relative;
-		transition: background .2s ease-out;
-		&:before, &:after {
-			background: $mainBackgroundColor;
-			content: '';
-			display: block;
-			height: 100%;
-			position: absolute;
-			transition: all .2s ease-out;
-			width: 100%;
-		}
-		&:before {
-			top: 6px;
-			width: 22px;
-			transition: all .2s ease-out;
-		}
-		&:after {
-			top: -6px;
-			width: 30px;
-			transition: all .4s ease-out;
-		}
-	}
-	span.hamburger-checked {
-		background: transparent;
-		display: block;
-		height: 2px;
-		width: 26px;
-		position: relative;
-		transition: background .2s ease-out;
-		&:before {
-			transform: rotate(-45deg);
-			background: $mainBackgroundColor;
-			content: '';
-			display: block;
-			height: 100%;
-			position: absolute;
-			transition: all .2s ease-out;
-			width: 100%;
-		}
-		&:after {
-			transform: rotate(45deg);
-			background: $mainBackgroundColor;
-			content: '';
-			display: block;
-			height: 100%;
-			position: absolute;
-			transition: all .2s ease-out;
-			width: 100%;
-		}
-		&:before, &:after {
-			top: 0;
-		}
-	}
+  cursor: pointer;
+  @media screen and (max-width: $tableMinWidth) {
+    display: block;
+    padding: 0;
+    margin: 0;
+    padding: 12px 6px 12px 0;
+  }
+  span.hamburger {
+    background: $mainBackgroundColor;
+    display: block;
+    height: 2px;
+    width: 26px;
+    position: relative;
+    transition: background .2s ease-out;
+    &:before, &:after {
+      background: $mainBackgroundColor;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      transition: all .2s ease-out;
+      width: 100%;
+    }
+    &:before {
+      top: 6px;
+      width: 22px;
+      transition: all .2s ease-out;
+    }
+    &:after {
+      top: -6px;
+      width: 30px;
+      transition: all .4s ease-out;
+    }
+  }
+  span.hamburger-checked {
+    background: transparent;
+    display: block;
+    height: 2px;
+    width: 26px;
+    position: relative;
+    transition: background .2s ease-out;
+    &:before {
+      transform: rotate(-45deg);
+      background: $mainBackgroundColor;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      transition: all .2s ease-out;
+      width: 100%;
+    }
+    &:after {
+      transform: rotate(45deg);
+      background: $mainBackgroundColor;
+      content: '';
+      display: block;
+      height: 100%;
+      position: absolute;
+      transition: all .2s ease-out;
+      width: 100%;
+    }
+    &:before, &:after {
+      top: 0;
+    }
+  }
 }
 
 /********************
@@ -1420,87 +1420,87 @@ body.mobile-menu-box-active .header {
 ********************/
 
 .title-size1, a.title-size1 {
-	font-size: 56px;
-	line-height: 56px;
-	font-family: $LHFAmericanSans;
-	@media screen and (max-width: $tableWidth) {
-		font-size: 40px;
-		line-height: 40px;
-	}
-	@media screen and (max-width: $phoneBigWidth) {
-		font-size: 30px;
-		line-height: 30px;
-	}
+  font-size: 56px;
+  line-height: 56px;
+  font-family: $LHFAmericanSans;
+  @media screen and (max-width: $tableWidth) {
+    font-size: 40px;
+    line-height: 40px;
+  }
+  @media screen and (max-width: $phoneBigWidth) {
+    font-size: 30px;
+    line-height: 30px;
+  }
 }
 .title-size2, a.title-size2 {
-	font-size: 40px;
-	line-height: 40px;
-	font-family: $LHFAmericanSans;
-	@media screen and (max-width: $tableWidth) {
-		font-size: 30px;
-		line-height: 30px;
-	}
-	@media screen and (max-width: $phoneBigWidth) {
-		font-size: 25px;
-		line-height: 25px;
-	}
+  font-size: 40px;
+  line-height: 40px;
+  font-family: $LHFAmericanSans;
+  @media screen and (max-width: $tableWidth) {
+    font-size: 30px;
+    line-height: 30px;
+  }
+  @media screen and (max-width: $phoneBigWidth) {
+    font-size: 25px;
+    line-height: 25px;
+  }
 }
 .title-size3, a.title-size3 {
-	letter-spacing: 1px;
-	font-size: 24px;
-	line-height: 24px;
-	font-family: $LHFAmericanSans;
-	@media screen and (max-width: $tableWidth) {
-		font-size: 22px;
-		line-height: 22px;
-	}
-	@media screen and (max-width: $phoneBigWidth) {
-		font-size: 20px;
-		line-height: 20px;
-		letter-spacing: 0.8px;
-	}
+  letter-spacing: 1px;
+  font-size: 24px;
+  line-height: 24px;
+  font-family: $LHFAmericanSans;
+  @media screen and (max-width: $tableWidth) {
+    font-size: 22px;
+    line-height: 22px;
+  }
+  @media screen and (max-width: $phoneBigWidth) {
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 0.8px;
+  }
 }
 .title-additional {
-	color: $grayColor;
-	font-family: $LacaProSemiBold;
-	font-size: 18px;
+  color: $grayColor;
+  font-family: $LacaProSemiBold;
+  font-size: 18px;
 }
 .description {
-	font-size: 24px;
-	line-height: 28.5px;
-	@media screen and (max-width: $tableWidth) {
-		font-size: 22px;
-		line-height: 26px;
-	}
-	@media screen and (max-width: $phoneBigWidth) {
-		font-size: 18px;
-		line-height: 23px;
-	}
-	.description-sub-title {
-		font-size: 28px;
-		line-height: 34px;
+  font-size: 24px;
+  line-height: 28.5px;
+  @media screen and (max-width: $tableWidth) {
+    font-size: 22px;
+    line-height: 26px;
+  }
+  @media screen and (max-width: $phoneBigWidth) {
+    font-size: 18px;
+    line-height: 23px;
+  }
+  .description-sub-title {
+    font-size: 28px;
+    line-height: 34px;
 
-		@media screen and (max-width: $tableWidth) {
-			font-size: 26px;
-			line-height: 30px;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
-			font-size: 22px;
-			line-height: 24px;
-		}
-	}
-	p {
-		font-size: 24px;
-		line-height: 28.5px;
-		@media screen and (max-width: $tableWidth) {
-			font-size: 22px;
-			line-height: 26px;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
-			font-size: 17px;
-			line-height: 23px;
-		}
-	}
+    @media screen and (max-width: $tableWidth) {
+      font-size: 26px;
+      line-height: 30px;
+    }
+    @media screen and (max-width: $phoneBigWidth) {
+      font-size: 22px;
+      line-height: 24px;
+    }
+  }
+  p {
+    font-size: 24px;
+    line-height: 28.5px;
+    @media screen and (max-width: $tableWidth) {
+      font-size: 22px;
+      line-height: 26px;
+    }
+    @media screen and (max-width: $phoneBigWidth) {
+      font-size: 17px;
+      line-height: 23px;
+    }
+  }
 }
 
 /*******************
@@ -1508,68 +1508,68 @@ body.mobile-menu-box-active .header {
 ********************/
 
 .errors {
-	border-radius: 4px;
-	padding: 9px 12px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	margin-bottom: 32.5px;
-	.error-block-close svg:hover path {
-		fill: $greenColor;
-	}
-	.error-block-close {
-		margin-left: 10px;
-	}
-	.error-block {
-		display: flex;
-		a {
-			font-family: $FilsonProRegular;
-			&:hover, &:focus, &:active {
-				font-size: 16px;
-				line-height: 22px;
-				font-family: $FilsonProRegular;
-			}
-		}
-		.error-block-text {
-			color: $textBlackColor;
-			font-size: 16px;
-			margin-left: 10px;
-			margin-top: 2px;
-			line-height: 22px;
-			ul.error-block-ul {
-				text-align: left;
-				li {
-					font-size: 16px;
-					line-height: 22px;
-					a {
-						font-size: 16px;
-						line-height: 22px;
-						font-family: $FilsonProRegular;
-						&:hover, &:focus, &:active {
-							font-size: 16px;
-							line-height: 22px;
-							font-family: $FilsonProRegular;
-						}
-					}
-				}
-			}
-		}
-	}
-	svg {
-		vertical-align: middle;
-	}
-	&.error-warning {
-		background-color: #FFE9E9;
-	}
-	&.error-success {
-		background-color: #F7FFE9;
-	}
-	&.error-mistake {
-		background-color: #FFF8E9;
-	}
-	&.error-info {
-		background-color: #E9F8FF;
-	}
+  border-radius: 4px;
+  padding: 9px 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 32.5px;
+  .error-block-close svg:hover path {
+    fill: $greenColor;
+  }
+  .error-block-close {
+    margin-left: 10px;
+  }
+  .error-block {
+    display: flex;
+    a {
+      font-family: $FilsonProRegular;
+      &:hover, &:focus, &:active {
+        font-size: 16px;
+        line-height: 22px;
+        font-family: $FilsonProRegular;
+      }
+    }
+    .error-block-text {
+      color: $textBlackColor;
+      font-size: 16px;
+      margin-left: 10px;
+      margin-top: 2px;
+      line-height: 22px;
+      ul.error-block-ul {
+        text-align: left;
+        li {
+          font-size: 16px;
+          line-height: 22px;
+          a {
+            font-size: 16px;
+            line-height: 22px;
+            font-family: $FilsonProRegular;
+            &:hover, &:focus, &:active {
+              font-size: 16px;
+              line-height: 22px;
+              font-family: $FilsonProRegular;
+            }
+          }
+        }
+      }
+    }
+  }
+  svg {
+    vertical-align: middle;
+  }
+  &.error-warning {
+    background-color: #FFE9E9;
+  }
+  &.error-success {
+    background-color: #F7FFE9;
+  }
+  &.error-mistake {
+    background-color: #FFF8E9;
+  }
+  &.error-info {
+    background-color: #E9F8FF;
+  }
 }
 
 /******************************************************************************************/
@@ -1577,399 +1577,399 @@ body.mobile-menu-box-active .header {
 *   BOOTSTRAP CHECKBOXES   *
 ********************/
 .custom-checkbox {
-	.custom-control-input {
-		+ label {
-			color: $textBlackColor;
-			font-family: $FilsonProRegular;
-			font-size: 18px;
-			letter-spacing: 0.6px;
-			line-height: 18px;
-			margin-bottom: 16px;
-			user-select: none;
+  .custom-control-input {
+    + label {
+      color: $textBlackColor;
+      font-family: $FilsonProRegular;
+      font-size: 18px;
+      letter-spacing: 0.6px;
+      line-height: 18px;
+      margin-bottom: 16px;
+      user-select: none;
 
-			&:before, &:after {
-				top: 0;
-			}
-		}
-		&:disabled:checked~.custom-control-label::before {
-			background-color: rgba(0, 156, 144, 0.5);
-			border-color: rgba(0, 156, 144, 0.3);
-		}
-		&:checked~.custom-control-label::before {
-			background-color: $greenColor;
-			border-color: $greenColor;
-		}
-		&:not(:disabled):active~.custom-control-label::before {
-			background-color: #a7f7f1;
-			border-color: #a7f7f1;
-		}
-		&:focus~.custom-control-label::before {
-			box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
-		}
-	}
+      &:before, &:after {
+        top: 0;
+      }
+    }
+    &:disabled:checked~.custom-control-label::before {
+      background-color: rgba(0, 156, 144, 0.5);
+      border-color: rgba(0, 156, 144, 0.3);
+    }
+    &:checked~.custom-control-label::before {
+      background-color: $greenColor;
+      border-color: $greenColor;
+    }
+    &:not(:disabled):active~.custom-control-label::before {
+      background-color: #a7f7f1;
+      border-color: #a7f7f1;
+    }
+    &:focus~.custom-control-label::before {
+      box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+    }
+  }
 }
 .checkbox-icon-size-24 {
-	.custom-control-input {
-		+ label {
-			&:before, &:after {
-				width: 24px;
-				height: 24px;
-			}
-		}
-	}
+  .custom-control-input {
+    + label {
+      &:before, &:after {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
 }
 // checkbox switch styles
 .custom-control.custom-switch {
-	.custom-control-input {
-		&:checked~.custom-control-label::before {
-			color: #fff;
-			background-color: $greenColor;
-			border-color: $greenColor;
-		}
-		&:focus~.custom-control-label::before {
-			box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
-		}
-		&:focus:not(:checked)~.custom-control-label::before {
-			border-color: rgba(0, 156, 144, 0.3);
-		}
-	}
-	.custom-control-label {
-		 .switch-text {
-			 -webkit-user-select: none;
-			 -moz-user-select: none;
-			 -ms-user-select: none;
-			 user-select: none;
-			 position: relative;
-			 top: 2px;
-			 padding-left: 10px;
-			 font-size: 18px;
+  .custom-control-input {
+    &:checked~.custom-control-label::before {
+      color: #fff;
+      background-color: $greenColor;
+      border-color: $greenColor;
+    }
+    &:focus~.custom-control-label::before {
+      box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.36);
+    }
+    &:focus:not(:checked)~.custom-control-label::before {
+      border-color: rgba(0, 156, 144, 0.3);
+    }
+  }
+  .custom-control-label {
+     .switch-text {
+       -webkit-user-select: none;
+       -moz-user-select: none;
+       -ms-user-select: none;
+       user-select: none;
+       position: relative;
+       top: 2px;
+       padding-left: 10px;
+       font-size: 18px;
 
-			 @media screen and (max-width: $tableMinWidth) {
-				 font-size: 16px;
-			 }
-		 }
-	}
+       @media screen and (max-width: $tableMinWidth) {
+         font-size: 16px;
+       }
+     }
+  }
 }
 
 /********************
 *   DIETARY NOTES CHECKBOXES (two columns on desktop, one column on mobile)  *
 ********************/
 .dietary-notes-group {
-	$optionHeight: 34px;
-	$minColumnNumDesktop: 4;
+  $optionHeight: 34px;
+  $minColumnNumDesktop: 4;
 
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	align-items: flex-start;
-	width: 100%;
-	padding-left: 16px;
-	padding-right: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
 
-	@media screen and (min-width: $tableMinWidth + 1) {
-		@for $i from 0 through 50 {
-			@if $i < $minColumnNumDesktop + 1 {
-				&.options-count_#{$i} {
-					max-height: $optionHeight * $minColumnNumDesktop;
-				}
-			} @else {
-				&.options-count_#{$i} {
-					max-height: $optionHeight * ceil($i / 2);
-				}
-			}
-		}
-	}
+  @media screen and (min-width: $tableMinWidth + 1) {
+    @for $i from 0 through 50 {
+      @if $i < $minColumnNumDesktop + 1 {
+        &.options-count_#{$i} {
+          max-height: $optionHeight * $minColumnNumDesktop;
+        }
+      } @else {
+        &.options-count_#{$i} {
+          max-height: $optionHeight * ceil($i / 2);
+        }
+      }
+    }
+  }
 
-	@media screen and (max-width: $tableMinWidth) {
-		flex-wrap: nowrap;
-		max-height: 100% !important;
-	}
+  @media screen and (max-width: $tableMinWidth) {
+    flex-wrap: nowrap;
+    max-height: 100% !important;
+  }
 
-	.custom-control {
-		.custom-control-label {
-			color: #181816;
-			font-family: $FilsonProRegular;
-			font-size: 18px;
-			letter-spacing: 0.6px;
-			line-height: 18px;
-			margin-bottom: 16px !important;
-		}
-	}
+  .custom-control {
+    .custom-control-label {
+      color: #181816;
+      font-family: $FilsonProRegular;
+      font-size: 18px;
+      letter-spacing: 0.6px;
+      line-height: 18px;
+      margin-bottom: 16px !important;
+    }
+  }
 }
 
 /********************
 *   WIZARD STYLES   *
 ********************/
 .vue-form-wizard {
-	width: 100%;
+  width: 100%;
 
-	&.wizard-new-meal {
-		.wizard-header {
-			display: none;
-		}
-		&.is-last-step {
-			.wizard-card-footer {
-				width: 100% !important;
-				padding-left: 40px;
-				padding-right: 40px;
+  &.wizard-new-meal {
+    .wizard-header {
+      display: none;
+    }
+    &.is-last-step {
+      .wizard-card-footer {
+        width: 100% !important;
+        padding-left: 40px;
+        padding-right: 40px;
 
-				@media screen and (max-width: $tableWidth) {
-					padding-left: 15px;
-					padding-right: 15px;
-				}
-			}
-			.wizard-navigation {
-				margin-left: 40px;
-				margin-right: 40px;
+        @media screen and (max-width: $tableWidth) {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+      }
+      .wizard-navigation {
+        margin-left: 40px;
+        margin-right: 40px;
 
-				@media screen and (max-width: $tableWidth) {
-					margin-left: auto;
-					margin-right: auto;
-				}
-			}
-		}
-		&:not(.is-last-step) {
-			.wizard-navigation, .wizard-card-footer {
-				width: 560px;
-				margin-left: auto;
-				margin-right: auto;
-				@media screen and (max-width: 856px) {
-					width: 100%;
-				}
-			}
-		}
-	}
+        @media screen and (max-width: $tableWidth) {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+    &:not(.is-last-step) {
+      .wizard-navigation, .wizard-card-footer {
+        width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+        @media screen and (max-width: 856px) {
+          width: 100%;
+        }
+      }
+    }
+  }
 
-	.wizard-navigation {
-		margin-bottom: 20px;
+  .wizard-navigation {
+    margin-bottom: 20px;
 
-		.wizard-nav, .wizard-progress-with-circle {
-			display: none;
-		}
+    .wizard-nav, .wizard-progress-with-circle {
+      display: none;
+    }
 
-		.wizard-tab-content {
-			width: 100%;
-			padding-top: 0;
-			.form-group {
-				margin-bottom: 48px;
-			}
-			.form-group legend, .form-label-text {
-				color: $textBlackColor;
-				font-family: $FilsonProBold;
-				font-size: 18px;
-				letter-spacing: 0.6px;
-				line-height: 18px;
-				margin-bottom: 10px;
-			}
-			textarea {
-				min-height: 255px;
-			}
-			.meal-time-container-controls {
-				.b-form-btn-label-control.form-control {
-					min-height: 65px !important;
-					border-radius: 0 !important;
+    .wizard-tab-content {
+      width: 100%;
+      padding-top: 0;
+      .form-group {
+        margin-bottom: 48px;
+      }
+      .form-group legend, .form-label-text {
+        color: $textBlackColor;
+        font-family: $FilsonProBold;
+        font-size: 18px;
+        letter-spacing: 0.6px;
+        line-height: 18px;
+        margin-bottom: 10px;
+      }
+      textarea {
+        min-height: 255px;
+      }
+      .meal-time-container-controls {
+        .b-form-btn-label-control.form-control {
+          min-height: 65px !important;
+          border-radius: 0 !important;
 
-					> .form-control {
-						padding: 20px 45px 0 25px;
-					}
-					> .btn {
-						position: absolute;
-						right: 0;
-						top: 14px;
-					}
+          > .form-control {
+            padding: 20px 45px 0 25px;
+          }
+          > .btn {
+            position: absolute;
+            right: 0;
+            top: 14px;
+          }
 
-					@media screen and (max-width: $tableMinWidth) {
-						min-height: 48px !important;
+          @media screen and (max-width: $tableMinWidth) {
+            min-height: 48px !important;
 
-						> .form-control {
-							padding-top: 12px;
-						}
-						> .btn {
-							top: 7px;
-						}
-					}
-				}
-			}
-			.wizard-tab-container {
-				width: 100%;
+            > .form-control {
+              padding-top: 12px;
+            }
+            > .btn {
+              top: 7px;
+            }
+          }
+        }
+      }
+      .wizard-tab-container {
+        width: 100%;
 
-				.meal-preview-container {
-					width: 100%;
-				}
-			}
-		}
-	}
-	.wizard-card-footer {
-		min-height: 96px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
+        .meal-preview-container {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .wizard-card-footer {
+    min-height: 96px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-		@media screen and (max-width: $phoneBigWidth) {
-			min-height: 72px;
-		}
-		@media screen and (max-width: 350px) {
-			flex-direction: row !important;
-			justify-content: space-between !important;
+    @media screen and (max-width: $phoneBigWidth) {
+      min-height: 72px;
+    }
+    @media screen and (max-width: 350px) {
+      flex-direction: row !important;
+      justify-content: space-between !important;
 
-			.wizard-footer-left, .wizard-footer-right {
-				flex: 0 !important;
-			}
-		}
+      .wizard-footer-left, .wizard-footer-right {
+        flex: 0 !important;
+      }
+    }
 
-		&.clearfix:after {
-			content: none;
-		}
+    &.clearfix:after {
+      content: none;
+    }
 
-		.wizard-btn {
-			width: 96px;
-			height: 96px;
-			border-radius: 96px;
-			padding: 0;
-			display: flex;
-			min-width: 96px;
-			justify-content: center;
-			align-items: center;
-			border: none;
+    .wizard-btn {
+      width: 96px;
+      height: 96px;
+      border-radius: 96px;
+      padding: 0;
+      display: flex;
+      min-width: 96px;
+      justify-content: center;
+      align-items: center;
+      border: none;
 
-			@media screen and (max-width: $phoneBigWidth) {
-				width: 72px;
-				height: 72px;
-				border-radius: 72px;
-				min-width: 72px;
-			}
+      @media screen and (max-width: $phoneBigWidth) {
+        width: 72px;
+        height: 72px;
+        border-radius: 72px;
+        min-width: 72px;
+      }
 
-			.wizard-btn-text {
-				font-family: $LacaProSemiBold;
-			}
-			.wizard-btn-icon {
-				font-size: 16px !important;
-			}
+      .wizard-btn-text {
+        font-family: $LacaProSemiBold;
+      }
+      .wizard-btn-icon {
+        font-size: 16px !important;
+      }
 
-			&.wizard-btn-next {
-				background-color: $greenColor;
-				flex-direction: column;
+      &.wizard-btn-next {
+        background-color: $greenColor;
+        flex-direction: column;
 
-				.wizard-btn-text, .wizard-btn-icon {
-					color: $mainBackgroundColor;
-				}
-				.wizard-btn-text {
-					font-size: 24px;
-					letter-spacing: 0.8px;
-					line-height: 28px;
-					margin-bottom: 2px;
+        .wizard-btn-text, .wizard-btn-icon {
+          color: $mainBackgroundColor;
+        }
+        .wizard-btn-text {
+          font-size: 24px;
+          letter-spacing: 0.8px;
+          line-height: 28px;
+          margin-bottom: 2px;
 
-					@media screen and (max-width: $phoneBigWidth) {
-						font-size: 18px;
-						line-height: 22px;
-						letter-spacing: 0.6px;
-					}
-				}
-			}
-			&.wizard-btn-prev {
-				background-color: transparent !important;
-				justify-content: flex-start;
+          @media screen and (max-width: $phoneBigWidth) {
+            font-size: 18px;
+            line-height: 22px;
+            letter-spacing: 0.6px;
+          }
+        }
+      }
+      &.wizard-btn-prev {
+        background-color: transparent !important;
+        justify-content: flex-start;
 
-				.wizard-btn-text, .wizard-btn-icon {
-					color: $greenColor;
-				}
-				.wizard-btn-text {
-					padding-left: 9px;
-					font-size: 18px;
-					letter-spacing: 0.6px;
-					line-height: 24px;
-				}
-			}
-		}
+        .wizard-btn-text, .wizard-btn-icon {
+          color: $greenColor;
+        }
+        .wizard-btn-text {
+          padding-left: 9px;
+          font-size: 18px;
+          letter-spacing: 0.6px;
+          line-height: 24px;
+        }
+      }
+    }
 
-		.wizard-footer-step-info {
-			color: $grayColor;
-			font-family: $FilsonProBold;
-			font-size: 18px;
-			letter-spacing: 0.6px;
-			line-height: 18px;
-			padding-top: 4px;
+    .wizard-footer-step-info {
+      color: $grayColor;
+      font-family: $FilsonProBold;
+      font-size: 18px;
+      letter-spacing: 0.6px;
+      line-height: 18px;
+      padding-top: 4px;
 
-			@media screen and (max-width: $phoneBigWidth) {
-				font-size: 16px;
-			}
-		}
-	}
+      @media screen and (max-width: $phoneBigWidth) {
+        font-size: 16px;
+      }
+    }
+  }
 }
 
 /********************
 *   GOOGLE PLACES STYLES   *
 ********************/
 .pac-container {
-	z-index: 10000 !important;
+  z-index: 10000 !important;
 }
 
 /********************
 *   BOOTSTRAP-VUE TIME/DATE PICKER  *
 *********************/
 .dropdown-menu {
-	&.override-datepicker-dropdown, &.override-timepicker-dropdown {
-		border-radius: 0;
+  &.override-datepicker-dropdown, &.override-timepicker-dropdown {
+    border-radius: 0;
 
-		& + label.form-control {
-			font-family: $FilsonProRegular;
-			margin-bottom: 0;
-			line-height: 26px;
-		}
-	}
-	&.override-datepicker-dropdown {
-		.b-calendar .b-calendar-grid, .b-calendar-nav > .btn, .b-calendar-footer .btn {
-			border-radius: 0;
-		}
-		.form-control {
-			&:focus {
-				border-color: $greenColor;
-			}
-		}
-		.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active,
-		.show > .btn-primary.dropdown-toggle {
-			background-color: $greenColor;
-			border-color: $greenColor;
-		}
-		.btn-outline-primary {
-			color: $greenColor;
+    & + label.form-control {
+      font-family: $FilsonProRegular;
+      margin-bottom: 0;
+      line-height: 26px;
+    }
+  }
+  &.override-datepicker-dropdown {
+    .b-calendar .b-calendar-grid, .b-calendar-nav > .btn, .b-calendar-footer .btn {
+      border-radius: 0;
+    }
+    .form-control {
+      &:focus {
+        border-color: $greenColor;
+      }
+    }
+    .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active,
+    .show > .btn-primary.dropdown-toggle {
+      background-color: $greenColor;
+      border-color: $greenColor;
+    }
+    .btn-outline-primary {
+      color: $greenColor;
 
-			&.focus, &:focus {
-				box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
-			}
+      &.focus, &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
+      }
 
-			&:hover {
-				color: #fff;
-				background-color: $greenColor;
-				border-color: $greenColor;
-			}
-		}
-		.btn-primary.focus, .btn-primary:focus {
-			background-color: $greenColor;
-			border-color: $greenColor;
-			box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
-		}
-		.btn-primary:hover {
-			background-color: $greenColor;
-			border-color: $greenColor;
-		}
-	}
-	&.override-timepicker-dropdown {
-		.b-form-spinbutton {
-			border-radius: 0;
-		}
-		.form-control {
-			&.focus {
-				border-color: rgba(0, 156, 144, 0.25);
-				box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
-			}
-		}
-	}
+      &:hover {
+        color: #fff;
+        background-color: $greenColor;
+        border-color: $greenColor;
+      }
+    }
+    .btn-primary.focus, .btn-primary:focus {
+      background-color: $greenColor;
+      border-color: $greenColor;
+      box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
+    }
+    .btn-primary:hover {
+      background-color: $greenColor;
+      border-color: $greenColor;
+    }
+  }
+  &.override-timepicker-dropdown {
+    .b-form-spinbutton {
+      border-radius: 0;
+    }
+    .form-control {
+      &.focus {
+        border-color: rgba(0, 156, 144, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(0, 156, 144, 0.25);
+      }
+    }
+  }
 }
 .b-form-datepicker {
-	&.has-error {
-		border: 1px solid #E34425;
-	}
+  &.has-error {
+    border: 1px solid #E34425;
+  }
 }
 
 /********************
@@ -1977,308 +1977,308 @@ body.mobile-menu-box-active .header {
 *********************/
 // hide bottom right info
 .gm-style-cc {
-	display: none;
+  display: none;
 }
 .gm-style-iw.gm-style-iw-c {
-	@media screen and (max-width: $phoneBigWidth) {
-		max-width: 300px !important;
-	}
+  @media screen and (max-width: $phoneBigWidth) {
+    max-width: 300px !important;
+  }
 }
 .map-container {
-	.marker-label-wrapper {
-		position: relative;
-		width: 56px;
-		height: 69px;
+  .marker-label-wrapper {
+    position: relative;
+    width: 56px;
+    height: 69px;
 
-		.marker-icon-holder {
-			width: 56px;
-			height: 69px;
-			background-image: url("data:image/svg+xml,%3Csvg class='marker-icon-svg' xmlns='http://www.w3.org/2000/svg' viewBox='-28.0446 -68 56.087 70'%3E%3Cpath d='M 0 -66 C 7.1888 -65.9916 13.6965 -63.0419 18.409 -58.2752 C 23.1174 -53.5127 26.0333 -46.936 26.0424 -39.6685 C 25.9554 -22 8.5476 -5.6884 3.1677 -1.1576 C 2.2488 -0.3855 1.123 0 -0.0024 0 C -1.1279 0 -2.2537 -0.3855 -3.1728 -1.1578 C -8.5601 -5.688 -26.0446 -21.8847 -26.0446 -39.667 C -26.0363 -46.9338 -23.1206 -53.5112 -18.4122 -58.2742 C -13.6997 -63.0415 -7.1915 -65.9916 0 -66 Z' stroke='%23FFFFFF' stroke-width='2' fill='%23009C90' opacity='1' /%3E%3C/svg%3E");
-		}
-		.favorite-marker-icon-holder {
-			width: 56px;
-			height: 69px;
-			background-image: url("data:image/svg+xml,%3Csvg class='marker-icon-svg' xmlns='http://www.w3.org/2000/svg' viewBox='-28.0446 -68 56.087 70'%3E%3Cpath d='M 0 -66 C 7.1888 -65.9916 13.6965 -63.0419 18.409 -58.2752 C 23.1174 -53.5127 26.0333 -46.936 26.0424 -39.6685 C 25.9554 -22 8.5476 -5.6884 3.1677 -1.1576 C 2.2488 -0.3855 1.123 0 -0.0024 0 C -1.1279 0 -2.2537 -0.3855 -3.1728 -1.1578 C -8.5601 -5.688 -26.0446 -21.8847 -26.0446 -39.667 C -26.0363 -46.9338 -23.1206 -53.5112 -18.4122 -58.2742 C -13.6997 -63.0415 -7.1915 -65.9916 0 -66 Z' stroke='%23FFFFFF' stroke-width='2' fill='%23C54579' opacity='1' /%3E%3C/svg%3E");
-		}
-		.marker-label-holder {
-			position: absolute;
-			top: 9px;
-			left: 9px;
-			width: 38px;
-			height: 38px;
-			border-radius: 50%;
-			background-color: #FFFFFF;
+    .marker-icon-holder {
+      width: 56px;
+      height: 69px;
+      background-image: url("data:image/svg+xml,%3Csvg class='marker-icon-svg' xmlns='http://www.w3.org/2000/svg' viewBox='-28.0446 -68 56.087 70'%3E%3Cpath d='M 0 -66 C 7.1888 -65.9916 13.6965 -63.0419 18.409 -58.2752 C 23.1174 -53.5127 26.0333 -46.936 26.0424 -39.6685 C 25.9554 -22 8.5476 -5.6884 3.1677 -1.1576 C 2.2488 -0.3855 1.123 0 -0.0024 0 C -1.1279 0 -2.2537 -0.3855 -3.1728 -1.1578 C -8.5601 -5.688 -26.0446 -21.8847 -26.0446 -39.667 C -26.0363 -46.9338 -23.1206 -53.5112 -18.4122 -58.2742 C -13.6997 -63.0415 -7.1915 -65.9916 0 -66 Z' stroke='%23FFFFFF' stroke-width='2' fill='%23009C90' opacity='1' /%3E%3C/svg%3E");
+    }
+    .favorite-marker-icon-holder {
+      width: 56px;
+      height: 69px;
+      background-image: url("data:image/svg+xml,%3Csvg class='marker-icon-svg' xmlns='http://www.w3.org/2000/svg' viewBox='-28.0446 -68 56.087 70'%3E%3Cpath d='M 0 -66 C 7.1888 -65.9916 13.6965 -63.0419 18.409 -58.2752 C 23.1174 -53.5127 26.0333 -46.936 26.0424 -39.6685 C 25.9554 -22 8.5476 -5.6884 3.1677 -1.1576 C 2.2488 -0.3855 1.123 0 -0.0024 0 C -1.1279 0 -2.2537 -0.3855 -3.1728 -1.1578 C -8.5601 -5.688 -26.0446 -21.8847 -26.0446 -39.667 C -26.0363 -46.9338 -23.1206 -53.5112 -18.4122 -58.2742 C -13.6997 -63.0415 -7.1915 -65.9916 0 -66 Z' stroke='%23FFFFFF' stroke-width='2' fill='%23C54579' opacity='1' /%3E%3C/svg%3E");
+    }
+    .marker-label-holder {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: #FFFFFF;
 
-			.marker-label-container {
-				width: 100%;
-				height: 100%;
-				position: relative;
+      .marker-label-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
 
-				.marker-label-line {
-					width: 1px;
-					height: 24px;
-					background-color: rgba(24, 24, 22, 0.5);
-					transform: rotate(45deg);
-					position: absolute;
-					top: 9px;
-					left: 21px;
-				}
-				.marker-label-text-wrapper {
-					width: 100%;
-					height: 100%;
-					position: relative;
-					color: $textBlackColor;
+        .marker-label-line {
+          width: 1px;
+          height: 24px;
+          background-color: rgba(24, 24, 22, 0.5);
+          transform: rotate(45deg);
+          position: absolute;
+          top: 9px;
+          left: 21px;
+        }
+        .marker-label-text-wrapper {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          color: $textBlackColor;
 
-					.marker-label-available-num {
-						position: absolute;
-						font-family: $FilsonProBold;
-						font-size: 18px;
-						letter-spacing: 0.6px;
-						line-height: 18px;
-						left: 9px;
-						top: 6px;
+          .marker-label-available-num {
+            position: absolute;
+            font-family: $FilsonProBold;
+            font-size: 18px;
+            letter-spacing: 0.6px;
+            line-height: 18px;
+            left: 9px;
+            top: 6px;
 
-						&.num-of-symbols_2 {
-							font-size: 15px;
-							left: 5px;
-							top: 5px;
-						}
-						&.num-of-symbols_3 {
-							font-size: 13px;
-							transform: rotate(-45deg);
-							left: 4px;
-							letter-spacing: -0.5px;
-							top: 8px;
-						}
-						&.num-of-symbols_4, &.num-of-symbols_5 {
-							transform: rotate(-45deg);
-							letter-spacing: -0.5px;
-							left: 4px;
-							top: 8px;
-						}
-						&.num-of-symbols_4 {
-							font-size: 11px;
-						}
-						&.num-of-symbols_5 {
-							font-size: 9px;
-						}
-					}
-					.marker-label-total-num {
-						position: absolute;
-						font-family: $FilsonProRegular;
-						font-size: 11px;
-						letter-spacing: 0.37px;
-						line-height: 11px;
-						bottom: 6px;
-						right: 8px;
+            &.num-of-symbols_2 {
+              font-size: 15px;
+              left: 5px;
+              top: 5px;
+            }
+            &.num-of-symbols_3 {
+              font-size: 13px;
+              transform: rotate(-45deg);
+              left: 4px;
+              letter-spacing: -0.5px;
+              top: 8px;
+            }
+            &.num-of-symbols_4, &.num-of-symbols_5 {
+              transform: rotate(-45deg);
+              letter-spacing: -0.5px;
+              left: 4px;
+              top: 8px;
+            }
+            &.num-of-symbols_4 {
+              font-size: 11px;
+            }
+            &.num-of-symbols_5 {
+              font-size: 9px;
+            }
+          }
+          .marker-label-total-num {
+            position: absolute;
+            font-family: $FilsonProRegular;
+            font-size: 11px;
+            letter-spacing: 0.37px;
+            line-height: 11px;
+            bottom: 6px;
+            right: 8px;
 
-						&.num-of-symbols_2 {
-							right: 4px;
-							bottom: 4px;
-							font-size: 10px;
-						}
-						&.num-of-symbols_3 {
-							letter-spacing: -0.5px;
-							font-size: 9px;
-							transform: rotate(-45deg);
-							right: 3px;
-						}
-						&.num-of-symbols_4, &.num-of-symbols_5 {
-							transform: rotate(-45deg);
-							letter-spacing: -0.5px;
-							right: 1px;
-							bottom: 5px;
-						}
-						&.num-of-symbols_4 {
-							font-size: 8px;
-						}
-						&.num-of-symbols_5 {
-							font-size: 7px;
-						}
-					}
-				}
-			}
-		}
-	}
+            &.num-of-symbols_2 {
+              right: 4px;
+              bottom: 4px;
+              font-size: 10px;
+            }
+            &.num-of-symbols_3 {
+              letter-spacing: -0.5px;
+              font-size: 9px;
+              transform: rotate(-45deg);
+              right: 3px;
+            }
+            &.num-of-symbols_4, &.num-of-symbols_5 {
+              transform: rotate(-45deg);
+              letter-spacing: -0.5px;
+              right: 1px;
+              bottom: 5px;
+            }
+            &.num-of-symbols_4 {
+              font-size: 8px;
+            }
+            &.num-of-symbols_5 {
+              font-size: 7px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 // info window close button
 .gm-style-iw-d + button {
-	width: 30px !important;
-	height: 30px !important;
-	top: 9px !important;
-	right: 7px !important;
+  width: 30px !important;
+  height: 30px !important;
+  top: 9px !important;
+  right: 7px !important;
 
-	> img {
-		margin: 0 0 0 3px !important;
-		width: 22px !important;
-		height: 22px !important;
-		opacity: 0.7 !important;
-		padding: 0 !important;
-	}
+  > img {
+    margin: 0 0 0 3px !important;
+    width: 22px !important;
+    height: 22px !important;
+    opacity: 0.7 !important;
+    padding: 0 !important;
+  }
 }
 
 // info window
 .gm-style-iw {
-	background-color: #FFFFFF !important;
-	border-radius: 0 !important;
-	padding: 16px !important;
+  background-color: #FFFFFF !important;
+  border-radius: 0 !important;
+  padding: 16px !important;
 }
 
 /********************
 *   GLOBAL SEARCH - DATE PICKER INPUT FIELD  *
 *********************/
 .search-filters-wrapper {
-	.date-field-group {
-		.b-form-btn-label-control {
-			&.form-control {
-				> .form-control {
-					padding: 12px 35px 0 15px;
-				}
-				> .btn {
-					position: absolute;
-					right: 0;
-					top: 7px;
-				}
-			}
-		}
-	}
+  .date-field-group {
+    .b-form-btn-label-control {
+      &.form-control {
+        > .form-control {
+          padding: 12px 35px 0 15px;
+        }
+        > .btn {
+          position: absolute;
+          right: 0;
+          top: 7px;
+        }
+      }
+    }
+  }
 }
 
 /*********************
 *  BOOTSTRAP ALERT    *
 **********************/
 .alert {
-	border-radius: 0;
+  border-radius: 0;
 }
 
 /*********************
 *  CUSTOM VUE-SELECT    *
 **********************/
 .custom-vue-select {
-	.vs__dropdown-toggle,
-	.vs__dropdown-menu,
-	.vs__search::-webkit-input-placeholder {
-		background: #FFFFFF;
-		border-radius: 0;
-		font-family: $FilsonProRegular;
-		font-size: 18px;
-		letter-spacing: 0.6px;
-		line-height: 18px;
+  .vs__dropdown-toggle,
+  .vs__dropdown-menu,
+  .vs__search::-webkit-input-placeholder {
+    background: #FFFFFF;
+    border-radius: 0;
+    font-family: $FilsonProRegular;
+    font-size: 18px;
+    letter-spacing: 0.6px;
+    line-height: 18px;
 
-		@media screen and (max-width: $tableMinWidth) {
-			font-size: 16px;
-			line-height: 16px;
-		}
-	}
-	.vs__dropdown-toggle,
-	.vs__dropdown-menu {
-		color: $textBlackColor;
-	}
-	.vs__search::-webkit-input-placeholder {
-		color: $grayColor;
-	}
-	.vs__selected, .vs__search, .vs__search:focus {
-		height: 65px;
-		padding-left: 25px;
+    @media screen and (max-width: $tableMinWidth) {
+      font-size: 16px;
+      line-height: 16px;
+    }
+  }
+  .vs__dropdown-toggle,
+  .vs__dropdown-menu {
+    color: $textBlackColor;
+  }
+  .vs__search::-webkit-input-placeholder {
+    color: $grayColor;
+  }
+  .vs__selected, .vs__search, .vs__search:focus {
+    height: 65px;
+    padding-left: 25px;
 
-		@media screen and (max-width: $tableMinWidth) {
-			height: 48px;
-			padding-left: 15px;
-		}
-	}
-	.vs__dropdown-menu {
-		max-height: 300px;
+    @media screen and (max-width: $tableMinWidth) {
+      height: 48px;
+      padding-left: 15px;
+    }
+  }
+  .vs__dropdown-menu {
+    max-height: 300px;
 
-		@media screen and (max-width: $tableMinWidth) {
-			max-height: 200px;
-		}
-	}
-	.vs__dropdown-option--highlight {
-		background-color: $greenColor !important;
-	}
-	.vs__dropdown-option {
-		padding: 8px 25px;
+    @media screen and (max-width: $tableMinWidth) {
+      max-height: 200px;
+    }
+  }
+  .vs__dropdown-option--highlight {
+    background-color: $greenColor !important;
+  }
+  .vs__dropdown-option {
+    padding: 8px 25px;
 
-		@media screen and (max-width: $tableMinWidth) {
-			padding-left: 15px;
-			padding-right: 15px;
-		}
-	}
-	.vs__actions {
-		padding-left: 16px;
-		padding-right: 16px;
-		position: relative;
+    @media screen and (max-width: $tableMinWidth) {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+  .vs__actions {
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
 
-		@media screen and (max-width: $tableMinWidth) {
-			padding-left: 5px;
-			padding-right: 10px;
-		}
-	}
-	.vs__spinner {
-		position: absolute;
-		z-index: 1000;
-		background-color: #FFFFFF;
-		right: 15px;
+    @media screen and (max-width: $tableMinWidth) {
+      padding-left: 5px;
+      padding-right: 10px;
+    }
+  }
+  .vs__spinner {
+    position: absolute;
+    z-index: 1000;
+    background-color: #FFFFFF;
+    right: 15px;
 
-		@media screen and (max-width: $tableMinWidth) {
-			right: 10px;
-		}
-	}
-	.vs__clear {
-		margin-right: 15px;
+    @media screen and (max-width: $tableMinWidth) {
+      right: 10px;
+    }
+  }
+  .vs__clear {
+    margin-right: 15px;
 
-		@media screen and (max-width: $tableMinWidth) {
-			margin-right: 10px;
-		}
-	}
-	.vs__selected {
-		max-width: 420px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+    @media screen and (max-width: $tableMinWidth) {
+      margin-right: 10px;
+    }
+  }
+  .vs__selected {
+    max-width: 420px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-		// temp
-		@media screen and (max-width: $tableWidth) {
-			max-width: 390px;
-		}
-		@media screen and (max-width: 859px) {
-			max-width: 320px;
-		}
-		@media screen and (min-width: $tableMinWidth - 1) and (max-width: 789px) {
-			max-width: 300px;
-		}
-		@media screen and (max-width: $tableMinWidth) {
-			max-width: 380px;
-		}
-		@media screen and (max-width: $phoneBigWidth) {
-			max-width: 320px;
-		}
-		@media screen and (max-width: 515px) {
-			max-width: 280px;
-		}
-		@media screen and (max-width: 469px) {
-			max-width: 220px;
-		}
-		@media screen and (max-width: 420px) {
-			max-width: 180px;
-		}
-		@media screen and (max-width: 380px) {
-			max-width: 170px;
-		}
-		@media screen and (max-width: 370px) {
-			max-width: 130px;
-		}
-	}
+    // temp
+    @media screen and (max-width: $tableWidth) {
+      max-width: 390px;
+    }
+    @media screen and (max-width: 859px) {
+      max-width: 320px;
+    }
+    @media screen and (min-width: $tableMinWidth - 1) and (max-width: 789px) {
+      max-width: 300px;
+    }
+    @media screen and (max-width: $tableMinWidth) {
+      max-width: 380px;
+    }
+    @media screen and (max-width: $phoneBigWidth) {
+      max-width: 320px;
+    }
+    @media screen and (max-width: 515px) {
+      max-width: 280px;
+    }
+    @media screen and (max-width: 469px) {
+      max-width: 220px;
+    }
+    @media screen and (max-width: 420px) {
+      max-width: 180px;
+    }
+    @media screen and (max-width: 380px) {
+      max-width: 170px;
+    }
+    @media screen and (max-width: 370px) {
+      max-width: 130px;
+    }
+  }
 }
 
 /*********************
 *  BOOTSTRAP TABLE    *
 **********************/
 .b-table {
-	&.table-bordered.table-custom-border {
-		tbody tr, tbody tr td, thead tr, thead tr th {
-			border-color: #d1cdbe;
-		}
-	}
+  &.table-bordered.table-custom-border {
+    tbody tr, tbody tr td, thead tr, thead tr th {
+      border-color: #d1cdbe;
+    }
+  }
 }
