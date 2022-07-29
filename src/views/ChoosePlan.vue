@@ -283,7 +283,7 @@ export default {
         let lineItemsToUpdate = [...this.lineItems];
         if (!this.isUpdateCase) {
           lineItemsToUpdate.push({
-            price:config.STRIPE_INFO.PRICE["inital-fee"].id,
+            price:config.STRIPE_INFO.PRICE["initial-fee"].id,
             quantity:1
           });
         }

@@ -39,20 +39,19 @@ export default {
     CANCEL_URL:"https://www.plentylane.com/choose-plan",
     SHOP_SUCCESS_URL:"https://www.plentylane.com/dashboard/shop/success",
     SHOP_CANCEL_URL:"https://www.plentylane.com/dashboard/shop",
-    PUBLISHABLE_KEY:
-      "pk_test_51K8qCPGB4hdOutpgof9ByAyhSh8TEGa9gxWm7zFXppqjUqJu0twUuVDbvL4x6kgzVgKvpcLFCPoqv5J3kn86gJWj00RvDZA6zj",
+    PUBLISHABLE_KEY: process.env.PUBLISHABLE_KEY,
     PRICE: {
-      'starter-monthly': { price: 0, id: "price_1KywMuGB4hdOutpgub8CJV6H" },
-      'starter-annual': { price: 0, id: "price_1KywMuGB4hdOutpgaXQaXKJm" },
-      'casual-monthly': { price: 4.95, id: "price_1KxhnmGB4hdOutpgm3lrDGFJ" },
-      'casual-annual': { price: 49.5, id: "price_1KxhnmGB4hdOutpgB6eK9heI" },
-      'unlimited-monthly': { price: 8.95, id: "price_1KxhqpGB4hdOutpgQWcMxjVk" },
-      'unlimited-annual': { price: 89.5, id: "price_1KxhqpGB4hdOutpgmNvLBJFR" },
-      'inital-fee': { price: 29.5, id: "price_1L03wFGB4hdOutpgiZCRRkkV" },
-      'container-fee':{ price:35, id: "price_1L0cyuGB4hdOutpgppKgn5cA" },
+      'starter-monthly': { price: 0, id: process.env.STARTER_MONTHLY_ID },
+      'starter-annual': { price: 0, id: process.env.STARTER_ANNUAL_ID },
+      'casual-monthly': { price: 4.95, id: process.env.CASUAL_MONTHLY_ID },
+      'casual-annual': { price: 49.5, id: process.env.CASUAL_ANNUAL_ID },
+      'unlimited-monthly': { price: 8.95, id: process.env.UNLIMITED_MONTHLY_ID },
+      'unlimited-annual': { price: 89.5, id: process.env.UNLIMITED_ANNUAL_ID },
+      'initial-fee': { price: 29.5, id: process.env.INITIAL_FEE },
+      'container-fee':{ price:35, id: process.env.CONTAINER_FEE },
     },
     TAX: {
-      'container-tax': { rate: 11.49, id: "txr_1L0d1tGB4hdOutpg9ZC6jZHz" }
+      'container-tax': { rate: 11.49, id: process.env.CONTAINER_TAX }
     }
   },
   RATINGS: {
