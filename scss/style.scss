@@ -1,0 +1,17 @@
+// @import "utils/fonts";
+@import "utils/vars";
+@import "utils/preloader";
+@import "utils/modal";
+@import "general";
+@import "authorization";
+@import "landing";
+@import "dashboard";
+@import "utils/fonts.scss";
+
+:root {
+  --default-size: 16px;
+  --chip-input-border-width: 100%;
+  --chip-input-font-size: var(--default-size);
+  --chip-input-autocomplete-font-size: var(--default-size);
+  --chip-font-size: var(--default-size)
+}
