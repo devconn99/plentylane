@@ -198,7 +198,7 @@ export default {
     },
     redirectToBookingPage () {
       if (!this.bookingInfo || !this.bookingInfo.id) return;
-      this.$router.push({ path: `/dashboard/booking/${this.bookingInfo.id}` }).catch(()=>{});
+      this.$router.push({ path: `/dashboard/booking/${this.bookingInfo.id}` });
     },
     emitAction (name) {
       this.$emit(`on-action-${name}`, this.bookingInfo.id);

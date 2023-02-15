@@ -673,7 +673,7 @@ export default {
     },
     redirectToCookProfile (id) {
       if (!id) return;
-      this.$router.push({ path: `/dashboard/cook-profile/${id}` }).catch(()=>{});
+      this.$router.push({ path: `/dashboard/cook-profile/${id}` });
     },
     countDownChanged(dismissCountDown) {
       this.alert.show = dismissCountDown;

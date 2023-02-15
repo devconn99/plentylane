@@ -7,7 +7,11 @@
             <div class="footer-box-part1">
               <div class="logo-block">
                 <nuxt-link to="/">
-                  <img src="../../assets/images/logo/logo_red.svg" alt="" class="img-fluid">
+                  <img
+                    src="../../assets/images/logo/logo_red.svg"
+                    alt=""
+                    class="img-fluid"
+                  />
                 </nuxt-link>
               </div>
               <nav class="footer-nav">
@@ -32,14 +36,19 @@
             </div>
             <div class="copyright">
               &copy;2022
-              <a href="https://www.plentylane.com" target="_blank">PlentyLane.com</a>. <span>All Rights Reserved.</span>
+              <a href="https://www.plentylane.com" target="_blank"
+                >PlentyLane.com</a
+              >. <span>All Rights Reserved.</span>
             </div>
           </div>
         </div>
         <div class="col-lg-3 d-none d-lg-block ml-auto" v-if="!token">
           <div class="footer-login">
             <div class="footer-login-btn">
-              <nuxt-link to="/sign-up" class="btnLightRed btnNormalSize btn100 hover-slide-left">
+              <nuxt-link
+                to="/sign-up"
+                class="btnLightRed btnNormalSize btn100 hover-slide-left"
+              >
                 <span>Sign Up Today!</span>
               </nuxt-link>
             </div>
@@ -60,26 +69,22 @@
 </template>
 
 <script>
-import SvgIcon from '../SvgIcon';
+import SvgIcon from "../SvgIcon";
 export default {
   name: "Footer",
-  components: {SvgIcon},
+  components: { SvgIcon },
   data() {
     return {
       tokn: null,
-    }
+    };
   },
-  computed:{
+  computed: {
     token() {
-      return !!this.tokn
-    }
+      return !!this.tokn;
+    },
   },
   mounted() {
-    this.tokn = localStorage.getItem("plAccessToken");
-  }
-}
+    this.tokn = this.$cookies.get("plAccessToken");
+  },
+};
 </script>
-
-<style scoped lang="scss">
-
-</style>

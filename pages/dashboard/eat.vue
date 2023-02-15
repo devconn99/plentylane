@@ -32,8 +32,8 @@
 
 <script>
 // import Loading from 'vue-loading-overlay';
-import HeroWave from '../../components/HeroWave';
-import MainSearch from '../../components/MainSearch';
+import HeroWave from '@/components/HeroWave';
+import MainSearch from '@/components/MainSearch';
 export default {
   name: "Eat",
   components: {HeroWave, MainSearch},
@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../scss/utils/vars";
+@import "@/scss/utils/vars";
 .eat-page {
   .dashboard-content {
     padding-top: 80px !important;

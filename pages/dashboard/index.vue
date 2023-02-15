@@ -66,7 +66,7 @@
               <div class="reserved-box empty">
                 <div class="reserved-title-empty">No reserved meals</div>
                 <div class="reserved-img-empty">
-                  <img src="../../assets/images/dashboard/home/empty-posted.svg" alt=""
+                  <img src="@/assets/images/dashboard/home/empty-posted.svg" alt=""
                      class="img-fluid">
                 </div>
                 <div class="box-btn w100">
@@ -98,7 +98,7 @@
               <div class="reserved-box empty">
                 <div class="reserved-title-empty">No posted meals</div>
                 <div class="reserved-img-empty">
-                  <img src="../../assets/images/dashboard/home/empty-posted.svg" alt=""
+                  <img src="@/assets/images/dashboard/home/empty-posted.svg" alt=""
                      class="img-fluid">
                 </div>
                 <div class="box-btn w100">
@@ -139,12 +139,12 @@
 </template>
 
 <script>
-import api from '../../api';
-import SvgIcon from '../../components/SvgIcon';
-import OfferInfoBlock from '../../components/OfferInfoBlock';
-import BookingInfoBlock from '../../components/BookingInfoBlock';
-import MyMealInfo from '../../components/MyMealInfo';
-import CarouselContainer from '../../components/CarouselContainer';
+import api from '@/api';
+import SvgIcon from '@/components/SvgIcon';
+import OfferInfoBlock from '@/components/OfferInfoBlock';
+import BookingInfoBlock from '@/components/BookingInfoBlock';
+import MyMealInfo from '@/components/MyMealInfo';
+import CarouselContainer from '@/components/CarouselContainer';
 
 export default {
   name: "DashboardContent",

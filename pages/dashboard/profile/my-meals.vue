@@ -387,7 +387,7 @@ export default {
     },
     onActionView(id) {
       if (!id) return;
-      this.$router.push({ path: `/dashboard/booking/${id}` }).catch(()=>{});
+      this.$router.push({ path: `/dashboard/booking/${id}` });
     },
     onActionCancel(id) {
       if (!id) return;

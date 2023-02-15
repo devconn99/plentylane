@@ -179,7 +179,7 @@ export default {
     },
     browseMoreMeals() {
       this.closeModal();
-      this.$router.push({ path: '/dashboard/eat' }).catch(()=>{});
+      this.$router.push({ path: '/dashboard/eat' });
     }
   },
   computed: {

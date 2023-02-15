@@ -335,7 +335,7 @@ export default {
         this.areOffersLoading = false;
         this.hideGlobalLoader();
         if (cb) cb();
-        return this.$router.push({ path: '/dashboard/not-found' }).catch(() => {});
+        return this.$router.push({ path: '/dashboard/not-found' });
       }
 
       this.isLoaded = true;

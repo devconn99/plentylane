@@ -12,7 +12,8 @@
     }
     span.hamburger {
       background: $greenColor;
-      &:before, &:after {
+      &:before,
+      &:after {
         background: $greenColor;
       }
     }
@@ -70,43 +71,6 @@
             }
           }
         }
-
-        > .profile-page-wrapper {
-          flex-direction: row;
-          display: flex;
-          width: 100%;
-
-          .dashboard-content {
-            .dashboard-title-box {
-              display: flex;
-              flex-direction: column;
-              position: relative;
-              min-height: 24px;
-
-              .dashboard-profile-title-text {
-                width: 100%;
-
-                @media screen and (max-width: $tableMinWidth) {
-                  width: auto;
-                  margin: 0 auto;
-                }
-              }
-
-              .dashboard-profile-title-back {
-                position: absolute;
-                top: 0;
-                left: 0;
-
-                @media screen and (max-width: $tableMinWidth) {
-                  display: block;
-                }
-                @media screen and (min-width: $tableMinWidth + 1) {
-                  display: none;
-                }
-              }
-            }
-          }
-        }
       }
       @media screen and (max-width: $tableMinWidth) {
         padding-left: 0;
@@ -124,9 +88,46 @@
     }
     &.dashboard-home .dashboard-content {
       // path is fine
-      background-image: url('./assets/images/elements/dashboard/dashboard-home-bg.svg');
+      background-image: url("./assets/images/elements/dashboard/dashboard-home-bg.svg");
       background-position: top center;
       background-repeat: repeat-x;
+    }
+  }
+
+  .profile-page-wrapper {
+    flex-direction: row;
+    display: flex;
+    width: 100%;
+
+    .dashboard-content {
+      .dashboard-title-box {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        min-height: 24px;
+
+        .dashboard-profile-title-text {
+          width: 100%;
+
+          @media screen and (max-width: $tableMinWidth) {
+            width: auto;
+            margin: 0 auto;
+          }
+        }
+
+        .dashboard-profile-title-back {
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          @media screen and (max-width: $tableMinWidth) {
+            display: block;
+          }
+          @media screen and (min-width: $tableMinWidth + 1) {
+            display: none;
+          }
+        }
+      }
     }
   }
   .btn-search {
@@ -140,7 +141,9 @@
     -moz-osx-font-smoothing: grayscale;
     overflow: hidden;
     outline: none;
-    &:hover, &:after, &:focus {
+    &:hover,
+    &:after,
+    &:focus {
       outline: none;
     }
   }
@@ -163,8 +166,12 @@
     }
     &.hero-img-overlay:before {
       position: absolute;
-      content: '';
-      background: linear-gradient(to left, rgba(53,53,49,0), rgba(31,31,26,0.74));
+      content: "";
+      background: linear-gradient(
+        to left,
+        rgba(53, 53, 49, 0),
+        rgba(31, 31, 26, 0.74)
+      );
       top: 0;
       left: 0;
       width: 100%;
@@ -173,26 +180,26 @@
     &.dashboard-shop-bg {
       background-color: $greenColor;
       // path is fine
-      background-image: url('./assets/images/elements/dashboard/bg/shop-bg.svg');
+      background-image: url("./assets/images/elements/dashboard/bg/shop-bg.svg");
     }
     &.dashboard-cook-bg {
       background-color: $yellowColor;
       // path is fine
-      background-image: url('./assets/images/elements/dashboard/bg/cook-bg.svg');
+      background-image: url("./assets/images/elements/dashboard/bg/cook-bg.svg");
     }
     &.dashboard-eat-bg {
       background-color: $greenBrightColor;
       // path is fine
-      background-image: url('./assets/images/elements/dashboard/bg/eat-bg.svg');
+      background-image: url("./assets/images/elements/dashboard/bg/eat-bg.svg");
     }
     &.dashboard-not-found-bg {
       background-color: #acacac;
-      background-image: url('./assets/images/elements/dashboard/bg/cook-bg.svg');
+      background-image: url("./assets/images/elements/dashboard/bg/cook-bg.svg");
     }
     &.dashboard-contact-us-bg {
       background-color: $yellowColor;
       // path is fine
-      background-image: url('./assets/images/elements/dashboard/bg/cook-bg.svg');
+      background-image: url("./assets/images/elements/dashboard/bg/cook-bg.svg");
     }
   }
   .form .form-group {
@@ -311,7 +318,7 @@
           -ms-user-select: none;
           user-select: none;
           span {
-            &:not(.b-avatar):not(.b-avatar-img ):not(.b-avatar-badge){
+            &:not(.b-avatar):not(.b-avatar-img):not(.b-avatar-badge) {
               font-size: 18px;
               line-height: 24px;
               color: $greenColor;
@@ -321,20 +328,22 @@
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
-              -webkit-transition: .3s all ease;
-              -o-transition: .3s all ease;
-              transition: .3s all ease;
+              -webkit-transition: 0.3s all ease;
+              -o-transition: 0.3s all ease;
+              transition: 0.3s all ease;
             }
-            &.b-avatar-badge{
+            &.b-avatar-badge {
               right: -0.5rem !important;
             }
           }
-          &:hover, &:focus, &:active {
+          &:hover,
+          &:focus,
+          &:active {
             span {
               color: $mainBackgroundColor;
-              -webkit-transition: .3s all ease;
-              -o-transition: .3s all ease;
-              transition: .3s all ease;
+              -webkit-transition: 0.3s all ease;
+              -o-transition: 0.3s all ease;
+              transition: 0.3s all ease;
             }
           }
 
@@ -372,21 +381,23 @@
           left: 64px;
           border: 3px solid $greenNavyColor;
           padding-top: 2px;
-          -webkit-transition: .4s all ease;
-          -o-transition: .4s all ease;
-          transition: .4s all ease;
-          &:hover, &:focus, &:active {
+          -webkit-transition: 0.4s all ease;
+          -o-transition: 0.4s all ease;
+          transition: 0.4s all ease;
+          &:hover,
+          &:focus,
+          &:active {
             border: 3px solid $mainBackgroundColor;
-            -webkit-transition: .4s all ease;
-            -o-transition: .4s all ease;
-            transition: .4s all ease;
+            -webkit-transition: 0.4s all ease;
+            -o-transition: 0.4s all ease;
+            transition: 0.4s all ease;
           }
         }
         img {
           width: 64px;
           height: 64px;
           border-radius: 50%;
-          border: 6px solid rgba(24,24,22,0.19);
+          border: 6px solid rgba(24, 24, 22, 0.19);
           object-fit: cover;
         }
         .dashboard-user-avatar {
@@ -395,7 +406,7 @@
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            border: 6px solid rgba(24,24,22,0.19);
+            border: 6px solid rgba(24, 24, 22, 0.19);
             object-fit: fill;
           }
           span {
@@ -415,14 +426,16 @@
             right: -8px;
             border: 3px solid $greenNavyColor;
             padding-top: 2px;
-            -webkit-transition: .3s all ease;
-            -o-transition: .3s all ease;
-            transition: .3s all ease;
-            &:hover, &:focus, &:active {
+            -webkit-transition: 0.3s all ease;
+            -o-transition: 0.3s all ease;
+            transition: 0.3s all ease;
+            &:hover,
+            &:focus,
+            &:active {
               border: 3px solid $mainBackgroundColor;
-              -webkit-transition: .3s all ease;
-              -o-transition: .3s all ease;
-              transition: .3s all ease;
+              -webkit-transition: 0.3s all ease;
+              -o-transition: 0.3s all ease;
+              transition: 0.3s all ease;
             }
           }
         }
@@ -437,7 +450,9 @@
             line-height: 24px;
             color: $greenColor;
             font-family: $LacaProSemiBold;
-            &:hover, &:focus, &:active {
+            &:hover,
+            &:focus,
+            &:active {
               color: $mainBackgroundColor;
             }
           }
@@ -473,19 +488,21 @@ ul.nav-menu-dashboard {
       -ms-transition: color 0.3s ease;
       -o-transition: color 0.3s ease;
       transition: color 0.3s ease;
-      &:hover, &:focus, &:active {
+      &:hover,
+      &:focus,
+      &:active {
         color: $mainBackgroundColor;
         svg path:not(.no-change) {
           fill: $greenLightColor;
-          -webkit-transition: .3s all ease;
-          -o-transition: .3s all ease;
-          transition: .3s all ease;
+          -webkit-transition: 0.3s all ease;
+          -o-transition: 0.3s all ease;
+          transition: 0.3s all ease;
         }
-        svg path.no-change~g>g {
+        svg path.no-change ~ g > g {
           fill: $greenLightColor;
-          -webkit-transition: .3s all ease;
-          -o-transition: .3s all ease;
-          transition: .3s all ease;
+          -webkit-transition: 0.3s all ease;
+          -o-transition: 0.3s all ease;
+          transition: 0.3s all ease;
         }
       }
       span {
@@ -494,17 +511,17 @@ ul.nav-menu-dashboard {
     }
     &.active .nav-link {
       color: $mainBackgroundColor;
-      svg path:not(.no-change){
+      svg path:not(.no-change) {
         fill: $greenLightColor;
-        -webkit-transition: .3s all ease;
-        -o-transition: .3s all ease;
-        transition: .3s all ease;
+        -webkit-transition: 0.3s all ease;
+        -o-transition: 0.3s all ease;
+        transition: 0.3s all ease;
       }
-      svg path.no-change~g>g {
+      svg path.no-change ~ g > g {
         fill: $greenLightColor;
-        -webkit-transition: .3s all ease;
-        -o-transition: .3s all ease;
-        transition: .3s all ease;
+        -webkit-transition: 0.3s all ease;
+        -o-transition: 0.3s all ease;
+        transition: 0.3s all ease;
       }
     }
     &:first-child .nav-link {
@@ -517,7 +534,8 @@ ul.nav-menu-dashboard-small {
   padding: 0;
   margin: 0;
   li {
-    a, a:not([href]):not([class]) {
+    a,
+    a:not([href]):not([class]) {
       display: flex;
       align-items: center;
       font-family: $FilsonProRegular;
@@ -527,12 +545,13 @@ ul.nav-menu-dashboard-small {
         color: $mainBackgroundColor;
         svg path {
           stroke: $greenLightColor;
-          -webkit-transition: .3s all ease;
-          -o-transition: .3s all ease;
-          transition: .3s all ease;
+          -webkit-transition: 0.3s all ease;
+          -o-transition: 0.3s all ease;
+          transition: 0.3s all ease;
         }
       }
-      &:active, &:focus {
+      &:active,
+      &:focus {
         color: $greenColor;
       }
       span {
@@ -545,7 +564,8 @@ ul.nav-menu-dashboard-small {
       }
     }
     &.active {
-      a, a:not([href]):not([class]) {
+      a,
+      a:not([href]):not([class]) {
         color: $mainBackgroundColor;
       }
     }
@@ -553,7 +573,8 @@ ul.nav-menu-dashboard-small {
       color: $mainBackgroundColor;
     }
     &:first-child {
-      a, a:not([href]):not([class]) {
+      a,
+      a:not([href]):not([class]) {
         padding-top: 0;
       }
     }
@@ -580,9 +601,9 @@ ul.nav-menu-dashboard-small {
     align-items: center;
   }
   .cook-box-bigimg {
-    position:relative;
-    overflow:hidden;
-    padding-bottom:100%;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
     @media screen and (max-width: $phoneBigWidth) {
       padding-bottom: 0;
       margin: 0 auto;
@@ -644,7 +665,8 @@ ul.nav-menu-dashboard-small {
       align-items: flex-start;
     }
   }
-  .cook-info-name, a.cook-info-name {
+  .cook-info-name,
+  a.cook-info-name {
     font-family: $FilsonProBold;
     padding-top: 3px;
     color: $textBlackColor;
@@ -657,8 +679,8 @@ ul.nav-menu-dashboard-small {
     align-items: center;
     flex-direction: row-reverse;
     .cook-info-benefits-box {
-      box-shadow: 0 2px 2px rgba(213,203,183,0.3);
-      border: 1px solid #F3E5C8;
+      box-shadow: 0 2px 2px rgba(213, 203, 183, 0.3);
+      border: 1px solid #f3e5c8;
       border-radius: 50%;
       width: 24px;
       height: 24px;
@@ -740,7 +762,8 @@ ul.nav-menu-dashboard-small {
         transition: color 0.3s ease;
       }
     }
-    a, .link-item {
+    a,
+    .link-item {
       display: flex;
       align-items: center;
       letter-spacing: 0.6px;
@@ -769,7 +792,7 @@ a.cook-box {
 a.reserved-box,
 .reserved-box {
   background-color: $whiteColor;
-  box-shadow: 0 4px 16px rgba(69,53,38,0.15);
+  box-shadow: 0 4px 16px rgba(69, 53, 38, 0.15);
   margin-bottom: 16px;
   display: block;
   font-family: $FilsonProRegular;
@@ -777,8 +800,10 @@ a.reserved-box,
   &:last-child {
     margin-bottom: 0;
   }
-  &:hover, &:focus, &:active {
-    box-shadow: 0 6px 18px  rgba(69,53,38,0.30);
+  &:hover,
+  &:focus,
+  &:active {
+    box-shadow: 0 6px 18px rgba(69, 53, 38, 0.3);
   }
   @media screen and (max-width: $phoneWidth) {
     padding: 12px;
@@ -870,7 +895,9 @@ a.reserved-box,
 // .shop-order has been moved to src/components/shop/Basket styles
 
 .shop-price-box {
-  .shop-price-subtotal, .shop-price-tax, .shop-price-total {
+  .shop-price-subtotal,
+  .shop-price-tax,
+  .shop-price-total {
     display: flex;
     justify-content: space-between;
   }
@@ -894,7 +921,7 @@ a.serving-number {
 .questions {
   .questions-box {
     padding: 20px 0;
-    border-bottom: 1px solid rgba(161,112,103,0.3);
+    border-bottom: 1px solid rgba(161, 112, 103, 0.3);
     .questions-box-author {
       display: flex;
       align-items: center;
@@ -961,7 +988,7 @@ a.serving-number {
             padding-left: 0;
           }
           &.b-rating-star-empty {
-            color: #B7B2A1;
+            color: #b7b2a1;
           }
           &.b-rating-star-half {
             .b-rating-icon {
@@ -1009,7 +1036,7 @@ a.serving-number {
 ***********************/
 .nav-tabs {
   &.custom-tabs {
-    border-bottom: 3px solid rgba(138,135,125,0.25);
+    border-bottom: 3px solid rgba(138, 135, 125, 0.25);
     padding-bottom: 0;
 
     .nav-item {
@@ -1043,7 +1070,7 @@ a.serving-number {
       }
 
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         width: 100%;
@@ -1066,7 +1093,8 @@ a.serving-number {
         }
       }
 
-      &:focus, &:hover {
+      &:focus,
+      &:hover {
         border-color: transparent;
       }
     }
@@ -1078,7 +1106,8 @@ a.serving-number {
 *************/
 .my-meal-action-wrapper,
 .reserved-action-wrapper {
-  .my-meal-action-toggle, .reserved-action-toggle {
+  .my-meal-action-toggle,
+  .reserved-action-toggle {
     color: $grayColor !important;
   }
 }
@@ -1086,12 +1115,16 @@ a.serving-number {
 .my-meal-action-wrapper,
 .reserved-action-wrapper,
 .recept-box-action-wrapper {
-  .my-meal-action-toggle, .reserved-action-toggle, .recept-box-action-toggle {
+  .my-meal-action-toggle,
+  .reserved-action-toggle,
+  .recept-box-action-toggle {
     border-radius: 0 !important;
     background-color: transparent !important;
     border: none !important;
   }
-  .my-meal-action-menu, .reserved-action-menu, .recept-box-action-menu {
+  .my-meal-action-menu,
+  .reserved-action-menu,
+  .recept-box-action-menu {
     border-radius: 0;
     min-width: 120px !important;
     width: 120px !important;
@@ -1124,7 +1157,7 @@ a.serving-number {
     $actionBtnWidthMobile: 84px;
 
     padding: 11px 0;
-    border-bottom: 1px solid rgba(138,135,125,0.25);
+    border-bottom: 1px solid rgba(138, 135, 125, 0.25);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1190,7 +1223,8 @@ a.serving-number {
       .action-button {
         min-width: $actionBtnWidth;
 
-        &:focus, &:active {
+        &:focus,
+        &:active {
           background-color: inherit;
           border-color: inherit;
         }
@@ -1206,10 +1240,10 @@ a.serving-number {
 
         span.pending {
           &::after {
-            content: '...';
+            content: "...";
 
             @media screen and (max-width: $phoneBigWidth) {
-              content: '';
+              content: "";
             }
           }
         }

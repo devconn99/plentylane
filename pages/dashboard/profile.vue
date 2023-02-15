@@ -1,51 +1,71 @@
 <template>
   <div class="profile-page-wrapper">
-    <div class="dashboard-profile-aside" v-bind:class="{ 'mobile-aside-enabled': isMobileAsideEnabled }">
+    <div
+      class="dashboard-profile-aside"
+      v-bind:class="{ 'mobile-aside-enabled': isMobileAsideEnabled }"
+    >
       <div class="title-size2 mb-5">Profile</div>
       <nav id="nav-dashboard-profile">
         <ul class="nav-menu-dashboard-profile">
-          <li v-for="(item,i) in navItems" :key="i" v-bind:class="{ 'active': item.isActive }">
-            <div class="aside-nav-item-wrapper" @click.stop.prevent="redirectToPath(item.path)">
-              <span>{{item.title}}</span>
+          <li
+            v-for="(item, i) in navItems"
+            :key="i"
+            v-bind:class="{ active: item.isActive }"
+          >
+            <div
+              class="aside-nav-item-wrapper"
+              @click.stop.prevent="redirectToPath(item.path)"
+            >
+              <span>{{ item.title }}</span>
               <SvgIcon icon="openArrowRight"></SvgIcon>
             </div>
           </li>
-          <li @click="openLogoutConfirmModal" class="cursor-pointer logout-item">
+          <li
+            @click="openLogoutConfirmModal"
+            class="cursor-pointer logout-item"
+          >
             <span>Logout</span>
             <SvgIcon icon="openArrowRight"></SvgIcon>
           </li>
         </ul>
       </nav>
     </div>
-    <div class="dashboard-content" v-bind:class="{ 'mobile-aside-enabled': isMobileAsideEnabled }">
+    <div
+      class="dashboard-content"
+      v-bind:class="{ 'mobile-aside-enabled': isMobileAsideEnabled }"
+    >
       <div class="container-fluid">
         <router-view></router-view>
       </div>
     </div>
 
     <!-- Modals -->
-    <ConfirmModal :id="modalId" :message="logoutMessage" @confirmed="onConfirmedLogout"></ConfirmModal>
+    <ConfirmModal
+      :id="modalId"
+      :message="logoutMessage"
+      @confirmed="onConfirmedLogout"
+    ></ConfirmModal>
   </div>
 </template>
 
 <script>
-import ConfirmModal from '@/components/modals/ConfirmModal';
-import SvgIcon from '@/components/SvgIcon';
+import ConfirmModal from "@/components/modals/ConfirmModal";
+import SvgIcon from "@/components/SvgIcon";
 
 export default {
   name: "ProfileWrapper",
   components: { ConfirmModal, SvgIcon },
   data: () => ({
-    logoutMessage: 'Are you sure you want to logout?',
-    modalId: 'confirm-logout',
-    isMobileAsideEnabled: false
+    logoutMessage: "Are you sure you want to logout?",
+    modalId: "confirm-logout",
+    isMobileAsideEnabled: false,
   }),
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
       vm.isMobileAsideEnabled = false;
     });
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     this.isMobileAsideEnabled = false;
     next();
   },
@@ -53,49 +73,49 @@ export default {
     navItems() {
       const allItems = [
         {
-          title: 'Edit Profile',
-          path: '/dashboard/profile'
+          title: "Edit Profile",
+          path: "/dashboard/profile",
         },
         {
-          title: 'My Dishes',
-          path: '/dashboard/profile/my-meals'
+          title: "My Dishes",
+          path: "/dashboard/profile/my-meals",
         },
         {
-          title: 'My Answers',
-          path: '/dashboard/profile/my-answers'
+          title: "My Answers",
+          path: "/dashboard/profile/my-answers",
         },
         {
-          title: 'My Questions',
-          path: '/dashboard/profile/my-questions'
+          title: "My Questions",
+          path: "/dashboard/profile/my-questions",
         },
         {
-          title: 'Tokens',
-          path: '/dashboard/profile/tokens'
+          title: "Tokens",
+          path: "/dashboard/profile/tokens",
         },
         {
-          title: 'Account',
-          path: '/dashboard/profile/account'
-        }
+          title: "Account",
+          path: "/dashboard/profile/account",
+        },
       ];
 
       return allItems;
-    }
+    },
   },
   methods: {
-    openLogoutConfirmModal () {
+    openLogoutConfirmModal() {
       this.$bvModal.show(this.modalId);
     },
-    onConfirmedLogout () {
-      localStorage.removeItem('plAccessToken');
+    onConfirmedLogout() {
+      this.$cookies.remove("plAccessToken");
       localStorage.removeItem("role");
-      localStorage.removeItem('plUserId');
-      this.$store.commit('reset');
-      this.$router.push({path: '/login'});
+      localStorage.removeItem("plUserId");
+      this.$store.commit("reset");
+      this.$router.push({ path: "/login" });
     },
-    onResizeHandler () {
+    onResizeHandler() {
       this.isMobileAsideEnabled = $(window).innerWidth() < 768;
     },
-    redirectToPath (path) {
+    redirectToPath(path) {
       if (this.$route.path === path) {
         this.isMobileAsideEnabled = false;
         return;
@@ -105,28 +125,28 @@ export default {
       this.isMobileAsideEnabled = false;
       // this.$router.push({ path: path }).catch(()=>{});
       this.$router.push({ path: path });
-    }
+    },
   },
   watch: {
-    '$route.path': {
-      handler: function(path) {
+    "$route.path": {
+      handler: function (path) {
         if (!this.navItems || !this.navItems.length) return;
-        this.navItems.forEach(item => {
+        this.navItems.forEach((item) => {
           item.isActive = item.path === path;
         });
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
-  created () {
-    this.$eventHub.$on('show-mobile-profile-aside', () => {
+  created() {
+    this.$eventHub.$on("show-mobile-profile-aside", () => {
       this.isMobileAsideEnabled = true;
-    })
+    });
   },
-  beforeDestroy () {
-    this.$eventHub.$off('show-mobile-profile-aside');
-  }
-}
+  beforeDestroy() {
+    this.$eventHub.$off("show-mobile-profile-aside");
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -139,7 +159,7 @@ $profileAsideWidthMin: 220px;
   min-width: $profileAsideWidth;
   max-width: $profileAsideWidth;
   padding: 65px 0 0;
-  box-shadow: 2px 0 rgba(24,24,22,0.07);
+  box-shadow: 2px 0 rgba(24, 24, 22, 0.07);
   display: flex;
   flex-direction: column;
   min-height: 100vh; // TODO: get back to it later - possibly need to avoid unnecessary scroll on mobile view
@@ -217,7 +237,7 @@ $profileAsideWidthMin: 220px;
       }
       .aside-nav-item-wrapper {
         @media screen and (max-width: $tableMinWidth) {
-          border-bottom: 2px solid #EEE8D7;
+          border-bottom: 2px solid #eee8d7;
         }
       }
     }
@@ -231,6 +251,42 @@ $profileAsideWidthMin: 220px;
     }
     @media screen and (min-width: $desktopWidth + 1px) {
       max-width: calc(100% - #{$profileAsideWidth});
+    }
+  }
+  .profile-page-wrapper {
+    flex-direction: row;
+    display: flex;
+    width: 100%;
+
+    .dashboard-content {
+      .dashboard-title-box {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        min-height: 24px;
+
+        .dashboard-profile-title-text {
+          width: 100%;
+
+          @media screen and (max-width: $tableMinWidth) {
+            width: auto;
+            margin: 0 auto;
+          }
+        }
+
+        .dashboard-profile-title-back {
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          @media screen and (max-width: $tableMinWidth) {
+            display: block;
+          }
+          @media screen and (min-width: $tableMinWidth + 1) {
+            display: none;
+          }
+        }
+      }
     }
   }
 }

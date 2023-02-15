@@ -1,10 +1,18 @@
 <template>
-  <header class="header" v-bind:class="{'bar-green-color': isGreenColor}">
+  <header class="header" v-bind:class="{ 'bar-green-color': isGreenColor }">
     <div class="container">
       <div class="header-box">
         <div class="logo-block">
           <nuxt-link to="/">
-            <svg class="header-svg-logo" width="102px" height="48px" viewBox="0 0 102 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <svg
+              class="header-svg-logo"
+              width="102px"
+              height="48px"
+              viewBox="0 0 102 48"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-80.000000, -48.000000)">
                   <g transform="translate(80.000000, 48.000000)">
@@ -62,8 +70,17 @@
         <div class="header-links">
           <div class="header-link-nav">
             <div class="mobile-button">
-              <button type="button" id="mobile-menu-box-toggle" @click="toggleMobileSideNav">
-                <span v-bind:class="{ 'hamburger': !isMobileSidebarVisible, 'hamburger-checked': isMobileSidebarVisible }"></span>
+              <button
+                type="button"
+                id="mobile-menu-box-toggle"
+                @click="toggleMobileSideNav"
+              >
+                <span
+                  v-bind:class="{
+                    hamburger: !isMobileSidebarVisible,
+                    'hamburger-checked': isMobileSidebarVisible,
+                  }"
+                ></span>
               </button>
             </div>
             <nav
@@ -73,11 +90,20 @@
               v-on-clickaway="onMobileSideNavClickedAway"
             >
               <ul class="nav-menu-landing">
-                <li v-for="item in menuItems" v-bind:class="{ active: item.name === activeMenuName }" v-bind:key="item.name">
-                  <a href="" @click.stop.prevent="changeRoute(item.to)">{{item.text}}</a>
+                <li
+                  v-for="item in menuItems"
+                  v-bind:class="{ active: item.name === activeMenuName }"
+                  v-bind:key="item.name"
+                >
+                  <a href="" @click.stop.prevent="changeRoute(item.to)">{{
+                    item.text
+                  }}</a>
                 </li>
                 <li class="register-btn">
-                  <a class="btnLightRed btnNormalSize hover-slide-left" @click="changeRoute('/sign-up')">
+                  <a
+                    class="btnLightRed btnNormalSize hover-slide-left"
+                    @click="changeRoute('/sign-up')"
+                  >
                     <span>Sign Up</span>
                   </a>
                 </li>
@@ -94,39 +120,39 @@
 export default {
   name: "Header",
   props: {
-    'activeItem': {
+    activeItem: {
       type: String,
     },
-    'isGreenColor': {
+    isGreenColor: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data: () => ({
     menuItems: [
-      { to: '/how-it-works', text: 'How It Works', name: 'works' },
-      { to: '/pricing', text: 'Pricing', name: 'pricing' },
-      { to: '/faqs', text: 'FAQs', name: 'faqs' },
-      { to: '/login', text: 'Login', name: 'login' }
+      { to: "/how-it-works", text: "How It Works", name: "works" },
+      { to: "/pricing", text: "Pricing", name: "pricing" },
+      { to: "/faqs", text: "FAQs", name: "faqs" },
+      { to: "/login", text: "Login", name: "login" },
     ],
     isMobileSidebarVisible: false,
-    isMobileBtnMenuActive: false
+    isMobileBtnMenuActive: false,
   }),
   computed: {
     activeMenuName: function () {
       return this.activeItem;
-    }
+    },
   },
   methods: {
-    showMobileSideNav () {
+    showMobileSideNav() {
       this.isMobileSidebarVisible = true;
-      this.$eventHub.$emit('mobile-side-nav-opened');
+      this.$eventHub.$emit("mobile-side-nav-opened");
     },
-    hideMobileSideNav () {
+    hideMobileSideNav() {
       this.isMobileSidebarVisible = false;
-      this.$eventHub.$emit('mobile-side-nav-closed');
+      this.$eventHub.$emit("mobile-side-nav-closed");
     },
-    toggleMobileSideNav () {
+    toggleMobileSideNav() {
       if (!this.isMobileSidebarVisible) {
         this.showMobileSideNav();
       } else {
@@ -143,12 +169,12 @@ export default {
         }
       }, 300);
     },
-    onMobileSideNavClickedAway () {
+    onMobileSideNavClickedAway() {
       if (!this.isMobileBtnMenuActive && this.isMobileSidebarVisible) {
         this.hideMobileSideNav();
       }
     },
-    changeRoute (to) {
+    async changeRoute(to) {
       if (this.$route.path === to) {
         // no need to redirect, just need to close the side nav on mobile
         if (this.isMobileSidebarVisible) {
@@ -157,18 +183,13 @@ export default {
         return;
       }
       if (!to || !to.length) return;
-      this.$router.push({ path: to })
-        .then(() => {
-          if (this.isMobileSidebarVisible) {
-            this.hideMobileSideNav();
-          }
-        })
-        .catch(()=>{});
-    }
-  }
-}
+      await this.$router.push({ path: to });
+      if (this.isMobileSidebarVisible) {
+        this.hideMobileSideNav();
+      }
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

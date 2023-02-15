@@ -6,7 +6,7 @@
           <div class="logo-block">
             <a href="/">
               <img
-                src="../assets/images/logo/logo_red.svg"
+                src="@/assets/images/logo/logo_red.svg"
                 alt="Logo"
                 class="img-fluid"
               />
@@ -94,7 +94,7 @@
         <div class="dashboard-logo">
           <router-link to="/">
             <img
-              src="../assets/images/logo/logo_red.svg"
+              src="@/assets/images/logo/logo_red.svg"
               alt=""
               class="img-fluid"
             />
@@ -146,25 +146,31 @@
             </nav>
           </div>
 
-          <div class="dashboard-aside-box position-fixed" style="bottom:0">
+          <div class="dashboard-aside-box position-fixed" style="bottom: 0">
             <div class="dashboard-user" v-if="user && user.id">
               <div class="dashboard-user-info" @click="goToProfile()">
                 <b-avatar
                   badge-top
                   badge-variant="warning"
-                  v-if="user.image && user.image.thumbnail && user.image.thumbnail.length"
+                  v-if="
+                    user.image &&
+                    user.image.thumbnail &&
+                    user.image.thumbnail.length
+                  "
                   :src="user.image.thumbnail"
                   ref="asideUserPhoto"
                 >
                   <template #badge>
                     <b v-b-tooltip.hover :title="displayCredits + ' tokens'">
-                      {{displayCredits}}
+                      {{ displayCredits }}
                     </b>
                   </template>
                 </b-avatar>
                 <b-avatar badge-top badge-variant="warning" v-else>
-                  <template  #badge>
-                    <b v-b-tooltip.hover :title="displayCredits + ' tokens'"> {{displayCredits}}</b>
+                  <template #badge>
+                    <b v-b-tooltip.hover :title="displayCredits + ' tokens'">
+                      {{ displayCredits }}</b
+                    >
                   </template>
                 </b-avatar>
                 <span
@@ -196,7 +202,7 @@
       >
         <b-alert
           @dismiss-count-down="countDownChanged"
-          @dismissed="alert.show=0"
+          @dismissed="alert.show = 0"
           :show="alert.show"
           :variant="alert.variant"
           dismissible
@@ -206,17 +212,20 @@
           <!-- @dismissed="goToLogin" -->
           <p>{{ alert.msg }}</p>
         </b-alert>
-
-        <nuxt-child />
+        <div class="dashboard-content">
+          <div class="container-fluid">
+            <nuxt-child />
+          </div>
+        </div>
       </section>
     </main>
   </div>
 </template>
 
 <script>
-import api from "../api";
-import SvgIcon from "../components/SvgIcon";
-import { mapGetters } from 'vuex';
+import api from "@/api";
+import SvgIcon from "@/components/SvgIcon";
+import { mapGetters } from "vuex";
 
 export default {
   name: "AdminDashboard",
@@ -227,7 +236,7 @@ export default {
     alert: {
       show: 0,
       msg: "",
-      variant: "success"
+      variant: "success",
     },
     user: null,
     // notificationsCount: 3,
@@ -244,7 +253,7 @@ export default {
       this.loadUserInfo();
     } else {
       this.user = { ...user };
-      this.confirmSubScription(user)
+      this.confirmSubScription(user);
     }
     this.$eventHub.$on("clear-global-search-value", () => {
       this.searchStr = "";
@@ -297,7 +306,7 @@ export default {
     },
     navMenuItems() {
       const user = { ...this.$store.getters.userInfo };
-      const navItems= [
+      const navItems = [
         {
           path: "/admin",
           iconName: "home",
@@ -314,9 +323,9 @@ export default {
           text: "Cook",
         },
         {
-          text: 'My Network',
-          path: '/dashboard/my-network',
-          iconName:'network2'
+          text: "My Network",
+          path: "/dashboard/my-network",
+          iconName: "network2",
         },
         {
           path: "/dashboard/shop",
@@ -325,16 +334,16 @@ export default {
         },
       ];
 
-      if(user.role === "admin") {
+      if (user.role === "admin") {
         navItems.push({
           path: "/admin",
           iconName: "user",
           text: "Admin",
-        })
+        });
       }
 
       return navItems;
-    }      
+    },
   },
 
   beforeRouteUpdate(to, from, next) {
@@ -348,8 +357,8 @@ export default {
   },
 
   methods: {
-    countDownChanged(dismissCountDown){
-      this.alert.show = dismissCountDown
+    countDownChanged(dismissCountDown) {
+      this.alert.show = dismissCountDown;
     },
 
     loadUserInfo() {
@@ -358,37 +367,41 @@ export default {
         .then((data) => {
           this.user = { ...data };
           this.$store.commit("userInfo", { ...data });
-          this.confirmSubScription(data)  
+          this.confirmSubScription(data);
         })
         .catch((err) => {});
     },
 
-    async getSubscription(){
-      const { id } = this.userInfo?.subscription
-      
+    async getSubscription() {
+      const { id } = this.userInfo?.subscription;
+
       try {
-        const subscription=await api.payment.getSubscription(id)
-        this.$store.commit('updateSubscription', subscription);
+        const subscription = await api.payment.getSubscription(id);
+        this.$store.commit("updateSubscription", subscription);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
     async getCheckoutSession() {
       const { stripeCheckoutId } = this.userInfo;
-      if(stripeCheckoutId) {
+      if (stripeCheckoutId) {
         try {
-          const chckout = await api.payment.getCheckoutSession(stripeCheckoutId)
-          if(chckout?.subscription) {
-            const subscription = await api.payment.getSubscriptionById(chckout.subscription)
-            this.$store.commit('updateSubscription',subscription);
+          const chckout = await api.payment.getCheckoutSession(
+            stripeCheckoutId
+          );
+          if (chckout?.subscription) {
+            const subscription = await api.payment.getSubscriptionById(
+              chckout.subscription
+            );
+            this.$store.commit("updateSubscription", subscription);
           }
         } catch (error) {
-          this.$store.commit('updateSubscription',null);
+          this.$store.commit("updateSubscription", null);
           console.log(error);
         }
       } else {
-        this.$store.commit('updateSubscription',null);
+        this.$store.commit("updateSubscription", null);
       }
     },
 
@@ -457,9 +470,7 @@ export default {
       // TODO: handle search (use this.searchStr as a value), redirect to search page
       const str =
         this.searchStr && this.searchStr.length ? this.searchStr.trim() : "";
-      this.$router
-        .push({ path: "/dashboard/search", query: { name: str } })
-        .catch(() => {});
+      this.$router.push({ path: "/dashboard/search", query: { name: str } });
     },
 
     onMobileSearchClickedAway() {
@@ -488,17 +499,20 @@ export default {
       }
       const user = { ...this.$store.getters.userInfo };
       try {
-        if(user.email){
-          const invitationLink = await api.invitations.generateInvitation({ email: user.email, type: "friend" });
+        if (user.email) {
+          const invitationLink = await api.invitations.generateInvitation({
+            email: user.email,
+            type: "friend",
+          });
           this.invitationLink = invitationLink;
           this.$bvModal.show("invite-friends-via-copy-link-modal");
-        }        
+        }
       } catch (error) {
         this.alert = {
           msg: error.message,
           variant: "danger",
-          show: 5
-        }
+          show: 5,
+        };
       }
     },
     goToProfile() {
@@ -510,7 +524,7 @@ export default {
         }
         return;
       }
-      this.$router.push({ path: pathToProfile }).catch(() => {});
+      this.$router.push({ path: pathToProfile })
     },
 
     redirectToPath(path) {
@@ -521,7 +535,7 @@ export default {
         return;
       }
       if (!path || !path.length) return;
-      this.$router.push({ path: path }).catch(() => {});
+      this.$router.push({ path: path })
     },
 
     confirmSubScription(user) {
@@ -529,7 +543,7 @@ export default {
         this.$router.push("/choose-plan");
       } else {
         //this.getSubscription()
-        this.getCheckoutSession()
+        this.getCheckoutSession();
       }
     },
   },
@@ -552,11 +566,11 @@ export default {
     this.$eventHub.$off("user-image-removed");
     this.$eventHub.$off("user-name-updated");
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
-.d-alert{
+.d-alert {
   position: absolute;
   width: calc(100% - 245px);
   z-index: 4;

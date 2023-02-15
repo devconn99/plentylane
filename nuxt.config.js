@@ -1,6 +1,7 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  ssr:false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -13,6 +14,7 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
+      { src: 'https://js.stripe.com/v3' },
       {
         src: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAP_KEY}&libraries=places,geometry&callback=Function.prototype`,
       },
@@ -65,6 +67,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    'cookie-universal-nuxt',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
   ],
@@ -84,6 +87,7 @@ export default {
   build: {
     vendor: ['jquery'],
     publicPath: '/dist/',
+    babel: { compact: true },
   },
 
   // Environment variables

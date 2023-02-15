@@ -51,7 +51,7 @@ export default {
     redirect () {
       if (!this.itemData || !this.itemData.id) return;
       const path = this.isMyMeal ? `/dashboard/my-offers/${this.itemData.id}` : `/dashboard/offers/${this.itemData.id}`;
-      this.$router.push({ path: path }).catch(()=>{});
+      this.$router.push({ path: path });
     },
     hasMealImage () {
       if (!this.itemData || !this.itemData.id) return false;

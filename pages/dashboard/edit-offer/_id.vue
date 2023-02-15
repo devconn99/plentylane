@@ -185,7 +185,7 @@ export default {
         if (err.data && err.data.statusCode === 404) {
           this.hideGlobalLoader();
           if (cb) cb();
-          return this.$router.push({ path: '/dashboard/not-found' }).catch(() => {});
+          return this.$router.push({ path: '/dashboard/not-found' });
         }
       }
       this.hideGlobalLoader();
@@ -331,7 +331,7 @@ export default {
     },
     redirectToMyOffers () {
       this.$store.commit('myOffersActiveTabIndexOnInit', 2);
-      this.$router.push({ path: '/dashboard/profile/my-meals' }).catch(() => {});
+      this.$router.push({ path: '/dashboard/profile/my-meals' });
     }
   }
 }

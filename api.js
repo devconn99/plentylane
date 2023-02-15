@@ -1,5 +1,5 @@
 import axios from "axios";
-import moment from 'moment';
+import moment from "moment";
 const FormData = require("form-data");
 
 axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
@@ -7,7 +7,7 @@ axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 // TODO: set Authorization header if token exists
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("plAccessToken");
+    const token = $nuxt.$cookies.get("plAccessToken");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -106,12 +106,12 @@ const checkErr = (errResponse) => {
       errResponse.data.unauthorized === true)
   ) {
     // clear localStorage
-    localStorage.removeItem("plAccessToken");
+    $nuxt.$cookies.remove("plAccessToken");
     localStorage.removeItem("role");
     localStorage.removeItem("plUserId");
     // than redirect to /login
     this.$nuxt.push({
-      path: "/Login"
+      path: "/Login",
     });
     return Promise.reject(errResponse);
   } else {
@@ -124,10 +124,10 @@ const TEMP_SHOP_ITEMS = [
   {
     title: "Container 4pk",
     price: process.env.STRIPE_INFO.PRICE["container-fee"].price,
-    productId:process.env.STRIPE_INFO.PRICE["container-fee"].id,
+    productId: process.env.STRIPE_INFO.PRICE["container-fee"].id,
     currency: "$",
     id: 1,
-    tax_rates: [process.env.STRIPE_INFO.TAX["container-tax"].id]
+    tax_rates: [process.env.STRIPE_INFO.TAX["container-tax"].id],
   },
 ];
 
@@ -145,13 +145,16 @@ export default {
         });
     },
     login(data) {
+      debugger
       const endpoint = `${process.env.API_ORIGIN}/api/auth/login`;
       return axios
         .post(endpoint, data)
         .then((res) => {
+          debugger
           return Promise.resolve(res.data || {});
         })
         .catch((err) => {
+          debugger
           return Promise.reject(err.response.data || err);
         });
     },
@@ -176,7 +179,7 @@ export default {
         .catch((err) => {
           return Promise.reject(err.response.data || err);
         });
-    }
+    },
   },
   dashboard: {
     profile: {
@@ -203,7 +206,7 @@ export default {
             return checkErr(err.response);
           });
       },
-      updateUserNotification(id,data) {
+      updateUserNotification(id, data) {
         const endpoint = `${process.env.API_ORIGIN}/api/me/notification/${id}`;
         return axios
           .patch(endpoint, data)
@@ -214,12 +217,12 @@ export default {
             return checkErr(err.response);
           });
       },
-      updateUserLocation(lng,lat) {
+      updateUserLocation(lng, lat) {
         const endpoint = `${process.env.API_ORIGIN}/api/me/update-location`;
         return axios
           .patch(endpoint, {
-            latitude:lat,
-            longitude:lng
+            latitude: lat,
+            longitude: lng,
           })
           .then((res) => {
             return Promise.resolve(res.data || {});
@@ -232,14 +235,14 @@ export default {
         const endpoint = `${process.env.API_ORIGIN}/api/me`;
         const _config = {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+            "Content-Type": "multipart/form-data",
+          },
         };
         let form = new FormData();
         form.append("image", fileInfo);
         return axios
           .patch(endpoint, form, {
-            ..._config
+            ..._config,
           })
           .then((res) => {
             return Promise.resolve(res.data || {});
@@ -263,7 +266,7 @@ export default {
         const endpoint = `${process.env.API_ORIGIN}/api/me`;
         return axios
           .patch(endpoint, {
-            deleteImage: true
+            deleteImage: true,
           })
           .then((res) => {
             return Promise.resolve(res.data || {});
@@ -280,7 +283,7 @@ export default {
         if (data["images"]) {
           const _config = {
             headers: {
-              "Content-Type": "multipart/form-data"
+              "Content-Type": "multipart/form-data",
             },
           };
           let form = new FormData();
@@ -395,8 +398,8 @@ export default {
         const endpoint = `${process.env.API_ORIGIN}/api/me/mealImages`;
         const _config = {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+            "Content-Type": "multipart/form-data",
+          },
         };
         let form = new FormData();
         form.append("image", imageData);
@@ -606,7 +609,8 @@ export default {
         // no need to add join=meal.images
         let endpoint = `${process.env.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
         const _filterHideInPast = getDefaultPickupTimeNotInPastFilter();
-        const _filterAvailableQuantity = "filter = availableQuantity || $gt || 0";
+        const _filterAvailableQuantity =
+          "filter = availableQuantity || $gt || 0";
         const _sortPickupTimeAsc = "sort=pickupTime,ASC";
         let _filters = `&${_filterAvailableQuantity}&${_filterHideInPast}&${_sortPickupTimeAsc}`;
 
@@ -685,7 +689,8 @@ export default {
         // no need to add join=meal.images
         let endpoint = `${process.env.API_ORIGIN}/api/offers?join=place&join=meal&join=user`;
         const _filterByUserId = `filter = user.id || $eq || ${userId}`;
-        const _filterAvailableServings = "filter = availableQuantity || $gte || 0";
+        const _filterAvailableServings =
+          "filter = availableQuantity || $gte || 0";
         const _filterHideInPast = getDefaultPickupTimeNotInPastFilter();
         const _sortByPickupTimeAsc = "sort=pickupTime,ASC";
         endpoint += `&${_filterByUserId}&${_filterAvailableServings}&${_filterHideInPast}&${_sortByPickupTimeAsc}`;
@@ -715,7 +720,8 @@ export default {
               img: "https://media.istockphoto.com/photos/trendy-girl-singing-favorite-song-out-loud-in-phone-as-mic-wearing-picture-id1256944025",
             },
             date: new Date("2021-01-11"),
-            answer: "It's not super spicy, but...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed vehicula massa, vitae semper ante.!",
+            answer:
+              "It's not super spicy, but...Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed vehicula massa, vitae semper ante.!",
           },
           {
             questionText: "What's in the sauce?",
@@ -836,7 +842,7 @@ export default {
         const endpoint = `${process.env.API_ORIGIN}/api/me/bookings/dine/${id}/rate`;
         return axios
           .patch(endpoint, {
-            rating: Number(rating)
+            rating: Number(rating),
           })
           .then((res) => {
             return Promise.resolve(res.data || {});
@@ -956,7 +962,7 @@ export default {
     },
     follows: {
       getMyNetworks(page, search) {
-        return this.searchConnections(page,search,"network");
+        return this.searchConnections(page, search, "network");
       },
       getMyFriends(page, search) {
         return this.searchConnections(page, search, "friend");
@@ -1013,7 +1019,7 @@ export default {
           .then((res) => {
             let _data = {
               isFriend: false,
-              isFavorite: false
+              isFavorite: false,
             };
             if (res && res.data && res.data.count > 0 && res.data.data) {
               res.data.data.forEach((connection) => {
@@ -1034,7 +1040,7 @@ export default {
             ) {
               return Promise.resolve({
                 isFriend: false,
-                isFavorite: false
+                isFavorite: false,
               });
             }
             return checkErr(err.response);
@@ -1056,7 +1062,7 @@ export default {
         return axios
           .post(endpoint, {
             followingId: Number(id),
-            connectionType: "friend"
+            connectionType: "friend",
           })
           .then((res) => {
             return Promise.resolve(res.data || {});
@@ -1065,10 +1071,10 @@ export default {
             return checkErr(err.response);
           });
       },
-      
-      removeFollower(userId,followerId,type) {
+
+      removeFollower(userId, followerId, type) {
         let endpoint = `${process.env.API_ORIGIN}/api/me/follows/remove-follower?userId=${userId}&followerId=${followerId}&type=${type}`;
-      
+
         return axios
           .delete(endpoint)
           .then((res) => {
@@ -1139,8 +1145,8 @@ export default {
         }
         return Promise.reject({
           data: {
-            statusCode: 404
-          }
+            statusCode: 404,
+          },
         });
       },
     },
@@ -1335,7 +1341,7 @@ export default {
     getSubscription(id) {
       const endpoint = `${process.env.API_ORIGIN}/api/me/subscriptions/get-subscription`;
       return axios
-        .post(endpoint, {id})
+        .post(endpoint, { id })
         .then((res) => {
           return Promise.resolve(res.data || {});
         })
@@ -1409,7 +1415,7 @@ export default {
         .catch((err) => {
           return Promise.reject(err.response.data || err);
         });
-    }
+    },
   },
   invitations: {
     generateInvitation(data) {
@@ -1467,7 +1473,7 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
-    getInviteByStatus(status){
+    getInviteByStatus(status) {
       const endpoint = `${process.env.API_ORIGIN}/api/invitations/get-invitation-by-status/${status}`;
       return axios
         .get(endpoint)
@@ -1510,9 +1516,9 @@ export default {
         .catch((err) => {
           return Promise.reject(err.response.data || err);
         });
-    }
+    },
   },
-  ratings:{
+  ratings: {
     getRatingByUUID(uuid) {
       const endpoint = `${process.env.API_ORIGIN}/api/ratings/get-rating-by-uuid/${uuid}`;
       return axios
@@ -1535,7 +1541,7 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
-    getRatingReviewdByUserId(userId,page) {
+    getRatingReviewdByUserId(userId, page) {
       let endpoint = `${process.env.API_ORIGIN}/api/ratings/get-reviewed-rating-by-user-id/${userId}`;
       if (page !== undefined && page !== null) {
         endpoint += `?page=${page}`;
@@ -1549,7 +1555,7 @@ export default {
           return Promise.reject(err.response.data || err);
         });
     },
-    updateRating(id, data){
+    updateRating(id, data) {
       const endpoint = `${process.env.API_ORIGIN}/api/ratings/${id}`;
       return axios
         .patch(endpoint, data)
@@ -1559,6 +1565,6 @@ export default {
         .catch((err) => {
           return Promise.reject(err.response.data || err);
         });
-    }
-  }
+    },
+  },
 };

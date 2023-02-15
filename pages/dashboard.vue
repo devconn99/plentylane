@@ -525,7 +525,6 @@ export default {
         this.searchStr && this.searchStr.length ? this.searchStr.trim() : "";
       this.$router
         .push({ path: "/dashboard/search", query: { name: str } })
-        .catch(() => {});
     },
 
     onMobileSearchClickedAway() {

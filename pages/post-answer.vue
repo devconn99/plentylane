@@ -64,7 +64,7 @@ export default {
       const { user, token, meal, question } = vm.$route.query;
       vm.token = token;
       vm.mealId = meal;
-      localStorage.setItem("plAccessToken", token);
+      this.$cookies.set("plAccessToken", token)
       const decodedQuestion = Buffer.from(question, 'base64').toString('ascii');
       if (decodedQuestion) {
         vm.question = JSON.parse(decodedQuestion)
@@ -85,7 +85,7 @@ export default {
       vm.answerObject.subject = `Re - ${vm.question.subject}`;
     }
     this.answerObject.userUID = user;
-    localStorage.setItem("plAccessToken", token);
+    this.$cookies.set("plAccessToken",token)
     const cb = () => {
       next();
       if (_loading && _loading.hide) {
@@ -95,7 +95,7 @@ export default {
   },
   mounted() {
     window.onbeforeunload = function() {
-      localStorage.removeItem("plAccessToken")
+      this.$cookies.remove("plAccessToken")
     };
   },
   computed: {

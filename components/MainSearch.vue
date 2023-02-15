@@ -84,12 +84,12 @@ export default {
     this.$eventHub.$on('marker-info-window_redirect-to-offer', (id) => {
       if (!id) return;
       this.closeInfoWindowById(id);
-      this.$router.push({ path: `/dashboard/offers/${id}` }).catch(() => {});
+      this.$router.push({ path: `/dashboard/offers/${id}` });
     });
     this.$eventHub.$on('marker-info-window_redirect-to-cook', (id, cookId) => {
       if (!id || !cookId) return;
       this.closeInfoWindowById(id);
-      this.$router.push({ path: `/dashboard/cook-profile/${cookId}` }).catch(() => {});
+      this.$router.push({ path: `/dashboard/cook-profile/${cookId}` });
     });
   },
   beforeDestroy () {

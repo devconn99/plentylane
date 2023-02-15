@@ -387,7 +387,7 @@ export default {
     },
     onActionView(id) {
       if (!id) return;
-      this.$router.push({ path: `/dashboard/booking/${id}` }).catch(()=>{});
+      this.$router.push({ path: `/dashboard/booking/${id}` })
     },
     onActionCancel(id) {
       if (!id) return;
@@ -467,13 +467,13 @@ export default {
     },
     onActionEditOffer(id) {
       if (!id) return;
-      this.$router.push({ path: `/dashboard/edit-offer/${id}` }).catch(()=>{});
+      this.$router.push({ path: `/dashboard/edit-offer/${id}` });
     },
     closeModalWithValue() {
       if (this.mealToRePost && this.mealToRePost.id) {
         const { id = '', name = '', description = '', dietaryNotes = [], images = [] } = this.mealToRePost;
         this.$store.commit('copiedMealInfo', { id, name, description, dietaryNotes, images });
-        this.$router.push({ path: '/dashboard/cook/new-meal' }).catch(() => {});
+        this.$router.push({ path: '/dashboard/cook/new-meal' });
       }
     },
     onModalOfferCancel() {

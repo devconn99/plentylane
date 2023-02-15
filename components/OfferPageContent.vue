@@ -480,7 +480,7 @@ export default {
     onReserveMealModalHidden () {
       if (!this.reservationId || !this.$route.path.includes('/booking/')) return;
       if (this.shouldRedirectToBookingPage) {
-        this.$router.push({ path: `/dashboard/booking/${this.reservationId}` }).catch(() => {});
+        this.$router.push({ path: `/dashboard/booking/${this.reservationId}` });
       }
     },
     openConfirmCancelReservation () {

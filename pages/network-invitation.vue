@@ -103,7 +103,7 @@ export default {
       return this.alreadyAccepted || !this.isValidInvitation;
     },
     token(){
-      const _token = localStorage.getItem("plAccessToken");
+      const _token = this.$cookies.get("plAccessToken")
       return _token || "";
     }
   },

@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../scss/utils/vars";
+@import "@/scss/utils/vars";
 .cart-count {
   position: fixed;
   top: 40px;

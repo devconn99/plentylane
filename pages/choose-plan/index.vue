@@ -170,17 +170,15 @@
               <span> It's a gift for someone else! </span>
             </b-form-checkbox>
             <span v-if="!isUpdateCase">
-              * All plans pay initial fee of $29.50 for 4 Plenty Lane containers to
-            swap in, including shipping.
-
+              * All plans pay initial fee of $29.50 for 4 Plenty Lane containers to swap in, including shipping.
             </span>
            
             <stripe-checkout
-            ref="checkoutRef"
-            :pk="publishableKey"
-            :session-id="sessionId"
-            @loading="v => loading = v"
-            />   
+              ref="checkoutRef"
+              :pk="publishableKey"
+              :session-id="sessionId"
+              @loading="v => loading = v"
+            />
             <div class="d-flex justify-content-center" style="width: 100%">
               <b-button
                 @click="goToCheckout"
@@ -227,8 +225,8 @@ export default {
   name: "ChoosePlan",
   mixins: [mobileDetectorMixin],
   components: { Footer, MessageModal, Header, BackToTop, HeroWave, PromoLogo },
-  created(){
-    if(!this.userInfo.email){
+  created() {
+    if (!this.userInfo.email) {
       this.loadUserInfo()
     }
     this.getPlanName()
@@ -237,12 +235,13 @@ export default {
     window.scrollTo(0, 0); // temp
     this.$eventHub.$emit("mobile-side-nav-closed");
   },
-  data: ()=>{
-    return{
-    sessionId:"",
-    publishableKey: process.env.STRIPE_INFO.PUBLISHABLE_KEY,
-    plan: "starter-monthly",
-  }},
+  data: () => {
+    return {
+      sessionId: "",
+      publishableKey: process.env.STRIPE_INFO.PUBLISHABLE_KEY,
+      plan: "starter-monthly",
+    }
+  },
   computed: {
     ...mapGetters({
       userInfo: "userInfo",
@@ -257,15 +256,13 @@ export default {
     getFrequency() {
       return this.plan.includes("monthly") ? "monthly" : "annual";
     },
-    lineItems(){
-      const plan = this.plan
+    lineItems() {
       return [{
-        price: process.env.STRIPE_INFO.PRICE[plan].id,
+        price: process.env.STRIPE_INFO.PRICE[this.plan].id,
         quantity:1
-      },
-      ]
+      }];
     },
-    successURL(){
+    successURL() {
       return process.env.STRIPE_INFO.SUCCESS_URL
     },
     cancelURL(){
@@ -297,13 +294,13 @@ export default {
         }
         if(this.getFrequency=='monthly' && !this.isUpdateCase) {
           data['subscription_data'] = {
-            trial_period_days:30
+            trial_period_days: 30
           }
         }
 
         try {
           const session = await api.payment.createCheckoutSession(data);
-          this.sessionId=session?.id;
+          this.sessionId = session?.id;
           this.$refs.checkoutRef.redirectToCheckout();        
         } catch (error) {
           console.log(error)
@@ -311,25 +308,8 @@ export default {
       } else {
         this.$bvModal.show('no-plan-modal');
       }
-
-      // const id=this.$route.params.id
-      // if(id) {
-      //   this.$router.push({
-      //     name: "PlanCheckoutEdit",
-      //     params: {
-      //       plan: this.planCalculation,
-      //       id
-      //     },
-      //   });
-      // } else {
-      //   this.$router.push({
-      //     name: "PlanCheckout",
-      //     params: {
-      //       plan: this.planCalculation,
-      //     },
-      //   });
-      // }
     },
+
     closeMessageModal() {
       this.$bvModal.hide('no-plan-modal');
     },
@@ -337,9 +317,9 @@ export default {
     getPlanName() {
       const planId=this.$route.params.id
       if (planId) {
-        const obj=process.env.STRIPE_INFO.PRICE;
+        const obj = process.env.STRIPE_INFO.PRICE;
 
-        const key = Object.keys(obj).find((key)=> {
+        const key = Object.keys(obj).find((key) => {
           return obj[key]['id'] === planId}
         );
 

@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from "vue";
 
 export default function ({ app }) {
   function hideLoader() {
@@ -7,7 +7,7 @@ export default function ({ app }) {
       Vue.prototype.$loader = null;
     }
   }
-  
+
   function showLoader() {
     hideLoader();
     Vue.prototype.$loader = Vue.$loading.show();
@@ -18,7 +18,7 @@ export default function ({ app }) {
     }
     next();
   });
-  
+
   app.router.afterEach((to, from) => {
     let _timeout = 0;
     if (to.meta && !!to.meta.hideLoaderWithDelay) {
@@ -31,20 +31,21 @@ export default function ({ app }) {
     }
     window.scrollTo(0, 0);
   });
-  
+
   app.router.beforeEach((to, from, next) => {
     if (to.meta && to.meta.title) {
       document.title = to.meta.title;
     }
-     const _token = localStorage.getItem("plAccessToken");
-     if (to.path === "/" && _token) {
+    const _token = app.$cookies.get("plAccessToken");
+    if (to.path === "/" && _token) {
       next("/dashboard");
     }
-  
+
     if (to.meta.authHelper) {
       // check if token exists
-      const isInvitationLink = to.name == "InviteNetwork" || to.name == "InviteFriends";
-      if(_token && !isInvitationLink) {
+      const isInvitationLink =
+        to.name == "InviteNetwork" || to.name == "InviteFriends";
+      if (_token && !isInvitationLink) {
         // than redirect to home page
         next("/dashboard");
       }
@@ -53,8 +54,6 @@ export default function ({ app }) {
         next("/login");
       }
     }
-  
-    // Add tiny timeout to finish page transition
-    setTimeout(() => next(), 10);
+    next();
   });
 }
